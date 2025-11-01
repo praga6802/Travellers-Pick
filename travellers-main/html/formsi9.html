@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -23,7 +22,7 @@
 <body>
   <div style="margin-top:2%;text-align:center" ;>
     <h1 class="h1">ITINERARY</h1>
-<table>
+    <table>
       <tr>
         <th>Day</th>
         <th>Destination</th>
@@ -32,35 +31,37 @@
       <tr>
         <td>Day 1</td>
         <td>Cochin</td>
-        <td>Upon your arrival at Cochin, our representatives will meet and transfer you to the hotel. 
-          Get into the hotel and relax for sometime. After your lunch, move ahead for touring excursion to Cochin. 
-          Visit the Dutch Palace Museum, Hill Palace Museum, Jewish Street, St. Francis Church, Jewish Synagogue and Chinese Fishing Nets. 
+        <td>Upon your arrival at Cochin, our representatives will meet and transfer you to the hotel.
+          Get into the hotel and relax for sometime. After your lunch, move ahead for touring excursion to Cochin.
+          Visit the Dutch Palace Museum, Hill Palace Museum, Jewish Street, St. Francis Church, Jewish Synagogue and
+          Chinese Fishing Nets.
           Spend your overnight stay at the hotel in Cochin.</td>
       </tr>
       <tr>
         <td>Day 2</td>
         <td>Cochin - Alleppey (65 KMS - 02 Hours drive)</td>
-        <td>Following your morning breakfast, check out from hotel and drive to Alleppey. 
-          On arrival, check into the resort. 
-          Take a break for lunch and move ahead for tour excursion to Alleppey. 
-          In the evening, enjoy the chill breeze of the Alleppey Beach. 
+        <td>Following your morning breakfast, check out from hotel and drive to Alleppey.
+          On arrival, check into the resort.
+          Take a break for lunch and move ahead for tour excursion to Alleppey.
+          In the evening, enjoy the chill breeze of the Alleppey Beach.
           Get to the hotel or resort in Alleppey for overnight stay.</td>
       </tr>
       <tr>
         <td>Day 3</td>
         <td>Alleppey - Kumarakom (40 KMS - 01 Hour drive)</td>
-        <td>After your morning breakfast, check out from lodging or resort and drive to Kumarakom. 
-          After your reach, get into Kumarakom Houseboat (weigh in time 12.30 PM). 
-          Enjoy a full day delight in the backwater journey through Vembanad Lake. 
-          You can enjoy your overnight stay at Houseboat in Aleppey Backwaters.</td> 
+        <td>After your morning breakfast, check out from lodging or resort and drive to Kumarakom.
+          After your reach, get into Kumarakom Houseboat (weigh in time 12.30 PM).
+          Enjoy a full day delight in the backwater journey through Vembanad Lake.
+          You can enjoy your overnight stay at Houseboat in Aleppey Backwaters.</td>
       </tr>
       <tr>
         <td>Day 4</td>
         <td>Kumarakom - Cochin (100 KMS - 03 Hours drive)</td>
-        <td>After breakfast, check out from Houseboat (look at time 9.30 AM) and drive to Cochin Airport/ Railway Station for forward adventure.</td>
+        <td>After breakfast, check out from Houseboat (look at time 9.30 AM) and drive to Cochin Airport/ Railway
+          Station for forward adventure.</td>
       </tr>
-    </table> 
- 
+    </table>
+
 
     <br>
     <br>
@@ -73,22 +74,22 @@
       <input type="text" id="name" placeholder="Enter your Name" name="name" required><br><br>
 
       <label for="email">Email</label>
-      <input type="email" id="email" placeholder="E-Mail" name="email" required><br><br>
+      <input type="email" id="email" placeholder="Email Address" name="email" required><br><br>
 
       <label for="phone">Phone</label>
       <input type="tel" id="phone" placeholder="Phone Number" name="phone" required><br><br>
 
-    <input type="hidden" id="package_name" name="package_name" value="South Package" required>
-     <input type="hidden" id="region" name="region" value="Mesmerizing Backwaters Tour" required>
+      <input type="hidden" id="package_name" name="package_name" value="South Package" required>
+      <input type="hidden" id="region" name="region" value="Mesmerizing Backwaters Tour" required>
 
-<input type="hidden" id="bdate" name="bdate" min="" max="" required>
+      <input type="hidden" id="bdate" name="bdate" min="" max="" required>
       <script>
         const today = new Date().toISOString().split('T')[0];
         const inp = document.getElementById('bdate')
 
         inp.value = today;
         inp.min = today;
-        inp.max=today;
+        inp.max = today;
 
       </script>
 
@@ -101,21 +102,24 @@
         input.min = day;
       </script>
 
-      <label for="num-seats">Number of Seats</label>
-      <input type="number" id="num-seats" placeholder="Total Seats" name="num_seats" min="1" max="30" required><br><br>
+      <label for="num-seats">Seats</label>
+      <input type="number" id="num-seats" placeholder="Number of Seats" name="num_seats" min="1" max="30"
+        required><br><br>
 
       <label for="num-adults">Adults</label>
-      <input type="number" id="num-adults" placeholder="No of Adults" name="num_adults" min="1" max="30" required><br><br>
+      <input type="number" id="num-adults" placeholder="No of Adults" name="num_adults" min="1" max="30"
+        required><br><br>
 
       <label for="num-seats">Children</label>
-      <input type="number" id="num-children" placeholder="No of Children" name="num_children" min="0" max="30" required><br><br>
+      <input type="number" id="num-children" placeholder="No of Children" name="num_children" min="0" max="30"
+        required><br><br>
 
       <label for="name">City</label>
       <input type="text" id="city" placeholder="City" name="city" required><br><br>
 
       <label for="state">State</label>
       <input type="text" id="state" placeholder="State" name="state" required><br><br>
-          
+
       <label for="country">Country</label>
       <input type="text" id="country" placeholder="Country" name="country" required><br><br>
 
@@ -153,10 +157,12 @@
           <div class="col" id="f2">
             <h3>Contact</h3>
             <p><i class="fa fa-home"></i> <a
-                href="https://www.google.com/maps/place/Sastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001/@10.9631309,79.3836662,17z/data=!4m15!1m8!3m7!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!2sSastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001!3b1!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8!3m5!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8?authuser=0"> Kumbakonam</a>
+                href="https://www.google.com/maps/place/Sastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001/@10.9631309,79.3836662,17z/data=!4m15!1m8!3m7!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!2sSastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001!3b1!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8!3m5!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8?authuser=0">
+                Kumbakonam</a>
             </p>
             <p><i class="fa fa-envelope"></i><a
-                href="https://mail.google.com/mail/u/0/#sent?compose=jrjtXSpwlgspvZQVKWjwQZQdSqXMNmdtJHTDCWVXHQjWwdHQMbPfHJHGmnSFGwfjBKtffqbW"> travellerschoice.ac.in@gmail.com</a>
+                href="https://mail.google.com/mail/u/0/#sent?compose=jrjtXSpwlgspvZQVKWjwQZQdSqXMNmdtJHTDCWVXHQjWwdHQMbPfHJHGmnSFGwfjBKtffqbW">
+                travellerschoice.ac.in@gmail.com</a>
             </p>
             <p><i class="fa fa-phone"></i> +91 8555238593</p>
             <p><i class="fa fa-instagram" aria-hidden="true"></i> <i class="fa fa-twitter" aria-hidden="true"></i>

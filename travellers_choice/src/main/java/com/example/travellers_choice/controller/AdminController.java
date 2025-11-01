@@ -8,8 +8,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,62 +24,71 @@ public class AdminController {
     AdminService adminService;
 
 
-    // ADMIN
-    //admin signup
+    // ADMIN Controller
+    //SIGN UP ADMIN
     @PostMapping("/adminsignup")
     public ResponseEntity<?> signUp(@ModelAttribute Admin admin){
         Admin saveAdmin=adminService.signUp(admin);
         return ResponseEntity.ok(saveAdmin);
     }
 
-    //admin login
+    //LOGIN ADMIN
     @PostMapping("/adminlogin")
-    public String adminLogin(@RequestParam("email") String email, @RequestParam("password") String password, HttpSession httpSession){
+    public ResponseEntity<?> adminLogin(@RequestParam("email") String email, @RequestParam("password") String password, HttpSession httpSession){
 
         Admin adminLogin=adminService.adminLogin(email,password);
         if(adminLogin!=null){
-            httpSession.setAttribute("username",adminLogin.getUsername());
-            return "redirect:http://127.0.0.1:5500/travel-admin/html/left.html";
+            httpSession.setAttribute("loggedAdmin",adminLogin);
+            Map<String, Object> response=new HashMap<>();
+            response.put("adminId",adminLogin.getAdminId());
+            response.put("adminUserName",adminLogin.getUsername());
+            response.put("message","Login Successful");
+            return ResponseEntity.ok(response);
         }
-        return "redirect:http://127.0.0.1:5500/travel-admin/html/loginform?error=true";
+        Map<String,Object> error=new HashMap<>();
+        error.put("error","Invalid Credentials");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
 
     @GetMapping("/username")
     public ResponseEntity<?> getUsername(HttpSession session){
-        String username=(String)session.getAttribute("username");
-        if(username!=null){
-            return ResponseEntity.ok(username);
+        Admin admin=(Admin)session.getAttribute("loggedAdmin");
+
+        if(admin!=null){
+            Map<String,Object> response= new HashMap<>();
+            response.put("adminId",admin.getAdminId());
+            response.put("adminUserName",admin.getUsername());
+            return ResponseEntity.ok(response);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Not Found");
     }
 
-    //get all admins
+    //VIEW ADMIN
     @GetMapping("/alladmins")
     public ResponseEntity<List<Admin>> getAllAdmins(){
         List<Admin> allAdmins= adminService.getAllAdmins();
         return ResponseEntity.ok(allAdmins);
     }
 
-    //get admin by id
+    //GET ADMIN BY ID
     @GetMapping("/findadmin/{id}")
     public Admin getAdmin(@PathVariable("id") int id){
         return adminService.getAdmin(id);
     }
 
 
-//    //delete admin
-//    @DeleteMapping("/deleteadmin")
-//    public ResponseEntity<Map<String, String>> deleteAdmin(@RequestParam("adminId") int adminId, @RequestParam("password") String password){
-//        boolean result=adminService.deleteAdmin(adminId, password);
-//        if(result==true)
-//            return ResponseEntity.ok(Map.of("message","Admin Deleted Successfully"));
-//        else
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error","Admin Deletion Failed"));
-//    }
+    //delete admin
+    @DeleteMapping("/deleteadmin")
+    public ResponseEntity<Map<String, String>> deleteAdmin(@RequestParam("adminId") int adminId, @RequestParam("password") String password){
+        boolean result=adminService.deleteAdmin(adminId, password);
+        if(!result)
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error","Admin ID Not Found"));
+        return ResponseEntity.ok(Map.of("message","Admin Deleted Successfully"));
+    }
 
-    // update admin
-    @PutMapping("/updateadmin")
+    // UPDATE ADMIN
+    @PostMapping("/updateadmin")
     public ResponseEntity<Map<String, String>> updateAdmin(@ModelAttribute Admin admin){
         adminService.updateAdmin(admin);
         return ResponseEntity.ok(Map.of("message","Admin Updated Successfully"));
@@ -100,7 +110,4 @@ public class AdminController {
         List<Customer> allCustomers= adminService.getAllCustomers();
         return ResponseEntity.ok(allCustomers);
     }
-
-
-
 }

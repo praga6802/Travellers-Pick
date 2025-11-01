@@ -1,152 +1,158 @@
-body{
-                background-image: url('../images/about-us.jpg');
-        width: 100% ;
-    }
+body {
+    background-image: url('../images/about-us.jpg');
+    width: 100%;
+}
 
-    #follow{
-        color:white;
-        background-color: rgb(168, 62, 62);
-        text-align: center;
-        font-size: 20px;
-    }
-
-    .contact-add{
-        border:1px solid#ddd;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                margin: 40px 20px;
-                width: 40%;
-        height:30%;
-                background-color:rgb(228, 219, 219);
-        font-size: 20px;
-        display: inline-block;
-        font-style: bold;
-        line-height: 1.2cm;
-        padding:3px;
-        float:left;
-    }
-    .contact-add:hover {
-                box-shadow: 0 4px 8px rgba(221, 241, 108, 0.878);
-                cursor: pointer;
-                transform: translateY(-5px);
-                transition: all 0.3s ease-in-out;
-        }
-    .contact-add {
-        transition: all 0.3s ease-in-out;
-    }
-
-        .contact-add address:hover {
-        background-color:   rgb(112, 202, 224);
-        display: inline;
-        color: rgb(0, 0, 0);
-        cursor: pointer;
-        line-height: 1.2cm;
-    }
-
-    .contact-add p:hover {
-        text-align: left;
-        margin-left: 15px;
-        background-color:   rgb(112, 202, 224);
-        color: rgb(0, 0, 0);
-        display: inline;
-        cursor: pointer;
-        line-height: 1.2cm;
-    }
-
-    .question{
-        text-align: left;
-        margin-left:5px;
-        font-size: 30px;
-        color:white;
-        padding:10px;
-        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    }
-    .contact{
-        border:8px solid black;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                margin-left: 300px;
-                width: 55%;
-        height:400px;
-                background-color:#27275b;
-        opacity: 0.7;
-        font-size: 20px;
-        font-weight: normal;
-        padding:25px;
-        margin-top:10px;
-        margin-bottom: 10px;
-        font-weight: bold;
-        font-style: italic;
-        color:beige;
-        margin-left:900px;
-        text-align:center;
-    }
-    .contact-question:hover {
-                box-shadow: 0 4px 8px rgba(221, 241, 108, 0.878);
-                cursor: pointer;
-                transform: translateY(-5px);
-                transition: all 0.3s ease-in-out;
-        }
-
-    .contact ul li {
-    transition: all 0.3s ease-in-out;
-    }
-    .contact-question ul li:hover {
-    background-color:  rgb(1, 14, 15);
+#follow {
     color: white;
-    border:2px solid white;
+    background-color: rgb(62, 64, 168);
+    text-align: center;
+    font-size: 20px;
+}
+
+.contact-add {
+    border: 1px solid#ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 40px 20px;
+    width: 40%;
+    height: 30%;
+    background-color: rgb(228, 219, 219);
+    font-size: 20px;
+    display: inline-block;
+    font-style: bold;
+    line-height: 1.2cm;
+    padding: 3px;
+    float: left;
+}
+
+.contact-add:hover {
+    box-shadow: 0 4px 8px rgba(221, 241, 108, 0.878);
+    cursor: pointer;
+    transform: translateY(-5px);
+    transition: all 0.3s ease-in-out;
+}
+
+.contact-add {
+    transition: all 0.3s ease-in-out;
+}
+
+.contact-add address:hover {
+    background-color: rgb(112, 202, 224);
+    display: inline;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    line-height: 1.2cm;
+}
+
+.contact-add p:hover {
+    text-align: left;
+    margin-left: 15px;
+    background-color: rgb(112, 202, 224);
+    color: rgb(0, 0, 0);
+    display: inline;
+    cursor: pointer;
+    line-height: 1.2cm;
+}
+
+.question {
+    text-align: left;
+    margin-left: 5px;
+    font-size: 30px;
+    color: white;
+    padding: 10px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.contact {
+    border: 8px solid black;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 300px;
+    width: 55%;
+    height: 400px;
+    background-color: #27275b;
+    opacity: 0.7;
+    font-size: 20px;
+    font-weight: normal;
+    padding: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-style: italic;
+    color: beige;
+    margin-left: 900px;
+    text-align: center;
+}
+
+.contact-question:hover {
+    box-shadow: 0 4px 8px rgba(221, 241, 108, 0.878);
+    cursor: pointer;
+    transform: translateY(-5px);
+    transition: all 0.3s ease-in-out;
+}
+
+.contact ul li {
+    transition: all 0.3s ease-in-out;
+}
+
+.contact-question ul li:hover {
+    background-color: rgb(1, 14, 15);
+    color: white;
+    border: 2px solid white;
     cursor: pointer;
     display: inline;
     list-style: circle;
-    }
+}
 
-    .contact-add h2{
+.contact-add h2 {
 
-    color:brown;
+    color: brown;
     font-weight: 600;
     font-size: 2rem;
     padding: 4px;
-    margin-top:0.7rem;
+    margin-top: 0.7rem;
     margin-bottom: 1.8rem;
-    }
+}
 
-    .heading{
-    padding:3px;
-    color:white ;
+.heading {
+    padding: 3px;
+    color: white;
     font-size: 35px;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-weight: 700;
     margin-top: 40px;
 }
 
-ul{
-    list-style-type: style type circle; ;
+ul {
+    list-style-type: style type circle;
+    ;
 }
 
-h2{
-    margin-top:30px;
+h2 {
+    margin-top: 30px;
 }
 
-.contact-heading{
-    margin:3px;
-    margin-bottom:20px;
-    font-family:cursive;
+.contact-heading {
+    margin: 3px;
+    margin-bottom: 20px;
+    font-family: cursive;
     font-style: normal;
     font-weight: 800;
-    color:orange;
+    color: orange;
 }
 
-.contact-question{
-    color:white;
+.contact-question {
+    color: white;
     font-weight: normal;
     font-size: 20px;
 
     text-align: left;
     background-color: rgba(0, 0, 0, 0.719);
-    width:2000px;
-    padding:10px;
+    width: 2000px;
+    padding: 10px;
     border-radius: 10px;
     line-height: 1cm;
-    border:3px solid white;
-    margin:1rem 1.2rem 2rem 3rem;
+    border: 3px solid white;
+    margin: 1rem 1.2rem 2rem 3rem;
 }

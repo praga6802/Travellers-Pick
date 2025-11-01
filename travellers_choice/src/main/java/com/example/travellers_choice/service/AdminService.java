@@ -30,7 +30,16 @@ public class AdminService {
     @Autowired
     AdminRepo adminRepo;
 
-    //admin sign up
+
+    //ADMIN  LOGIN
+    public Admin adminLogin(String email, String password) {
+
+        Admin admin=adminRepo.findByEmailAndPassword(email,password).orElseThrow(()-> new UnAuthorizedException("Credentials", email));
+        return admin;
+
+    }
+
+    //ADMIN SIGN UP
     public Admin signUp(Admin admin) {
         if(adminRepo.existsByUsername(admin.getUsername())){
             throw new AlreadyExistsException("User Name",admin.getUsername());
@@ -44,29 +53,29 @@ public class AdminService {
         return adminRepo.save(admin);
     }
 
-    //get all admin
+    //VIEW ALL ADMINS
     public List<Admin> getAllAdmins() {
         return adminRepo.findAll();
     }
 
+    //VIEW ADMIN BY ID
     public Admin getAdmin(int adminId) {
         return adminRepo.findById(adminId).orElse(null);
     }
 
-//    public boolean deleteAdmin(int id, String password) {
-//        Admin deleteadminId=adminRepo.findById(id).orElseThrow(()-> new IDNotFoundException("Admin ID", id));
-//
-//
-//        if(exisitingAdmin.getPassword().equals(password)){
-//            adminRepo.delete(deleteadminId);
-//            return true;
-//        }
-//        return false;
-//    }
+    public boolean deleteAdmin(int id, String password) {
+        Admin existingAdmin=adminRepo.findById(id).orElseThrow(()-> new IDNotFoundException("Admin ID", id));
+        if(existingAdmin.getPassword().equals(password)){
+            adminRepo.delete(existingAdmin);
+            return true;
+        }
+        return false;
+    }
 
+
+    //UPDATE ADMIN
     public Admin updateAdmin(Admin admin) {
         Admin exisitingAdmin=adminRepo.findById(admin.getAdminId()).orElseThrow(()-> new IDNotFoundException("Admin ID", admin.getAdminId()));
-
         if(exisitingAdmin.getPassword().equals(admin.getPassword())){
             if(admin.getUsername() !=null && !admin.getUsername().isBlank())
                 exisitingAdmin.setUsername(admin.getUsername());
@@ -80,12 +89,6 @@ public class AdminService {
         return adminRepo.save(exisitingAdmin);
     }
 
-    public Admin adminLogin(String email, String password) {
-
-        Admin admin=adminRepo.findByEmailAndPassword(email,password).orElseThrow(()-> new UnAuthorizedException("Credentials", email));
-        return admin;
-
-    }
 
 
     // CUSTOMERS

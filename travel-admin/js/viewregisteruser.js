@@ -6,13 +6,13 @@ try{
 
     const response=await fetch("http://localhost:8080/admin/allregusers");
 
-    if(!response) throw new Error("Unable to fetch customer details..");
+    if(!response) throw new Error("Network Issue..Please try again");
 
 
     const details=await response.json();
 
     if(details.length===0){
-        tbody.innerHTML="<tr><td>No Customer details found</td></tr>";
+        tbody.innerHTML="<tr><td>Customer details not found</td></tr>";
     }
 
 
@@ -37,6 +37,6 @@ try{
 }
 catch(err){
     console.error(err);
-    tbody.innerHTML="<tr><td>Error No Details Found</td></tr>";
+    tbody.innerHTML="<tr><td>Error! No Details Found</td></tr>";
 }
 });
