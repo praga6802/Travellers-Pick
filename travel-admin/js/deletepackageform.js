@@ -7,7 +7,7 @@ async function handledelete(event){
 
     const form=new FormData(event.target);
     const msg=document.getElementById("error");
-
+    msg.style.marginTop="20%";
     try{
         const response=await fetch("http://localhost:8080/package/deletepackage",{
             method:"POST",
@@ -16,12 +16,15 @@ async function handledelete(event){
 
         const data= await response.json();
         if(response.ok){
-            msg.style.color="yellowgreen";
+            msg.style.color="green";
             msg.innerText=data.message;
+             msg.style.textAlign="center";
+            msg.style.margin="10%"
         }
         else{
-            msg.style.color="orange";
-            msg.innerText=data.error;
+            msg.style.color="red";
+            msg.innerText="Invalid Credentials";
+            msg.style.textAlign="center";
         }
     }
 
