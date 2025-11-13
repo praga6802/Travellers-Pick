@@ -54,4 +54,11 @@ public class TourController {
         return ResponseEntity.ok(allTours);
     }
 
+
+    @GetMapping("/getTour/{packageID}/{tourID}")
+    public ResponseEntity<?> getTourById(@PathVariable Integer packageID,@PathVariable Integer tourID){
+        Tour tour=tourService.getTourByID(packageID,tourID);
+        return ResponseEntity.ok(tour);
+    }
+
 }

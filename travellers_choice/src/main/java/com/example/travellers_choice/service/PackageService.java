@@ -68,4 +68,10 @@ public class PackageService {
         packageRepo.delete(exisitingPackage);
         return true;
     }
+
+
+    //get Package by Id
+    public Packages getPackageById(Integer pkgId){
+        return packageRepo.findById(pkgId).orElseThrow(()->new IDNotFoundException("Package ID",pkgId));
+    }
 }

@@ -29,6 +29,7 @@ public class TourService {
     @Autowired
     AdminRepo adminRepo;
 
+    //add tour by all admin credentials
     public Tour addTour(int packageName, Tour tour, int adminId, String password) {
 
         Packages packageEntity = packageRepo.findById(packageName).orElseThrow(() -> new PackageNameNotFoundException("Package Name",String.valueOf(packageName)));
@@ -44,7 +45,7 @@ public class TourService {
 
     }
 
-
+    //update tour by all admin credentials
     public Tour updateTour(int packageId, Tour tour, int adminId, String password) {
 
         Packages packageEntity = packageRepo.findById(packageId).orElseThrow(() -> new PackageNameNotFoundException("Package Name", String.valueOf(packageId)));
@@ -77,6 +78,7 @@ public class TourService {
 
     }
 
+    //delete tour by all admin credentials
     public boolean deleteTour(int packageId, int tourId, int adminID, String password) {
         Packages packageEntity = packageRepo.findById(packageId).orElseThrow(() -> new PackageNameNotFoundException("Package Name", String.valueOf(packageId)));
         Tour tourEntity = tourRepo.findById(tourId).orElseThrow(() -> new IDNotFoundException("Tour ID", tourId));
@@ -91,8 +93,19 @@ public class TourService {
 
     }
 
+    //get all tour list
     public List<Tour> getAllTours() {
-
         return tourRepo.findAll();
+    }
+
+
+    //get tour by ID
+    public Tour getTourByID(Integer packageID,Integer tourID){
+
+        Packages existingID=packageRepo.findById(packageID).orElseThrow(()-> new IDNotFoundException("Package ID",packageID));
+
+        return existingID.getTours().stream().
+                filter(tour->tour.getTourId()==(tourID)).findFirst().
+                orElseThrow(()->new IDNotFoundException("Tour ID '"+tourID+"' not found in Package "+packageID));
     }
 }
