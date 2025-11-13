@@ -45,10 +45,19 @@ public class PackageController {
         return ResponseEntity.ok(listPackages);
     }
 
+    //delete package
     @DeleteMapping("/deletepackage")
     public ResponseEntity<?> deletePackage(@ModelAttribute Packages packages, @ModelAttribute Admin admin){
         boolean deletePackage=packageService.deletePackage(packages,admin);
         return ResponseEntity.ok(Map.of("message","Package Deleted Successfully"));
+    }
+
+
+
+    @GetMapping("/getPackage/{package_id}")
+    public ResponseEntity<?> getPackageById(@PathVariable Integer package_id){
+        Packages pkg=packageService.getPackageById(package_id);
+        return ResponseEntity.ok(pkg);
     }
 
 

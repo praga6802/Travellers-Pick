@@ -96,7 +96,7 @@ public class AdminController {
 
 
     // CUSTOMERS
-    // get all register customers
+    // get all tour register customers
     @GetMapping("/allregusers")
     public ResponseEntity<List<CustomerRegistry>> getAllUsers(){
         List<CustomerRegistry> allUsers= adminService.getAllRegUsers();
@@ -104,7 +104,7 @@ public class AdminController {
     }
 
 
-    //get all customers
+    //get all signup users
     @GetMapping("/allusers")
     public ResponseEntity<List<Customer>> getAllCustomers(){
         List<Customer> allCustomers= adminService.getAllCustomers();
