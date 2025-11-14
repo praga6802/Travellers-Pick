@@ -9,7 +9,7 @@ async function handledelete(event){
     const msg=document.getElementById("error");
     msg.style.marginTop="20%";
     try{
-        const response=await fetch("http://localhost:8080/package/deletepackage",{
+        const response=await fetch("http://localhost:8080/admin/deletepackage",{
             method:"POST",
             body:form
         });

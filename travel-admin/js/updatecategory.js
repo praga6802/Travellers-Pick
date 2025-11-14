@@ -8,7 +8,7 @@ async function handleupdatecategory(event) {
     const errorMsg=document.getElementById("error");
 
     try{
-        const response=await fetch("http://localhost:8080/tour/updatetour",{
+        const response=await fetch("http://localhost:8080/admin/updatetour",{
             method:"POST",
             body:formdata
         });

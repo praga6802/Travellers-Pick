@@ -1,20 +1,20 @@
 package com.example.travellers_choice.service;
 
 
+import com.example.travellers_choice.dto.UserDTO;
 import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.PackageNameNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
 import com.example.travellers_choice.model.Admin;
 import com.example.travellers_choice.model.Packages;
 import com.example.travellers_choice.model.Tour;
-import com.example.travellers_choice.repository.AdminRepo;
-import com.example.travellers_choice.repository.PackageRepo;
-import com.example.travellers_choice.repository.TourRepo;
+import com.example.travellers_choice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TourService {
@@ -28,6 +28,9 @@ public class TourService {
 
     @Autowired
     AdminRepo adminRepo;
+
+    @Autowired
+    CustomerRegister customerRepo;
 
     //add tour by all admin credentials
     public Tour addTour(int packageName, Tour tour, int adminId, String password) {
@@ -108,4 +111,7 @@ public class TourService {
                 filter(tour->tour.getTourId()==(tourID)).findFirst().
                 orElseThrow(()->new IDNotFoundException("Tour ID '"+tourID+"' not found in Package "+packageID));
     }
+
+
+
 }

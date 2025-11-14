@@ -14,10 +14,6 @@
             <img id="img" src="../images/destination.png" alt="logo" width="50px" height="40px">
             <span id="logo">Traveller's Choice</span>
         </div>
-        <span style="color: white;" id="login"></span>
-        <div class="webpreview">
-            <a href="./loginform.html">Logout</a>
-        </div>
     </nav>
     <div class="container">
         <table style="width:100%;font-size:20px;padding:15px;">
@@ -69,13 +65,15 @@
 
         </table>
     </div>
-    <script>
-        function handleLoginChange(select) {
-            if (select.value === "logout") {
-                window.location.href = "loginform.html";
-            }
-        }
-    </script>
+
+    <!-- display name and logout option-->
+    <div class="webpreview">
+        <select name="logindropdown" id="logindropdown" onchange="handleLogin(this)">
+            <option id="usernameoption">Hello Admin</option>
+            <option value="logout">logout</option>
+        </select>
+    </div>
+
     <script src="../js/left.js"></script>
 </body>
 

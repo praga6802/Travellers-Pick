@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const formData = new FormData(form);
 
         try {
-            const response = await fetch("http://localhost:8080/package/addpackage", {
+            const response = await fetch("http://localhost:8080/admin/addpackage", {
                 method: "POST",
                 body: formData
             });

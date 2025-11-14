@@ -1,7 +1,7 @@
 async function handlePackage() {
 
     try{
-        const response=await fetch("http://localhost:8080/package/allpackages");
+        const response=await fetch("http://localhost:8080/admin/allpackages");
         const data=await response.json();
         const select=document.getElementById("packages");
         select.length=1;
