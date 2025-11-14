@@ -3,24 +3,37 @@ document.getElementById("signupform").addEventListener("submit",handleSignUp)
 async function handleSignUp(event){
     event.preventDefault();
 
-    const formData=new FormData(event.target)
+    const userName=document.getElementById("username");
+    const email=document.getElementById("email");
+    const password=document.getElementById("password");
+    const contact=document.getElementById("contact");
+    
+
+    const data={
+        username:userName,
+        email:email,
+        password:password,
+        contact:contact
+    }
 
     try{
         const response=await fetch("http://localhost:8080/admin/adminsignup",{
-            method:"POST", 
-            body:formData
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
         });
         if(response.ok){
-            alert('Sign Up Successful');
-            event.target.reset();
+            const text=await response.text();
+            alert(text);
             window.location.href="loginform.html"
+            
         }
         else{
-            alert('Sign Up Failed');
             const errorMsg= await response.json();
-            document.getElementById("error").innerText=JSON.stringify(errorMsg);
+            document.getElementById("error").innerText=errorMsg.error;
             event.target.reset();
-
         }
     }
     catch(err){

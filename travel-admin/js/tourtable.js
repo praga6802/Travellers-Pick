@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded',async ()=>{
 const tbody=document.querySelector("#tourtable tbody");
 
 try{
-    const response=await fetch("http://localhost:8080/tour/alltour");
+    const response=await fetch("http://localhost:8080/admin/alltours");
 
     if(!response)throw new Error("Failed to fetch tours");
 

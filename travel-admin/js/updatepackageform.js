@@ -9,7 +9,7 @@ async function handleupdate(event){
     const msg=document.getElementById("error");
 
     try{
-        const response=await fetch("http://localhost:8080/package/updatepackage",{
+        const response=await fetch("http://localhost:8080/admin/updatepackage",{
             method:"POST",
             body:form
         });

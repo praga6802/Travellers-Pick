@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PackageService {
@@ -33,6 +34,7 @@ public class PackageService {
         return packageRepo.save(packages);
     }
 
+    // it will return all the package details
     public List<Packages> getAllPackages(){
         return packageRepo.findAll();
     }
@@ -73,5 +75,11 @@ public class PackageService {
     //get Package by Id
     public Packages getPackageById(Integer pkgId){
         return packageRepo.findById(pkgId).orElseThrow(()->new IDNotFoundException("Package ID",pkgId));
+    }
+
+
+    public List<String> getAllPackageNames(){
+        return packageRepo.findAll().stream().
+                map(Packages::getPackageName).collect(Collectors.toList());
     }
 }

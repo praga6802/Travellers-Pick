@@ -6,8 +6,12 @@ async function handleLogin(event){
 
     event.preventDefault();
 
+    const email=document.getElementById('email').value;
+    const password=document.getElementById('password').value;
 
-    const data=new FormData(event.target);
+    const data={
+        email,password
+    }
 
     const error=document.getElementById('error');
 
@@ -16,20 +20,22 @@ async function handleLogin(event){
         const response=await fetch("http://localhost:8080/user/userlogin",{
 
             method:"POST",
-            body:data
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data),
+            credentials:"include"
         });
 
         if(response.ok){
-
-            alert('Login Successful');
-            window.location.href='../html/index.html';
-            event.target.reset();
+            const text=await response.json();
+            alert(text.message);
+            setTimeout(()=>window.location.href='index.html',1000);
         }
 
         else{
-            alert('Login Failed')
             const errorMsg=await response.json();
-            document.getElementById('error').innerText=errorMsg;
+            document.getElementById('error').innerText=errorMsg.error;
             event.target.reset();
         }
     }

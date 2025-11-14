@@ -8,7 +8,7 @@ async function handledeletecategory(event) {
     const errorMsg=document.getElementById("error");
 
     try{
-        const response=await fetch("http://localhost:8080/tour/deletetour",{
+        const response=await fetch("http://localhost:8080/admin/deletetour",{
             method:"POST",
             body:formdata
         });

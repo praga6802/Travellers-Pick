@@ -7,16 +7,17 @@ import com.example.travellers_choice.exception.UnAuthorizedException;
 import com.example.travellers_choice.model.Admin;
 import com.example.travellers_choice.model.Customer;
 import com.example.travellers_choice.model.CustomerRegistry;
-import com.example.travellers_choice.model.Packages;
+
 import com.example.travellers_choice.repository.AdminRepo;
 import com.example.travellers_choice.repository.CustomerRegister;
 import com.example.travellers_choice.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class AdminService {
@@ -31,6 +32,7 @@ public class AdminService {
     AdminRepo adminRepo;
 
 
+
     //ADMIN  LOGIN
     public Admin adminLogin(String email, String password) {
 
@@ -41,9 +43,6 @@ public class AdminService {
 
     //ADMIN SIGN UP
     public Admin signUp(Admin admin) {
-        if(adminRepo.existsByUsername(admin.getUsername())){
-            throw new AlreadyExistsException("User Name",admin.getUsername());
-        }
         if(adminRepo.existsByEmail(admin.getEmail())){
             throw new AlreadyExistsException("Email", admin.getEmail());
         }
@@ -53,15 +52,7 @@ public class AdminService {
         return adminRepo.save(admin);
     }
 
-    //VIEW ALL ADMINS
-    public List<Admin> getAllAdmins() {
-        return adminRepo.findAll();
-    }
 
-    //VIEW ADMIN BY ID
-    public Admin getAdmin(int adminId) {
-        return adminRepo.findById(adminId).orElse(null);
-    }
 
     public boolean deleteAdmin(int id, String password) {
         Admin existingAdmin=adminRepo.findById(id).orElseThrow(()-> new IDNotFoundException("Admin ID", id));
@@ -75,7 +66,9 @@ public class AdminService {
 
     //UPDATE ADMIN
     public Admin updateAdmin(Admin admin) {
-        Admin exisitingAdmin=adminRepo.findById(admin.getAdminId()).orElseThrow(()-> new IDNotFoundException("Admin ID", admin.getAdminId()));
+        Admin exisitingAdmin=adminRepo.findById(admin.getAdminId())
+                .orElseThrow(()-> new IDNotFoundException("Admin ID", admin.getAdminId()));
+
         if(exisitingAdmin.getPassword().equals(admin.getPassword())){
             if(admin.getUsername() !=null && !admin.getUsername().isBlank())
                 exisitingAdmin.setUsername(admin.getUsername());
@@ -83,10 +76,18 @@ public class AdminService {
                 exisitingAdmin.setEmail(admin.getEmail());
             if(admin.getContact() !=null && !admin.getContact().isBlank())
                 exisitingAdmin.setContact(admin.getContact());
-            if(admin.getPassword() !=null && !admin.getPassword().isBlank())
-                exisitingAdmin.setPassword(admin.getPassword());
         }
         return adminRepo.save(exisitingAdmin);
+    }
+
+    //VIEW ALL ADMINS
+    public List<Admin> getAllAdmins() {
+        return adminRepo.findAll();
+    }
+
+    //VIEW ADMIN BY ID
+    public Admin getAdmin(int adminId) {
+        return adminRepo.findById(adminId).orElse(null);
     }
 
 

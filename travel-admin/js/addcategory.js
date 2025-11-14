@@ -8,7 +8,7 @@ async function handledaddcategory(event) {
     const errorMsg=document.getElementById("error");
 
     try{
-        const response=await fetch("http://localhost:8080/tour/addtour",{
+        const response=await fetch("http://localhost:8080/admin/addtour",{
             method:"POST",
             body:formdata
         });

@@ -43,23 +43,17 @@
           <li class="nav-item" id="li">
             <a class="nav-link" id="li-a" href="./contact.html">CONTACT</a>
           </li>
+
+
           <li class="nav-item" id="login">
             <select id="loginlist" name="loginlist" onchange="goLogin(this.value)">
-              <option value="">LOGIN</option>
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
+              <option value="" id="login">LOGIN</option>
+              <option value="user" id="user">User</option>
+              <option value="admin" id="admin">Admin</option>
             </select>
           </li>
-          <script>
-            function goLogin(value) {
-              if (value == "user") {
-                window.location.href = "login.html";
-              }
-              else if (value == "admin") {
-                window.location.href = "../../travel-admin/html/loginform.html";
-              }
-            }
-          </script>
+
+
         </ul>
       </div>
     </div>
@@ -237,6 +231,8 @@
     </div>
 
   </footer>
+
+  <script src="../js/index.js"></script>
 </body>
 
 </html>
