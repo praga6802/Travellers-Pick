@@ -28,7 +28,7 @@ public class UserService {
 
     public CustomerRegistry bookTour(CustomerRegistry customerRegistry, String packageName, Integer userId) {
 
-        Customer user=userRepo.findById(userId).orElseThrow(()->new IDNotFoundException("User ID"+userId));
+        Customer user=userRepo.findById(userId).orElseThrow(()->new IDNotFoundException("User ID",userId));
 
         customerRegistry.setUser(user);
         customerRegistry.setPackage_name(packageName);

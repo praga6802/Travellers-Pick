@@ -17,7 +17,7 @@ async function handleSignUp(event){
     }
 
     try{
-        const response=await fetch("http://localhost:8080/admin/adminsignup",{
+        const response=await fetch("http://localhost:8080/admin/signup",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
