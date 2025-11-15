@@ -12,7 +12,7 @@ async function displayUserName(){
             document.querySelector("#loginlist option[value='']").textContent=`Hello ${data.UserName}`;
 
             let userOption= document.getElementById('user');
-            userOption.textContent="LOGOUT";
+            userOption.textContent="Logout";
             userOption.value='logout';
             
             document.getElementById('admin').style.display="none";

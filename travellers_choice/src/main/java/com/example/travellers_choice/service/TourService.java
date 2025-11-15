@@ -6,14 +6,17 @@ import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.PackageNameNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
 import com.example.travellers_choice.model.Admin;
+import com.example.travellers_choice.model.ApiResponse;
 import com.example.travellers_choice.model.Packages;
 import com.example.travellers_choice.model.Tour;
 import com.example.travellers_choice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +36,7 @@ public class TourService {
     CustomerRegister customerRepo;
 
     //add tour by all admin credentials
-    public Tour addTour(int packageName, Tour tour, int adminId, String password) {
+    public ResponseEntity<?> addTour(int packageName, Tour tour, int adminId, String password) {
 
         Packages packageEntity = packageRepo.findById(packageName).orElseThrow(() -> new PackageNameNotFoundException("Package Name",String.valueOf(packageName)));
 
@@ -44,12 +47,13 @@ public class TourService {
         }
 
         tour.setPackageName(packageEntity);
-        return tourRepo.save(tour);
+        tourRepo.save(tour);
+        return ResponseEntity.ok(new ApiResponse("Tour Updated Successfully","200",LocalDateTime.now()));
 
     }
 
     //update tour by all admin credentials
-    public Tour updateTour(int packageId, Tour tour, int adminId, String password) {
+    public ResponseEntity<?> updateTour(int packageId, Tour tour, int adminId, String password) {
 
         Packages packageEntity = packageRepo.findById(packageId).orElseThrow(() -> new PackageNameNotFoundException("Package Name", String.valueOf(packageId)));
         Tour tourEntity = tourRepo.findById(tour.getTourId()).orElseThrow(() -> new IDNotFoundException("Tour ID", tour.getTourId()));
@@ -77,22 +81,23 @@ public class TourService {
         if (tour.getPrice() != null)
             tourEntity.setPrice(tour.getPrice());
 
-        return tourRepo.save(tourEntity);
+        tourRepo.save(tourEntity);
+        return ResponseEntity.ok(new ApiResponse("Tour Updated Successfully","200",LocalDateTime.now()));
 
     }
 
     //delete tour by all admin credentials
-    public boolean deleteTour(int packageId, int tourId, int adminID, String password) {
+    public ResponseEntity<?> deleteTour(int packageId, int tourId, int adminID, String password) {
         Packages packageEntity = packageRepo.findById(packageId).orElseThrow(() -> new PackageNameNotFoundException("Package Name", String.valueOf(packageId)));
         Tour tourEntity = tourRepo.findById(tourId).orElseThrow(() -> new IDNotFoundException("Tour ID", tourId));
-        Admin exisitingAdmin = adminRepo.findById(adminID).orElseThrow(() -> new IDNotFoundException("ID", adminID));
+        Admin exisitingAdmin = adminRepo.findById(adminID).orElseThrow(() -> new IDNotFoundException("Admin ID", adminID));
 
         if (!exisitingAdmin.getPassword().equals(password)) {
-            throw new UnAuthorizedException("Password", password);
+            throw new UnAuthorizedException("Invalid Password", password);
         }
 
         tourRepo.delete(tourEntity);
-        return true;
+        return ResponseEntity.ok(new ApiResponse("Tour Deleted Successfully","200",LocalDateTime.now()));
 
     }
 
@@ -103,13 +108,25 @@ public class TourService {
 
 
     //get tour by ID
-    public Tour getTourByID(Integer packageID,Integer tourID){
+    public ResponseEntity<?> getTourByID(Integer packageID,Integer tourID){
 
         Packages existingID=packageRepo.findById(packageID).orElseThrow(()-> new IDNotFoundException("Package ID",packageID));
+        Tour tour=existingID.getTours().stream().
+                filter(t->t.getTourId()==(tourID)).findFirst().
+                orElseThrow(()->new IDNotFoundException("Tour ID '",tourID));
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("Package ID",packageID);
+        response.put("Tour ID",tourID);
+        response.put("Tour Name",tour.getTourName());
+        response.put("Tour Slogan",tour.getTourSlogan());
+        response.put("Price",tour.getPrice());
+        response.put("Name",tour.getTourName());
+        response.put("Places",tour.getPlaces());
+        response.put("Days",tour.getDays());
+        response.put("Nights",tour.getNights());
+        return ResponseEntity.ok(response);
 
-        return existingID.getTours().stream().
-                filter(tour->tour.getTourId()==(tourID)).findFirst().
-                orElseThrow(()->new IDNotFoundException("Tour ID '"+tourID+"' not found in Package "+packageID));
+
     }
 
 

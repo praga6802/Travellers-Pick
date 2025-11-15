@@ -1,10 +1,21 @@
 package com.example.travellers_choice.exception;
 
-import org.springframework.http.HttpStatus;
+public class AlreadyExistsException extends  RuntimeException{
 
-public class AlreadyExistsException extends BaseException{
+    private String field;
+    private String value;
 
-    public AlreadyExistsException(String fieldName, String value){
-        super(fieldName +" '"+value+"' "+" already Exists!", HttpStatus.CONFLICT);
+    public AlreadyExistsException(String field, String value) {
+        super(field + " '" + value + "' already exists");
+        this.field = field;
+        this.value = value;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public String getValue() {
+        return value;
     }
 }

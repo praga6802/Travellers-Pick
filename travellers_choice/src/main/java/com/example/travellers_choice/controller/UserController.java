@@ -96,8 +96,8 @@ public class UserController {
 
     // -- VIEW PACKAGES
     @GetMapping("/packages")
-    public List<String> getAllPackages(){
-        return packageService.getAllPackageNames();
+    public List<Packages> getAllPackages(){
+        return packageService.getAllPackages();
     }
 
 

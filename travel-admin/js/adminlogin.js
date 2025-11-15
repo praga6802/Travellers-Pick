@@ -11,7 +11,7 @@ async function handleLogin(event){
 
     try{
 
-        const response=await fetch("http://localhost:8080/admin/adminlogin",{
+        const response=await fetch("http://localhost:8080/admin/login",{
 
             method:"POST",
             headers:{

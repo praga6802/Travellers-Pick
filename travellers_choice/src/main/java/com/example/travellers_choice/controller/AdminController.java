@@ -1,5 +1,6 @@
 package com.example.travellers_choice.controller;
 
+import com.example.travellers_choice.dto.DeleteAdminDTO;
 import com.example.travellers_choice.model.*;
 import com.example.travellers_choice.service.AdminService;
 import com.example.travellers_choice.service.PackageService;
@@ -12,7 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,37 +35,20 @@ public class AdminController {
 
                                             // --- ADMIN ---
     //SIGN UP ADMIN
-    @PostMapping("/adminsignup")
-    public ResponseEntity<String> signUp(@RequestBody Admin admin){
-        Admin saveAdmin=adminService.signUp(admin);
-        return ResponseEntity.ok("SignUp Successful");
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUp(@RequestBody Admin admin){
+        return adminService.signUp(admin);
     }
 
     //LOGIN ADMIN
-    @PostMapping("/adminlogin")
+    @PostMapping("/login")
     public ResponseEntity<?> adminLogin(@RequestBody Admin adminLogin, HttpSession httpSession){
-        System.out.println("ADMIN LOGIN API HIT");
         String email=adminLogin.getEmail();
         String password=adminLogin.getPassword();
-        Admin admin=adminService.adminLogin(email,password);
-        if(admin!=null){
-            httpSession.setAttribute("LoggedAdmin",admin);
-
-            Map<String, Object> response=new HashMap<>();
-            response.put("adminId",admin.getAdminId());
-            response.put("adminUserName",admin.getUsername());
-            response.put("message","Login Successful");
-            return ResponseEntity.ok(response);
-        }
-        Map<String,Object> error=new HashMap<>();
-        error.put("error","Invalid Credentials");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response){
-        request.getSession().invalidate();
-        return ResponseEntity.ok("Logged Out");
+        ResponseEntity<?> response=adminService.adminLogin(email,password);
+        Admin admin=adminService.getAdminByEmail(email);
+        httpSession.setAttribute("LoggedAdmin",admin);
+        return response;
     }
 
     @GetMapping("/current-admin")
@@ -78,22 +64,23 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","No active Session"));
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request){
+        return adminService.logout(request);
+    }
+
 
     // UPDATE ADMIN
     @PostMapping("/updateadmin")
-    public ResponseEntity<Map<String, String>> updateAdmin(@RequestBody Admin admin){
-        adminService.updateAdmin(admin);
-        return ResponseEntity.ok(Map.of("message","Admin Updated Successfully"));
+    public ResponseEntity<?> updateAdmin(@RequestBody Admin admin){
+        return adminService.updateAdmin(admin);
     }
 
 
     //DELETE ADMIN
     @DeleteMapping("/deleteadmin")
-    public ResponseEntity<Map<String, String>> deleteAdmin(@RequestParam("adminId") int adminId, @RequestParam("password") String password){
-        boolean result=adminService.deleteAdmin(adminId, password);
-        if(!result)
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error","Admin ID Not Found"));
-        return ResponseEntity.ok(Map.of("message","Admin Deleted Successfully"));
+    public ResponseEntity<?> deleteAdmin(@RequestBody DeleteAdminDTO deleteAdminDTO){
+        return adminService.deleteAdmin(deleteAdminDTO.getAdminId(), deleteAdminDTO.getPassword());
     }
 
 
@@ -106,9 +93,9 @@ public class AdminController {
 
 
     //GET ADMIN BY ID
-    @GetMapping("/findadmin/{id}")
-    public Admin getAdmin(@PathVariable("id") int id){
-        return adminService.getAdmin(id);
+    @GetMapping("/getadmin/{adminId}")
+    public ResponseEntity<?> getAdmin(@PathVariable("adminId") Integer adminid){
+        return adminService.getAdmin(adminid);
     }
 
 
@@ -135,39 +122,38 @@ public class AdminController {
     //ADD PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
     @PostMapping("/addpackage")
     public ResponseEntity<?> addPackage(@ModelAttribute Packages packages, @ModelAttribute Admin admin){
-        Packages p1 = packageService.addPackage(packages, admin);
-        Map<String, String> response=new HashMap<>();
-        response.put("message","Package Added Successfully");
-        return ResponseEntity.ok(response);
+      return packageService.addPackage(packages, admin);
     }
 
 
     //UPDATE PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
     @PutMapping("/updatepackage")
     public ResponseEntity<?> updatePackage(@ModelAttribute Packages packages,@ModelAttribute Admin admin) {
-        Packages p1 = packageService.updatePackage(packages, admin);
-        return ResponseEntity.ok(Map.of("message", "Package Updated Successfully"));
+        return packageService.updatePackage(packages, admin);
     }
 
     //DELETE PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
     @DeleteMapping("/deletepackage")
     public ResponseEntity<?> deletePackage(@ModelAttribute Packages packages, @ModelAttribute Admin admin){
-        boolean deletePackage=packageService.deletePackage(packages,admin);
-        return ResponseEntity.ok(Map.of("message","Package Deleted Successfully"));
+         return packageService.deletePackage(packages,admin);
     }
 
     //GET ALL PACKAGES
-    @GetMapping("/allpackages")
-    public ResponseEntity<List<Packages>> getAllPackages(){
+    @GetMapping("/packages")
+    public ResponseEntity<?> getAllPackages(){
         List<Packages> listPackages=packageService.getAllPackages();
         return ResponseEntity.ok(listPackages);
+    }
+
+    @GetMapping("/getPackageNames")
+    public ResponseEntity<?> getPackageNames(){
+        return packageService.getPackageNames();
     }
 
     //GET PACKAGE BY ID
     @GetMapping("/getPackage/{package_id}")
     public ResponseEntity<?> getPackageById(@PathVariable Integer package_id){
-        Packages pkg=packageService.getPackageById(package_id);
-        return ResponseEntity.ok(pkg);
+        return packageService.getPackageById(package_id);
     }
 
 
@@ -176,30 +162,21 @@ public class AdminController {
     @PostMapping("/addtour")
     public ResponseEntity<?> addTour(@RequestParam("packageName")int packageName, @ModelAttribute Tour tour, @RequestParam("adminId") int adminId,
                                      @RequestParam("password") String password){
-        Tour addTour= tourService.addTour(packageName,tour,adminId, password);
-        return ResponseEntity.ok(Map.of("message","Tour Added Successfully"));
-
+        return tourService.addTour(packageName,tour,adminId, password);
     }
 
     // UPDATE TOUR
     @PutMapping("/updatetour")
     public ResponseEntity<?> updateTour(@RequestParam("packageName")int packageId, @ModelAttribute Tour tour, @RequestParam("adminId") int adminId,
                                         @RequestParam("password") String password){
-        Tour addTour= tourService.updateTour(packageId,tour,adminId, password);
-        return ResponseEntity.ok(Map.of("message","Tour Updated Successfully"));
-
+        return tourService.updateTour(packageId,tour,adminId, password);
     }
 
     // DELETE TOUR
     @DeleteMapping("/deletetour")
-    public ResponseEntity<Map<String,String>> deleteTour(@RequestParam("packageName") int packageId, @RequestParam("tourId") int tourId, @RequestParam("adminId")int adminID,
+    public ResponseEntity<?> deleteTour(@RequestParam("packageName") int packageId, @RequestParam("tourId") int tourId, @RequestParam("adminId")int adminID,
                                                          @RequestParam("password") String password){
-
-        boolean deleteTour=tourService.deleteTour(packageId, tourId,adminID,password);
-        if(deleteTour)
-            return ResponseEntity.ok(Map.of("message","Tour deleted Successfully"));
-        else
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error","Package deletion Failed"));
+        return tourService.deleteTour(packageId, tourId,adminID,password);
     }
 
     // GET ALL TOURS
@@ -213,8 +190,7 @@ public class AdminController {
     // GET TOUR BY ID
     @GetMapping("/getTour/{packageID}/{tourID}")
     public ResponseEntity<?> getTourById(@PathVariable Integer packageID,@PathVariable Integer tourID){
-        Tour tour=tourService.getTourByID(packageID,tourID);
-        return ResponseEntity.ok(tour);
+        return tourService.getTourByID(packageID,tourID);
     }
 
 
