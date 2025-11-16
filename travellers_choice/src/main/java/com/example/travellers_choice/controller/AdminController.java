@@ -43,10 +43,8 @@ public class AdminController {
     //LOGIN ADMIN
     @PostMapping("/login")
     public ResponseEntity<?> adminLogin(@RequestBody Admin adminLogin, HttpSession httpSession){
-        String email=adminLogin.getEmail();
-        String password=adminLogin.getPassword();
-        ResponseEntity<?> response=adminService.adminLogin(email,password);
-        Admin admin=adminService.getAdminByEmail(email);
+        ResponseEntity<?> response=adminService.adminLogin(adminLogin.getEmail(),adminLogin.getPassword());
+        Admin admin=adminService.getAdminByEmail(adminLogin.getEmail());
         httpSession.setAttribute("LoggedAdmin",admin);
         return response;
     }
@@ -58,7 +56,7 @@ public class AdminController {
         if(admin!=null){
             Map<String,Object> response= new HashMap<>();
             response.put("adminId",admin.getAdminId());
-            response.put("adminUserName",admin.getUsername());
+            response.put("Active User",admin.getUsername());
             return ResponseEntity.ok(response);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","No active Session"));

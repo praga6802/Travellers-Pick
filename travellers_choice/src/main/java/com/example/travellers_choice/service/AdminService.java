@@ -63,11 +63,9 @@ public class AdminService {
                 orElseThrow(()-> new UnAuthorizedException("Email", email));
 
         Map<String, Object> response=new LinkedHashMap<>();
-        response.put("Local Date & Time",LocalDateTime.now());
-        response.put("message","Login Successful");
         response.put("adminId",admin.getAdminId());
         response.put("adminUserName",admin.getUsername());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new ApiResponse("Login Successful","200",LocalDateTime.now(),response));
     }
 
     //logout admin

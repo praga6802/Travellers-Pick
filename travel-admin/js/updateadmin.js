@@ -22,6 +22,8 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 
+
+// update admin
 const form=document.getElementById("updateAdmin");
 form.addEventListener('submit',handleUpdateAdmin);
 async function handleUpdateAdmin(event){
@@ -37,7 +39,6 @@ async function handleUpdateAdmin(event){
         error.style.color='red';
         return;
     }
-
 
     const data={
         password

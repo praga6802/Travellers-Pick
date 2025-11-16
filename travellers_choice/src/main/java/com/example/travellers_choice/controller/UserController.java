@@ -34,30 +34,22 @@ public class UserController {
     TourService tourService;
 
     //user signup
-    @PostMapping("/usersignup")
-    public ResponseEntity<String> customerSignUp(@RequestBody Customer customer){
-        Customer customer1= userService.customerSignUp(customer);
-        return ResponseEntity.ok("SignUp Successful!");
+    @PostMapping("/signup")
+    public ResponseEntity<?> customerSignUp(@RequestBody Customer customer){
+        return userService.customerSignUp(customer);
     }
 
 
     //user login
-    @PostMapping("/userlogin")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Customer customerLogin, HttpSession session){
 
         String email=customerLogin.getEmail();
         String password=customerLogin.getPassword();
-      Customer user=userService.customerLogin(email,password);
-      if(user!=null){
-          session.setAttribute("LoggedUser",user);
-
-          Map<String,Object> response= new HashMap<>();
-          response.put("userId",user.getId());
-          response.put("UserName",user.getUsername());
-          response.put("message","Login Successful");
-          return ResponseEntity.ok(response);
-      }
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","Invalid Email or Password"));
+        ResponseEntity response=userService.customerLogin(email,password);
+        Customer user=userService.findUserByEmail(email);
+        session.setAttribute("LoggedUser",user);
+        return response;
     }
 
     @GetMapping("/current-user")
@@ -66,19 +58,22 @@ public class UserController {
 
         if(user!=null){
             Map<String,Object> response= new HashMap<>();
+
             response.put("UserId",user.getId());
-            response.put("UserName",user.getUsername());
+            response.put("Active User",user.getUsername());
             return ResponseEntity.ok(response);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","Inactive session"));
     }
 
 
+    //logout user
     @PostMapping("/logout")
     public  ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response){
-        request.getSession().invalidate();
-        return ResponseEntity.ok("Logged Out");
+        return userService.logout(request);
     }
+
+
     // -- BOOK TOUR PACKAGE
     @PostMapping("/{package_name}/book")
     public ResponseEntity<String> booktour(@PathVariable String package_name, @ModelAttribute CustomerRegistry customerRegistry, HttpSession session){

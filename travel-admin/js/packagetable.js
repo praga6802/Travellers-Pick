@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tbody = document.querySelector('#packagetable tbody');
 
     try {
-        const response = await fetch('http://localhost:8080/admin/allpackages');
+        const response = await fetch('http://localhost:8080/admin/packages');
         if (!response.ok) throw new Error('Failed to fetch packages');
 
         const packages = await response.json();
