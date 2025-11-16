@@ -24,7 +24,7 @@ async function handleLogin(event){
         if(response.ok){
             const msg=await response.json();
             alert(msg.message);
-            setTimeout(()=>window.location.href="left.html",1000);
+            window.location.href="left.html";
         }
         else{
             let err=await response.json();

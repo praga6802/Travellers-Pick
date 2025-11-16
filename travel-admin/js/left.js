@@ -7,10 +7,14 @@ async function displayUserName() {
     
     if (response.ok) {
       const data = await response.json();
-      const username=data.adminUserName;
-      document.getElementById("usernameoption").innerText = `Hello ${username}`;
+      const username=data['Active User'];
+
+      const userNameOption=document.getElementById('usernameoption');
+      userNameOption.innerText = `Hello ${username}`;
+      userNameOption.value='default';
     } 
     else {
+      alert('No Active User..Redirecting to LOGIN Page');
       window.location.href="loginform.html"
     }
   } 
@@ -20,15 +24,18 @@ async function displayUserName() {
   }
 }
 
-async function handleLogin(select){
+async function handleLogout(select){
 
   if(select.value=='logout'){
     await fetch("http://localhost:8080/admin/logout",{
       method:"POST",
       credentials:"include"
     });
-     window.location.href='../../travellers-main/html/index.html';
-      return;
+    window.location.href='../../travel-admin/html/loginform.html';
+    return;
+  }
+  else{
+    select.value='default';
   }
 }
 

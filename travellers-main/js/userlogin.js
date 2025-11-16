@@ -17,8 +17,7 @@ async function handleLogin(event){
 
 
     try{
-        const response=await fetch("http://localhost:8080/user/userlogin",{
-
+        const response=await fetch("http://localhost:8080/user/login",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -29,6 +28,7 @@ async function handleLogin(event){
 
         if(response.ok){
             const text=await response.json();
+            console.log(text);
             alert(text.message);
             setTimeout(()=>window.location.href='index.html',1000);
         }
