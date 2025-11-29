@@ -3,19 +3,18 @@ document.getElementById("signupform").addEventListener("submit",handleSignUp)
 async function handleSignUp(event){
     event.preventDefault();
 
-    const userName=document.getElementById("username");
-    const email=document.getElementById("email");
-    const password=document.getElementById("password");
-    const contact=document.getElementById("contact");
-    
+    const userName=document.getElementById("username").value;
+    const email=document.getElementById("email").value;
+    const password=document.getElementById("password").value;
+    const contact=document.getElementById("contact").value;
 
+    const error=document.getElementById("error");
     const data={
         username:userName,
         email:email,
         password:password,
         contact:contact
     }
-
     try{
         const response=await fetch("http://localhost:8080/admin/signup",{
             method:"POST",
@@ -25,19 +24,20 @@ async function handleSignUp(event){
             body:JSON.stringify(data)
         });
         if(response.ok){
-            const text=await response.text();
-            alert(text);
+            const text=await response.json();
+            console.log(text);
+            alert(text.message);
             window.location.href="loginform.html"
-            
         }
         else{
             const errorMsg= await response.json();
-            document.getElementById("error").innerText=errorMsg.error;
+            console.log(errorMsg);
+            error.innerText=errorMsg.message;
             event.target.reset();
         }
     }
     catch(err){
-        document.getElementById("error").innerText="Network error.Please try again";
+        error.innerText="Network error.Please try again";
         console.error(err);
     }
 }

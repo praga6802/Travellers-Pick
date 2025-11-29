@@ -1,36 +1,56 @@
-document.getElementById('deletepackageform').addEventListener('submit',handledelete)
+const error = document.getElementById('error');
 
-async function handledelete(event){
+window.addEventListener('DOMContentLoaded', async () => {
+    const input = document.getElementById("adminId");
 
-
-    event.preventDefault();
-
-    const form=new FormData(event.target);
-    const msg=document.getElementById("error");
-    msg.style.marginTop="20%";
-    try{
-        const response=await fetch("http://localhost:8080/admin/deletepackage",{
-            method:"POST",
-            body:form
+    try {
+        const response = await fetch("http://localhost:8080/admin/current-admin", {
+            method: "GET",
+            credentials: "include"
         });
 
-        const data= await response.json();
-        if(response.ok){
-            msg.style.color="green";
-            msg.innerText=data.message;
-             msg.style.textAlign="center";
-            msg.style.margin="10%"
+        if (response.ok) {
+            const data = await response.json();
+            input.value = data.adminId;
+        } else {
+            error.style.color = "red";
+            error.innerText = "Unable to fetch admin details";
+            window.location.href="loginform.html";
         }
-        else{
-            msg.style.color="red";
-            msg.innerText="Invalid Credentials";
-            msg.style.textAlign="center";
-        }
+    } catch (err) {
+        error.innerText = "Network Error..Please Try again";
+        error.style.color = "red";
     }
+});
 
-    catch(err){
-        msg.style.color="red";
-        msg.innerText="Network Error..Please try again";
-        console.error(err);
+// update admin
+const form = document.getElementById("deletepackageform");
+form.addEventListener('submit', handleDeletePackage);
+
+async function handleDeletePackage(event) {
+    event.preventDefault();
+    const packageId=document.getElementById("packageId").value.trim();
+
+    try {
+        const response = await fetch("http://localhost:8080/admin/deletePackage", {
+            method: "DELETE",
+            headers: { 'Content-Type': "application/json" },
+            credentials: "include",
+            body: JSON.stringify({packageId})
+        });
+
+        const responseData = await response.json();
+        console.log(responseData);
+        
+        error.innerText=responseData.message;
+        error.style.color=response.ok?"green":"red";
+        error.style.textAlign = "center";
+        error.style.marginTop = "50px";
+        
+    } catch (err) {
+        error.innerText = "Network Error..Please Try again";
+        error.style.color = 'red';
+        alert("Session expired!..Please login again");
+        window.location.href='loginform.html';
     }
 }

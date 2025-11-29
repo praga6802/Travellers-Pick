@@ -1,50 +1,53 @@
-   body{
-    background-image: url('../images/viewback.jpg');
-    background-repeat:no-repeat;
-    background-size:cover;
+   body {
+        background-image: url('../images/viewback.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
 
    }
-  
-   .h1{
-        color:bisque;
+
+   .h1 {
+        color: rgb(208, 150, 91);
         font-size: 4rem;
         text-align: center;
-        margin-top:2.5%;
+        margin-top: 2.5%;
         font-weight: 700;
+        text-shadow: 100px;
    }
 
 
-   #tourtable, #regtable{
-    border: 2px solid white;
-    width: 80%;
-    margin-top:2%;
-    margin-left:10%;
-    padding:30px;
-    margin-bottom:20%;
-    align-content: center;
+   #viewcategory,
+   #regtable {
+        border: 2px solid white;
+        width: 80%;
+        margin-top: 2%;
+        margin-left: 10%;
+        padding: 30px;
+        margin-bottom: 20%;
+        align-content: center;
 
    }
 
-   thead{
-     padding: 0%;
-    font-size: 13px;
+   thead {
+        padding: 0%;
+        font-size: 13px;
    }
-th{
+
+   th {
         font-size: 2rem;
-        margin:6%;
+        margin: 6%;
         background-color: rgba(57, 56, 8, 0.801);
         color: white;
         text-align: center;
-        border:2px solid black;
-        padding:6px;
+        border: 2px solid black;
+        padding: 6px;
    }
 
-   td{
+td {
         font-size: 1.8rem;
-        margin:6%;
+        margin: 6%;
         background-color: rgba(255, 255, 255, 0.712);
         color: black;
         text-align: left;
-        border:2px solid black;
-        padding:8.5px;
-   }
+        border: 2px solid black;
+        padding: 8.5px;
+}

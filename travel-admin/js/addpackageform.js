@@ -1,38 +1,67 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById("addpackageform");
-    const msg = document.getElementById("error"); // <-- this is your <p>
+const error=document.getElementById("error");
 
-    form.addEventListener("submit", async function handleAdd(event) {
-        event.preventDefault();
+// get the logged admin id
+window.addEventListener("DOMContentLoaded",async()=>{
+     const input = document.getElementById("adminId");
 
-        const formData = new FormData(form);
+    try {
+        const response = await fetch("http://localhost:8080/admin/current-admin", {
+            method: "GET",
+            credentials: "include"
+        });
 
-        try {
-            const response = await fetch("http://localhost:8080/admin/addpackage", {
-                method: "POST",
-                body: formData
-            });
-
-            const text = await response.text(); // read response
-            let data;
-            try {
-                data = JSON.parse(text); // try JSON parse
-            } catch {
-                data = { message: text }; // fallback to text
-            }
-
-            if (response.ok) {
-                msg.style.color = "yellowgreen";       // success → green
-                msg.innerText = data.message || "Package Added Successfully";                // reset form fields
-            } else {
-                msg.style.color = "orange";      // error → orange
-                msg.innerText = data.error || "Something went wrong";
-            }
-
-        } catch(err) {
-            msg.style.color = "red";             // network error → red
-            msg.innerText = "Network Error..Please try again";
-            console.error(err);
+        if (response.ok) {
+            const data = await response.json();
+            input.value = data.adminId;
+        } else {
+            error.style.color = "red";
+            error.innerText = "Unable to fetch admin details";
+            window.location.href="loginform.html";
         }
-    });
+    } catch (err) {
+        error.innerText = "Network Error..Please Try again";
+        error.style.color = "red";
+    }
 });
+
+
+//add package in form
+const form = document.getElementById("addpackageform");
+form.addEventListener("submit", handleAddPackage);
+async function handleAddPackage(event) {
+    event.preventDefault();
+    const packageName=document.getElementById("packageName").value.trim();
+    const packageSlogan=document.getElementById("packageSlogan").value.trim();
+
+    if (!packageName || !packageSlogan) {
+        error.innerText = "Package Name and Slogan are required";
+        error.style.color = "red";
+        return;
+    }
+
+    const data={packageName,packageSlogan};
+
+    try {
+        const response = await fetch("http://localhost:8080/admin/addPackage", {
+            method: "POST",
+            body: JSON.stringify(data),
+            credentials:"include",
+            headers:{
+                "Content-Type":"application/json"
+            },
+        });
+
+        const responseData = await response.json();
+        setTimeout(() =>{
+            error.innerText = responseData.message;
+            error.style.color = response.ok ? "green" : "red";
+            error.style.textAlign = "center";
+            error.style.marginTop = "50px";
+            form.reset();
+        }, 3000);
+
+    } catch (err) {
+        error.innerText = "Network Error..Please Try again";
+        error.style.color = 'red';
+    }
+}

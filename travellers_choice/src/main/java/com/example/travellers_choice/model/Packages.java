@@ -11,12 +11,9 @@ import java.util.List;
 @Entity
 @Data
 public class Packages {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="package_id")
-    @JsonProperty("packageId")
     private int packageId;
 
     @Column(name="package_name", nullable = false, unique = true)

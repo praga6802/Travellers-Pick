@@ -1,6 +1,10 @@
 package com.example.travellers_choice.service;
 
 
+import com.example.travellers_choice.dto.AResponse;
+import com.example.travellers_choice.dto.PackageDTO;
+import com.example.travellers_choice.dto.PackageInfoDTO;
+import com.example.travellers_choice.dto.UpdatePackageDTO;
 import com.example.travellers_choice.exception.AlreadyExistsException;
 import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
@@ -10,7 +14,9 @@ import com.example.travellers_choice.model.Packages;
 import com.example.travellers_choice.repository.AdminRepo;
 import com.example.travellers_choice.repository.PackageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,54 +34,49 @@ public class PackageService {
     @Autowired
     AdminRepo adminRepo;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
 
     //add package
-    public ResponseEntity<?> addPackage(Packages packages, Admin admin) {
-        if (packageRepo.existsByPackageName(packages.getPackageName())) {
-            throw new AlreadyExistsException("Package Name",packages.getPackageName());
+    public ResponseEntity<?> addPackage(PackageDTO packageDTO, String email) {
+        Admin exisitingAdmin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email)",email));
+
+        if (packageRepo.existsByPackageName(packageDTO.getPackageName())) {
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).
+                    body(new AResponse(LocalDateTime.now(),"Failure","Package Already Added"));
         }
-        Admin exisitingAdmin=adminRepo.findById(admin.getAdminId()).orElseThrow(()-> new IDNotFoundException("Admin ID",admin.getAdminId()));
-        if(!exisitingAdmin.getPassword().equals(admin.getPassword())){
-            throw new UnAuthorizedException("Password",admin.getPassword());
-        }
-        packageRepo.save(packages);
-        return ResponseEntity.ok(new ApiResponse("Package Added Successfully","200",LocalDateTime.now()));
+        Packages newPackage = new Packages();
+        newPackage.setPackageName(packageDTO.getPackageName());
+        newPackage.setPackageSlogan(packageDTO.getPackageSlogan());
+        packageRepo.save(newPackage);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Package Added Successfully"));
     }
 
-    // it will return all the package details
 
-
-    public ResponseEntity<?> updatePackage(Packages p1, Admin admin) {
-        Packages existingPackage=packageRepo.findById(p1.getPackageId()).orElseThrow(()->new IDNotFoundException("Package ID",p1.getPackageId()));
-        Admin exisitingAdmin=adminRepo.findById(admin.getAdminId()).orElseThrow(()-> new IDNotFoundException("Admin ID",admin.getAdminId()));
-
-        if(!exisitingAdmin.getPassword().equals(admin.getPassword())){
-            throw new UnAuthorizedException("Password",admin.getPassword());
-        }
+    //update package
+    public ResponseEntity<?> updatePackage(UpdatePackageDTO updatePackageDTO, String email) {
+        Packages existingPackage=packageRepo.findById(updatePackageDTO.getPackageId()).orElseThrow(()->new IDNotFoundException("Package ID",updatePackageDTO.getPackageId()));
+        Admin exisitingAdmin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
 
         // update only if new values are provided
-        if (p1.getPackageName() != null && !p1.getPackageName().isBlank()) {
-            existingPackage.setPackageName(p1.getPackageName());
+        if (updatePackageDTO.getPackageName() != null && !updatePackageDTO.getPackageName().isBlank()) {
+            existingPackage.setPackageName(updatePackageDTO.getPackageName());
         }
 
-        if (p1.getPackageSlogan() != null && !p1.getPackageSlogan().isBlank()) {
-            existingPackage.setPackageSlogan(p1.getPackageSlogan());
+        if (updatePackageDTO.getPackageSlogan() != null && !updatePackageDTO.getPackageSlogan().isBlank()) {
+            existingPackage.setPackageSlogan(updatePackageDTO.getPackageSlogan());
         }
         packageRepo.save(existingPackage);
-        return ResponseEntity.ok(new ApiResponse("Package Updated Successfully","200",LocalDateTime.now()));
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Package Updated Successfully"));
     }
 
-
-
-    public ResponseEntity<?> deletePackage(Packages packages, Admin admin) {
-        Packages exisitingPackage= packageRepo.findById(packages.getPackageId()).orElseThrow(()-> new IDNotFoundException("Package ID",packages.getPackageId()));
-        Admin existingAdmin= adminRepo.findById(admin.getAdminId()).orElseThrow(()-> new IDNotFoundException("Admin ID",admin.getAdminId()));
-
-        if(!existingAdmin.getPassword().equals(admin.getPassword())){
-            throw new UnAuthorizedException("Admin Password",admin.getPassword());
-        }
-        packageRepo.delete(exisitingPackage);
-        return ResponseEntity.ok( new ApiResponse("Package Deleted Successfully","200", LocalDateTime.now()));
+    //delete package
+    public ResponseEntity<?> deletePackage(Integer packageId, String email) {
+        Packages existingPackage= packageRepo.findById(packageId).orElseThrow(()-> new IDNotFoundException("Package ID",packageId));
+        Admin existingAdmin= adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
+        packageRepo.delete(existingPackage);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Package Deleted Successfully"));
     }
 
     public List<Packages> getAllPackages(){
@@ -86,22 +87,16 @@ public class PackageService {
     //get Package by Id
     public ResponseEntity<?> getPackageById(Integer pkgId){
         Packages pkgid=packageRepo.findById(pkgId).orElseThrow(()-> new IDNotFoundException("Package Id",pkgId));
-        Map response= new LinkedHashMap();
+        Map<String, Object> response= new LinkedHashMap<>();
         response.put("Package ID",pkgid.getPackageId());
         response.put("Package Name",pkgid.getPackageName());
         response.put("Package Slogan",pkgid.getPackageSlogan());
         return ResponseEntity.ok(response);
     }
 
-
-    public ResponseEntity<?> getPackageNames(){
-        Map<Integer,String> response= packageRepo.findAll().stream().
-        collect(Collectors.toMap(
-                Packages::getPackageId,
-                Packages::getPackageName,
-                (a,b)->a,
-                LinkedHashMap::new
-        ));
-        return ResponseEntity.ok(response);
+    public List<PackageInfoDTO> getAllPackageNames() {
+        return packageRepo.findAll().stream()
+                .map(pkg->new PackageInfoDTO(pkg.getPackageId(), pkg.getPackageName()))
+                .toList();
     }
 }

@@ -1,21 +1,22 @@
 package com.example.travellers_choice.controller;
 
-import com.example.travellers_choice.dto.DeleteAdminDTO;
+import com.example.travellers_choice.dto.*;
 import com.example.travellers_choice.model.*;
+import com.example.travellers_choice.repository.AdminRepo;
 import com.example.travellers_choice.service.AdminService;
 import com.example.travellers_choice.service.PackageService;
 import com.example.travellers_choice.service.TourService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,50 +34,59 @@ public class AdminController {
     @Autowired
     TourService tourService;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    AdminRepo adminRepo;
+
                                             // --- ADMIN ---
-    //SIGN UP ADMIN
+    //sign up admin
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody Admin admin){
         return adminService.signUp(admin);
     }
 
-    //LOGIN ADMIN
+    //login admin
     @PostMapping("/login")
-    public ResponseEntity<?> adminLogin(@RequestBody Admin adminLogin, HttpSession httpSession){
-        ResponseEntity<?> response=adminService.adminLogin(adminLogin.getEmail(),adminLogin.getPassword());
-        Admin admin=adminService.getAdminByEmail(adminLogin.getEmail());
-        httpSession.setAttribute("LoggedAdmin",admin);
-        return response;
+    public ResponseEntity<?> adminLogin(@RequestBody LoginDTO loginData, HttpSession session) {
+        System.out.println(loginData.getEmail()+" "+loginData.getPassword());
+        return adminService.adminLogin(loginData.getEmail(),loginData.getPassword(),session);
     }
 
+    //get the current admin
     @GetMapping("/current-admin")
-    public ResponseEntity<?> getUsername(HttpSession session){
-        Admin admin=(Admin)session.getAttribute("LoggedAdmin");
-
-        if(admin!=null){
-            Map<String,Object> response= new HashMap<>();
-            response.put("adminId",admin.getAdminId());
-            response.put("Active User",admin.getUsername());
-            return ResponseEntity.ok(response);
+    public ResponseEntity<?> getCurrentAdmin(HttpSession session) {
+        Admin admin=(Admin) session.getAttribute("LoggedAdmin");
+        if(admin==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+           .body(new AResponse(LocalDateTime.now(),"Failure","No Active Session user"));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","No active Session"));
+        return ResponseEntity.ok(Map.of(
+                "adminId", admin.getAdminId(),
+                "adminUserName", admin.getUsername()
+        ));
     }
 
+
+    //logout admin
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request){
-        return adminService.logout(request);
+    public ResponseEntity<?> logout(HttpSession session){
+       return adminService.logout(session);
     }
 
 
     // UPDATE ADMIN
-    @PostMapping("/updateadmin")
-    public ResponseEntity<?> updateAdmin(@RequestBody Admin admin){
-        return adminService.updateAdmin(admin);
+    @PostMapping("/updateAdmin")
+    public ResponseEntity<?> updateAdmin(@RequestBody AdminDTO admin, @AuthenticationPrincipal UserDetails user){
+        String email=user.getUsername();
+        System.out.println("EMAIL:"+email+" with data"+"DATA"+admin);
+        return adminService.updateAdmin(admin,email);
     }
 
 
     //DELETE ADMIN
-    @DeleteMapping("/deleteadmin")
+    @DeleteMapping("/deleteAdmin")
     public ResponseEntity<?> deleteAdmin(@RequestBody DeleteAdminDTO deleteAdminDTO){
         return adminService.deleteAdmin(deleteAdminDTO.getAdminId(), deleteAdminDTO.getPassword());
     }
@@ -118,22 +128,22 @@ public class AdminController {
 
                                                     // --- PACKAGE ---
     //ADD PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
-    @PostMapping("/addpackage")
-    public ResponseEntity<?> addPackage(@ModelAttribute Packages packages, @ModelAttribute Admin admin){
-      return packageService.addPackage(packages, admin);
+    @PostMapping("/addPackage")
+    public ResponseEntity<?> addPackage(@RequestBody PackageDTO packageDTO, @AuthenticationPrincipal UserDetails user){
+      return packageService.addPackage(packageDTO, user.getUsername());
     }
 
 
     //UPDATE PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
-    @PutMapping("/updatepackage")
-    public ResponseEntity<?> updatePackage(@ModelAttribute Packages packages,@ModelAttribute Admin admin) {
-        return packageService.updatePackage(packages, admin);
+    @PutMapping("/updatePackage")
+    public ResponseEntity<?> updatePackage(@RequestBody UpdatePackageDTO updatePackageDTO, @AuthenticationPrincipal UserDetails user) {
+        return packageService.updatePackage(updatePackageDTO, user.getUsername());
     }
 
     //DELETE PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
-    @DeleteMapping("/deletepackage")
-    public ResponseEntity<?> deletePackage(@ModelAttribute Packages packages, @ModelAttribute Admin admin){
-         return packageService.deletePackage(packages,admin);
+    @DeleteMapping("/deletePackage")
+    public ResponseEntity<?> deletePackage(@RequestBody DeletePackageDTO deletePackageDTO, @AuthenticationPrincipal UserDetails user){
+         return packageService.deletePackage(deletePackageDTO.getPackageId(),user.getUsername());
     }
 
     //GET ALL PACKAGES
@@ -143,9 +153,10 @@ public class AdminController {
         return ResponseEntity.ok(listPackages);
     }
 
-    @GetMapping("/getPackageNames")
-    public ResponseEntity<?> getPackageNames(){
-        return packageService.getPackageNames();
+    @GetMapping("/packageNames")
+    public ResponseEntity<?> getAllPackageNames(){
+        List<PackageInfoDTO> packageNames=packageService.getAllPackageNames();
+        return ResponseEntity.ok(packageNames);
     }
 
     //GET PACKAGE BY ID
@@ -157,28 +168,25 @@ public class AdminController {
 
                                                         //  --- TOUR ---
     //ADD TOUR
-    @PostMapping("/addtour")
-    public ResponseEntity<?> addTour(@RequestParam("packageName")int packageName, @ModelAttribute Tour tour, @RequestParam("adminId") int adminId,
-                                     @RequestParam("password") String password){
-        return tourService.addTour(packageName,tour,adminId, password);
+    @PostMapping("/addCategory")
+    public ResponseEntity<?> addCategory(@RequestBody CategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return tourService.addCategory(categoryDTO,userDetails.getUsername());
     }
 
     // UPDATE TOUR
-    @PutMapping("/updatetour")
-    public ResponseEntity<?> updateTour(@RequestParam("packageName")int packageId, @ModelAttribute Tour tour, @RequestParam("adminId") int adminId,
-                                        @RequestParam("password") String password){
-        return tourService.updateTour(packageId,tour,adminId, password);
+    @PutMapping("/updateCategory")
+    public ResponseEntity<?> updateCategory(@RequestBody UpdateCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return tourService.updateCategory(categoryDTO,userDetails.getUsername());
     }
 
     // DELETE TOUR
-    @DeleteMapping("/deletetour")
-    public ResponseEntity<?> deleteTour(@RequestParam("packageName") int packageId, @RequestParam("tourId") int tourId, @RequestParam("adminId")int adminID,
-                                                         @RequestParam("password") String password){
-        return tourService.deleteTour(packageId, tourId,adminID,password);
+    @DeleteMapping("/deleteCategory")
+    public ResponseEntity<?> deleteCategory(@RequestBody DeleteTourDTO dto, @AuthenticationPrincipal UserDetails userDetails){
+        return tourService.deleteCategory(dto, userDetails.getUsername());
     }
 
     // GET ALL TOURS
-    @GetMapping("/alltours")
+    @GetMapping("/allCategories")
     public ResponseEntity<List<Tour>> getAllTours(){
         List<Tour> allTours=tourService.getAllTours();
         return ResponseEntity.ok(allTours);
@@ -190,7 +198,5 @@ public class AdminController {
     public ResponseEntity<?> getTourById(@PathVariable Integer packageID,@PathVariable Integer tourID){
         return tourService.getTourByID(packageID,tourID);
     }
-
-
 
 }

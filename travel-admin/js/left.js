@@ -1,4 +1,5 @@
 async function displayUserName() {
+  console.log("Cookies before fetch:", document.cookie);
   try {
     const response = await fetch("http://localhost:8080/admin/current-admin", {
       method: "GET",
@@ -7,15 +8,15 @@ async function displayUserName() {
     
     if (response.ok) {
       const data = await response.json();
-      const username=data['Active User'];
-
+      console.log(data);
+      const username=data.adminUserName;
       const userNameOption=document.getElementById('usernameoption');
       userNameOption.innerText = `Hello ${username}`;
       userNameOption.value='default';
     } 
     else {
-      alert('No Active User..Redirecting to LOGIN Page');
-      window.location.href="loginform.html"
+      const error=await response.json();
+      console.log(error);
     }
   } 
   catch (err) {
@@ -27,12 +28,24 @@ async function displayUserName() {
 async function handleLogout(select){
 
   if(select.value=='logout'){
-    await fetch("http://localhost:8080/admin/logout",{
-      method:"POST",
-      credentials:"include"
-    });
-    window.location.href='../../travel-admin/html/loginform.html';
-    return;
+    try{
+      const response=await fetch("http://localhost:8080/admin/logout",{
+        method:"POST",
+        credentials:"include"
+      });
+      if(response.ok){
+        const res=await response.json();
+        alert(res.message);
+        window.location.href="loginform.html"
+      }
+      else{
+        alert("Logout Failed. Try again.");
+      }
+    }
+    catch(err){
+      console.log("Logout Error: ",err);
+      alert("Network error during logout");
+    }
   }
   else{
     select.value='default';

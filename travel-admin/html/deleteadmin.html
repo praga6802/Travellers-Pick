@@ -19,10 +19,10 @@
 
 <body>
 	<div class="container">
-		<form method="post" action="http://localhost:8080/admin/deleteadmin" id="delAdmin">
+		<form method="post" id="delAdmin">
 			<input type="hidden" name="_method" value="DELETE">
 			<legend>DELETE ADMIN</legend>
-			<label id="adminId">Admin ID</label>
+			<label for="adminId">Admin ID</label>
 			<input type="text" name="adminId" id="adminId" placeholder="Admin ID" required><br><br>
 			<label for="password">Password</label>
 			<input type="password" name="password" id="password" placeholder="Password" required>

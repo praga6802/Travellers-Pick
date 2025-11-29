@@ -1,33 +1,72 @@
-document.getElementById('updatepackageform').addEventListener('submit',handleupdate)
+const error=document.getElementById("error");
 
-async function handleupdate(event){
+// get the logged admin id
+window.addEventListener("DOMContentLoaded",async()=>{
+     const input = document.getElementById("adminId");
 
-
-    event.preventDefault();
-
-    const form=new FormData(event.target);
-    const msg=document.getElementById("error");
-
-    try{
-        const response=await fetch("http://localhost:8080/admin/updatepackage",{
-            method:"POST",
-            body:form
+    try {
+        const response = await fetch("http://localhost:8080/admin/current-admin", {
+            method: "GET",
+            credentials: "include"
         });
 
-        const data= await response.json();
-        if(response.ok){
-            msg.style.color="yellowgreen";
-            msg.innerText=data.message;
+        if (response.ok) {
+            const data = await response.json();
+            input.value = data.adminId;
+        } else {
+            error.style.color = "red";
+            error.innerText = "Unable to fetch admin details";
+            window.location.href="loginform.html";
         }
-        else{
-            msg.style.color="orange";
-            msg.innerText=data.error;
-        }
+    } catch (err) {
+        error.innerText = "Network Error..Please Try again";
+        error.style.color = "red";
+    }
+});
+
+
+//add package in form
+const form = document.getElementById("updatepackageform");
+form.addEventListener("submit", handleUpdatePackage);
+async function handleUpdatePackage(event) {
+    event.preventDefault();
+    const packageName=document.getElementById("packageName").value.trim();
+    const packageSlogan=document.getElementById("packageSlogan").value.trim();
+    const packageId=document.getElementById("packageId").value.trim();
+
+    if (!packageId) {
+        error.innerText = "Package Id is required";
+        error.style.color = "red";
+        return;
     }
 
-    catch(err){
-        msg.style.color="red";
-        msg.innerText="Network Error..Please try again";
-        console.error(err);
+    const data={packageId};
+    if(packageName)data.packageName=packageName
+    if(packageSlogan)data.packageSlogan=packageSlogan
+
+
+    try {
+        const response = await fetch("http://localhost:8080/admin/updatePackage", {
+            method: "PUT",
+            body: JSON.stringify(data),
+            credentials:"include",
+            headers:{
+                "Content-Type":"application/json"
+            },
+        });
+
+        const responseData = await response.json();
+        setTimeout(() =>{
+            error.innerText = responseData.message;
+            error.style.color = response.ok ? "yellowgreen" : "red";
+            error.style.backgroundColor="black"
+            error.style.textAlign = "center";
+            error.style.marginTop = "50px";
+            form.reset();
+        }, 3000);
+
+    } catch (err) {
+        error.innerText = "Network Error..Please Try again";
+        error.style.color = 'red';
     }
 }

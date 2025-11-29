@@ -21,20 +21,16 @@
 
 <body>
 	<div class="container">
-		<form method="post" action="http://localhost:8080/package/deletepackage" id="deletepackageform">
+		<form method="post" id="deletepackageform">
 			<input type="hidden" value="DELETE" name="_method">
 			<legend>DELETE PACKAGE</legend>
 
-			<label for="packageid">Package ID</label>
-			<input type="text" name="packageId" id="packageid" required
-				placeholder="Package ID" /><br><br>
-
-
 			<label for="adminId">Admin ID</label>
 			<input type="text" name="adminId" id="adminId" placeholder="Admin ID"><br><br>
-			<label for="password">Admin Password</label>
-			<input type="password" name="password" id="password" pattern="[a-zA-Z0-9!@#$%^&*\(\)]{1,10}" required
-				placeholder="Password" /><br><br>
+
+			<label for="packageid">Package ID</label>
+			<input type="text" name="packageId" id="packageId" required placeholder="Package ID" /><br><br>
+
 			<input type="submit" value="DELETE" name="submit" />
 			<input type="reset" value="RESET" name="reset" />
 			<p id='error' style="text-align:justify;margin-top:3%;"></p>
