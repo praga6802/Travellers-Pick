@@ -1,5 +1,6 @@
 package com.example.travellers_choice.controller;
 
+import com.example.travellers_choice.dto.LoginDTO;
 import com.example.travellers_choice.dto.UserDTO;
 import com.example.travellers_choice.model.Customer;
 import com.example.travellers_choice.model.CustomerRegistry;
@@ -39,38 +40,23 @@ public class UserController {
         return userService.customerSignUp(customer);
     }
 
-
     //user login
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Customer customerLogin, HttpSession session){
-
-        String email=customerLogin.getEmail();
-        String password=customerLogin.getPassword();
-        ResponseEntity response=userService.customerLogin(email,password);
-        Customer user=userService.findUserByEmail(email);
-        session.setAttribute("LoggedUser",user);
-        return response;
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginData, HttpSession session){
+       return userService.customerLogin(loginData.getEmail(),loginData.getPassword(),session);
     }
 
+    //get the current user
     @GetMapping("/current-user")
-    public ResponseEntity<?> getUserName(HttpSession session){
-        Customer user=(Customer)session.getAttribute("LoggedUser");
-
-        if(user!=null){
-            Map<String,Object> response= new HashMap<>();
-
-            response.put("UserId",user.getId());
-            response.put("Active User",user.getUsername());
-            return ResponseEntity.ok(response);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","Inactive session"));
+    public ResponseEntity<?> getCurrentUser(HttpSession session){
+     return userService.getCurrentUser(session);
     }
 
 
     //logout user
     @PostMapping("/logout")
-    public  ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response){
-        return userService.logout(request);
+    public  ResponseEntity<?> logout(HttpSession session){
+        return userService.logout(session);
     }
 
 

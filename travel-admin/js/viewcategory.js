@@ -1,16 +1,22 @@
 document.addEventListener('DOMContentLoaded',async ()=>{
 
-const tbody=document.querySelector("#tourtable tbody");
+const tbody=document.querySelector("#viewcategory tbody");
 
 try{
-    const response=await fetch("http://localhost:8080/admin/alltours");
+    const response=await fetch("http://localhost:8080/admin/allCategories",
+        {
+            method:"GET",
+            "Content-Type":"application/json",
+            credentials:"include"
+        }
+    );
 
     if(!response)throw new Error("Failed to fetch tours");
 
     const tours=await response.json();
 
     if(tours===0){
-        tbody.innerHTML='<tr><td colspan="8">No Packages Found</td></tr>';
+        tbody.innerHTML='<tr><td colspan="8">No Tours Found</td></tr>';
         return;
     }
 

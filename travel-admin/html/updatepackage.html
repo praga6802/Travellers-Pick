@@ -24,23 +24,21 @@
 s
 <body>
 	<div class="container">
-		<form method="post" action="http://localhost:8080/package/updatepackage" id="updatepackageform">
+		<form method="post" id="updatepackageform">
 			<input type="hidden" value="PUT" name="_method">
 			<legend>UPDATE PACKAGE</legend>
-			<label for="packageid">Package ID</label>
-			<input type="text" name="packageId" id="packageid" placeholder="Package ID"><br><br>
-			<label for="package_name">Package Name</label>
-			<input type="text" name="packageName" id="package_name" required maxlength="30"
-				placeholder="Package Name" /><br><br>
-			<label for="slogan">Package Slogan</label>
-			<input type="text" name="packageSlogan" id="slogan" maxlength="50" placeholder="Package Slogan" /><br><br>
-
-
 			<label for="adminId">Admin ID</label>
 			<input type="text" name="adminId" id="adminId" placeholder="Admin ID" required><br><br>
-			<label for="password">Admin Password</label>
-			<input type="password" name="password" id="password" pattern="[a-zA-Z0-9!@#$%^&*\(\)]{1,10}" required
-				placeholder="Password" /><br><br>
+
+			<label for="packageid">Package ID</label>
+			<input type="text" name="packageId" id="packageId" placeholder="Package ID" required><br><br>
+
+			<label for="package_name">Package Name</label>
+			<input type="text" name="packageName" id="packageName" maxlength="30" placeholder="Package Name" /><br><br>
+
+			<label for="slogan">Package Slogan</label>
+			<input type="text" name="packageSlogan" id="packageSlogan" maxlength="50" placeholder="Package Slogan" /><br><br>
+	
 			<input type="submit" value="UPDATE" name="submit" />
 			<input type="reset" value="RESET" name="reset" />
 			<p id='error' style="text-align:justify;margin-top:3%;"></p>

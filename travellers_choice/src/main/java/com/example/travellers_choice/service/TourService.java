@@ -1,7 +1,10 @@
 package com.example.travellers_choice.service;
 
 
-import com.example.travellers_choice.dto.UserDTO;
+import com.example.travellers_choice.dto.AResponse;
+import com.example.travellers_choice.dto.CategoryDTO;
+import com.example.travellers_choice.dto.DeleteTourDTO;
+import com.example.travellers_choice.dto.UpdateCategoryDTO;
 import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.PackageNameNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
@@ -11,13 +14,11 @@ import com.example.travellers_choice.model.Packages;
 import com.example.travellers_choice.model.Tour;
 import com.example.travellers_choice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class TourService {
@@ -36,69 +37,60 @@ public class TourService {
     CustomerRegister customerRepo;
 
     //add tour by all admin credentials
-    public ResponseEntity<?> addTour(int packageName, Tour tour, int adminId, String password) {
+    public ResponseEntity<?> addCategory(CategoryDTO categoryDTO, String email) {
+        Admin exisitingAdmin= adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
 
-        Packages packageEntity = packageRepo.findById(packageName).orElseThrow(() -> new PackageNameNotFoundException("Package Name",String.valueOf(packageName)));
+        Packages pkg = packageRepo.findById(categoryDTO.getPackageId())
+                .orElseThrow(() -> new IDNotFoundException("Package ID",categoryDTO.getPackageId()));
 
-        Admin exisitingAdmin= adminRepo.findById(adminId).orElseThrow(()-> new IDNotFoundException("ID",adminId));
-
-        if(!exisitingAdmin.getPassword().equals(password)){
-            throw new UnAuthorizedException("Password",password);
-        }
-
-        tour.setPackageName(packageEntity);
+        Tour tour = new Tour();
+        tour.setPackageName(pkg);
+        tour.setTourName(categoryDTO.getTourName());
+        tour.setTourSlogan(categoryDTO.getTourSlogan());
+        tour.setPlaces(categoryDTO.getPlaces());
+        tour.setDays(categoryDTO.getDays());
+        tour.setNights(categoryDTO.getNights());
+        tour.setPrice(categoryDTO.getPrice());
         tourRepo.save(tour);
-        return ResponseEntity.ok(new ApiResponse("Tour Updated Successfully","200",LocalDateTime.now()));
 
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Added Successfully"));
     }
 
     //update tour by all admin credentials
-    public ResponseEntity<?> updateTour(int packageId, Tour tour, int adminId, String password) {
+    public ResponseEntity<?> updateCategory(UpdateCategoryDTO categoryDTO, String email) {
+        Admin exisitingAdmin = adminRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Admin Email", email));
+        Tour tourEntity = tourRepo.findById(categoryDTO.getTourId())
+                .orElseThrow(() -> new IDNotFoundException("Tour ID", categoryDTO.getTourId()));
 
-        Packages packageEntity = packageRepo.findById(packageId).orElseThrow(() -> new PackageNameNotFoundException("Package Name", String.valueOf(packageId)));
-        Tour tourEntity = tourRepo.findById(tour.getTourId()).orElseThrow(() -> new IDNotFoundException("Tour ID", tour.getTourId()));
-        Admin exisitingAdmin = adminRepo.findById(adminId).orElseThrow(() -> new IDNotFoundException("ID", adminId));
+        if (categoryDTO.getTourName() != null && !categoryDTO.getTourName().isBlank())
+            tourEntity.setTourName(categoryDTO.getTourName());
 
-        if (!exisitingAdmin.getPassword().equals(password)) {
-            throw new UnAuthorizedException("Password", password);
-        }
+        if (categoryDTO.getTourSlogan() != null && !categoryDTO.getTourSlogan().isBlank())
+            tourEntity.setTourSlogan(categoryDTO.getTourSlogan());
 
-        if (tour.getTourName() != null && !tour.getTourName().isBlank())
-            tourEntity.setTourName(tour.getTourName());
+        if (categoryDTO.getPlaces() != null && !categoryDTO.getPlaces().isBlank())
+            tourEntity.setPlaces(categoryDTO.getPlaces());
 
-        if (tour.getTourSlogan() != null && !tour.getTourSlogan().isBlank())
-            tourEntity.setTourSlogan(tour.getTourSlogan());
+        if (categoryDTO.getDays()!=null)
+            tourEntity.setDays(categoryDTO.getDays());
 
-        if (tour.getPlaces() != null && !tour.getPlaces().isBlank())
-            tourEntity.setPlaces(tour.getPlaces());
+        if (categoryDTO.getNights() != null)
+            tourEntity.setNights(categoryDTO.getNights());
 
-        if (tour.getDays()!=null)
-            tourEntity.setDays(tour.getDays());
-
-        if (tour.getNights() != null)
-            tourEntity.setNights(tour.getNights());
-
-        if (tour.getPrice() != null)
-            tourEntity.setPrice(tour.getPrice());
+        if (categoryDTO.getPrice() != null)
+            tourEntity.setPrice(categoryDTO.getPrice());
 
         tourRepo.save(tourEntity);
-        return ResponseEntity.ok(new ApiResponse("Tour Updated Successfully","200",LocalDateTime.now()));
-
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Updated Successfully"));
     }
 
     //delete tour by all admin credentials
-    public ResponseEntity<?> deleteTour(int packageId, int tourId, int adminID, String password) {
-        Packages packageEntity = packageRepo.findById(packageId).orElseThrow(() -> new PackageNameNotFoundException("Package Name", String.valueOf(packageId)));
-        Tour tourEntity = tourRepo.findById(tourId).orElseThrow(() -> new IDNotFoundException("Tour ID", tourId));
-        Admin exisitingAdmin = adminRepo.findById(adminID).orElseThrow(() -> new IDNotFoundException("Admin ID", adminID));
-
-        if (!exisitingAdmin.getPassword().equals(password)) {
-            throw new UnAuthorizedException("Invalid Password", password);
-        }
+    public ResponseEntity<?> deleteCategory(DeleteTourDTO dto, String email) {
+        Admin exisitingAdmin = adminRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Admin Email", email));
+        Tour tourEntity = tourRepo.findById(dto.getTourId()).orElseThrow(() -> new IDNotFoundException("Tour ID", dto.getTourId()));
 
         tourRepo.delete(tourEntity);
-        return ResponseEntity.ok(new ApiResponse("Tour Deleted Successfully","200",LocalDateTime.now()));
-
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Deleted Successfully"));
     }
 
     //get all tour list

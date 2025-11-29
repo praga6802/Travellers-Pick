@@ -1,6 +1,7 @@
 package com.example.travellers_choice.exception;
 
 
+import com.example.travellers_choice.dto.AResponse;
 import com.example.travellers_choice.model.ErrorInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,31 +16,31 @@ import java.util.Map;
 public class GlobalExceptionalHandler {
 
 
-
-
     @ExceptionHandler(AlreadyExistsException.class)
-    public ResponseEntity<ErrorInfo> handleAlreadyExistsException(AlreadyExistsException exception){
-        ErrorInfo errorInfo= new ErrorInfo(LocalDateTime.now(),"Already Exists",exception.getMessage());
-        return new ResponseEntity<>(errorInfo,HttpStatus.FOUND);
+    public ResponseEntity<?> handleAlreadyExistsException(AlreadyExistsException exception){
+        return new ResponseEntity<>(new AResponse(LocalDateTime.now(),"Already Exists",exception.getMessage()),HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(IDNotFoundException.class)
-    public ResponseEntity<ErrorInfo> handleIdNotFoundException(IDNotFoundException exception){
-        ErrorInfo errorInfo= new ErrorInfo(LocalDateTime.now(),"Id Not Found",exception.getMessage());
-        return new ResponseEntity<>(errorInfo,HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> handleIdNotFoundException(IDNotFoundException exception){
+        return new ResponseEntity<>(new AResponse(LocalDateTime.now(),"ID NOT FOUND",exception.getMessage()),HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PackageNameNotFoundException.class)
+    public ResponseEntity<?> handlePackageNotFoundException(PackageNameNotFoundException exception){
+        return new ResponseEntity<>(new AResponse(LocalDateTime.now(),"Package Not FOUND",exception.getMessage()),HttpStatus.NOT_FOUND);
     }
 
 
     @ExceptionHandler(UnAuthorizedException.class)
     public ResponseEntity<?> handleUnauthorizedException(UnAuthorizedException exception){
-        ErrorInfo errorInfo = new ErrorInfo(LocalDateTime.now(),"Invalid Email",exception.getMessage());
-        return new ResponseEntity<>(errorInfo,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new AResponse(LocalDateTime.now(),"Unauthorized",exception.getMessage()),HttpStatus.UNAUTHORIZED);
     }
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String,String>> handleException(Exception e){
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error","Something went wrong", "details",e.getMessage()));
+    public ResponseEntity<?> handleException(Exception e){
+        return new ResponseEntity<>(new AResponse(LocalDateTime.now(),"Failure",e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

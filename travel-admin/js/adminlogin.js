@@ -1,6 +1,5 @@
 document.getElementById("loginform").addEventListener("submit",handleLogin)
 
-
 async function handleLogin(event){
     event.preventDefault();
 
@@ -8,11 +7,10 @@ async function handleLogin(event){
     const password=document.getElementById('password').value;
 
     const data={email,password}
+    const error=document.getElementById("error");
 
     try{
-
         const response=await fetch("http://localhost:8080/admin/login",{
-
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -24,16 +22,16 @@ async function handleLogin(event){
         if(response.ok){
             const msg=await response.json();
             alert(msg.message);
-            window.location.href="left.html";
+            window.location.href = "/travel-admin/html/left.html";
         }
         else{
             let err=await response.json();
-            document.getElementById("error").innerText=err.error;
+            error.innerText=err.message;
             event.target.reset();
         }
     }
     catch(err){
-        document.getElementById("error").innerText="Network Error..Please try again";
+        error.innerText="Network Error..Please try again";
         console.error(err);
     }
 

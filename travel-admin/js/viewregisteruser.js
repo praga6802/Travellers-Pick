@@ -4,7 +4,13 @@ const tbody=document.querySelector("#regtable tbody");
 
 try{
 
-    const response=await fetch("http://localhost:8080/admin/allregusers");
+    const response=await fetch("http://localhost:8080/admin/allregusers",
+        {
+            method:"GET",
+            "Content-Type":'application/json',
+            credentials:"include"
+        }
+    );
 
     if(!response) throw new Error("Network Issue..Please try again");
 

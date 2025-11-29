@@ -4,7 +4,12 @@ const tbody=document.querySelector("#usertable tbody");
 
 try{
 
-    const response=await fetch("http://localhost:8080/admin/allusers");
+    const response=await fetch("http://localhost:8080/admin/allusers",
+        {
+            method: "GET",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" }}
+    );
 
     if(!response) throw new Error("Unable to fetch Customer details..");
 
