@@ -1,15 +1,13 @@
-document.getElementById("loginform").addEventListener('submit', handleLogin);
+const form=document.getElementById("userloginform")
+form.addEventListener('submit', handleLogin);
+const error=document.getElementById('error');
 
 async function handleLogin(event) {
     event.preventDefault();
-
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
 
     const data = { email, password };
-    const error = document.getElementById('error');
-    error.innerText = "";
-
     try {
         const response = await fetch("http://localhost:8080/user/login", {
             method: "POST",
@@ -17,24 +15,20 @@ async function handleLogin(event) {
             body: JSON.stringify(data),
             credentials: "include"
         });
-
+        const text = await response.json();
         if (response.ok) {
-            const text = await response.json();
+            error.innerText="";
             alert(text.message);
-            setTimeout(() => window.location.href = 'index.html', 1000);
+            setTimeout(() => window.location.href = '/travellers-main/html/index.html', 1000);
         } 
-        else if(response.status===401){
-            const errorMsg=await response.json();
-            error.innerText=errorMsg.message;
-            event.target.reset();
-        }
         else {
-            const errorMsg = await response.json();
-            error.innerText = errorMsg.message;
-            event.target.reset();
+            error.innerText =text.message;
+            error.style.color='red';
+            form.reset();
         }
     } catch (err) {
         error.innerText = "Network error..Please try again..";
+        error.style.color='red';
         console.error(err);
     }
 }

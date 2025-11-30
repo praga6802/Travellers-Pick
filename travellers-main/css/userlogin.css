@@ -14,6 +14,7 @@ body {
     }
 
 
+
     #banner img {
       width: 100%;
       margin-top: 10px;
@@ -30,7 +31,7 @@ body {
 
     form {
       margin-top: 35%;
-      margin-left: 90%;
+      margin-left: 50%;
       width: 32rem;
       height: 33rem;
       display: flex;
@@ -240,6 +241,7 @@ body {
     }
 
     .already {
+      color:white;
       text-align: center;
       font-size: 80%;
     }

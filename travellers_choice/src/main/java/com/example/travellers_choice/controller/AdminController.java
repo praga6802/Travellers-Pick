@@ -50,7 +50,6 @@ public class AdminController {
     //login admin
     @PostMapping("/login")
     public ResponseEntity<?> adminLogin(@RequestBody LoginDTO loginData, HttpSession session) {
-        System.out.println(loginData.getEmail()+" "+loginData.getPassword());
         return adminService.adminLogin(loginData.getEmail(),loginData.getPassword(),session);
     }
 

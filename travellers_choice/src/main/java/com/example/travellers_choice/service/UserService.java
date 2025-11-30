@@ -1,10 +1,12 @@
 package com.example.travellers_choice.service;
 
 import com.example.travellers_choice.dto.AResponse;
+import com.example.travellers_choice.dto.BookTourDTO;
 import com.example.travellers_choice.dto.UserDTO;
 import com.example.travellers_choice.exception.AlreadyExistsException;
 import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
+import com.example.travellers_choice.model.Admin;
 import com.example.travellers_choice.model.ApiResponse;
 import com.example.travellers_choice.model.Customer;
 import com.example.travellers_choice.model.CustomerRegistry;
@@ -45,19 +47,8 @@ public class UserService {
     @Autowired
     AuthenticationManager authenticationManager;
 
-
-    public CustomerRegistry bookTour(CustomerRegistry customerRegistry, String packageName, Integer userId) {
-
-        Customer user=userRepo.findById(userId).orElseThrow(()->new IDNotFoundException("User ID",userId));
-        customerRegistry.setUser(user);
-        customerRegistry.setPackage_name(packageName);
-        return registerRepo.save(customerRegistry);
-    }
-
-
     //user sign up
     public ResponseEntity<?> customerSignUp(Customer customer) {
-
         if(userRepo.existsByContact(customer.getContact())){
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new AlreadyExistsException("Mobile Number", customer.getContact()));
@@ -67,6 +58,7 @@ public class UserService {
                     .body(new AlreadyExistsException("Email ID", customer.getEmail()));
         }
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        customer.setRole("ROLE_USER");
         userRepo.save(customer);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Sign Up Successfully"));
     }
@@ -75,12 +67,10 @@ public class UserService {
         try {
             Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
             SecurityContextHolder.getContext().setAuthentication(auth);
+            session.setAttribute("SPRING_SECURITY_CONTEXT",SecurityContextHolder.getContext());
+
             Customer customer = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Invalid Credentials", email));
             session.setAttribute("LoggedUser", customer);
-            Map<String, Object> response = new LinkedHashMap<>();
-            response.put("userId", customer.getId());
-            response.put("username", customer.getUsername());
-
             return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success", "Login Successful"));
         }
         catch (BadCredentialsException e){
@@ -91,6 +81,18 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
                     body(new AResponse(LocalDateTime.now(),"Failure","Something went wrong"));
         }
+    }
+
+    public ResponseEntity<?> getCurrentUser(HttpSession session) {
+        Customer user=(Customer) session.getAttribute("LoggedUser");
+        if(user==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new AResponse(LocalDateTime.now(),"Failure","No Active Session user"));
+        }
+        return ResponseEntity.ok(Map.of(
+                "userId", user.getId(),
+                "userName", user.getUsername()
+        ));
     }
 
     public ResponseEntity<?> logout(HttpSession session){
@@ -104,24 +106,35 @@ public class UserService {
         return userRepo.findUserByEmail(email).orElseThrow(()-> new UnAuthorizedException("Invalid Email",email));
     }
 
-    //get bookings by User ID
-    public List<UserDTO> getMyBookings(Integer userID){
-        Customer userId= userRepo.findById(userID).orElseThrow(()->new IDNotFoundException("User ID",userID));
+//    //get bookings by User ID
+//    public List<UserDTO> getMyBookings(Integer userID){
+//        Customer userId= userRepo.findById(userID).orElseThrow(()->new IDNotFoundException("User ID",userID));
+//
+//        List<CustomerRegistry> bookings=registerRepo.findByUserId(userID);
+//        return bookings.stream().
+//                map(user-> new UserDTO(user.getPackage_name(),user.getRegion(),user.getTdate(), user.getNum_seats())).
+//                collect(Collectors.toList());
+//    }
 
-        List<CustomerRegistry> bookings=registerRepo.findByUserId(userID);
-        return bookings.stream().
-                map(user-> new UserDTO(user.getPackage_name(),user.getRegion(),user.getTdate(), user.getNum_seats())).
-                collect(Collectors.toList());
-    }
 
-    public ResponseEntity<?> getCurrentUser(HttpSession session) {
-        Customer user=(Customer)session.getAttribute("LoggedUser");
-        if(user!=null){
-            Map<String,Object> response= new HashMap<>();
-            response.put("UserId",user.getId());
-            response.put("Active User",user.getUsername());
-            return ResponseEntity.ok(response);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","Inactive session"));
+    public ResponseEntity<?> bookCategory(BookTourDTO bookTourDTO, String email) {
+        Customer user=userRepo.findByEmail(email).orElseThrow(()->new UnAuthorizedException("Email ID",email));
+        CustomerRegistry book=new CustomerRegistry();
+        book.setName(bookTourDTO.getName());
+        book.setEmail(bookTourDTO.getEmail());
+        book.setPhone(bookTourDTO.getPhone());
+        book.setPackageName(bookTourDTO.getPackageName());
+        book.setRegion(bookTourDTO.getRegion());
+        book.setBdate(bookTourDTO.getBdate());
+        book.setTdate(bookTourDTO.getTdate());
+        book.setNoOfSeats(bookTourDTO.getNoOfSeats());
+        book.setNoOfAdults(bookTourDTO.getNoOfAdults());
+        book.setNoOfChildren(bookTourDTO.getNoOfChildren());
+        book.setCity(bookTourDTO.getCity());
+        book.setState(bookTourDTO.getState());
+        book.setCountry(bookTourDTO.getCountry());
+
+        registerRepo.save(book);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Booked Successfully"));
     }
 }

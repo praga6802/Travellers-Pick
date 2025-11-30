@@ -1,5 +1,4 @@
 async function displayUserName(){
-
     try{
         const response= await fetch("http://localhost:8080/user/current-user",{
             method:"GET",
@@ -8,7 +7,8 @@ async function displayUserName(){
 
         if(response.ok){
             const data=await response.json();
-            document.querySelector("#loginlist option[value='']").textContent=`Hello ${data['Active User']}`;
+            document.querySelector("#loginlist option[value='Login']").textContent=`Hello ${data.userName}`;
+
             let userOption= document.getElementById('user');
             userOption.textContent="Logout";
             userOption.value='logout';
@@ -28,7 +28,8 @@ async function displayUserName(){
 
 // INDEX Login option
 async function goLogin(value){
-    if(value=='user')window.location.href="../html/login.html"; //user logout
+    if(value=='user')window.location.href="../html/login.html";
+
     else if(value=='logout'){
         await fetch("http://localhost:8080/user/logout",{ //logout
             method:"POST",

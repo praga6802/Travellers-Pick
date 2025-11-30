@@ -84,6 +84,7 @@ public class AdminService {
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
             session.setAttribute("SPRING_SECURITY_CONTEXT",SecurityContextHolder.getContext());
+
             Admin admin = adminRepo.findByEmail(email)
                     .orElseThrow(() -> new UnAuthorizedException("Email not found", email));
             session.setAttribute("LoggedAdmin",admin);
