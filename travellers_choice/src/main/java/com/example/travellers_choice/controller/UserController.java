@@ -1,5 +1,6 @@
 package com.example.travellers_choice.controller;
 
+import com.example.travellers_choice.dto.BookTourDTO;
 import com.example.travellers_choice.dto.LoginDTO;
 import com.example.travellers_choice.dto.UserDTO;
 import com.example.travellers_choice.model.Customer;
@@ -15,6 +16,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -43,6 +46,7 @@ public class UserController {
     //user login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginData, HttpSession session){
+        System.out.println(loginData.getEmail()+" "+loginData.getPassword());
        return userService.customerLogin(loginData.getEmail(),loginData.getPassword(),session);
     }
 
@@ -61,30 +65,26 @@ public class UserController {
 
 
     // -- BOOK TOUR PACKAGE
-    @PostMapping("/{package_name}/book")
-    public ResponseEntity<String> booktour(@PathVariable String package_name, @ModelAttribute CustomerRegistry customerRegistry, HttpSession session){
-
-        Integer userId=(Integer)session.getAttribute("userId");
-        CustomerRegistry customerRegister=userService.bookTour(customerRegistry,package_name, userId);
-        String response="Successfully Booked "+customerRegister.getRegion()+" for "+customerRegister.getUser().getUsername();
-        return ResponseEntity.ok(response);
+    @PostMapping("/{packageName}/book")
+    public ResponseEntity<?> bookCategory(@RequestBody BookTourDTO bookTourDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return userService.bookCategory(bookTourDTO,userDetails.getUsername());
     }
 
-    @GetMapping("/getBookings/{userId}")
-    public List<UserDTO> viewMyBookings(@PathVariable Integer userId){
-        return userService.getMyBookings(userId);
-    }
+//    @GetMapping("/getBookings/{userId}")
+//    public List<UserDTO> viewMyBookings(@PathVariable Integer userId){
+//        return userService.getMyBookings(userId);
+//    }
 
-    // -- VIEW PACKAGES
-    @GetMapping("/packages")
-    public List<Packages> getAllPackages(){
-        return packageService.getAllPackages();
-    }
-
-
-    // -- VIEW ALL TOURS
-    @GetMapping("/tours")
-    public List<Tour> getAllTours(){
-        return tourService.getAllTours();
-    }
+//    // -- VIEW PACKAGES
+//    @GetMapping("/packages")
+//    public List<Packages> getAllPackages(){
+//        return packageService.getAllPackages();
+//    }
+//
+//
+//    // -- VIEW ALL TOURS
+//    @GetMapping("/tours")
+//    public List<Tour> getAllTours(){
+//        return tourService.getAllTours();
+//    }
 }

@@ -21,13 +21,13 @@ public class CustomerRegistry {
     private String name;
     private String email;
     private String phone;
-    private String package_name;
+    private String packageName;
     private String region;
     private String bdate;
     private String tdate;
-    private int num_seats;
-    private int num_adults;
-    private int num_children;
+    private int noOfSeats;
+    private int noOfAdults;
+    private int noOfChildren;
     private String city;
     private String state;
     private String country;

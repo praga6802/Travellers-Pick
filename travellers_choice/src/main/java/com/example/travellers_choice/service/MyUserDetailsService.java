@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.naming.NameNotFoundException;
+import java.util.Optional;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -26,19 +27,22 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        //check admin
-        Admin admin = adminRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Email", email));
-        if (admin != null) {
+        Optional<Admin> adminOpt = adminRepo.findByEmail(email);
+        if (adminOpt.isPresent()) {
+            Admin admin = adminOpt.get();
             return User.builder().username(admin.getEmail()).password(admin.getPassword()).roles("ADMIN").build();
         }
 
-        //customer
-        Customer customer = userRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
-        return User.builder()
-                .username(customer.getEmail())
-                .password(customer.getPassword())
-                .roles("USER")
-                .build();
+        Optional<Customer> customerOptional = userRepo.findByEmail(email);
+        if (customerOptional.isPresent()) {
+            Customer customer = customerOptional.get();
+            return User.builder()
+                    .username(customer.getEmail())
+                    .password(customer.getPassword())
+                    .roles("USER")
+                    .build();
+        }
+        throw new UsernameNotFoundException("User not found with email" + email);
     }
 }
 
