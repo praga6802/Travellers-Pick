@@ -1,51 +1,81 @@
-const form=document.getElementById("tourForm");
-form.addEventListener("submit", handleForm);
-const error=document.getElementById('error');
+window.addEventListener("DOMContentLoaded",displayUserName)
+async function displayUserName(){
+    try{
+        const response= await fetch("http://localhost:8080/user/current-user",{
+            method:"GET",
+            credentials:"include"
+        });
 
-async function handleForm(event){
-    event.preventDefault();
-    const name=document.getElementById('name').value.trim();
-    const email=document.getElementById('email').value.trim();
-    const phone=document.getElementById('phone').value.trim();
-    const packageName=document.getElementById('packageName').value.trim();
-    const region=document.getElementById('region').value.trim();
-    const bdate=document.getElementById('bdate').value.trim();
-    const tdate=document.getElementById('tdate').value.trim();
-    const noOfSeats=document.getElementById('noOfSeats').value.trim();
-    const noOfAdults=document.getElementById('noOfAdults').value.trim();
-    const noOfChildren=document.getElementById('noOfChildren').value.trim();
-    const city=document.getElementById('city').value.trim();
-    const state=document.getElementById('state').value.trim();
-    const country=document.getElementById('country').value.trim();
+        if(response.ok){
+            const data=await response.json();
+            const username=document.querySelector("#loginlist option[value='Login']")
+            username.textContent=`Hello ${data.userName}`;
+            
 
-    const data={
-        name,email,phone,packageName,region,bdate,tdate,noOfSeats,noOfAdults,noOfChildren,city,state,country
+            let userOption= document.getElementById('user');
+            userOption.textContent="Logout";
+            userOption.value='logout';
+            
+            document.getElementById('admin').style.display="none";
+        
+        }
+        else{
+            console.log("User not found ");
+        }
     }
-    
-    try {
+    catch(err){
+        console.log("Error fetching User Info");
+    }
+}
 
+const form = document.getElementById("tourForm");
+const error = document.getElementById('error');
+
+form.addEventListener("submit", handleForm);
+
+async function handleForm(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const packageName = document.getElementById('packageName').value.trim();
+    const region = document.getElementById('region').value.trim();
+    const bdate = document.getElementById('bdate').value.trim();
+    const tdate = document.getElementById('tdate').value.trim();
+    const noOfSeats = parseInt(document.getElementById('noOfSeats').value.trim()) || 0;
+    const noOfAdults = parseInt(document.getElementById('noOfAdults').value.trim()) || 0;
+    const noOfChildren = parseInt(document.getElementById('noOfChildren').value.trim()) || 0;
+    const city = document.getElementById('city').value.trim();
+    const state = document.getElementById('state').value.trim();
+    const country = document.getElementById('country').value.trim();
+
+    const data = {
+        name, email, phone, packageName, region, bdate, tdate,
+        noOfSeats, noOfAdults, noOfChildren, city, state, country
+    };
+
+    try {
         const response = await fetch(`http://localhost:8080/user/${packageName}/book`, {
             method: "POST",
             body: JSON.stringify(data),
-            credentials:"include",
-            headers:{"Content-Type":"application/json"}
+            credentials: "include",
+            headers: { "Content-Type": "application/json" }
         });
 
-        const responseData=await response.json();
-        
-        if(response.ok){
+        if (response.ok) {
+            const responseData = await response.json();
             alert(responseData.message);
-            error.innerText="";
-            event.target.reset();
+            error.innerText = "";
+            form.reset();
         } else {
-            error.innerText=responseData.message;
-            error.style.color="red"   
+            const text = await response.text();
+            error.innerText = "You are not authorized or session expired";
+            error.style.color = "red";
         }
-        error.style.borderTop="12px";
-        
 
-    } catch(err) {
-        alert("Network Error. Please try again");
-        console.error(err);
+    } catch (err) {
+        console.error("Network Error:", err);
+        alert("Network Error. Please try again.");
     }
 }
