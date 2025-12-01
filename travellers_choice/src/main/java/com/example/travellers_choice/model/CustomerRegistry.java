@@ -25,9 +25,9 @@ public class CustomerRegistry {
     private String region;
     private String bdate;
     private String tdate;
-    private int noOfSeats;
-    private int noOfAdults;
-    private int noOfChildren;
+    private Integer noOfSeats;
+    private Integer noOfAdults;
+    private Integer noOfChildren;
     private String city;
     private String state;
     private String country;

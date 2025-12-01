@@ -18,46 +18,44 @@
 </head>
 
 <body>
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark py-1 py-md-4" id>
-    <div class="container-fluid">
-      <div class="navbar-brand">
-        <img src="../images/destination.png" alt="logo" width="70px" height="40px">
-      </div>
-      <a class="navbar-brand" id="logo" href="#">Traveller's Choice</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="nav navbar-nav ms-auto">
-          <li class="nav-item" id="li-current">
-            <a class="nav-link" id="li-a-current" href="./index.html">HOME</a>
-          </li>
-          <li class="nav-item" id="li">
-            <a class="nav-link" id="li-a" href="./packages.html">PACKAGES</a>
-          </li>
+  	<nav class="navbar fixed-top navbar-expand-lg navbar-dark py-1 py-md-4" id>
+		<div class="container-fluid">
+			<div class="navbar-brand">
+				<img src="../images/destination.png" alt="logo" width="70px" height="40px">
+			</div>
+			<a class="navbar-brand" id="logo" href="#">Traveller's Choice</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item" id="li-current">
+						<a class="nav-link" id="li-a-current" href="./index.html">HOME</a>
+					</li>
+					<li class="nav-item" id="li">
+						<a class="nav-link" id="li-a" href="./packages.html">PACKAGES</a>
+					</li>
 
-          <li class="nav-item" id="li">
-            <a class="nav-link" id="li-a" href="./about.html">ABOUT US</a>
-          </li>
-          <li class="nav-item" id="li">
-            <a class="nav-link" id="li-a" href="./contact.html">CONTACT</a>
-          </li>
+					<li class="nav-item" id="li">
+						<a class="nav-link" id="li-a" href="./about.html">ABOUT US</a>
+					</li>
+					<li class="nav-item" id="li">
+						<a class="nav-link" id="li-a" href="./contact.html">CONTACT</a>
+					</li>
 
-
-          <li class="nav-item" id="login">
-            <select id="loginlist" name="loginlist" onchange="goLogin(this.value)">
-              <option value="Login" id="login">LOGIN</option>
-              <option value="user" id="user">User</option>
-              <option value="admin" id="admin">Admin</option>
-            </select>
-          </li>
-
-
-        </ul>
-      </div>
-    </div>
-  </nav>
+					<li id="loginli">
+						<select id="loginlist" name="loginlist" onchange="goLogin(this.value)">
+							<option value="Login" id="login" class="loginopt">LOGIN</option>
+							<option value="user" id="user" class="loginopt">User</option>
+							<option value="admin" id="admin" class="loginopt">Admin</option>
+						</select>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 
   <div id="carouselExampleCaptions" class="carousel slide carous" data-bs-ride="false" style="margin-top:118px;">
     <div class="carousel-indicators">

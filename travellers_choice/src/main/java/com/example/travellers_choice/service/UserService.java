@@ -119,20 +119,22 @@ public class UserService {
 
     public ResponseEntity<?> bookCategory(BookTourDTO bookTourDTO, String email) {
         Customer user=userRepo.findByEmail(email).orElseThrow(()->new UnAuthorizedException("Email ID",email));
+
         CustomerRegistry book=new CustomerRegistry();
-        book.setName(bookTourDTO.getName());
-        book.setEmail(bookTourDTO.getEmail());
-        book.setPhone(bookTourDTO.getPhone());
-        book.setPackageName(bookTourDTO.getPackageName());
-        book.setRegion(bookTourDTO.getRegion());
-        book.setBdate(bookTourDTO.getBdate());
-        book.setTdate(bookTourDTO.getTdate());
-        book.setNoOfSeats(bookTourDTO.getNoOfSeats());
-        book.setNoOfAdults(bookTourDTO.getNoOfAdults());
-        book.setNoOfChildren(bookTourDTO.getNoOfChildren());
-        book.setCity(bookTourDTO.getCity());
-        book.setState(bookTourDTO.getState());
-        book.setCountry(bookTourDTO.getCountry());
+        book.setUser(user);
+        book.setName(bookTourDTO.getName()!=null?bookTourDTO.getName():"No Name");
+        book.setEmail(bookTourDTO.getEmail()!=null?bookTourDTO.getEmail():"No Email");
+        book.setPhone(bookTourDTO.getPhone()!=null?bookTourDTO.getPhone():"No Mobile Number");
+        book.setPackageName(bookTourDTO.getPackageName()!=null?bookTourDTO.getPackageName():"No Package Name");
+        book.setRegion(bookTourDTO.getRegion()!=null?bookTourDTO.getName():"No Region");
+        book.setBdate(bookTourDTO.getBdate()!=null?bookTourDTO.getBdate():"No date");
+        book.setTdate(bookTourDTO.getTdate()!=null?bookTourDTO.getTdate():"No date");
+        book.setNoOfSeats(bookTourDTO.getNoOfSeats()!=null?bookTourDTO.getNoOfSeats():0);
+        book.setNoOfAdults(bookTourDTO.getNoOfAdults()!=null?bookTourDTO.getNoOfAdults():0);
+        book.setNoOfChildren(bookTourDTO.getNoOfChildren()!=null?bookTourDTO.getNoOfChildren():0);
+        book.setCity(bookTourDTO.getCity()!=null?bookTourDTO.getCity():"No city");
+        book.setState(bookTourDTO.getState()!=null?bookTourDTO.getState():"No state");
+        book.setCountry(bookTourDTO.getCountry()!=null?bookTourDTO.getCountry():"No country");
 
         registerRepo.save(book);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Booked Successfully"));

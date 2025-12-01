@@ -5,9 +5,85 @@ body{
   margin-top: 0%;
   height: auto;
 }
+/* nav bar */
 nav{
-    background-color: #101820ff;
+  background-color: black;
+  height: 118px;
+  
 }
+
+/*nav bar*/
+nav{
+  background-color: black;
+  height: 118px;
+  
+}
+#logo{
+  color: white;
+  font-size: 30px;
+  
+}
+#logo:hover{
+  color: orange;
+  transition-duration: 0.3s;
+}
+
+#loginlist{
+  background-color: maroon;
+  color:white;
+  text-align: left;
+  font-size: 16px;
+  border:none;
+  font-weight: 600;
+  padding: 3px;
+  margin-top:9px;
+}
+
+#loginli{
+  width: auto;
+  margin:10px;
+  padding:5px;
+  background-color: maroon;
+}
+
+#loginli:hover{
+  background-color: maroon;
+  color:white;
+  border-radius:3px;
+  height:auto;
+}
+
+#loginlist:hover{
+  background-color: maroon;
+}
+
+.navbar-toggler {
+  border-color: rgb(250, 245, 248);
+  color:white;
+  background-color: #ff2;
+} 
+
+.loginopt{
+  background-color: white;
+  color: black;
+}
+
+
+#logo{
+  color: white;
+  font-size: 30px;
+  
+}
+#logo:hover{
+  color: orange;
+  transition-duration: 0.3s;
+}
+.navbar-toggler {
+  border-color: rgb(250, 245, 248);
+  color:white;
+  background-color: #ff2;
+} 
+
 #logo{
     color: aliceblue;
     font-size: 30px;
