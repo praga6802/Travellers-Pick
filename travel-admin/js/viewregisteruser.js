@@ -7,7 +7,8 @@ try{
     const response=await fetch("http://localhost:8080/admin/allregusers",
         {
             method:"GET",
-            "Content-Type":'application/json',
+            headers:{
+            "Content-Type":'application/json'},
             credentials:"include"
         }
     );
@@ -20,26 +21,29 @@ try{
     if(details.length===0){
         tbody.innerHTML="<tr><td>Customer details not found</td></tr>";
     }
-
-
-    details.forEach(detail=>{
-        const row=document.createElement('tr');
-        row.innerHTML=`
-        <td>${detail.id}</td>
-        <td>${detail.name}</td>
-        <td>${detail.email}</td>
-        <td>${detail.phone}</td>
-        <td>${detail.package_name}</td>
-        <td>${detail.region}</td>
-        <td>${detail.num_seats}</td>
-        <td>${detail.city}</td>
-        <td>${detail.state}</td>
-        <td>${detail.country}</td>
-        <td>${detail.bdate}</td>
-        <td>${detail.tdate}</td>
+    details.forEach(detail => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${detail.tourId}</td>
+            <td>${detail.user.id}</td>
+            <td>${detail.name}</td>
+            <td>${detail.email}</td>
+            <td>${detail.phone}</td>
+            <td>${detail.packageName}</td>
+            <td>${detail.region}</td>
+            <td>${new Date(detail.bdate).toLocaleDateString()}</td>
+            <td>${new Date(detail.tdate).toLocaleDateString()}</td>
+            <td>${detail.noOfSeats}</td>
+            <td>${detail.noOfAdults}</td>
+            <td>${detail.noOfChildren}</td>
+            <td>${detail.city}</td>
+            <td>${detail.state}</td>
+            <td>${detail.country}</td>
+          
         `;
         tbody.appendChild(row);
     });
+
 }
 catch(err){
     console.error(err);

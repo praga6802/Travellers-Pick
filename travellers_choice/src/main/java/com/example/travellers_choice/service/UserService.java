@@ -119,14 +119,16 @@ public class UserService {
 
     public ResponseEntity<?> bookCategory(BookTourDTO bookTourDTO, String email) {
         Customer user=userRepo.findByEmail(email).orElseThrow(()->new UnAuthorizedException("Email ID",email));
+        Customer loggedUser = userRepo.findById(bookTourDTO.getUserId())
+                .orElseThrow(() -> new IDNotFoundException("User ID",bookTourDTO.getUserId()));
 
         CustomerRegistry book=new CustomerRegistry();
-        book.setUser(user);
+        book.setUser(loggedUser);
         book.setName(bookTourDTO.getName()!=null?bookTourDTO.getName():"No Name");
         book.setEmail(bookTourDTO.getEmail()!=null?bookTourDTO.getEmail():"No Email");
         book.setPhone(bookTourDTO.getPhone()!=null?bookTourDTO.getPhone():"No Mobile Number");
         book.setPackageName(bookTourDTO.getPackageName()!=null?bookTourDTO.getPackageName():"No Package Name");
-        book.setRegion(bookTourDTO.getRegion()!=null?bookTourDTO.getName():"No Region");
+        book.setRegion(bookTourDTO.getRegion()!=null?bookTourDTO.getRegion():"No Region");
         book.setBdate(bookTourDTO.getBdate()!=null?bookTourDTO.getBdate():"No date");
         book.setTdate(bookTourDTO.getTdate()!=null?bookTourDTO.getTdate():"No date");
         book.setNoOfSeats(bookTourDTO.getNoOfSeats()!=null?bookTourDTO.getNoOfSeats():0);

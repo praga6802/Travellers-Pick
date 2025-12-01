@@ -30,9 +30,11 @@ const form = document.getElementById("addpackageform");
 form.addEventListener("submit", handleAddPackage);
 async function handleAddPackage(event) {
     event.preventDefault();
-    const packageName=document.getElementById("packageName").value.trim();
-    const packageSlogan=document.getElementById("packageSlogan").value.trim();
+    const packageNameInp=document.getElementById("packageName");
+    const packageSloganInp=document.getElementById("packageSlogan");
 
+    const packageName=packageNameInp.value.trim();
+    const packageSlogan=packageSloganInp.value.trim();
     if (!packageName || !packageSlogan) {
         error.innerText = "Package Name and Slogan are required";
         error.style.color = "red";
@@ -52,14 +54,10 @@ async function handleAddPackage(event) {
         });
 
         const responseData = await response.json();
-        setTimeout(() =>{
-            error.innerText = responseData.message;
-            error.style.color = response.ok ? "green" : "red";
-            error.style.textAlign = "center";
-            error.style.marginTop = "50px";
-            form.reset();
-        }, 3000);
-
+        error.innerText = responseData.message;
+        error.style.color = response.ok ? "green" : "red";
+        error.style.textAlign = "center";
+        error.style.marginTop = "50px";
     } catch (err) {
         error.innerText = "Network Error..Please Try again";
         error.style.color = 'red';
