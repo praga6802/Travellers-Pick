@@ -1,35 +1,42 @@
 package com.example.travellers_choice.model;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Data
 public class CustomerRegistry {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    @Column(name="id")  // matches DB
+    private Integer tourId;
 
     @ManyToOne
-    @JoinColumn(name="userId", nullable = false)
+    @JoinColumn(name="user_id", nullable = false) // matches DB
     private Customer user;
+
     private String name;
     private String email;
     private String phone;
+
+    @Column(name="package_name")
     private String packageName;
+
     private String region;
     private String bdate;
     private String tdate;
+
+    @Column(name="no_of_seats")
     private Integer noOfSeats;
+
+    @Column(name="no_of_adults")
     private Integer noOfAdults;
+
+    @Column(name="no_of_children")
     private Integer noOfChildren;
+
     private String city;
     private String state;
     private String country;
-
 }

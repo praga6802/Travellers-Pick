@@ -56,16 +56,13 @@ async function handleUpdatePackage(event) {
         });
 
         const responseData = await response.json();
-        setTimeout(() =>{
-            error.innerText = responseData.message;
-            error.style.color = response.ok ? "yellowgreen" : "red";
-            error.style.backgroundColor="black"
-            error.style.textAlign = "center";
-            error.style.marginTop = "50px";
-            form.reset();
-        }, 3000);
-
-    } catch (err) {
+        error.innerText = responseData.message;
+        error.style.color = response.ok ? "yellowgreen" : "red";
+        error.style.backgroundColor="black"
+        error.style.textAlign = "center";
+        error.style.marginTop = "50px";
+    } 
+    catch (err) {
         error.innerText = "Network Error..Please Try again";
         error.style.color = 'red';
     }

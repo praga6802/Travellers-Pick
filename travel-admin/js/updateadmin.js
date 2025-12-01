@@ -61,11 +61,7 @@ async function handleUpdateAdmin(event) {
         error.style.color = response.ok ? "green" : "red";
         error.style.textAlign = "center";
         error.style.marginTop = "50px";
-
-        // Reset form after 3 seconds
-        setTimeout(() => form.reset(), 3000);
-
-    } catch (err) {
+     } catch (err) {
         error.innerText = "Network Error..Please Try again";
         error.style.color = 'red';
     }

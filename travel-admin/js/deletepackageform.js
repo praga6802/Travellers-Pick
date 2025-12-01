@@ -46,7 +46,6 @@ async function handleDeletePackage(event) {
         error.style.color=response.ok?"green":"red";
         error.style.textAlign = "center";
         error.style.marginTop = "50px";
-        
     } catch (err) {
         error.innerText = "Network Error..Please Try again";
         error.style.color = 'red';

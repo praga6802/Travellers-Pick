@@ -98,13 +98,14 @@
       <input type="text" id="name" placeholder="Enter your Name" name="name" required><br><br>
 
       <label for="email">Email</label>
-      <input type="email" id="email" placeholder="Email" name="email" required><br><br>
+      <input type="email" id="email" placeholder="Enter your Email" name="email" required><br><br>
 
       <label for="phone">Phone</label>
-      <input type="tel" id="phone" placeholder="Phone Number" name="phone" required><br><br>
+      <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{1,10}" maxlength="10"><br><br>
 
-      <input type="hidden" id="packageName" name="packageName" value="NorthPackage" required>
-      <input type="hidden" id="region" name="region" value="Enchanting Himachal Tour" required>
+      <input type="hidden" id="userId" name="userId" value="" required>
+      <input type="hidden" id="packageName" name="packageName" value="North India Package" required>
+      <input type="hidden" id="region" name="region" value="Enchanting Himachal Tour">
       <input type="hidden" id="bdate" name="bdate" min="" max="" required>
       <script>
         const today = new Date().toISOString().split('T')[0];
@@ -125,16 +126,11 @@
         input.min = day;
       </script>
 
-      <label for="num-seats">Number of Seats</label>
-      <input type="number" id="noOfSeats" placeholder="Total Seats" name="noOfSeats" min="1" max="30" required><br><br>
-
       <label for="num-adults">Adults</label>
-      <input type="number" id="noOfAdults" placeholder="No of Adults" name="noOfAdults" min="1" max="30"
-        required><br><br>
+      <input type="number" id="noOfAdults" placeholder="No of Adults" name="noOfAdults" min="1" max="30" required><br><br>
 
       <label for="num-seats">Children</label>
-      <input type="number" id="noOfChildren" placeholder="No of Children" name="noOfChildren" min="0" max="30"
-        required><br><br>
+      <input type="number" id="noOfChildren" placeholder="No of Children" name="noOfChildren" min="0" max="30"><br><br>
 
       <label for="name">City</label>
       <input type="text" id="city" placeholder="City" name="city" required><br><br>

@@ -74,9 +74,6 @@ async function handleUpdateCategory(event) {
         errorMsg.style.color = response.ok ? "green" : "red";
         errorMsg.style.textAlign = "center";
         errorMsg.style.marginTop = "50px";
-
-        if (response.ok) setTimeout(() => form.reset(), 1000);
-
     } catch (err) {
         errorMsg.innerText = "Network Error.. Please try again";
         errorMsg.style.color = "red";

@@ -1,3 +1,5 @@
+//get the logged user
+const error = document.getElementById('error');
 window.addEventListener("DOMContentLoaded",displayUserName)
 async function displayUserName(){
     try{
@@ -6,52 +8,52 @@ async function displayUserName(){
             credentials:"include"
         });
 
-        if(response.ok){
-            const data=await response.json();
-            const username=document.querySelector("#loginlist option[value='Login']")
-            username.textContent=`Hello ${data.userName}`;
-            
+        if(!response){
+            error.innerText="User not found"
+            return;
+        }
+        const text=await response.text();
+        if(!text)return;
 
-            let userOption= document.getElementById('user');
-            userOption.textContent="Logout";
-            userOption.value='logout';
-            
-            document.getElementById('admin').style.display="none";
-        
+        const data=JSON.parse(text);
+        if(!data.userId){
+            error.innerText='No logged-in user';
+            return;
         }
-        else{
-            console.log("User not found ");
-        }
+        document.getElementById('userId').value=data.userId;
     }
     catch(err){
-        console.log("Error fetching User Info");
+        console.log("Error fetching User Info",err);
     }
 }
 
+
+//sending the form with logged user id
 const form = document.getElementById("tourForm");
-const error = document.getElementById('error');
 
 form.addEventListener("submit", handleForm);
-
 async function handleForm(event) {
     event.preventDefault();
-
+    const userId=parseInt(document.getElementById('userId').value.trim());
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const packageName = document.getElementById('packageName').value.trim();
     const region = document.getElementById('region').value.trim();
+    console.log(region);
     const bdate = document.getElementById('bdate').value.trim();
     const tdate = document.getElementById('tdate').value.trim();
-    const noOfSeats = parseInt(document.getElementById('noOfSeats').value.trim()) || 0;
     const noOfAdults = parseInt(document.getElementById('noOfAdults').value.trim()) || 0;
     const noOfChildren = parseInt(document.getElementById('noOfChildren').value.trim()) || 0;
     const city = document.getElementById('city').value.trim();
     const state = document.getElementById('state').value.trim();
     const country = document.getElementById('country').value.trim();
 
+    const noOfSeats=noOfAdults+noOfChildren;
+
+
     const data = {
-        name, email, phone, packageName, region, bdate, tdate,
+        userId,name, email, phone, packageName, region, bdate, tdate,
         noOfSeats, noOfAdults, noOfChildren, city, state, country
     };
 
@@ -62,20 +64,19 @@ async function handleForm(event) {
             credentials: "include",
             headers: { "Content-Type": "application/json" }
         });
-
+        const responseData = await response.json();
         if (response.ok) {
-            const responseData = await response.json();
             alert(responseData.message);
             error.innerText = "";
             form.reset();
         } else {
-            const text = await response.text();
-            error.innerText = "You are not authorized or session expired";
+            error.innerText = responseData.message;
             error.style.color = "red";
         }
 
     } catch (err) {
         console.error("Network Error:", err);
-        alert("Network Error. Please try again.");
+        alert("Session Expired..Please try again..");
+        setTimeout(()=>window.location.href='./login.html',1000);
     }
 }
