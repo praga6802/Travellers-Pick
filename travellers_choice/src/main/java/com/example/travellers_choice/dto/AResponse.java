@@ -20,10 +20,12 @@ public class AResponse {
         this.message = message;
     }
 
-    public AResponse(LocalDateTime timeStamp, String status, String message, Object data) {
+    public AResponse(LocalDateTime timeStamp, String status, String message,Object data) {
         this.timeStamp = timeStamp;
         this.status = status;
         this.message = message;
         this.data = data;
     }
+
+
 }

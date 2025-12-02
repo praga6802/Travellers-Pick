@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface CustomerRegister extends JpaRepository<CustomerRegistry, Integer> {
 
     List<CustomerRegistry> findByUserId(Integer userId);
+    boolean existsByUserId(Integer userId);
+
+
 }

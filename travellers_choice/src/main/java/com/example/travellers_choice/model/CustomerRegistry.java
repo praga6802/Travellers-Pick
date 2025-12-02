@@ -39,4 +39,5 @@ public class CustomerRegistry {
     private String city;
     private String state;
     private String country;
+    private String status;
 }
