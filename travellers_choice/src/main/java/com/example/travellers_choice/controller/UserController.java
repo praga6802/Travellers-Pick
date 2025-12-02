@@ -1,8 +1,6 @@
 package com.example.travellers_choice.controller;
 
-import com.example.travellers_choice.dto.BookTourDTO;
-import com.example.travellers_choice.dto.LoginDTO;
-import com.example.travellers_choice.dto.UserDTO;
+import com.example.travellers_choice.dto.*;
 import com.example.travellers_choice.model.Customer;
 import com.example.travellers_choice.model.CustomerRegistry;
 import com.example.travellers_choice.model.Packages;
@@ -40,54 +38,56 @@ public class UserController {
 
     //user signup
     @PostMapping("/signup")
-    public ResponseEntity<?> customerSignUp(@RequestBody Customer customer){
+    public ResponseEntity<?> customerSignUp(@RequestBody Customer customer) {
         return userService.customerSignUp(customer);
     }
 
     //user login
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO loginData, HttpSession session){
-        System.out.println(loginData.getEmail()+" "+loginData.getPassword());
-       return userService.customerLogin(loginData.getEmail(),loginData.getPassword(),session);
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginData, HttpSession session) {
+        System.out.println(loginData.getEmail() + " " + loginData.getPassword());
+        return userService.customerLogin(loginData.getEmail(), loginData.getPassword(), session);
     }
 
     //get the current user
     @GetMapping("/current-user")
-    public ResponseEntity<?> getCurrentUser(HttpSession session){
-     return userService.getCurrentUser(session);
+    public ResponseEntity<?> getCurrentUser(HttpSession session) {
+        return userService.getCurrentUser(session);
     }
 
 
+    //update user
+    @PutMapping("/updateUser")
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO user,@AuthenticationPrincipal UserDetails userDetails){
+        return userService.updateUser(user,userDetails.getUsername());
+    }
+
     //logout user
     @PostMapping("/logout")
-    public  ResponseEntity<?> logout(HttpSession session){
+    public ResponseEntity<?> logout(HttpSession session) {
         return userService.logout(session);
     }
 
 
-    // -- BOOK TOUR PACKAGE
+    // book tour
     @PostMapping("/{packageName}/book")
-    public ResponseEntity<?> bookCategory(@RequestBody BookTourDTO bookTourDTO,@PathVariable String packageName, @AuthenticationPrincipal UserDetails userDetails){
+    public ResponseEntity<?> bookCategory(@RequestBody BookTourDTO bookTourDTO, @PathVariable String packageName, @AuthenticationPrincipal UserDetails userDetails) {
         System.out.println("Logged in user: " + SecurityContextHolder.getContext().getAuthentication());
         bookTourDTO.setPackageName(packageName);
-        return userService.bookCategory(bookTourDTO,userDetails.getUsername());
+        return userService.bookCategory(bookTourDTO, userDetails.getUsername());
+    }
+    
+    //get all tour bookings
+    @GetMapping("/bookedTours")
+    public ResponseEntity<?> getAllBookedTours(@AuthenticationPrincipal UserDetails userDetails){
+        return userService.getAllBookedTours(userDetails.getUsername());
     }
 
-//    @GetMapping("/getBookings/{userId}")
-//    public List<UserDTO> viewMyBookings(@PathVariable Integer userId){
-//        return userService.getMyBookings(userId);
-//    }
+    //cancel tour
+    @DeleteMapping("/cancelTour")
+    public ResponseEntity<?> cancelTour(@RequestBody CancelTourDTO cancelTourDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return userService.cancelTour(cancelTourDTO.getTourId(),userDetails.getUsername());
+    }
 
-//    // -- VIEW PACKAGES
-//    @GetMapping("/packages")
-//    public List<Packages> getAllPackages(){
-//        return packageService.getAllPackages();
-//    }
-//
-//
-//    // -- VIEW ALL TOURS
-//    @GetMapping("/tours")
-//    public List<Tour> getAllTours(){
-//        return tourService.getAllTours();
-//    }
 }
+

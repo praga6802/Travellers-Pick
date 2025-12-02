@@ -8,13 +8,14 @@ async function displayUserName(){
         if(response.ok){
             const data=await response.json();
             document.querySelector("#loginlist option[value='Login']").textContent=`Hello ${data.userName}`;
-
-            let userOption= document.getElementById('user');
-            userOption.textContent="Logout";
-            userOption.value='logout';
+                   
+            let user= document.getElementById('user');
+            user.innerText='User Profile';
+            user.value='userProfile';
             
-            document.getElementById('admin').style.display="none";
-        
+            let admin=document.getElementById('admin');
+            admin.textContent="Logout";
+            admin.value='logout';
         }
         else{
             console.log("User not found ");
@@ -28,7 +29,9 @@ async function displayUserName(){
 
 // INDEX Login option
 async function goLogin(value){
-    if(value=='user')window.location.href="../html/login.html";
+    if(value=='user')window.location.href="../html/index.html";
+
+    else if(value=='userProfile') setTimeout(()=>window.location.href='../html/userprofile.html',1000);
 
     else if(value=='logout'){
         await fetch("http://localhost:8080/user/logout",{ //logout
@@ -38,7 +41,6 @@ async function goLogin(value){
         setTimeout(()=>window.location.href='../html/index.html',1000);
         return;
     }
-    else window.location.href="../../travel-admin/html/loginform.html" //admin logout
 }
 
 window.addEventListener("DOMContentLoaded",displayUserName);
