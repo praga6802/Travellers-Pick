@@ -25,6 +25,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -90,10 +91,12 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new AResponse(LocalDateTime.now(), "Failure", "No Active Session user"));
         }
-        return ResponseEntity.ok(Map.of(
-                "userId", user.getId(),
-                "userName", user.getUsername()
-        ));
+        Map<String,Object> response= new HashMap<>();
+        response.put("userId",user.getId());
+        response.put("userName",user.getUsername());
+        response.put("userEmail",user.getEmail());
+        response.put("userContact",user.getContact());
+        return ResponseEntity.ok(response);
     }
 
     //logout user
@@ -132,10 +135,15 @@ public class UserService {
     //update user profile
     public ResponseEntity<?> updateUser(UserDTO userDTO, String email) {
         Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email", email));
-        if (userDTO.getEmail().equals(user.getEmail())) {
-            user.setUsername(userDTO.getUsername() != null && !userDTO.getUsername().isBlank() ? userDTO.getUsername() : "No name found");
-            user.setEmail(userDTO.getEmail() != null && !userDTO.getEmail().isBlank() ? userDTO.getEmail() : "No Email found");
-            user.setContact(userDTO.getContact() != null && !userDTO.getContact().isBlank() ? userDTO.getContact() : "No Contact Number found");
+        if (email.equals(user.getEmail())) {
+            if(userDTO.getUsername() != null && !userDTO.getUsername().isBlank())
+                user.setUsername(userDTO.getUsername());
+            if(userDTO.getEmail() != null && !userDTO.getEmail().isBlank())
+                user.setEmail(userDTO.getEmail());
+            if(userDTO.getContact() != null && !userDTO.getContact().isBlank())
+                user.setContact(userDTO.getContact());
+
+
             userRepo.save(user);
         }
         else{
@@ -145,6 +153,7 @@ public class UserService {
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "User Details Updated Successfully"));
     }
 
+    //get all booked tours
     public ResponseEntity<?> getAllBookedTours(String email) {
         Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email", email));
 
@@ -160,16 +169,29 @@ public class UserService {
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tours Found",bookedTourList));
     }
 
+
+    //cancel tour
     public ResponseEntity<?> cancelTour(Integer tourId, String email) {
         Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email", email));
         CustomerRegistry reg=registerRepo.findById(tourId).orElseThrow(()->new IDNotFoundException("Tour ID",tourId));
 
-        if(!registerRepo.existsByUserId(user.getId())){
+        if (!reg.getUser().getId().equals(user.getId())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).
                     body(new AResponse(LocalDateTime.now(),"Failure","Tour ID not found"));
         }
+        if(reg.getStatus().equals("CANCELLED")){
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).
+                    body(new AResponse(LocalDateTime.now(),"Failure","Already Cancelled!"));
+        }
+
         reg.setStatus("CANCELLED");
         registerRepo.save(reg);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Cancellation Successful!"));
+    }
+
+    public ResponseEntity<?> userData(String email) {
+        Customer user=userRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("User Email",email));
+        UserDTO dto= new UserDTO(user);
+        return ResponseEntity.ok(dto);
     }
 }

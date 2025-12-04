@@ -89,5 +89,10 @@ public class UserController {
         return userService.cancelTour(cancelTourDTO.getTourId(),userDetails.getUsername());
     }
 
+    @GetMapping("/userData")
+    public ResponseEntity<?> userData(@AuthenticationPrincipal UserDetails userDetails){
+        return userService.userData(userDetails.getUsername());
+    }
+
 }
 

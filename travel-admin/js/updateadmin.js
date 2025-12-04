@@ -1,7 +1,6 @@
 const error = document.getElementById('error');
 
 window.addEventListener('DOMContentLoaded', async () => {
-    const input = document.getElementById("adminId");
 
     try {
         const response = await fetch("http://localhost:8080/admin/current-admin", {
@@ -11,7 +10,11 @@ window.addEventListener('DOMContentLoaded', async () => {
 
         if (response.ok) {
             const data = await response.json();
-            input.value = data.adminId;
+            document.getElementById("adminId").value=data.adminId;
+            document.getElementById("username").value=data.adminUserName;
+            document.getElementById("email").value=data.adminEmail;
+            document.getElementById("contact").value=data.adminContact;
+            
         } else {
             error.style.color = "red";
             error.innerText = "Unable to fetch admin details";
@@ -66,3 +69,7 @@ async function handleUpdateAdmin(event) {
         error.style.color = 'red';
     }
 }
+form.addEventListener('reset',()=>{
+    error.innerText='';
+    form.querySelectorAll('input').forEach(inp=>inp.value="");
+})

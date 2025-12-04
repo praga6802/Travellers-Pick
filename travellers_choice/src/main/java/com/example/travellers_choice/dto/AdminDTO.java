@@ -1,6 +1,7 @@
 package com.example.travellers_choice.dto;
 
 
+import com.example.travellers_choice.model.Admin;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,4 +20,5 @@ public class AdminDTO {
         this.password = password;
         this.contact = contact;
     }
+
 }

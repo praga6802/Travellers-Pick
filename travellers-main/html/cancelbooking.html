@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>User Profile</title>
+    <title>Cancel Booking</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device,initial-scale=1.0">
     <meta name="description" content="tourism details">
@@ -15,6 +15,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
     <link href="../css/style.css" type="text/css" rel="stylesheet">
     <link href="../css/userprofile.css" type="text/css" rel="stylesheet">
+    <link href="../css/cancelform.css" type="text/css" rel="stylesheet">
     <link rel="icon" href="../images/userprofile.png" type="image/png">
 </head>
 
@@ -59,23 +60,46 @@
     </nav>
     <br><br><br>
 
-    <!--side bar-->
-    <div class="container">
-        <table id="table">
-            <tr id="user-link"><td id="user-data">USER LINKS</td></tr>
-            <tr class="row" id="update-link">
-                <td class="row-data"><a href="./updateuser.html" class="link">UPDATE USER INFO</a></td>
-            </tr>
-            <tr class="row">
-                <td class="row-data"><a href="./cancelbooking.html" class="link">CANCEL BOOKING</a></td>
-            </tr>
-            <tr class="row">
-                <td class="row-data"><a href="./viewbookings.html" class="link">VIEW BOOKINGS</a></td>
-            </tr>
-        </table>
-    </div>
 
+    <div class="page-container">
+        <!--side bar-->
+        <div class="container">
+            <table id="table">
+                <tr id="user-link">
+                    <td id="user-data">USER LINKS</td>
+                </tr>
+                <tr class="row" id="update-link">
+                    <td class="row-data"><a href="./updateuser.html" class="link">UPDATE USER INFO</a></td>
+                </tr>
+                <tr class="row">
+                    <td class="row-data"><a href="./cancelbooking.html" class="link">CANCEL BOOKING</a></td>
+                </tr>
+                <tr class="row">
+                    <td class="row-data"><a href="./viewbookings.html" class="link">VIEW BOOKINGS</a></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-area">
+            <legend id="legend-cancel">Booking Cancellation</legend>
+            <form id="cancelform" method="post">
+                <div id="input">
+                    <label for="tourId">TOUR ID</label>
+                    <input type="text" name="tourId" id="tourId" placeholder="Enter your Tour ID" min="1">
+                </div>
+
+
+                <div id="btn">
+                    <button type="submit" id="submit">SUBMIT</button>
+                    <button type="reset" id="reset">RESET</button>
+                </div>
+                <p id="error"></p>
+            </form>
+
+        </div>
+    </div>
     <script src="../js/index.js"></script>
+    <script src="../js/cancelticket.js"></script>
 </body>
 
 </html>

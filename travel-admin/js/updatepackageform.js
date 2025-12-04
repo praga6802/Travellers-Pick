@@ -67,3 +67,7 @@ async function handleUpdatePackage(event) {
         error.style.color = 'red';
     }
 }
+form.addEventListener('reset',()=>{
+    error.innerText='';
+    form.querySelectorAll('input').forEach(inp=>inp.value="");
+})

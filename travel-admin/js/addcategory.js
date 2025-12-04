@@ -76,3 +76,7 @@ async function handledaddcategory(event) {
         console.error(err);
     }
 }
+form.addEventListener('reset',()=>{
+    error.innerText='';
+    form.querySelectorAll('input').forEach(inp=>inp.value="");
+})
