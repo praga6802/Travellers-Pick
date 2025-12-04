@@ -80,3 +80,7 @@ async function handleUpdateCategory(event) {
         console.error(err);
     }
 }
+form.addEventListener('reset',()=>{
+    error.innerText='';
+    form.querySelectorAll('input').forEach(inp=>inp.value="");
+})

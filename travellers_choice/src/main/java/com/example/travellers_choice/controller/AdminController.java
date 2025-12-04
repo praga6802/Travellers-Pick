@@ -34,11 +34,6 @@ public class AdminController {
     @Autowired
     TourService tourService;
 
-    @Autowired
-    AuthenticationManager authenticationManager;
-
-    @Autowired
-    AdminRepo adminRepo;
 
                                             // --- ADMIN ---
     //sign up admin
@@ -63,7 +58,9 @@ public class AdminController {
         }
         return ResponseEntity.ok(Map.of(
                 "adminId", admin.getAdminId(),
-                "adminUserName", admin.getUsername()
+                "adminUserName", admin.getUsername(),
+                "adminEmail",admin.getEmail(),
+                "adminContact",admin.getContact()
         ));
     }
 
@@ -104,7 +101,6 @@ public class AdminController {
     public ResponseEntity<?> getAdmin(@PathVariable("adminId") Integer adminid){
         return adminService.getAdmin(adminid);
     }
-
 
 
                                                     // --- CUSTOMERS --

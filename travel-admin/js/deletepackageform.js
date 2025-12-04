@@ -53,3 +53,8 @@ async function handleDeletePackage(event) {
         window.location.href='loginform.html';
     }
 }
+
+form.addEventListener('reset',()=>{
+    error.innerText='';
+    form.querySelectorAll('input').forEach(inp=>inp.value="");
+})

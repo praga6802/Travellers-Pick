@@ -34,6 +34,8 @@ async function handleLogin(event){
         error.innerText="Network Error..Please try again";
         console.error(err);
     }
-
-
 }
+form.addEventListener('reset',()=>{
+    error.innerText='';
+    form.querySelectorAll('input').forEach(inp=>inp.value="");
+})

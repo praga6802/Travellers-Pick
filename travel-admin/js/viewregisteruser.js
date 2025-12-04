@@ -39,8 +39,12 @@ try{
             <td>${detail.city}</td>
             <td>${detail.state}</td>
             <td>${detail.country}</td>
-          
+            <td>${detail.status}</td>
         `;
+        if (detail.status === 'CANCELLED') {
+            row.querySelectorAll('td').forEach(td=>{td.setAttribute("style","color:red;font-weight:bold");
+            });
+        }
         tbody.appendChild(row);
     });
 

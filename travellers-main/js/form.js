@@ -80,3 +80,8 @@ async function handleForm(event) {
         setTimeout(()=>window.location.href='./login.html',1000);
     }
 }
+
+form.addEventListener('reset',()=>{
+    error.innerText='';
+    form.querySelectorAll('input').forEach(inp=>inp.value="");
+})

@@ -1,21 +1,20 @@
 async function displayUserName(){
     try{
-        const response= await fetch("http://localhost:8080/user/current-user",{
+        const response= await fetch("http://localhost:8080/user/userData",{
             method:"GET",
             credentials:"include"
         });
 
         if(response.ok){
             const data=await response.json();
-            document.querySelector("#loginlist option[value='Login']").textContent=`Hello ${data.userName}`;
-                   
+            document.querySelector("#loginlist option[value='Login']").textContent=`Hello ${data.username}`;
             let user= document.getElementById('user');
             user.innerText='User Profile';
             user.value='userProfile';
-            
-            let admin=document.getElementById('admin');
-            admin.textContent="Logout";
-            admin.value='logout';
+
+            let logout=document.getElementById('admin');
+            logout.textContent="Logout";
+            logout.value='logout';
         }
         else{
             console.log("User not found ");
@@ -28,20 +27,44 @@ async function displayUserName(){
 
 
 // INDEX Login option
-async function goLogin(value){
-    if(value=='user')window.location.href="../html/index.html";
+async function goLogin(value) {
+    switch(value) {
+        case 'user':
+            window.location.href = "../html/login.html";
+            break;
 
-    else if(value=='userProfile') setTimeout(()=>window.location.href='../html/userprofile.html',1000);
+        case 'userProfile':
+            alert("Redirecting to your profile...");
+            setTimeout(() => window.location.href = '../html/userprofile.html', 1000);
+            break;
 
-    else if(value=='logout'){
-        await fetch("http://localhost:8080/user/logout",{ //logout
-            method:"POST",
-            credentials:"include"
-        });
-        setTimeout(()=>window.location.href='../html/index.html',1000);
-        return;
+        case 'admin':
+            alert("Redirecting to admin login...");
+            window.location.href = '../../travel-admin/html/loginform.html';
+            break;
+
+        case 'logout':
+            try {
+                const response = await fetch("http://localhost:8080/user/logout", {
+                    method: "POST",
+                    credentials: "include"
+                });
+                if (response.ok) {
+                    alert("Logged out successfully!");
+                    setTimeout(() => window.location.href = '../html/index.html', 1000);
+                } else {
+                    console.error("Logout failed");
+                }
+            } catch(err) {
+                console.error("Error logging out:", err);
+            }
+            break;
+
+        default:
+            console.log("No action for selected value");
     }
 }
+
 
 window.addEventListener("DOMContentLoaded",displayUserName);
 
