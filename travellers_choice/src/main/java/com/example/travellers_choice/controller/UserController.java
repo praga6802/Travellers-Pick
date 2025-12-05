@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,10 @@ public class UserController {
     //update user
     @PutMapping("/updateUser")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO user,@AuthenticationPrincipal UserDetails userDetails){
+        if(userDetails == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
+        }
         return userService.updateUser(user,userDetails.getUsername());
     }
 
@@ -72,7 +77,10 @@ public class UserController {
     // book tour
     @PostMapping("/{packageName}/book")
     public ResponseEntity<?> bookCategory(@RequestBody BookTourDTO bookTourDTO, @PathVariable String packageName, @AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("Logged in user: " + SecurityContextHolder.getContext().getAuthentication());
+        if(userDetails == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
+        }
         bookTourDTO.setPackageName(packageName);
         return userService.bookCategory(bookTourDTO, userDetails.getUsername());
     }
@@ -80,17 +88,29 @@ public class UserController {
     //get all tour bookings
     @GetMapping("/bookedTours")
     public ResponseEntity<?> getAllBookedTours(@AuthenticationPrincipal UserDetails userDetails){
+        if(userDetails == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
+        }
         return userService.getAllBookedTours(userDetails.getUsername());
     }
 
     //cancel tour
     @DeleteMapping("/cancelTour")
     public ResponseEntity<?> cancelTour(@RequestBody CancelTourDTO cancelTourDTO, @AuthenticationPrincipal UserDetails userDetails){
+        if(userDetails == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
+        }
         return userService.cancelTour(cancelTourDTO.getTourId(),userDetails.getUsername());
     }
 
     @GetMapping("/userData")
     public ResponseEntity<?> userData(@AuthenticationPrincipal UserDetails userDetails){
+        if(userDetails == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
+        }
         return userService.userData(userDetails.getUsername());
     }
 

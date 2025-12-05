@@ -37,8 +37,12 @@ async function handleDeleteAdmin(event){
     }
 
     catch(err){
-        error.innerText="Network Error..Please Try again";
+        event.preventDefault();
+        error.innerText='Error: Session Expired & Cannot fetch user details'
         error.style.color='red';
+        error.style.marginLeft="200px";
+        error.style.marginTop="20px";
+        console.log(err);
     }
 }
 

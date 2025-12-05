@@ -1,4 +1,7 @@
 const error = document.getElementById('error');
+const username=document.getElementById('username');
+const email=document.getElementById('email');
+const contact=document.getElementById('contact');
 
 //get the user details
 window.addEventListener("DOMContentLoaded",displayUserDetails);
@@ -9,45 +12,36 @@ async function displayUserDetails(){
             credentials:"include"
         });
         const responseData=await response.json();
-        document.getElementById('username').value=responseData.username;
-        document.getElementById('email').value=responseData.email;
-        document.getElementById('contact').value=responseData.contact;
+        if(!response.ok){
+            displayMessage(responseData.message,response.ok);
+            return;
+        }
+        username.value=responseData.username;
+        email.value=responseData.email;
+        contact.value=responseData.contact;
+
     }
     catch(e){
+        username.value='';
+        email.value='';
+        contact.value='';
+        displayMessage('Network Error or Session Expired. Please login again!');
         console.log(e);
-        error.innerText='Error: Session Expired & Cannot fetch user details'
-        error.style.color='red';
-        error.style.marginLeft="200px";
-        error.style.marginTop="20px";
-        
     }
-
-
 }
 
 
 //update the user details
 const form = document.getElementById('updateform');
-
 form.addEventListener('submit', handleUpdateUser);
 
 async function handleUpdateUser(event) {
     event.preventDefault();
+    const updateUserName=username.value.trim();
+    const  updateEmail=email.value.trim();
+    const updateContact=contact.value.trim();
 
-    const username = document.getElementById('username').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const contact = document.getElementById('contact').value.trim();
-
-    const data = { username, email, contact };
-
-    if(!username && !email && !contact){
-        error.innerText = "Please provide details before submit!";
-        error.style.color = 'red';
-        error.style.marginTop="10px";
-        error.style.marginLeft="200px";
-        return;
-    }
-
+    const data = { username:updateUserName, email:updateEmail, contact:updateContact };
     try {
         const response = await fetch("http://localhost:8080/user/updateUser", {
             method: "PUT",
@@ -57,25 +51,30 @@ async function handleUpdateUser(event) {
         });
 
         const responseData = await response.json();
-        error.innerText = responseData.message;
-        error.style.color = response.ok ? "green" : "red";
-        error.style.marginTop = "20px";
-        error.style.marginLeft="50px";
+        displayMessage(responseData.message,response.ok);
 
         if(response.ok){
-            document.querySelector("#loginlist option[value='Login']").textContent=`Hello ${username}`;
+            document.querySelector("#loginlist option[value='Login']").textContent=`Hello ${updateUserName}`;
         }
 
     } catch (e) {
-        error.innerText = "Something went wrong..Please try again";
-        error.style.color = 'red';
+        displayMessage(e.message);
         console.log(e);
     }
 }
 
+//display message
+function displayMessage(msg,response=false){
+    error.innerText=msg;
+    error.style.color = response ? "green" : "red";
+    error.style.marginTop = "20px";
+    error.style.marginLeft="170px";
+}
 
 //reset button
 form.addEventListener('reset',()=>{
+    username.value='';
+    email.value='';
+    contact.value='';
     error.innerText='';
-    form.querySelectorAll('input').forEach(inp=>inp.value="");
 })
