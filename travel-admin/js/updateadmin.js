@@ -3,7 +3,7 @@ const error = document.getElementById('error');
 window.addEventListener('DOMContentLoaded', async () => {
 
     try {
-        const response = await fetch("http://localhost:8080/admin/current-admin", {
+        const response = await fetch("http://localhost:8080/admin/adminData", {
             method: "GET",
             credentials: "include"
         });
@@ -11,9 +11,9 @@ window.addEventListener('DOMContentLoaded', async () => {
         if (response.ok) {
             const data = await response.json();
             document.getElementById("adminId").value=data.adminId;
-            document.getElementById("username").value=data.adminUserName;
-            document.getElementById("email").value=data.adminEmail;
-            document.getElementById("contact").value=data.adminContact;
+            document.getElementById("username").value=data.username;
+            document.getElementById("email").value=data.email;
+            document.getElementById("contact").value=data.contact;
             
         } else {
             error.style.color = "red";

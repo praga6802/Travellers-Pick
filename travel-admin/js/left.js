@@ -1,7 +1,7 @@
 async function displayUserName() {
   console.log("Cookies before fetch:", document.cookie);
   try {
-    const response = await fetch("http://localhost:8080/admin/current-admin", {
+    const response = await fetch("http://localhost:8080/admin/adminData", {
       method: "GET",
       credentials: "include"
     });
@@ -9,7 +9,7 @@ async function displayUserName() {
     if (response.ok) {
       const data = await response.json();
       console.log(data);
-      const username=data.adminUserName;
+      const username=data.username;
       const userNameOption=document.getElementById('usernameoption');
       userNameOption.innerText = `Hello ${username}`;
       userNameOption.value='default';

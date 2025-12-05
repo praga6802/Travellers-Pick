@@ -1,6 +1,8 @@
 /* styles for package cards */
 body{
-    background-color:white;
+    background-image: url('../images/user-back.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 /*nav bar*/

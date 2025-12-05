@@ -1,4 +1,5 @@
 const error = document.getElementById('error');
+const form = document.getElementById('cancelform');
 
 //get the user data
 window.addEventListener("DOMContentLoaded",displayUserDetails);
@@ -17,14 +18,17 @@ async function displayUserDetails(){
     }
     catch(e){
         displayMessage('Network Error or Session Expired. Please login again!');
+        form.style.display='none';
         console.log(e);
     }
 }
 
 
 //cancel form
-const form = document.getElementById('cancelform');
+
 form.addEventListener('submit', handleCancel);
+
+
 async function handleCancel(event) {
     event.preventDefault();
     const tourId = parseInt(document.getElementById('tourId').value.trim());
@@ -64,6 +68,6 @@ form.addEventListener('reset', () => {
 function displayMessage(msg, success = false) {
     error.innerText = msg;
     error.style.color = success ? "green" : "red";
-    error.style.marginLeft = "190px";
+    error.style.marginLeft = "100px";
     error.style.marginTop = "20px";
 }

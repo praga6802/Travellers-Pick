@@ -10,7 +10,7 @@ body{
     font-size: 30px;
     text-transform: uppercase;
     text-shadow: 20;
-    margin-top: 5%;
+    margin-top: 7%;
     margin-left: 20%;
     font-weight: bold;
 }
@@ -101,3 +101,7 @@ input[type="tel"]:focus{
     color: white;
 }
 
+.form-area #error{
+    font-size: 20px;
+    text-align: center;
+}

@@ -192,5 +192,9 @@ public class AdminService {
     }
 
 
-
+    public ResponseEntity<?> adminData(String email) {
+        Admin admin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
+        AdminDTO dto= new AdminDTO(admin);
+        return ResponseEntity.ok(dto);
+    }
 }
