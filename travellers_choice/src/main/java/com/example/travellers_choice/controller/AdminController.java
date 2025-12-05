@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -100,6 +101,15 @@ public class AdminController {
     @GetMapping("/getadmin/{adminId}")
     public ResponseEntity<?> getAdmin(@PathVariable("adminId") Integer adminid){
         return adminService.getAdmin(adminid);
+    }
+
+    @GetMapping("/adminData")
+    public ResponseEntity<?> adminData(@AuthenticationPrincipal UserDetails userDetails){
+        if(userDetails==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
+                    body(new AResponse(LocalDateTime.now(),"Failure","Network Error or Session Expired! Please try again"));
+        }
+        return adminService.adminData(userDetails.getUsername());
     }
 
 

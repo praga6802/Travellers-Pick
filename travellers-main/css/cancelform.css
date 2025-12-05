@@ -85,3 +85,9 @@ input[type="text"]:hover{
     padding: 8px;
     border-radius: 5px;
 }
+
+.page-container #error{
+    font-size: 20px;
+    margin-top: 8%;
+    text-align: center;
+}

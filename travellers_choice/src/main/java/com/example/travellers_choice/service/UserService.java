@@ -166,7 +166,7 @@ public class UserService {
         List<TourDetailsDTO> bookedTourList=userBookings.stream()
                 .map(t->new TourDetailsDTO(t.getTourId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
                         t.getNoOfAdults(),t.getNoOfChildren(),t.getBdate(),t.getTdate(),t.getStatus())).toList();
-        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tours Found",bookedTourList));
+        return ResponseEntity.ok(bookedTourList);
     }
 
 

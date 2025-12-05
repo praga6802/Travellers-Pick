@@ -83,5 +83,5 @@ async function handleForm(event) {
 
 form.addEventListener('reset',()=>{
     error.innerText='';
-    form.querySelectorAll('input').forEach(inp=>inp.value="");
+    data.innerText='';
 })
