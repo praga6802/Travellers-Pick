@@ -17,11 +17,14 @@ async function displayUserName(){
             logout.value='logout';
         }
         else{
-            console.log("User not found ");
+            console.log("User not found");
         }
     }
     catch(err){
-        console.log("Error fetching User Info");
+        error.innerText='Network Error or Session Expired. Please login again!'
+        error.style.color='red';
+        error.style.marginLeft="200px";
+        error.style.marginTop="20px";
     }
 }
 

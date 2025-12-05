@@ -24,7 +24,6 @@ async function handleLogin(event) {
         else {
             error.innerText =text.message;
             error.style.color='red';
-            form.reset();
         }
     } catch (err) {
         error.innerText = "Network error..Please try again..";
@@ -35,5 +34,7 @@ async function handleLogin(event) {
 
 form.addEventListener('reset',()=>{
     error.innerText='';
-    form.querySelectorAll('input').forEach(inp=>inp.value="");
+    document.getElementById('email').value='';
+    document.getElementById('password').value='';
+    
 })

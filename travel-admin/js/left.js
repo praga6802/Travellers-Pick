@@ -43,8 +43,8 @@ async function handleLogout(select){
       }
     }
     catch(err){
-      console.log("Logout Error: ",err);
-      alert("Network error during logout");
+        alert('Error: Session Expired & Cannot fetch user details');
+        console.log(err);
     }
   }
   else{

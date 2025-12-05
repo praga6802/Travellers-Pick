@@ -6,7 +6,6 @@ try{
     const response=await fetch("http://localhost:8080/admin/allCategories",
         {
             method:"GET",
-            "Content-Type":"application/json",
             credentials:"include"
         }
     );

@@ -71,9 +71,12 @@ async function handledaddcategory(event) {
     } 
     catch(err) {
         event.preventDefault(); // ensure form doesn’t submit
-        errorMsg.innerText = "Network Error.. Please try again";
-        errorMsg.style.color = "red";
-        console.error(err);
+        error.innerText='Error: Session Expired & Cannot fetch user details'
+        error.style.color='red';
+        error.style.marginLeft="200px";
+        error.style.marginTop="20px";
+        console.log(err);
+        
     }
 }
 form.addEventListener('reset',()=>{

@@ -189,6 +189,8 @@ public class UserService {
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Cancellation Successful!"));
     }
 
+
+    //get the user data
     public ResponseEntity<?> userData(String email) {
         Customer user=userRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("User Email",email));
         UserDTO dto= new UserDTO(user);
