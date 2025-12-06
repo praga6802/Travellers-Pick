@@ -105,6 +105,7 @@ public class UserController {
         return userService.cancelTour(cancelTourDTO.getTourId(),userDetails.getUsername());
     }
 
+    //get the user data
     @GetMapping("/userData")
     public ResponseEntity<?> userData(@AuthenticationPrincipal UserDetails userDetails){
         if(userDetails == null){

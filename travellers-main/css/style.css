@@ -1,5 +1,5 @@
 body {
-  height: auto;
+  min-height: 100%;
   margin-bottom:0;
   background-repeat: no-repeat;
   background-attachment: fixed;

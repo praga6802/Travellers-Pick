@@ -49,6 +49,9 @@ public class UserService {
     @Autowired
     AuthenticationManager authenticationManager;
 
+    @Autowired
+    EmailService emailService;
+
     //user sign up
     public ResponseEntity<?> customerSignUp(Customer customer) {
         if (userRepo.existsByContact(customer.getContact())) {
@@ -129,6 +132,21 @@ public class UserService {
         book.setCountry(bookTourDTO.getCountry() != null ? bookTourDTO.getCountry() : "No country");
         book.setStatus("CONFIRMED");
         registerRepo.save(book);
+
+        if(bookTourDTO.getEmail()!=null && !bookTourDTO.getEmail().isEmpty()){
+            String subject="Confirmation of Tour Booking!";
+            String body = "Hi " + bookTourDTO.getName() + ",\n\n"
+                    + "Your tour has been booked successfully for the package: " + bookTourDTO.getRegion() + ".\n\n"
+                    + "Booking Details:\n"
+                    + "Booked Date: " + bookTourDTO.getBdate() + "\n"
+                    + "Travel Date: " + bookTourDTO.getTdate() + "\n"
+                    + "Number of Seats: " + bookTourDTO.getNoOfSeats() + "\n\n"
+                    +"From: "+bookTourDTO.getCity()+" "+bookTourDTO.getState()+"."+"\n\n"
+                    + "Thank you for choosing Traveller's Pick!\n";
+
+            emailService.sendSimpleEMail(bookTourDTO.getEmail(),subject,body);
+        }
+
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Tour Booked Successfully"));
     }
 
@@ -186,6 +204,15 @@ public class UserService {
 
         reg.setStatus("CANCELLED");
         registerRepo.save(reg);
+
+        if(user.getEmail()!=null && !user.getEmail().isEmpty()){
+            String subject="Cancellation of Ticket Booking!";
+            String body = "Hi " + reg.getName() + ",\n\n"
+                    + "Your ticket has been cancelled successfully for the package: " + reg.getRegion() + ".\n\n"
+                    + "Thank you for choosing Traveller's Pick!\n";
+
+            emailService.sendSimpleEMail(reg.getEmail(),subject,body);
+        }
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Cancellation Successful!"));
     }
 
