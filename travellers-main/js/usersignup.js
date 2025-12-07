@@ -20,26 +20,23 @@ async function handleSignUp(event){
         body:JSON.stringify(data)
         });
 
+        const responseData=await response.json();
         if(response.ok){
-            const responseData=await response.json();
             alert(responseData.message);
-            window.location.href="../html/login.html";
         }
         else{
-            const errorMsg=await response.json();
-            error.innerText=errorMsg.message;
-            event.target.reset();
+            error.innerText=responseData.message;
+            error.style.color="red";
+            error.style.marginTop="10px";
+            error.style.marginLeft="100px";
         }
+
+        if(response.ok)data.innerText='';
     }
     catch(err){
         error.innerText="Network Error..Please Try again";
         console.error(err);
     }
 }
-
-form.addEventListener('reset',()=>{
-    error.innerText='';
-    form.querySelectorAll('input').forEach(inp=>inp.value="");
-})
 
 

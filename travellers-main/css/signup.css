@@ -51,7 +51,7 @@ nav{
 } 
 form{
   width: 550px;
-  height: 848px;
+  height: 900px;
   display: flex;
   flex-direction: column;
   background: #101820ff;
@@ -59,10 +59,14 @@ form{
   border-radius: 30px;
   border-left: 1px solid rgba(255,255,255,.3);
   border-top: 1px solid rgba(255,255,255,.3);
-  margin-top: 525px;
+  margin-top: 400px;
 
 }
 
+.already{
+  color:white;
+  margin-top: 0;
+}
 
 form:hover{
   box-shadow: 0 8px 32px  0 rgb(235, 197, 11);

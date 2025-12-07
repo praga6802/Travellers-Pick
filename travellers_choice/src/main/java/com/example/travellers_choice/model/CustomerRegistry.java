@@ -40,4 +40,9 @@ public class CustomerRegistry {
     private String state;
     private String country;
     private String status;
+
+    @Column(name="pnr_no",unique = true)
+    private String PNR;
+
+
 }

@@ -7,5 +7,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CancelTourDTO {
 
-    private Integer tourId;
+    private String pnr;
 }

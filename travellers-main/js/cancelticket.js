@@ -31,9 +31,10 @@ form.addEventListener('submit', handleCancel);
 
 async function handleCancel(event) {
     event.preventDefault();
-    const tourId = parseInt(document.getElementById('tourId').value.trim());
-    if (isNaN(tourId)) {
-            displayMessage("Please provide Tour ID to cancel booking!");
+    const pnrInp=document.getElementById('pnr');
+    const PNR_NUMBER = pnrInp.value.trim();
+    if (!PNR_NUMBER) {
+            displayMessage("Please provide PNR number for cancellation!");
             return;
     }
 
@@ -41,7 +42,7 @@ async function handleCancel(event) {
         const response = await fetch("http://localhost:8080/user/cancelTour", {
             method: "DELETE",
             credentials: 'include',
-            body: JSON.stringify({ tourId }),
+            body: JSON.stringify({ pnr:PNR_NUMBER }),
             headers: { "Content-Type": "application/json" }
         });
         
@@ -52,7 +53,11 @@ async function handleCancel(event) {
             return;
         }
 
-        displayMessage(responseData.message, response.ok);
+        alert(responseData.message);
+        error.innerText = '';
+        pnrInp.value = '';
+
+
 
     } catch (e) {
         displayMessage("Network Error.. Try again");
@@ -62,7 +67,7 @@ async function handleCancel(event) {
 
 form.addEventListener('reset', () => {
     error.innerText = '';
-    document.getElementById('tourId').value = '';
+    PNR_NUMBER.value = '';
 });
 
 function displayMessage(msg, success = false) {
