@@ -1,4 +1,5 @@
-document.getElementById("loginform").addEventListener("submit",handleLogin)
+const form=document.getElementById("loginform");
+form.addEventListener("submit",handleLogin)
 
 async function handleLogin(event){
     event.preventDefault();
@@ -37,5 +38,6 @@ async function handleLogin(event){
 }
 form.addEventListener('reset',()=>{
     error.innerText='';
-    form.querySelectorAll('input').forEach(inp=>inp.value="");
+    document.getElementById('email').innerText='';
+    document.getElementById('password').innerText='';
 })

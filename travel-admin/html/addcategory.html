@@ -24,7 +24,7 @@
 
 <body>
 	<div class="container">
-		<form method="post" id="addcategoryform">
+		<form method="post" id="addcategoryform" enctype="multipart/form-data">
 			<legend>ADD CATEGORY</legend>
 
 			<label for="packageName">Package Name</label>
@@ -44,6 +44,9 @@
 			<input type="number" name="nights" id="nights" max="10" min="1" required><br><br>
 			<label for="price">Price</label>
 			<input type="text" name="price" id="price" placeholder="Enter amount" required><br><br>
+
+			<label for="imageFile">Tour Image</label>
+			<input type="file" name="imageFile" id="imageFile" accept="images/*">
 	
 			<input type="submit" value="ADD" name="submit" />
 			<input type="reset" value="RESET" name="reset" />

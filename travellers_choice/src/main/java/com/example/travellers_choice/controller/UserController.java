@@ -102,7 +102,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
         }
-        return userService.cancelTour(cancelTourDTO.getTourId(),userDetails.getUsername());
+        return userService.cancelTour(cancelTourDTO.getPnr(),userDetails.getUsername());
     }
 
     //get the user data

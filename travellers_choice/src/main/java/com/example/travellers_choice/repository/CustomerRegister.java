@@ -13,5 +13,7 @@ public interface CustomerRegister extends JpaRepository<CustomerRegistry, Intege
     List<CustomerRegistry> findByUserId(Integer userId);
     boolean existsByUserId(Integer userId);
 
+    Optional<CustomerRegistry> findByPNR(String pnr);
+
 
 }

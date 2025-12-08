@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Traveller's Choice-Home</title>
+  <title>Traveller's Pick-Home</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device,initial-scale=1.0">
   <meta name="description" content="tourism details">
@@ -23,12 +23,13 @@
 			<div class="navbar-brand">
 				<img src="../images/destination.png" alt="logo" width="70px" height="40px">
 			</div>
-			<a class="navbar-brand" id="logo" href="#">Traveller's Choice</a>
+			<a class="navbar-brand" id="logo" href="#">Traveller's Pick</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
+
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="nav navbar-nav ms-auto">
 					<li class="nav-item" id="li-current">
@@ -45,13 +46,10 @@
 						<a class="nav-link" id="li-a" href="./contact.html">CONTACT</a>
 					</li>
 
-					<li id="loginli">
-						<select id="loginlist" name="loginlist" onchange="goLogin(this.value)">
-							<option value="Login" id="login" class="loginopt">Login</option>
-              <option value="user" id="user" class="loginopt">User</option>
-              <option value="admin" id="admin" class="loginopt">Admin</option>
-						</select>
-					</li>
+          <div id="btn-group">
+            <button value="signin" id="signin-btn" class="silo">SIGNUP</button>
+            <button value="login" id="login-btn" class="silo">LOGIN</button>
+          </div>
 				</ul>
 			</div>
 		</div>
@@ -180,7 +178,7 @@
       <div class="row">
 
         <div class="col" id="f1">
-          <h3>Traveller's choice</h3>
+          <h3>Traveller's Pick</h3>
           <p id="footerpara">Book your holiday tour with us to make the tour economical and the happiest.</p>
         </div>
 
@@ -225,7 +223,7 @@
 
     </div>
     <div class="container-fluid" id="f3">
-      <p id="footerend">copyright &copy;2025 Traveller's Choice by SASTRA</p>
+      <p id="footerend">copyright &copy;2025 Traveller's Pick by SASTRA</p>
     </div>
 
   </footer>

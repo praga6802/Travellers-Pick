@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class BookTourDTO {
     private Integer userId;
+    private Integer tourId;
     private String name;
     private String email;
     private String phone;

@@ -47,6 +47,7 @@ async function handledaddcategory(event) {
     const days = parseInt(document.getElementById("days").value.trim());
     const nights = parseInt(document.getElementById("nights").value.trim());
     const price = parseFloat(document.getElementById("price").value.trim());
+    const imageFile=document.getElementById('imageFile');
 
     if (isNaN(packageId) || isNaN(days) || isNaN(nights) || isNaN(price)) {
         errorMsg.innerText = "Please fill all fields with valid numbers";
@@ -54,12 +55,26 @@ async function handledaddcategory(event) {
         return;
     }
 
-    const data = { packageId, tourName, tourSlogan, places, days, nights, price };
+    if(!imageFile.files || imageFile.files.length===0){
+        error.innerText='Image is required';
+        error.style.color='red';
+        return;
+    }
+
+    const data=new FormData();
+    data.append("packageId",packageId);
+    data.append("tourName",tourName);
+    data.append("tourSlogan",tourSlogan);
+    data.append("places",places);
+    data.append("days",days);
+    data.append("nights",nights)
+    data.append("price",price);
+    data.append("imageFile",imageFile.files[0]);
+
     try {
     const response = await fetch("http://localhost:8080/admin/addCategory", {
         method: "POST",
-        body: JSON.stringify(data),
-        headers: {"Content-Type":"application/json"},
+        body: data,
         credentials: "include"
     });
 
@@ -70,7 +85,7 @@ async function handledaddcategory(event) {
     errorMsg.style.marginTop = "50px";
     } 
     catch(err) {
-        event.preventDefault(); // ensure form doesn’t submit
+        event.preventDefault();
         error.innerText='Error: Session Expired & Cannot fetch user details'
         error.style.color='red';
         error.style.marginLeft="200px";
@@ -80,6 +95,5 @@ async function handledaddcategory(event) {
     }
 }
 form.addEventListener('reset',()=>{
-    error.innerText='';
-    data.innerText='';
+    errorMsg.innerText='';
 })

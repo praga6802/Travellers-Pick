@@ -16,11 +16,10 @@ window.addEventListener("DOMContentLoaded",async()=>{
         } else {
             error.style.color = "red";
             error.innerText = "Unable to fetch admin details";
-            window.location.href="loginform.html";
         }
     } catch (err) {
-        error.innerText = "Network Error..Please Try again";
-        error.style.color = "red";
+        alert('Session Expired or Network Error!');
+        window.location.href='../html/loginform.html';
     }
 });
 
@@ -32,25 +31,33 @@ async function handleAddPackage(event) {
     event.preventDefault();
     const packageNameInp=document.getElementById("packageName");
     const packageSloganInp=document.getElementById("packageSlogan");
+    const imageFile=document.getElementById('imageFile');
 
     const packageName=packageNameInp.value.trim();
     const packageSlogan=packageSloganInp.value.trim();
+
     if (!packageName || !packageSlogan) {
         error.innerText = "Package Name and Slogan are required";
         error.style.color = "red";
         return;
     }
 
-    const data={packageName,packageSlogan};
+    if(!imageFile.files || imageFile.files.length===0){
+        error.innerText='Image is required';
+        error.style.color='red';
+        return;
+    }
+
+    const formData= new FormData();
+    formData.append("packageName",packageName);
+    formData.append("packageSlogan",packageSlogan);
+    formData.append("imageFile",imageFile.files[0]);
 
     try {
         const response = await fetch("http://localhost:8080/admin/addPackage", {
             method: "POST",
-            body: JSON.stringify(data),
+            body: formData,
             credentials:"include",
-            headers:{
-                "Content-Type":"application/json"
-            },
         });
 
         const responseData = await response.json();
@@ -69,5 +76,4 @@ async function handleAddPackage(event) {
 }
 form.addEventListener('reset',()=>{
     error.innerText='';
-    form.querySelectorAll('input').forEach(inp=>inp.value="");
 })

@@ -1,49 +1,83 @@
+//login in option
+const login=document.getElementById('login-btn');
+if(login){
+    login.value='login';
+    login.addEventListener('click',goLogin);
+}
+
+
+//signin in option
+const signin=document.getElementById('signin-btn');
+if(signin){
+    signin.addEventListener('click',()=>{
+    window.location.href='../html/signup.html';
+});
+}
+
+
+//after login, display the current user
 async function displayUserName(){
     try{
         const response= await fetch("http://localhost:8080/user/userData",{
             method:"GET",
             credentials:"include"
         });
-
+    
         if(response.ok){
             const data=await response.json();
-            document.querySelector("#loginlist option[value='Login']").textContent=`Hello ${data.username}`;
-            let user= document.getElementById('user');
-            user.innerText='User Profile';
-            user.value='userProfile';
 
-            let logout=document.getElementById('admin');
-            logout.textContent="Logout";
-            logout.value='logout';
-        }
-        else{
-            console.log("User not found");
+            const loginSelect=document.createElement('select');
+            loginSelect.id='loginSelect'
+            loginSelect.innerHTML = '';
+
+            const greeting = document.createElement('option');
+            greeting.className='loginoption';
+            greeting.textContent = `Hello ${data.username}!`;
+            loginSelect.appendChild(greeting);
+
+            const userProfileOption = document.createElement('option');
+            userProfileOption.className='loginoption';
+            userProfileOption.value = 'userProfile';
+            userProfileOption.textContent = 'User Profile';
+            loginSelect.appendChild(userProfileOption);
+            
+            const logoutOption = document.createElement('option');
+            logoutOption.className='loginoption';
+            logoutOption.value = 'logout';
+            logoutOption.textContent = 'Logout';
+            loginSelect.appendChild(logoutOption);
+
+            const loginbtn = document.getElementById('login-btn');
+            if (loginbtn) {
+                loginbtn.replaceWith(loginSelect);
+                loginSelect.addEventListener('change', goLogin);
+            }
+
+            //sign in not shown
+            const signin=document.getElementById('signin-btn');
+            if(signin)signin.style.display='none';
         }
     }
     catch(err){
-        error.innerText='Network Error or Session Expired. Please login again!'
-        error.style.color='red';
-        error.style.marginLeft="200px";
-        error.style.marginTop="20px";
+        alert('Network Error or Session Expired. Please login again!');
+        console.log(err);
     }
 }
 
 
+
+
 // INDEX Login option
-async function goLogin(value) {
+async function goLogin(e) {
+    const value=e.target.value;
     switch(value) {
-        case 'user':
+        case 'login':
             window.location.href = "../html/login.html";
             break;
 
         case 'userProfile':
             alert("Redirecting to your profile...");
             setTimeout(() => window.location.href = '../html/userprofile.html', 1000);
-            break;
-
-        case 'admin':
-            alert("Redirecting to admin login...");
-            window.location.href = '../../travel-admin/html/loginform.html';
             break;
 
         case 'logout':
@@ -54,7 +88,7 @@ async function goLogin(value) {
                 });
                 if (response.ok) {
                     alert("Logged out successfully!");
-                    setTimeout(() => window.location.href = '../html/index.html', 1000);
+                    window.location.href = '../html/index.html';
                 } else {
                     console.error("Logout failed");
                 }

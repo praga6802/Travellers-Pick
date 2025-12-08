@@ -27,14 +27,38 @@ async function displayUserName(){
     }
 }
 
+const tourInp=document.getElementById('tourId');
+async function openTour(packageId,tourId){
+    try{
+        const response=await fetch(`http://localhost:8080/admin/getTour/${packageId}/${tourId}`,
+            {
+                method:"GET",
+                credentials:"include"
+            }
+        );
 
-//sending the form with logged user id
+        if (!response.ok) throw new Error("Failed to fetch tour");
+
+        const responseData = await response.json();
+
+        if (tourInp) {
+            tourInp.value = responseData["Tour ID"];
+        }
+    }
+     catch (err) {
+        console.error("Error fetching tour:", err);
+    }
+}
+
+
+//sending the form with logged user id and tour id
 const form = document.getElementById("tourForm");
 
 form.addEventListener("submit", handleForm);
 async function handleForm(event) {
     event.preventDefault();
     const userId=parseInt(document.getElementById('userId').value.trim());
+    const tourId=parseInt(document.getElementById('tourId').value.trim());
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
@@ -53,7 +77,7 @@ async function handleForm(event) {
 
 
     const data = {
-        userId,name, email, phone, packageName, region, bdate, tdate,
+        userId,tourId,name, email, phone, packageName, region, bdate, tdate,
         noOfSeats, noOfAdults, noOfChildren, city, state, country
     };
 

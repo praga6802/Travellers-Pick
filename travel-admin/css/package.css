@@ -75,10 +75,11 @@
       cursor: pointer;
       float: left;
       margin-left: 70px;
+      margin-top: 5%;
     }
 
     input[type="submit"]:hover {
-           background-color: white;
+        background-color: white;
         color:black;
         font-weight: 800;
     }
@@ -90,10 +91,15 @@
         margin-right: 100px;
         padding: 10px;
         cursor: pointer;
+        margin-top: 5%;
         font-weight: 800;
     }
     input[type="reset"]:hover {
         background-color: white;
         color:black;
         font-weight: 800;
+    }
+
+    #imgUrl{
+      padding: 10px;
     }

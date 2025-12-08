@@ -28,6 +28,11 @@
 			<input type="hidden" value="PUT" name="_method">
 			<legend>UPDATE CATEGORY</legend>
 
+			<label for="packageName">Package Name</label>
+			<select name="packageName" id="packageName" required>
+				<option disabled selected hidden value="">Select Package</option>
+			</select><br><br>
+
 			<label for="tourId">Tour ID</label>
 			<input type="text" name="tourId" id="tourId" maxlength="50" placeholder="Enter the tour ID"/><br><br>
 
@@ -48,6 +53,9 @@
 
 			<label for="price">Price</label>
 			<input type="text" name="price" id="price" placeholder="Enter amount"><br><br>
+
+			<label for="imageFile">Tour Image</label>
+			<input type="file" name="imageFile" id="imageFile" accept="image/*">
 			
 			<input type="submit" value="UPDATE" name="submit" />
 			<input type="reset" value="RESET" name="reset" />

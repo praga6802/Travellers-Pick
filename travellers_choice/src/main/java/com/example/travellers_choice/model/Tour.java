@@ -26,6 +26,7 @@ public class Tour {
     private Integer days;
     private Integer nights;
     private Double price;
+    private String imgUrl;
 
 
     @JsonProperty("packageId")

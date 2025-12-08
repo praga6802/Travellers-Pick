@@ -29,6 +29,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -65,6 +66,20 @@ public class UserService {
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customer.setRole("ROLE_USER");
         userRepo.save(customer);
+        String sub="Welcome to Traveller’s Pick – Your Account is Ready!";
+        String message = "Hi " + customer.getUsername() + ",\n\n"
+                + "Thank you for signing up with Traveller’s Choice!\n"
+                + "Your account has been created successfully, and you’re all set to explore the best travel experiences.\n\n"
+                + "What you can do next:\n"
+                + "- Browse and book your dream destinations.\n"
+                + "- Manage your bookings easily.\n"
+                + "If this wasn’t you, please ignore this email.\n\n"
+                + "If you need any help, feel free to reply — we’re always here to assist you!\n\n"
+                + "Best Regards,\n"
+                + "Traveller’s Pick Team\n"
+                + "© " + java.time.Year.now() + " Traveller’s Pick. All Rights Reserved.";
+
+        emailService.sendSimpleEMail(customer.getEmail(),sub,message);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Sign Up Successfully"));
     }
 
@@ -109,6 +124,15 @@ public class UserService {
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Logout Successfully"));
     }
 
+
+    //generate PNR
+    public String generatePNR(){
+        SecureRandom random= new SecureRandom();
+        String letter=""+(char)('A'+ random.nextInt(26))+(char)('A'+ random.nextInt(26));
+        Long number=1000+random.nextLong(9000);
+        return "TP-"+letter+number;
+    }
+
     //book tour
     public ResponseEntity<?> bookCategory(BookTourDTO bookTourDTO, String email) {
         Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Email ID", email));
@@ -131,18 +155,28 @@ public class UserService {
         book.setState(bookTourDTO.getState() != null ? bookTourDTO.getState() : "No state");
         book.setCountry(bookTourDTO.getCountry() != null ? bookTourDTO.getCountry() : "No country");
         book.setStatus("CONFIRMED");
+
+        String pnr=generatePNR();
+        book.setPNR(pnr);
         registerRepo.save(book);
+
 
         if(bookTourDTO.getEmail()!=null && !bookTourDTO.getEmail().isEmpty()){
             String subject="Confirmation of Tour Booking!";
             String body = "Hi " + bookTourDTO.getName() + ",\n\n"
                     + "Your tour has been booked successfully for the package: " + bookTourDTO.getRegion() + ".\n\n"
                     + "Booking Details:\n"
-                    + "Booked Date: " + bookTourDTO.getBdate() + "\n"
-                    + "Travel Date: " + bookTourDTO.getTdate() + "\n"
-                    + "Number of Seats: " + bookTourDTO.getNoOfSeats() + "\n\n"
-                    +"From: "+bookTourDTO.getCity()+" "+bookTourDTO.getState()+"."+"\n\n"
-                    + "Thank you for choosing Traveller's Pick!\n";
+                    +"Booking ID: "+book.getBookingId()+"\n\n"
+                    +"Passenger Name: "+bookTourDTO.getName()+"\n"
+                    +"Email: "+bookTourDTO.getEmail()+"\n"
+                    +"Contact: "+bookTourDTO.getPhone()+"\n"
+                    +"Booked Date: " + bookTourDTO.getBdate() + "\n"
+                    +"Travel Date: " + bookTourDTO.getTdate() + "\n"
+                    +"Number of Seats: " + bookTourDTO.getNoOfSeats() + "\n\n"
+                    +"Price: "+book.getTour().getPrice()+"\n\n"
+                    +"From: "+bookTourDTO.getCity()+", "+bookTourDTO.getState()+"\n\n"
+                    +"Your PNR number is: " + pnr + ". Kindly use this PNR for any future ticket cancellation or support requests.\n\n"
+                    +"Thank you for choosing Traveller's Pick!\n";
 
             emailService.sendSimpleEMail(bookTourDTO.getEmail(),subject,body);
         }
@@ -182,20 +216,20 @@ public class UserService {
 
         List<CustomerRegistry> userBookings=registerRepo.findByUserId(user.getId());
         List<TourDetailsDTO> bookedTourList=userBookings.stream()
-                .map(t->new TourDetailsDTO(t.getTourId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
+                .map(t->new TourDetailsDTO(t.getTour().getTourId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
                         t.getNoOfAdults(),t.getNoOfChildren(),t.getBdate(),t.getTdate(),t.getStatus())).toList();
         return ResponseEntity.ok(bookedTourList);
     }
 
 
     //cancel tour
-    public ResponseEntity<?> cancelTour(Integer tourId, String email) {
+    public ResponseEntity<?> cancelTour(String PNR, String email) {
         Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email", email));
-        CustomerRegistry reg=registerRepo.findById(tourId).orElseThrow(()->new IDNotFoundException("Tour ID",tourId));
+        CustomerRegistry reg=registerRepo.findByPNR(PNR).orElseThrow(()->new UnAuthorizedException("PNR number",PNR));
 
         if (!reg.getUser().getId().equals(user.getId())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).
-                    body(new AResponse(LocalDateTime.now(),"Failure","Tour ID not found"));
+                    body(new AResponse(LocalDateTime.now(),"Failure","This PNR does not belong to your account"));
         }
         if(reg.getStatus().equals("CANCELLED")){
             return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).

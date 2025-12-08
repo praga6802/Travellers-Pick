@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -23,7 +22,7 @@
 <body>
   <div style="margin-top:2%;text-align:center" ;>
     <h1 class="h1">ITINERARY</h1>
-<table>
+    <table>
       <tr>
         <th>Day</th>
         <th>Destination</th>
@@ -32,52 +31,59 @@
       <tr>
         <td>Day 1</td>
         <td>Arrival To Port Blair</td>
-        <td>On Arrival at Port Blair International Airport, our delegate will meet and transfer you to the hotel. 
-          Register with the lodging at Port Blair. 
-          Take a small break at the inn, and get ready to begin the Journey with Anthropological Museum, which shows the Tools, Art and Handcrafts of the Aboriginal Tribes of Andaman & Nicobar Islands, Models Habitats, Cellular Jail, Fisheries Museum, Science Center. 
-          Continue your journey to the Corbyn's Cove shoreline. 
-          Later, visit the Light and Sound Show at Cellular Jail where the adventure of the Freedom Struggle brought alive. 
+        <td>On Arrival at Port Blair International Airport, our delegate will meet and transfer you to the hotel.
+          Register with the lodging at Port Blair.
+          Take a small break at the inn, and get ready to begin the Journey with Anthropological Museum, which shows the
+          Tools, Art and Handcrafts of the Aboriginal Tribes of Andaman & Nicobar Islands, Models Habitats, Cellular
+          Jail, Fisheries Museum, Science Center.
+          Continue your journey to the Corbyn's Cove shoreline.
+          Later, visit the Light and Sound Show at Cellular Jail where the adventure of the Freedom Struggle brought
+          alive.
           Spend your overnight stay at the hotel.</td>
       </tr>
       <tr>
         <td>Day 2</td>
         <td>Port Blair - Baratang Island</td>
-        <td>Today early morning, proceed to Baratang Island (110kms) which holds the nature's best fortunes talented to the Islands. 
-          Limestone hollows is an absolute spot for nature sweethearts & relaxation explorers much the same. 
+        <td>Today early morning, proceed to Baratang Island (110kms) which holds the nature's best fortunes talented to
+          the Islands.
+          Limestone hollows is an absolute spot for nature sweethearts & relaxation explorers much the same.
           The Road venture from Port Blair to Baratang includes crossing through rivers and thick tropical woodland.
-           Return once again to Port Blair by night. 
+          Return once again to Port Blair by night.
           Enjoy your night stay at the inn.</td>
       </tr>
       <tr>
         <td>Day 3</td>
         <td>Port Blair – Havelock Island</td>
-        <td>After morning breakfast, move towards Havelock Island through ship from Port Blair. 
-          Reach the Havelock Island and proceed to Radhanagar Beach which appraised the #7 among the finest shoreline in Asia. 
-          It is a perfect spot for swimming, sea bathing and basking on The Sun Kissed Beach. 
-          In the evening, move to the Port Blair (by means of ship). 
-          Return again to the inn. Spend your overnight stay at the lodging.</td> 
+        <td>After morning breakfast, move towards Havelock Island through ship from Port Blair.
+          Reach the Havelock Island and proceed to Radhanagar Beach which appraised the #7 among the finest shoreline in
+          Asia.
+          It is a perfect spot for swimming, sea bathing and basking on The Sun Kissed Beach.
+          In the evening, move to the Port Blair (by means of ship).
+          Return again to the inn. Spend your overnight stay at the lodging.</td>
       </tr>
       <tr>
         <td>Day 4</td>
         <td>Snorkelling at Beach</td>
-        <td>After morning breakfast, continue for snorkelling outing to Elephant shoreline by motorized cruise. 
-          It is a perfect spot to Snorkel and delight in submerged marine life. Return once again to the lodging for lunch. 
-          Enjoy your night for recreation on the own in Beach. 
+        <td>After morning breakfast, continue for snorkelling outing to Elephant shoreline by motorized cruise.
+          It is a perfect spot to Snorkel and delight in submerged marine life. Return once again to the lodging for
+          lunch.
+          Enjoy your night for recreation on the own in Beach.
           Move back to the hotel for overnight stay.</td>
       </tr>
       <tr>
         <td>Day 5</td>
         <td>Port Blair</td>
-        <td>After breakfast, enjoy the day at your leisure. 
-          Move back to the hotel for overnight sleep.</td> 
+        <td>After breakfast, enjoy the day at your leisure.
+          Move back to the hotel for overnight sleep.</td>
       </tr>
       <tr>
         <td>Day 6</td>
         <td>Depart Port Blair</td>
-        <td>After breakfast at the hotel, check-out from the hotel (Check-out before 12.00 noon) and travel to the Port Blair Airport to catch your flight to fly back to Chennai. 
+        <td>After breakfast at the hotel, check-out from the hotel (Check-out before 12.00 noon) and travel to the Port
+          Blair Airport to catch your flight to fly back to Chennai.
           Return back with ever lasting memories of these Emerald Islands.</td>
       </tr>
-    </table> 
+    </table>
 
     <br>
     <br>
@@ -85,7 +91,7 @@
 
 
     <h1 class="h1">BOOKING FORM</h1>
-   <form method="POST" id="tourForm">
+    <form method="POST" id="tourForm">
       <label for="name">Name</label>
       <input type="text" id="name" placeholder="Enter your Name" name="name" required><br><br>
 
@@ -93,9 +99,11 @@
       <input type="email" id="email" placeholder="Enter your Email" name="email" required><br><br>
 
       <label for="phone">Phone</label>
-      <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{1,10}" maxlength="10"><br><br>
+      <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{1,10}"
+        maxlength="10"><br><br>
 
       <input type="hidden" id="userId" name="userId" value="" required>
+      <input type="hidden" id="tourId" name="tourId" value="" required>
       <input type="hidden" id="packageName" name="packageName" value="Honeymoon Package" required>
       <input type="hidden" id="region" name="region" value="Magical Andaman Islands">
       <input type="hidden" id="bdate" name="bdate" min="" max="" required>
@@ -119,10 +127,11 @@
       </script>
 
       <label for="num-adults">Adults</label>
-      <input type="number" id="noOfAdults" placeholder="No of Adults" name="noOfAdults" min="1" max="30" required><br><br>
+      <input type="number" id="noOfAdults" placeholder="No of Adults" name="noOfAdults" min="1" max="30"
+        required><br><br>
 
       <label for="num-seats">Children</label>
-      <input type="number" id="noOfChildren" placeholder="No of Children" name="noOfChildren" min="0" max="30" ><br><br>
+      <input type="number" id="noOfChildren" placeholder="No of Children" name="noOfChildren" min="0" max="30"><br><br>
 
       <label for="name">City</label>
       <input type="text" id="city" placeholder="City" name="city" required><br><br>
@@ -137,14 +146,14 @@
       <p id="error"></p>
     </form>
 
-    <script src="../js/form.js"></script>
+
     <footer>
       <div class="container py-4">
         <div class="row">
 
 
           <div class="col" id="f1">
-            <h3>Traveller's choice</h3>
+            <h3>Traveller's Pick</h3>
             <p id="footerpara">Book your holiday tour with us to make the tour economical and the happiest.</p>
           </div>
           <div class="col links">
@@ -168,10 +177,12 @@
           <div class="col" id="f2">
             <h3>Contact</h3>
             <p><i class="fa fa-home"></i> <a
-                href="https://www.google.com/maps/place/Sastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001/@10.9631309,79.3836662,17z/data=!4m15!1m8!3m7!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!2sSastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001!3b1!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8!3m5!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8?authuser=0"> Kumbakonam</a>
+                href="https://www.google.com/maps/place/Sastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001/@10.9631309,79.3836662,17z/data=!4m15!1m8!3m7!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!2sSastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001!3b1!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8!3m5!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8?authuser=0">
+                Kumbakonam</a>
             </p>
             <p><i class="fa fa-envelope"></i><a
-                href="https://mail.google.com/mail/u/0/#sent?compose=jrjtXSpwlgspvZQVKWjwQZQdSqXMNmdtJHTDCWVXHQjWwdHQMbPfHJHGmnSFGwfjBKtffqbW"> travellerschoice.ac.in@gmail.com</a>
+                href="https://mail.google.com/mail/u/0/#sent?compose=jrjtXSpwlgspvZQVKWjwQZQdSqXMNmdtJHTDCWVXHQjWwdHQMbPfHJHGmnSFGwfjBKtffqbW">
+                travellerschoice.ac.in@gmail.com</a>
             </p>
             <p><i class="fa fa-phone"></i> +91 8555238593</p>
             <p><i class="fa fa-instagram" aria-hidden="true"></i> <i class="fa fa-twitter" aria-hidden="true"></i>
@@ -184,10 +195,11 @@
 
       </div>
       <div class="container-fluid" id="f3">
-        <p id="footerend">copyright &copy;2025 Traveller's Choice by SASTRA</p>
+        <p id="footerend">copyright &copy;2025 Traveller's Pick by SASTRA</p>
       </div>
 
     </footer>
+    <script src="../js/form.js"></script>
 </body>
 
 </html>
