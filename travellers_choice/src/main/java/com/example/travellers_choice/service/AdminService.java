@@ -131,7 +131,6 @@ public class AdminService {
 
 
 
-
     //UPDATE ADMIN
     public ResponseEntity<?> updateAdmin(AdminDTO admin, String email) {
         Admin existingAdmin=adminRepo.findByEmail(email)

@@ -2,7 +2,7 @@ const error=document.getElementById("error");
 
 // get the logged admin id
 window.addEventListener("DOMContentLoaded",async()=>{
-     const input = document.getElementById("adminId");
+    const input = document.getElementById("adminId");
 
     try {
         const response = await fetch("http://localhost:8080/admin/current-admin", {
@@ -19,12 +19,8 @@ window.addEventListener("DOMContentLoaded",async()=>{
             window.location.href="loginform.html";
         }
     } catch (err) {
-        event.preventDefault();
-        error.innerText='Error: Session Expired & Cannot fetch user details'
-        error.style.color='red';
-        error.style.marginLeft="200px";
-        error.style.marginTop="20px";
-        console.log(err);
+        alert('Error: Session Expired & Cannot fetch user details');
+        return;
     }
 });
 
@@ -37,6 +33,7 @@ async function handleUpdatePackage(event) {
     const packageName=document.getElementById("packageName").value.trim();
     const packageSlogan=document.getElementById("packageSlogan").value.trim();
     const packageId=document.getElementById("packageId").value.trim();
+    const imageFile=document.getElementById('imageFile');
 
     if (!packageId) {
         error.innerText = "Package Id is required";
@@ -44,25 +41,23 @@ async function handleUpdatePackage(event) {
         return;
     }
 
-    const data={packageId};
-    if(packageName)data.packageName=packageName
-    if(packageSlogan)data.packageSlogan=packageSlogan
+    const data= new FormData();
+    data.append("packageId",packageId);
+    if(packageName)data.append("packageName",packageName);
+    if(packageSlogan)data.append("packageSlogan",packageSlogan);
+    if(imageFile.files && imageFile.files.length>0)data.append("imageFile",imageFile.files[0]);
 
 
     try {
         const response = await fetch("http://localhost:8080/admin/updatePackage", {
-            method: "PUT",
-            body: JSON.stringify(data),
+            method: "POST",
+            body: data,
             credentials:"include",
-            headers:{
-                "Content-Type":"application/json"
-            },
         });
 
         const responseData = await response.json();
         error.innerText = responseData.message;
-        error.style.color = response.ok ? "yellowgreen" : "red";
-        error.style.backgroundColor="black"
+        error.style.color = response.ok ? "green" : "red";
         error.style.textAlign = "center";
         error.style.marginTop = "50px";
     } 
@@ -73,5 +68,4 @@ async function handleUpdatePackage(event) {
 }
 form.addEventListener('reset',()=>{
     error.innerText='';
-    form.querySelectorAll('input').forEach(inp=>inp.value="");
 })

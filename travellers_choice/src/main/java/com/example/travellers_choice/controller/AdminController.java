@@ -2,18 +2,15 @@ package com.example.travellers_choice.controller;
 
 import com.example.travellers_choice.dto.*;
 import com.example.travellers_choice.model.*;
-import com.example.travellers_choice.repository.AdminRepo;
 import com.example.travellers_choice.service.AdminService;
 import com.example.travellers_choice.service.PackageService;
 import com.example.travellers_choice.service.TourService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -133,15 +130,15 @@ public class AdminController {
 
                                                     // --- PACKAGE ---
     //ADD PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
-    @PostMapping("/addPackage")
-    public ResponseEntity<?> addPackage(@RequestBody PackageDTO packageDTO, @AuthenticationPrincipal UserDetails user){
-      return packageService.addPackage(packageDTO, user.getUsername());
+    @PostMapping(value = "/addPackage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> addPackage(@ModelAttribute PackageUploadDTO dto, @AuthenticationPrincipal UserDetails user){
+      return packageService.addPackage(dto, user.getUsername());
     }
 
 
     //UPDATE PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
-    @PutMapping("/updatePackage")
-    public ResponseEntity<?> updatePackage(@RequestBody UpdatePackageDTO updatePackageDTO, @AuthenticationPrincipal UserDetails user) {
+    @PostMapping(value = "/updatePackage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updatePackage(@ModelAttribute UpdatePackageDTO updatePackageDTO, @AuthenticationPrincipal UserDetails user) {
         return packageService.updatePackage(updatePackageDTO, user.getUsername());
     }
 
@@ -152,17 +149,19 @@ public class AdminController {
     }
 
     //GET ALL PACKAGES
-    @GetMapping("/packages")
+    @GetMapping("/allPackages")
     public ResponseEntity<?> getAllPackages(){
-        List<Packages> listPackages=packageService.getAllPackages();
+        List<PackageDTO> listPackages=packageService.getAllPackages();
         return ResponseEntity.ok(listPackages);
     }
+
 
     @GetMapping("/packageNames")
     public ResponseEntity<?> getAllPackageNames(){
         List<PackageInfoDTO> packageNames=packageService.getAllPackageNames();
         return ResponseEntity.ok(packageNames);
     }
+
 
     //GET PACKAGE BY ID
     @GetMapping("/getPackage/{package_id}")
@@ -173,14 +172,14 @@ public class AdminController {
 
                                                         //  --- TOUR ---
     //ADD TOUR
-    @PostMapping("/addCategory")
-    public ResponseEntity<?> addCategory(@RequestBody CategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
+    @PostMapping(value = "/addCategory",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> addCategory(@ModelAttribute UploadCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
         return tourService.addCategory(categoryDTO,userDetails.getUsername());
     }
 
     // UPDATE TOUR
-    @PutMapping("/updateCategory")
-    public ResponseEntity<?> updateCategory(@RequestBody UpdateCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
+    @PostMapping(value = "/updateCategory", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateCategory(@ModelAttribute UploadCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
         return tourService.updateCategory(categoryDTO,userDetails.getUsername());
     }
 

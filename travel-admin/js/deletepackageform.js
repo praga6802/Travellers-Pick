@@ -26,10 +26,10 @@ window.addEventListener('DOMContentLoaded', async () => {
 // update admin
 const form = document.getElementById("deletepackageform");
 form.addEventListener('submit', handleDeletePackage);
-
+const packageIdInp=document.getElementById('packageId');
 async function handleDeletePackage(event) {
     event.preventDefault();
-    const packageId=document.getElementById("packageId").value.trim();
+    const packageId=packageIdInp.value.trim();
 
     try {
         const response = await fetch("http://localhost:8080/admin/deletePackage", {
@@ -40,12 +40,12 @@ async function handleDeletePackage(event) {
         });
 
         const responseData = await response.json();
-        console.log(responseData);
-        
         error.innerText=responseData.message;
         error.style.color=response.ok?"green":"red";
         error.style.textAlign = "center";
         error.style.marginTop = "50px";
+
+
     } catch (err) {
         event.preventDefault();
         error.innerText='Error: Session Expired & Cannot fetch user details'
@@ -58,5 +58,5 @@ async function handleDeletePackage(event) {
 
 form.addEventListener('reset',()=>{
     error.innerText='';
-    form.querySelectorAll('input').forEach(inp=>inp.value="");
+    packageIdInp.innerText='';
 })

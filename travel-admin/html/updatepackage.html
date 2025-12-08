@@ -24,8 +24,7 @@
 s
 <body>
 	<div class="container">
-		<form method="post" id="updatepackageform">
-			<input type="hidden" value="PUT" name="_method">
+		<form method="post" id="updatepackageform" enctype="multipart/form-data">
 			<legend>UPDATE PACKAGE</legend>
 			<label for="adminId">Admin ID</label>
 			<input type="text" name="adminId" id="adminId" placeholder="Admin ID" required><br><br>
@@ -38,11 +37,15 @@ s
 
 			<label for="slogan">Package Slogan</label>
 			<input type="text" name="packageSlogan" id="packageSlogan" maxlength="50" placeholder="Package Slogan" /><br><br>
+
+			<label for="imageFile">Package Image</label>
+			<input type="file" name="imageFile" id="imageFile">
 	
 			<input type="submit" value="UPDATE" name="submit" />
 			<input type="reset" value="RESET" name="reset" />
 			<p id='error' style="text-align:justify;margin-top:3%;"></p>
 		</form>
+
 	</div>
 	<script src="../js/updatepackageform.js"></script>
 </body>

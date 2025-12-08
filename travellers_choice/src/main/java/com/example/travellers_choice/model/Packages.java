@@ -21,6 +21,11 @@ public class Packages {
     @Column(name="package_slogan",nullable = false, unique = true)
     private String packageSlogan;
 
+    @Column(name="imgUrl", nullable = false)
+    private String imgUrl;
+
+
+
     @OneToMany(mappedBy = "packageName", orphanRemoval = true, cascade =CascadeType.ALL)
     @JsonManagedReference
     List<Tour> tours;

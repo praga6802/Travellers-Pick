@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const tbody = document.querySelector("#packagetable tbody");
 
     try {
-        const response = await fetch("http://localhost:8080/admin/packages", {
+        const response = await fetch("http://localhost:8080/admin/allPackages", {
             method: "GET",
             credentials: "include",
             headers: { "Content-Type": "application/json" }

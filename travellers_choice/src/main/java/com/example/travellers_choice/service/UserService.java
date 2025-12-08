@@ -166,15 +166,17 @@ public class UserService {
             String body = "Hi " + bookTourDTO.getName() + ",\n\n"
                     + "Your tour has been booked successfully for the package: " + bookTourDTO.getRegion() + ".\n\n"
                     + "Booking Details:\n"
+                    +"Booking ID: "+book.getBookingId()+"\n\n"
                     +"Passenger Name: "+bookTourDTO.getName()+"\n"
                     +"Email: "+bookTourDTO.getEmail()+"\n"
                     +"Contact: "+bookTourDTO.getPhone()+"\n"
-                    + "Booked Date: " + bookTourDTO.getBdate() + "\n"
-                    + "Travel Date: " + bookTourDTO.getTdate() + "\n"
-                    + "Number of Seats: " + bookTourDTO.getNoOfSeats() + "\n\n"
+                    +"Booked Date: " + bookTourDTO.getBdate() + "\n"
+                    +"Travel Date: " + bookTourDTO.getTdate() + "\n"
+                    +"Number of Seats: " + bookTourDTO.getNoOfSeats() + "\n\n"
+                    +"Price: "+book.getTour().getPrice()+"\n\n"
                     +"From: "+bookTourDTO.getCity()+", "+bookTourDTO.getState()+"\n\n"
                     +"Your PNR number is: " + pnr + ". Kindly use this PNR for any future ticket cancellation or support requests.\n\n"
-                    + "Thank you for choosing Traveller's Pick!\n";
+                    +"Thank you for choosing Traveller's Pick!\n";
 
             emailService.sendSimpleEMail(bookTourDTO.getEmail(),subject,body);
         }
@@ -214,7 +216,7 @@ public class UserService {
 
         List<CustomerRegistry> userBookings=registerRepo.findByUserId(user.getId());
         List<TourDetailsDTO> bookedTourList=userBookings.stream()
-                .map(t->new TourDetailsDTO(t.getTourId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
+                .map(t->new TourDetailsDTO(t.getTour().getTourId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
                         t.getNoOfAdults(),t.getNoOfChildren(),t.getBdate(),t.getTdate(),t.getStatus())).toList();
         return ResponseEntity.ok(bookedTourList);
     }
