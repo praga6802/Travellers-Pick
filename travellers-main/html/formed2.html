@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Captivating Kerala</title>
+  <title>South Indian Ectasy Tour</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device,initial-scale=1.0">
   <meta name="description" content="tourism details">
@@ -22,6 +22,7 @@
 <body>
   <div style="margin-top:2%;text-align:center" ;>
     <h1 class="h1">ITINERARY</h1>
+
     <table>
       <tr>
         <th>Day</th>
@@ -30,25 +31,23 @@
       </tr>
       <tr>
         <td>Day 1</td>
-        <td>Wayanad</td>
-        <td>After your arrival at Wayanad, check-in the hotel and enjoy at your leisure.
-          After refreshment, visit the local sightseeing spots such as Edakkal Caves, Banasura Dam, Muthunga wildlife
-          sanctuary.
-          Get back to the hotel for overnight stay.</td>
+        <td>Kodaikanal</td>
+        <td>In the early morning, drive to Kodaikanal and explore great fun.
+          On the way, admire the beauty of the green mountains dressed up with the mist.
+          On arrival in Kodaikanal, get into the hotel and relax for sometime.
+          Visit the Silver fall and get wet in the chill water.
+          Later, proceed to the Chettiya park, Bryant Park, Kodaikanal lake boating.
+          In the evening, hang out for shopping and spend your overnight stay at the hotel.</td>
       </tr>
       <tr>
         <td>Day 2</td>
-        <td>Wayand - Cochin</td>
-        <td>On the second day morning after breakfast, visit the Pookat Lake and Meenmutty waterfalls.
-          After dinner, move to Cochin in the night by bus.</td>
+        <td>Kodaikanal</td>
+        <td>Take your morning breakfast and get ready to visit the beautiful place.
+          Move to the Pillar rock, Guan point, and Sunset point.
+          Go on a breathtaking walk inside the mist at Cockers walk and by evening set to home town by carrying sweet
+          memories of Kodai.</td>
       </tr>
-      <tr>
-        <td>Day 3</td>
-        <td>Cochin</td>
-        <td>Upon arrival at Cochin, fresh up and proceed to the Marine drive, hill palace and Chinese fishing net
-          Mattancherry palace.
-          Evening free for shopping Later, move to your home town by carrying sweet memories of Kerala.</td>
-      </tr>
+
     </table>
 
     <br>
@@ -67,10 +66,10 @@
       <label for="phone">Phone</label>
       <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{1,10}"
         maxlength="10"><br><br>
-
+      <input type="hidden" id="tourId" name="tourId" value="" required>
       <input type="hidden" id="userId" name="userId" value="" required>
       <input type="hidden" id="packageName" name="packageName" value="Educational Package" required>
-      <input type="hidden" id="region" name="region" value="Captivating Kerala">
+      <input type="hidden" id="region" name="region" value="South Indian Ectasy Tour">
       <input type="hidden" id="bdate" name="bdate" min="" max="" required>
       <script>
         const today = new Date().toISOString().split('T')[0];
@@ -111,8 +110,7 @@
       <p id="error"></p>
     </form>
 
-
-
+    <script src="../js/form.js"></script>
     <footer>
       <div class="container py-4">
         <div class="row">

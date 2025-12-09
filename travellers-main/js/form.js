@@ -17,38 +17,25 @@ async function displayUserName(){
 
         const data=JSON.parse(text);
         if(!data.userId){
-            error.innerText='No logged-in user';
+            error.innerText='Please Login to book tour!';
+            error.style.color='red';
+            error.style.marginTop='2%';
+            error.style.fontSize='18px';
             return;
         }
         document.getElementById('userId').value=data.userId;
     }
     catch(err){
         console.log("Error fetching User Info",err);
+        alert('Session Expired or Network Error');
+        window.location.href='../html/login.html';
+        return;
     }
 }
 
-const tourInp=document.getElementById('tourId');
-async function openTour(packageId,tourId){
-    try{
-        const response=await fetch(`http://localhost:8080/admin/getTour/${packageId}/${tourId}`,
-            {
-                method:"GET",
-                credentials:"include"
-            }
-        );
-
-        if (!response.ok) throw new Error("Failed to fetch tour");
-
-        const responseData = await response.json();
-
-        if (tourInp) {
-            tourInp.value = responseData["Tour ID"];
-        }
-    }
-     catch (err) {
-        console.error("Error fetching tour:", err);
-    }
-}
+const url=new URLSearchParams(window.location.search);
+const tourId=parseInt(url.get('tourId'));
+document.getElementById('tourId').value=tourId;
 
 
 //sending the form with logged user id and tour id
@@ -80,9 +67,9 @@ async function handleForm(event) {
         userId,tourId,name, email, phone, packageName, region, bdate, tdate,
         noOfSeats, noOfAdults, noOfChildren, city, state, country
     };
-
+    const encodedPackageName=encodeURIComponent(packageName);
     try {
-        const response = await fetch(`http://localhost:8080/user/${packageName}/book`, {
+        const response = await fetch(`http://localhost:8080/user/${encodedPackageName}/book`, {
             method: "POST",
             body: JSON.stringify(data),
             credentials: "include",
@@ -107,5 +94,4 @@ async function handleForm(event) {
 
 form.addEventListener('reset',()=>{
     error.innerText='';
-    data.innerText='';
 })

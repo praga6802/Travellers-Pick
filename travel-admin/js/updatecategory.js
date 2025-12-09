@@ -40,8 +40,8 @@ window.addEventListener("DOMContentLoaded",async function(){
 
         const packageId=document.getElementById('packageName').value.trim();
         const tourIdVal = document.getElementById("tourId").value.trim();
-        const tourId = tourIdVal ? parseInt(tourIdVal) : null;
-        if (!tourId) {
+
+        if (!tourIdVal) {
             errorMsg.innerText = "Tour ID is required!";
             errorMsg.style.color = "red";
             errorMsg.style.textAlign = "center";
@@ -50,34 +50,21 @@ window.addEventListener("DOMContentLoaded",async function(){
         const tourName = document.getElementById("tourName").value.trim();
         const tourSlogan = document.getElementById("tourSlogan").value.trim();
         const places = document.getElementById("places").value.trim();
-
         const daysVal = document.getElementById("days").value.trim();
         const nightsVal = document.getElementById("nights").value.trim();
         const priceVal = document.getElementById("price").value.trim();
         const imageFile=document.getElementById('imageFile');
-        
-
-        if(imageFile.files.length===0 || !imageFile.files){
-            errorMsg.innerText='Image is not Uploaded!';
-            errorMsg.style.color='red'
-            errorMsg.style.marginTop="20px";
-            errorMsg.style.marginLeft="200px";
-            return;
-        }
-
-        const days = daysVal !== "" ? parseInt(daysVal) : undefined;
-        const nights = nightsVal !== "" ? parseInt(nightsVal) : undefined;
-        const price = priceVal !== "" ? parseFloat(priceVal) : undefined;
+    
 
         const data = new FormData();
         data.append('packageId',packageId);
-        data.append('tourId',tourId);
+        data.append('tourId',parseInt(tourIdVal));
         if (tourName) data.append('tourName',tourName);
         if (tourSlogan) data.append('tourSlogan', tourSlogan);
         if (places) data.append('places', places);
-        if (days !== undefined) data.append('days',days);
-        if (nights !== undefined) data.append('nights',nights);
-        if (price !== undefined) data.append('price',price);
+        if (daysVal) data.append('days',parseInt(daysVal));
+        if (nightsVal) data.append('nights',parseInt(nightsVal));
+        if (priceVal) data.append('price',parseInt(priceVal));
         if(imageFile.files && imageFile.files.length>0)data.append('imageFile',imageFile.files[0]);
 
         try {

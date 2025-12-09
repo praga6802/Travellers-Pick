@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Deccan Heritage Tour</title>
+  <title>Bangalore Holiday Tour</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device,initial-scale=1.0">
   <meta name="description" content="tourism details">
@@ -22,6 +22,7 @@
 <body>
   <div style="margin-top:2%;text-align:center" ;>
     <h1 class="h1">ITINERARY</h1>
+
     <table>
       <tr>
         <th>Day</th>
@@ -30,48 +31,24 @@
       </tr>
       <tr>
         <td>Day 1</td>
-        <td>Hyderadad Arrival</td>
-        <td>After your arrival at Hyderabad Railway Station, our tour representatives will meet and transfer you to the
-          hotel.
-          Get into the hotel and relax for sometime.
-          You can spend your overnight stay at the hotel.</td>
+        <td>Bangalore</td>
+        <td>On arrival at Bangalore, check-in the hotel and take some rest.
+          Our tour representatives will take you for a city tour to visit the Lal Bagh Gardens – Red Garden in terms of
+          English, is an outstanding botanical garden in southern Bangalore, Vidhana Soudhana - the chief
+          legislature-cum-office edifice in India, visvesvaraya museum and Cubbon Park Bangalore Park.
+          In the evening, proceed to shopping in the MG Road.
+          Spend your overnight stay at the hotel.</td>
       </tr>
       <tr>
         <td>Day 2</td>
-        <td>Ramoji Film City</td>
-        <td>Take your morning breakfast in the hotel. Move to Ramoji Film City for a full day tour and enjoy great
-          pleasure.
-          In the evening, you can come back to the hotel for rest.</td>
-      </tr>
-      <tr>
-        <td>Day 3</td>
-        <td>Hyderabad</td>
-        <td>After your morning breakfast, get ready for Hyderabad sightseeing tour.
-          You will be visiting the Snow World, NTR Garden, Husain Sagar Lake and so on.
-          In the evening, move back to the hotel and enjoy your overnight stay.</td>
-      </tr>
-      <tr>
-        <td>Day 4</td>
-        <td>Hyderabad - Visakhapatnam</td>
-        <td>Take your breakfast and proceed for shopping.
-          Later, you can transfer to the Hyderabad Railways Station and start the journey to Visakhapatnam.
-          Enjoy your overnight stay at the hotel.</td>
-      </tr>
-      <tr>
-        <td>Day 5</td>
-        <td>Visakhapatnam</td>
-        <td>After your reach, just get into the hotel and relax for sometime. Later, visit the Ramakrishna Beach, Kali
-          Temple, Visakha Museum and Victory at Sea.
-          Move back to the hotel for overnight stay.</td>
-      </tr>
-      <tr>
-        <td>Day 6</td>
-        <td>Visakhapatnam</td>
-        <td>After your breakfast, visit the VUDA Park, Rushikonda, Kambalakonda and The Kailasagiri.
-          You can do some shopping and later proceed for your onward journey.</td>
+        <td>Bangalore</td>
+        <td>On the second day morning after breakfast, visit Iskcon temple which is the International Society for
+          Krishna Consciousness.
+          Continue to Bannerghatta national park and enjoy free shopping later.
+          After a healthy breakfast, move to Wonderla which is Asia’s largest theme park.
+          By evening, depart to home town with sweet memories of Bangalore.</td>
       </tr>
     </table>
-
 
     <br>
     <br>
@@ -89,10 +66,10 @@
       <label for="phone">Phone</label>
       <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{1,10}"
         maxlength="10"><br><br>
-
+      <input type="hidden" id="tourId" name="tourId" value="" required>
       <input type="hidden" id="userId" name="userId" value="" required>
       <input type="hidden" id="packageName" name="packageName" value="Educational Package" required>
-      <input type="hidden" id="region" name="region" value="Deccan Heritage Tour">
+      <input type="hidden" id="region" name="region" value="Bangalore Holiday Tour">
       <input type="hidden" id="bdate" name="bdate" min="" max="" required>
       <script>
         const today = new Date().toISOString().split('T')[0];
@@ -186,7 +163,6 @@
       </div>
 
     </footer>
-
     <script src="../js/form.js"></script>
 </body>
 

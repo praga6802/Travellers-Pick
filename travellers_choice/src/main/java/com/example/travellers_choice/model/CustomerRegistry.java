@@ -30,6 +30,7 @@ public class CustomerRegistry {
     private String region;
     private String bdate;
     private String tdate;
+    private Double price;
 
     @Column(name="no_of_seats")
     private Integer noOfSeats;

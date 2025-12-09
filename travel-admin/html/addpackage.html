@@ -27,14 +27,15 @@
 		<form method="POST" id="addpackageform" enctype="multipart/form-data">
 			<legend>ADD PACKAGE</legend>
 
-			<label for="adminId">Admin ID</label>
-			<input type="text" name="adminId" id="adminId" placeholder="Admin ID"><br><br>
 			
 			<label for="package_name">Package Name</label>
 			<input type="text" name="packageName" id="packageName" required maxlength="30" placeholder="Package Name"/><br><br>
 
 			<label for="slogan">Package Slogan</label>
 			<input type="text" name="packageSlogan" id="packageSlogan" maxlength="50" placeholder="Package Slogan"/><br><br>
+
+			<label for="code">Package Code</label>
+			<input type="text" name="packageCode" id="packageCode" maxlength="3" placeholder="Package Code"/><br><br>
 
 			<label for="imageFile">Package Image</label>
 			<input type="file" name="imageFile" id="imageFile" accept="image/*"><br><br>

@@ -1,8 +1,6 @@
-const error=document.getElementById("error");
+const error = document.getElementById('error');
 
-// get the logged admin id
-window.addEventListener("DOMContentLoaded",async()=>{
-    const input = document.getElementById("adminId");
+window.addEventListener('DOMContentLoaded', async () => {
 
     try {
         const response = await fetch("http://localhost:8080/admin/current-admin", {
@@ -10,22 +8,53 @@ window.addEventListener("DOMContentLoaded",async()=>{
             credentials: "include"
         });
 
-        if (response.ok) {
-            const data = await response.json();
-            input.value = data.adminId;
-        } else {
-            error.style.color = "red";
-            error.innerText = "Unable to fetch admin details";
-            window.location.href="loginform.html";
+        if(!response.ok){
+            alert('Session Expired or Network Error..Please try again!');
+            window.location.href='../html/loginform.html';
         }
+
     } catch (err) {
-        alert('Error: Session Expired & Cannot fetch user details');
-        return;
+        error.innerText = "Network Error..Please Try again";
+        error.style.color = "red";
     }
+});
+window.addEventListener("DOMContentLoaded",async function(){
+
+    const packageId=document.getElementById("packageId");
+    try{
+        const response=await fetch("http://localhost:8080/admin/packageNames",{
+            method:"GET",
+            credentials:"include",
+        });
+        
+        const responseData=await response.json();
+        if(!response.ok){
+            errorMsg.innerText=responseData.message;
+            errorMsg.style.color='red';
+            window.location.href='loginform.html';
+        }
+
+
+        if(!responseData){
+            errorMsg.innerText="No Packages Found!";
+            errorMsg.style.color='red';
+        }
+        responseData.forEach(pkg=>{
+            const option=document.createElement("option");
+            option.value=pkg.packageId;
+            option.innerText=pkg.packageName;
+            packageId.appendChild(option);
+        });
+    }
+    catch(err){
+        errorMsg.innerText = "Network error..Unable to reach Server!";
+        errorMsg.style.color = "red";
+    }
+
 });
 
 
-//add package in form
+//update package in form
 const form = document.getElementById("updatepackageform");
 form.addEventListener("submit", handleUpdatePackage);
 async function handleUpdatePackage(event) {
@@ -60,6 +89,7 @@ async function handleUpdatePackage(event) {
         error.style.color = response.ok ? "green" : "red";
         error.style.textAlign = "center";
         error.style.marginTop = "50px";
+
     } 
     catch (err) {
         error.innerText = "Network Error..Please Try again";

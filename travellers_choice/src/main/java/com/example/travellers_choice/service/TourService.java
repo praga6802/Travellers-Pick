@@ -1,10 +1,7 @@
 package com.example.travellers_choice.service;
 
 
-import com.example.travellers_choice.dto.AResponse;
-import com.example.travellers_choice.dto.UploadCategoryDTO;
-import com.example.travellers_choice.dto.DeleteTourDTO;
-import com.example.travellers_choice.dto.UpdateCategoryDTO;
+import com.example.travellers_choice.dto.*;
 import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
 import com.example.travellers_choice.model.Admin;
@@ -81,6 +78,11 @@ public class TourService {
         Tour tourEntity = tourRepo.findById(categoryDTO.getTourId())
                 .orElseThrow(() -> new IDNotFoundException("Tour ID", categoryDTO.getTourId()));
 
+        if(tourEntity.getPackageId()!=pkg.getPackageId() || categoryDTO.getTourId()!=tourEntity.getTourId()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).
+                    body(new AResponse(LocalDateTime.now(),"Failure","Tour ID not belongs to Package ID"));
+        }
+
         if (categoryDTO.getTourName() != null && !categoryDTO.getTourName().isBlank())
             tourEntity.setTourName(categoryDTO.getTourName());
 
@@ -116,7 +118,7 @@ public class TourService {
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Updated Successfully"));
     }
 
-    //delete tour by all admin credentials
+    //delete tour by admin
     public ResponseEntity<?> deleteCategory(DeleteTourDTO dto, String email) {
         Admin exisitingAdmin = adminRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Admin Email", email));
         Tour tourEntity = tourRepo.findById(dto.getTourId()).orElseThrow(() -> new IDNotFoundException("Tour ID", dto.getTourId()));
@@ -125,9 +127,31 @@ public class TourService {
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Deleted Successfully"));
     }
 
-    //get all tour list
-    public List<Tour> getAllTours() {
-        return tourRepo.findAll();
+
+    //get list of tours
+    public List<UpdateCategoryDTO> getAllTours(){
+        List<Tour> tours=tourRepo.findAll();
+
+        Map<String,Integer> counter=new HashMap<>();
+        return tours.stream().map(tour->{
+            String pkgCode=tour.getPackageName().getPackageCode();
+            int count=counter.getOrDefault(pkgCode,0)+1;
+            counter.put(pkgCode,count);
+
+            String fileName="form"+pkgCode+count+".html";
+            return new UpdateCategoryDTO(
+                    tour.getPackageName().getPackageId(),
+                    tour.getTourId(),
+                    tour.getTourName(),
+                    tour.getTourSlogan(),
+                    tour.getPlaces(),
+                    tour.getDays(),
+                    tour.getNights(),
+                    tour.getPrice(),
+                    tour.getImgUrl(),
+                    fileName
+            );
+        }).toList();
     }
 
 
