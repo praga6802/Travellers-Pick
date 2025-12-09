@@ -21,16 +21,16 @@
 
 	<!--/js-->
 </head>
-s
+
 <body>
 	<div class="container">
 		<form method="post" id="updatepackageform" enctype="multipart/form-data">
 			<legend>UPDATE PACKAGE</legend>
-			<label for="adminId">Admin ID</label>
-			<input type="text" name="adminId" id="adminId" placeholder="Admin ID" required><br><br>
 
-			<label for="packageid">Package ID</label>
-			<input type="text" name="packageId" id="packageId" placeholder="Package ID" required><br><br>
+			<label for="packageId">Package ID</label>
+			<select name="packageId" id="packageId">
+				<option value="" hidden selected disabled>Select Package</option>
+			</select>
 
 			<label for="package_name">Package Name</label>
 			<input type="text" name="packageName" id="packageName" maxlength="30" placeholder="Package Name" /><br><br>

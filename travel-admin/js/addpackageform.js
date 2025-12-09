@@ -1,8 +1,6 @@
-const error=document.getElementById("error");
+const error = document.getElementById('error');
 
-// get the logged admin id
-window.addEventListener("DOMContentLoaded",async()=>{
-     const input = document.getElementById("adminId");
+window.addEventListener('DOMContentLoaded', async () => {
 
     try {
         const response = await fetch("http://localhost:8080/admin/current-admin", {
@@ -10,19 +8,16 @@ window.addEventListener("DOMContentLoaded",async()=>{
             credentials: "include"
         });
 
-        if (response.ok) {
-            const data = await response.json();
-            input.value = data.adminId;
-        } else {
-            error.style.color = "red";
-            error.innerText = "Unable to fetch admin details";
+        if(!response.ok){
+            alert('Session Expired or Network Error..Please try again!');
+            window.location.href='../html/loginform.html';
         }
+
     } catch (err) {
-        alert('Session Expired or Network Error!');
-        window.location.href='../html/loginform.html';
+        error.innerText = "Network Error..Please Try again";
+        error.style.color = "red";
     }
 });
-
 
 //add package in form
 const form = document.getElementById("addpackageform");
@@ -32,25 +27,21 @@ async function handleAddPackage(event) {
     const packageNameInp=document.getElementById("packageName");
     const packageSloganInp=document.getElementById("packageSlogan");
     const imageFile=document.getElementById('imageFile');
+    const packageCodeInp=document.getElementById('packageCode');
 
     const packageName=packageNameInp.value.trim();
     const packageSlogan=packageSloganInp.value.trim();
+    const packageCode=packageCodeInp.value.trim();
 
-    if (!packageName || !packageSlogan) {
-        error.innerText = "Package Name and Slogan are required";
-        error.style.color = "red";
-        return;
-    }
-
-    if(!imageFile.files || imageFile.files.length===0){
-        error.innerText='Image is required';
-        error.style.color='red';
-        return;
-    }
+    if(!packageName)displayMessage('Package name is required!');
+    if(!packageSlogan)displayMessage('Package Slogan is required');
+    if(!packageCode) displayMessage('Package Code is required!');
+    if(!imageFile.files || imageFile.files.length===0)displayMessage('Image is required!');
 
     const formData= new FormData();
     formData.append("packageName",packageName);
     formData.append("packageSlogan",packageSlogan);
+    formData.append('packageCode',packageCode);
     formData.append("imageFile",imageFile.files[0]);
 
     try {
@@ -77,3 +68,9 @@ async function handleAddPackage(event) {
 form.addEventListener('reset',()=>{
     error.innerText='';
 })
+
+function displayMessage(msg){
+    error.innerText=msg;
+    error.style.color = "red";
+    return;
+}

@@ -1,5 +1,6 @@
 
 document.addEventListener('DOMContentLoaded',displayPackage)
+const error=document.getElementById('error');
 async function displayPackage(){
 try{
     const response=await fetch('http://localhost:8080/admin/allPackages',{
@@ -8,11 +9,18 @@ try{
     });
     if(!response.ok)throw new Error("Unable to fetch Packages");
 
-    const responseData=await response.json();
+  
     const tourContainer=document.getElementById('packageContainer');
 
     if(!tourContainer){
-        console.log("Package Container not found!");
+        error.innerText="Unable to get package container!"
+        error.style.color='red';
+        return;
+    }
+    const responseData=await response.json();
+    if(!responseData){
+        error.innerText="No Packages Found!"
+        error.style.color='red';
         return;
     }
 
@@ -26,7 +34,7 @@ try{
         <img src='../${pkg.imgUrl}' alt='${pkg.packageName}'>
         <h2>${pkg.packageName}</h2>
         <h6> -${pkg.packageSlogan}- </h6>
-        <button class='btn' onclick="tourChange('${pkg.fileName}')">EXPLORE</button>
+        <button class='btn' onclick="tourChange('${pkg.fileName}','${pkg.packageId}')">EXPLORE</button>
         `
         tourContainer.appendChild(card);
 
@@ -37,6 +45,6 @@ catch(e){
 }
 }
 
-function tourChange(value){
-    window.location.href='../html/'+value;
+function tourChange(fileName, packageId) {
+    window.location.href = `../html/${fileName}?packageId=${packageId}`;
 }

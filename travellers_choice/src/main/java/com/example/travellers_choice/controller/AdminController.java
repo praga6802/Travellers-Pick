@@ -189,10 +189,10 @@ public class AdminController {
         return tourService.deleteCategory(dto, userDetails.getUsername());
     }
 
-    // GET ALL TOURS
+    //GET ALL TOURS
     @GetMapping("/allCategories")
-    public ResponseEntity<List<Tour>> getAllTours(){
-        List<Tour> allTours=tourService.getAllTours();
+    public ResponseEntity<List<UpdateCategoryDTO>> getAllTours(){
+        List<UpdateCategoryDTO> allTours=tourService.getAllTours();
         return ResponseEntity.ok(allTours);
     }
 

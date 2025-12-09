@@ -21,15 +21,13 @@
 
 <body>
 	<div class="container">
-		<form method="post" id="deletepackageform">
-			<input type="hidden" value="DELETE" name="_method">
+		<form id="deletepackageform">
 			<legend>DELETE PACKAGE</legend>
 
-			<label for="adminId">Admin ID</label>
-			<input type="text" name="adminId" id="adminId" placeholder="Admin ID" disabled><br><br>
-
-			<label for="packageid">Package ID</label>
-			<input type="text" name="packageId" id="packageId" required placeholder="Package ID" /><br><br>
+			<label for="packageName">Package Name</label>
+			<select name="packageName" id="packageName">
+				<option value="" disabled selected hidden>Select Package</option>
+			</select>
 
 			<input type="submit" value="DELETE" name="submit" />
 			<input type="reset" value="RESET" name="reset" />

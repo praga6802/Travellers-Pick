@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Indian Spledor Package</title>
+  <title>Beautiful South Tour</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device,initial-scale=1.0">
   <meta name="description" content="tourism details">
@@ -22,6 +22,7 @@
 <body>
   <div style="margin-top:2%;text-align:center" ;>
     <h1 class="h1">ITINERARY</h1>
+
     <table>
       <tr>
         <th>Day</th>
@@ -30,63 +31,27 @@
       </tr>
       <tr>
         <td>Day 1</td>
-        <td>Pune</td>
-        <td>Upon arrival at Pune Railway Station, meet our tour representatives and get transferred to Pune hotel.
-          Refresh and relax at the hotel.
-          Spend your overnight stay at your own.</td>
+        <td>Ooty</td>
+        <td>On the first day, early morning set to Ooty to enjoy the exotic climate.
+          Upon your arrival in Ooty, get into the hotel and relax for sometime.
+          Later, start for local sightseeing tour to Rose garden which is famous in Ooty, Botanical garden in
+          Udhagamandalam, The Gardens include approximately a thousand species, mutually exotic and indigenous, of
+          shrubs, trees, plants, ferns, herbal and bonsai plants.
+          The center of attraction is the fossilized tree trunk predictable to be 20 million years old.
+          Ooty Lake and wax museum which is said to be the prominent places amidst the tourist spots in Ooty.
+          Enjoy the night stay at hotel with the amazing cool climate.
+        </td>
       </tr>
       <tr>
         <td>Day 2</td>
-        <td>Pune - Lonavala</td>
-        <td>After morning breakfast, check-out the hotel and proceed to Lonavala (65 Kilometers 1hrs 30 mins), Lonavala
-          sightseeing include Lohgarh fort, Karala cave’s, and Lake.
-          You can move back to Pune in the evening.
-          Enjoy your overnight stay at hotel.</td>
+        <td>Ooty</td>
+        <td>Take your breakfast in the hotel.
+          Proceed to Mudumalai wild life sanctuary, the famous Pykara falls and later visit 6th mile and 7th mile where
+          you can enjoy a hourse ride and play games.
+          Continue to shooting point, and Fine forest.
+          At the evening, set to home town by carrying sweet memories of Ooty.</td>
       </tr>
-      <tr>
-        <td>Day 3</td>
-        <td>Pune - Mumbai</td>
-        <td>On this day, transfer to Mumbai. On arrival at evening, visit Hotel Taj Mahal Palace and Nariman point.
-          Get back for overnight stay to the hotel.</td>
-      </tr>
-      <tr>
-        <td>Day 4</td>
-        <td>Mumbai</td>
-        <td>After morning breakfast, proceed for sightseeing of Mumbai.
-          Mumbai local sightseeing includes The Gateway of India and the chief entry port of India is a largest
-          industrial centre and is supposed to be the most cosmopolitan city in the east.
-          Check out the Juhu beach and Elephant cave.
-          Enjoy your overnight stay at hotel.</td>
-      </tr>
-      <tr>
-        <td>Day 5</td>
-        <td>Mumbai - Goa</td>
-        <td>After breakfast, get on a train to Goa.
-          On arrival at Goa Airport, our tour manager will meet and greet you and transfer to Goa Resort.
-          You can enjoy the rest of the day for leisure and spend your overnight stay at hotel.</td>
-      </tr>
-      <tr>
-        <td>Day 6</td>
-        <td>South Goa</td>
-        <td>After morning breakfast, proceed for South Goa sightseeing tour covering Temples of Shri Manguesh and Shri
-          Shanthadurga, Miramar, Ancestral Goa- Loutlim, Dona Paula Bay and Arabian Sea covering Panaji Handicrafts
-          emporium, Mayem Lake, Shrisapta Koteshwar Mandir at Narve, and enjoy the beaches of evening 06.00 pm Boat
-          Cruises (Goa Cultural Dance).
-          Return back to hotel for overnight stay.</td>
-      </tr>
-      <tr>
-        <td>Day 7</td>
-        <td>North Goa</td>
-        <td>Morning after breakfast, take rest for sometime and later trip to Goa local sightseeing Vagator, Calangute,
-          Anjuna, and Fort Aguada (famous for Churches).
-          Get back for overnight stay to the hotel.</td>
-      </tr>
-      <tr>
-        <td>Day 8</td>
-        <td>South Goa</td>
-        <td>On the last day morning after breakfast, day free for shopping and evening board a train back
-          to your home town.</td>
-      </tr>
+
     </table>
 
     <br>
@@ -106,9 +71,10 @@
       <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{1,10}"
         maxlength="10"><br><br>
 
+      <input type="hidden" id="tourId" name="tourId" value="" required>
       <input type="hidden" id="userId" name="userId" value="" required>
       <input type="hidden" id="packageName" name="packageName" value="Educational Package" required>
-      <input type="hidden" id="region" name="region" value="Indian Splendor Package">
+      <input type="hidden" id="region" name="region" value="Beautiful South Tour">
       <input type="hidden" id="bdate" name="bdate" min="" max="" required>
       <script>
         const today = new Date().toISOString().split('T')[0];
@@ -148,6 +114,8 @@
       <input type="submit" value="Submit">
       <p id="error"></p>
     </form>
+
+
 
 
     <footer>

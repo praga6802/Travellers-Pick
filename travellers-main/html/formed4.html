@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Alluring South India</title>
+  <title>Best of Kannyakumari</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device,initial-scale=1.0">
   <meta name="description" content="tourism details">
@@ -22,6 +22,7 @@
 <body>
   <div style="margin-top:2%;text-align:center" ;>
     <h1 class="h1">ITINERARY</h1>
+
     <table>
       <tr>
         <th>Day</th>
@@ -30,28 +31,20 @@
       </tr>
       <tr>
         <td>Day 1</td>
-        <td>Chennai</td>
-        <td>After your arrival at Chennai, get into the hotel and relax for sometime.
-          Get ready to visit Valluvar kottam – A memorial which is built in tribute of the most outstanding Tamil poet,
-          saint and philosopher Thiruvalluvar.,
-          Later visit Gunidy national parkwhich is the 8th smallest National Park of India.
-          Go on to Marina beach and Mahaballipuram.
-          Spend your overnight stay at the hotel.</td>
+        <td>Kanyakumari</td>
+        <td>On arrival at Kanyakumari, check-in the hotel, take some rest and get ready for a local sightseeing tour.
+          Visit the Sunset Point - the most beautiful features of Kanyakumari, Triveni Sangamam and the ancient temple -
+          Devi Bhagavathi Amman Temple.
+          Spend your overnight stay at Kanyakumari hotel.</td>
       </tr>
       <tr>
         <td>Day 2</td>
-        <td>Chennai - Pondicherry</td>
-        <td>After your breakfast, visit the local sightseeing places and explore great fun. Proceed to the Besent Nagar
-          Beach.
-          Later, visit the biggest zoos in South East Asia which is Vandalur Zoo and Go for shopping at evening.
-          Depart to Pondicherry for overnight stay at hotel.</td>
+        <td>Kanyakumari</td>
+        <td>On the second day after a healthy breakfast, set to Thiruvalluvar statue (133 feet), Tiruparapu Waterfalls,
+          Vivekananda Rock memorial - a sacred monument, Padmanaban palace.
+          Depart by evening to home town with lovable memories of exotic Kanyakumari.</td>
       </tr>
-      <tr>
-        <td>Day 3</td>
-        <td>Pondicherry</td>
-        <td>On the last day morning after breakfast, visit Pondicherry beach, Panjavadi Temple, Auroville, Manakkula
-          Vinayakar Temple, Aurobindo Ashram.
-          Evening , depart to home town with charming memories of Exotic Chennai</td>
+
     </table>
 
     <br>
@@ -70,10 +63,10 @@
       <label for="phone">Phone</label>
       <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{1,10}"
         maxlength="10"><br><br>
-
+      <input type="hidden" id="tourId" name="tourId" value="" required>
       <input type="hidden" id="userId" name="userId" value="" required>
       <input type="hidden" id="packageName" name="packageName" value="Educational Package" required>
-      <input type="hidden" id="region" name="region" value="Alluring South India">
+      <input type="hidden" id="region" name="region" value="Best of Kannyakumari">
       <input type="hidden" id="bdate" name="bdate" min="" max="" required>
       <script>
         const today = new Date().toISOString().split('T')[0];

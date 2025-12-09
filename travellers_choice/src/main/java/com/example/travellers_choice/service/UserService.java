@@ -7,11 +7,9 @@ import com.example.travellers_choice.dto.UserDTO;
 import com.example.travellers_choice.exception.AlreadyExistsException;
 import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
-import com.example.travellers_choice.model.Admin;
-import com.example.travellers_choice.model.ApiResponse;
-import com.example.travellers_choice.model.Customer;
-import com.example.travellers_choice.model.CustomerRegistry;
+import com.example.travellers_choice.model.*;
 import com.example.travellers_choice.repository.CustomerRegister;
+import com.example.travellers_choice.repository.TourRepo;
 import com.example.travellers_choice.repository.UserRepo;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,6 +50,9 @@ public class UserService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    TourRepo tourRepo;
 
     //user sign up
     public ResponseEntity<?> customerSignUp(Customer customer) {
@@ -136,11 +137,12 @@ public class UserService {
     //book tour
     public ResponseEntity<?> bookCategory(BookTourDTO bookTourDTO, String email) {
         Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Email ID", email));
-        Customer loggedUser = userRepo.findById(bookTourDTO.getUserId())
-                .orElseThrow(() -> new IDNotFoundException("User ID", bookTourDTO.getUserId()));
+
+        Tour tour=tourRepo.findById(bookTourDTO.getTourId()).orElseThrow(()-> new IDNotFoundException("Tour ID",bookTourDTO.getTourId()));
 
         CustomerRegistry book = new CustomerRegistry();
-        book.setUser(loggedUser);
+        book.setUser(user);
+        book.setTour(tour);
         book.setName(bookTourDTO.getName() != null ? bookTourDTO.getName() : "No Name");
         book.setEmail(bookTourDTO.getEmail() != null ? bookTourDTO.getEmail() : "No Email");
         book.setPhone(bookTourDTO.getPhone() != null ? bookTourDTO.getPhone() : "No Mobile Number");
@@ -154,6 +156,7 @@ public class UserService {
         book.setCity(bookTourDTO.getCity() != null ? bookTourDTO.getCity() : "No city");
         book.setState(bookTourDTO.getState() != null ? bookTourDTO.getState() : "No state");
         book.setCountry(bookTourDTO.getCountry() != null ? bookTourDTO.getCountry() : "No country");
+        book.setPrice(tour.getPrice());
         book.setStatus("CONFIRMED");
 
         String pnr=generatePNR();
@@ -165,15 +168,15 @@ public class UserService {
             String subject="Confirmation of Tour Booking!";
             String body = "Hi " + bookTourDTO.getName() + ",\n\n"
                     + "Your tour has been booked successfully for the package: " + bookTourDTO.getRegion() + ".\n\n"
-                    + "Booking Details:\n"
-                    +"Booking ID: "+book.getBookingId()+"\n\n"
+                    +"Booking Details:\n"
+                    +"Booking ID: "+book.getBookingId()+"\n"
                     +"Passenger Name: "+bookTourDTO.getName()+"\n"
                     +"Email: "+bookTourDTO.getEmail()+"\n"
                     +"Contact: "+bookTourDTO.getPhone()+"\n"
                     +"Booked Date: " + bookTourDTO.getBdate() + "\n"
                     +"Travel Date: " + bookTourDTO.getTdate() + "\n"
-                    +"Number of Seats: " + bookTourDTO.getNoOfSeats() + "\n\n"
-                    +"Price: "+book.getTour().getPrice()+"\n\n"
+                    +"Number of Seats: " + bookTourDTO.getNoOfSeats() + "\n"
+                    +"Price: "+tour.getPrice()+"\n"
                     +"From: "+bookTourDTO.getCity()+", "+bookTourDTO.getState()+"\n\n"
                     +"Your PNR number is: " + pnr + ". Kindly use this PNR for any future ticket cancellation or support requests.\n\n"
                     +"Thank you for choosing Traveller's Pick!\n";
@@ -217,7 +220,7 @@ public class UserService {
         List<CustomerRegistry> userBookings=registerRepo.findByUserId(user.getId());
         List<TourDetailsDTO> bookedTourList=userBookings.stream()
                 .map(t->new TourDetailsDTO(t.getTour().getTourId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
-                        t.getNoOfAdults(),t.getNoOfChildren(),t.getBdate(),t.getTdate(),t.getStatus())).toList();
+                        t.getNoOfAdults(),t.getNoOfChildren(),t.getBdate(),t.getTdate(),t.getStatus(),t.getPrice())).toList();
         return ResponseEntity.ok(bookedTourList);
     }
 

@@ -68,6 +68,7 @@ async function handleViewBooking() {
                     <p><strong>No of Seats:</strong> ${item.noOfSeats}</p>
                     <p><strong>No of Adults:</strong> ${item.noOfAdults}</p>
                     <p><strong>No of Children:</strong> ${item.noOfChildren}</p>
+                    <p><strong>Price:</strong> ${item.price}</p>
                 </div>
                 <div class='date-info'>
                     <span class='date'><strong>Booked Date:</strong> ${item.bookedAt}</span>
