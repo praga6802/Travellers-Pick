@@ -1,8 +1,8 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Package- Traveller's Choice</title>
+	<title>Packages</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device,initial-scale=1.0">
 	<meta name="description" content="tourism details">
@@ -10,134 +10,106 @@
 	<meta name="robots" content="INDEX,FOLLOW">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
 	<link href="../css/style.css" type="text/css" rel="stylesheet">
 	<link rel="icon" href="../images/package-icon.png" type="image/png">
 	<link rel="stylesheet" href="../css/package.css" type="text/css">
 </head>
+
 <body>
-	<nav class="navbar fixed-top navbar-expand-lg navbar-dark py-4" id>
+	<nav class="navbar fixed-top navbar-expand-lg navbar-dark py-1 py-md-4" id>
 		<div class="container-fluid">
-		  <div class="navbar-brand">
-			<img src="../images/destination.png" alt="logo" width="70px" height="40px">
-		  </div>
-		  <a class="navbar-brand" id="logo" href="#">Traveller's Choice</a>
-		  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		  </button>
-		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="nav navbar-nav ms-auto" >
-			  <li class="nav-item" id="li" >
-				<a class="nav-link" id="li-a" href="./index.html">HOME</a>
-			  </li>
-			  <li class="nav-item" id="li-current" >
-				<a class="nav-link" id="li-a-current" href="./packages.html">PACKAGES</a>
-			  </li>
-			  
-			  <li class="nav-item" id="li" >
-				<a class="nav-link" id="li-a" href="./about.html">ABOUT US</a>
-			  </li>
-			  <li class="nav-item" id="li" >
-				<a class="nav-link" id="li-a" href="./contact.html">CONTACT</a>
-			  </li>
-			  <li class="nav-item" id="li" >
-				<a class="nav-link" id="li-a" href="./login.html">LOGIN</a>
-			  </li>
-			</ul>
-			
-		  </div>
+			<div class="navbar-brand">
+				<img src="../images/destination.png" alt="logo" width="70px" height="40px">
+			</div>
+			<a class="navbar-brand" id="logo" href="#">Traveller's Pick</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item" id="li">
+						<a class="nav-link" id="li-a" href="./index.html">HOME</a>
+					</li>
+					<li class="nav-item" id="li-current">
+						<a class="nav-link" id="li-a-current" href="./packages.html">PACKAGES</a>
+					</li>
+
+					<li class="nav-item" id="li">
+						<a class="nav-link" id="li-a" href="./about.html">ABOUT US</a>
+					</li>
+					<li class="nav-item" id="li">
+						<a class="nav-link" id="li-a" href="./contact.html">CONTACT</a>
+					</li>
+
+					<div id="btn-group">
+						<button value="signin" id="signin-btn" class="silo">SIGNUP</button>
+						<button value="login" id="login-btn" class="silo">LOGIN</button>
+					</div>
+				</ul>
+			</div>
 		</div>
-	  </nav>
-	  <br>
-          <br><br><br>
-<div  style="text-align:center; border: 5px solid #101820ff;border-radius: 10px;background-image: url('../images/package-wall.jpg');backdrop-filter: blur(100px);background-repeat: no-repeat; background-size:cover;";>
-	<h1 style="margin-top: 35px; font-weight: bold;">POPULAR PACKAGES</h1>
-	<!-- package cards -->
-	<div class="card">
-		<img src="../images/north india.jpg" alt="North India Tour Packages">
-		<h2>North India Package</h2>
-		<h6> -Unveil the wonders of North India- </h6>
-            <a href="./north.html"><button class="btn">EXPLORE</button></a>
+	</nav>
+	<br><br><br><br>
+	<h1 style="margin-top: 35px; font-weight: bold; text-align: center;">POPULAR PACKAGES</h1>
+	<div class="package-container" id="packageContainer">
 	</div>
+	<!-- footer -->
+	<footer>
+		<div class="container py-4">
+			<div class="row">
+				<div class="col" id="f1">
+					<h3>Traveller's Pick</h3>
+					<p id="footerpara">Book your holiday tour with us to make the tour economical and the happiest.
+					</p>
+				</div>
 
-	<div class="card">
-		<img src="../images/south india.jpg" alt="South India Tour Packages">
-		<h2>South India Package</h2>
-		<h6> -Experience the warmth of South India- </h6>
-        <a href="./south.html"><button class="btn">EXPLORE</button></a>	
-	</div>
-	<div class="card">
-		<img src="../images/educational.jpg" alt="Educational Tour Packages">
-		<h2>Educational Package</h2>
-		<h6> -Discover, Learn & Grow- </h6>
-        <a href="./educational.html"><button class="btn">EXPLORE</button></a>
-	</div>
-	<div class="card">
-		<img src="../images/eastindia.jpg" alt="East India Tour Packages">
-		<h2>East India Package</h2>
-		<h6> -Discover the untouched beauty of East India- </h6>
-        <a href="./east.html"><button class="btn">EXPLORE</button></a>
-	</div>
-	<div class="card">
-		<img src="../images/westindia.jpeg" alt="West India Tour Packages">
-		<h2>West India Package</h2>
-		<h6> -Journey through Heritage & Horizons- </h6>
-        <a href="./west.html"><button class="btn">EXPLORE</button></a>
-	</div>
-	<div class="card">
-		<img src="../images/honeymoon.jpg" alt="Honeymoon Tour Packages">
-		<h2>Honeymoon Package</h2>
-		<h6> -Your Love Story starts here- </h6>
-        <a href="./honeymoon.html"><button class="btn">EXPLORE</button></a>
-	</div>
-	<!-- more packages -->
+				<div class="col links">
+					<h3 class="h3">Quick links</h3>
+					<p>
+						<a href="./index.html">Home</a>
+					</p>
+					<p>
+						<a href="./packages.html">Packages</a>
+					</p>
+					<p>
+						<a href="./about.html">About Us</a>
+					</p>
+					<p>
+						<a href="./contact.html">Contact</a>
+					</p>
+					<p>
+						<a href="./login.html">Login</a>
+					</p>
+				</div>
+				<div class="col" id="f2">
+					<h3>Contact</h3>
+					<p><i class="fa fa-home"></i> <a
+							href="https://www.google.com/maps/place/Sastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001/@10.9631309,79.3836662,17z/data=!4m15!1m8!3m7!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!2sSastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001!3b1!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8!3m5!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8?authuser=0">Kumbakonam</a>
+					</p>
+					<p><i class="fa fa-envelope"></i> <a
+							href="https://mail.google.com/mail/u/0/#sent?compose=jrjtXSpwlgspvZQVKWjwQZQdSqXMNmdtJHTDCWVXHQjWwdHQMbPfHJHGmnSFGwfjBKtffqbW">travellerschoice.ac.in@gmail.com</a>
+					</p>
+					<p><i class="fa fa-phone"></i> +91 8555238593</p>
+					<p>Follow Us <i class="fa fa-instagram" aria-hidden="true"></i> <i class="fa fa-twitter"
+							aria-hidden="true"></i>
+						<i class="fa fa-whatsapp" aria-hidden="true"></i>
+						<i class="fa fa-facebook" aria-hidden="true"></i>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid" id="f3">
+			<p id="footerend">copyright &copy;2025 Traveller's Pick by SASTRA</p>
+		</div>
+	</footer>
 
-
-
-
-<footer>
-      <div class="container py-4">
-        <div class="row">
-         <div class="col" id="f1">
-          <h3>Traveller's choice</h3>
-          <p id="footerpara">Book your holiday tour with us to make the tour economical and the happiest.</p>
-        </div>
-
-
-        <div class="col links">
-                <h3 class="h3">Quick links</h3>
-                <p>
-                  <a href="./index.html">Home</a>
-                </p>
-                <p>
-                  <a href="./packages.html">Packages</a>
-                </p>
-                <p>
-                  <a href="./about.html">About Us</a>
-                </p>
-                <p>
-                  <a href="./contact.html">Contact</a>
-                </p>
-                <p>
-                  <a href="./login.html">Login</a>
-                </p>
-              </div>
-        <div class="col" id="f2">
-          <h3>Contact</h3>
-          <p><i class="fa fa-home"></i> <a href="https://www.google.com/maps/place/Sastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001/@10.9631309,79.3836662,17z/data=!4m15!1m8!3m7!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!2sSastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001!3b1!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8!3m5!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8?authuser=0">Kumbakonam</a></p>
-          <p><i class="fa fa-envelope"></i> <a href="https://mail.google.com/mail/u/0/#sent?compose=jrjtXSpwlgspvZQVKWjwQZQdSqXMNmdtJHTDCWVXHQjWwdHQMbPfHJHGmnSFGwfjBKtffqbW">travellerschoice.ac.in@gmail.com</a></p>
-          <p><i class="fa fa-phone"></i> +91 8555238593</p>
-          <p>Follow Us  <i class="fa fa-instagram" aria-hidden="true"></i> <i class="fa fa-twitter" aria-hidden="true"></i>
-			<i class="fa fa-whatsapp" aria-hidden="true"></i>
-			<i class="fa fa-facebook" aria-hidden="true"></i> </p>
-         </div>
-        </div>
-      </div>
-      <div class="container-fluid" id="f3">
-          <p id="footerend">copyright &copy;2023 Traveller's Choice by SASTRA</p>
-      </div>
-</footer>
-	</div>
+	<script src="../js/index.js"></script>
+	<script src="../js/package.js"></script>
 </body>
+
 </html>

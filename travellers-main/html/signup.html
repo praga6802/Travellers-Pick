@@ -15,15 +15,27 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
 
   <link href="../css/style.css" type="text/css" rel="stylesheet">
+  <link href="../css/nav.css" type="text/css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../css/usersignup.css">
     <link rel="icon" type="image/png" href="../images/userlogin-icon.png">
 </head>
 
 <body>
+    <nav class="nav">
+        <div>
+            <img id="img" src="../images/destination.png" alt="logo" width="50px" height="40px">
+            <span id="text">Traveller's Pick</span>
+        </div>
+        <div class="webpreview">
+          <a href="../../travellers-main/html/index.html">WEB PREVIEW</a>
+        </div>
+    </nav>
   <div id="container">
     <b style="color:white">
-      <form method="post" action="http://localhost:8080/user/usersignup" id="usersignup">
+      
+      <form method="post" id="usersignup">
         <h1 class="heading" style="color:#fdfcfc">SIGN UP</h1>
+        
         <div class="txt">
           <input type="text" id="username" name="username" placeholder="Username" autofocus required>
         </div>
@@ -37,17 +49,18 @@
         </div>
 
         <div class="txt">
-          <input type="tel" id="phonenumber" name="contact" placeholder="Mobile Number" pattern="[0-9]{10}" required>
+          <input type="tel" id="contact" name="contact" placeholder="Mobile Number" pattern="[0-9]{10}" required>
         </div>
 
         <div class="button-group">
-          <input type="submit" value="Submit" />
-          <input type="reset" value="Reset" />
+          <input type="submit" value="SUBMIT" />
+          <input type="reset" value="RESET" />
         </div>
 
-        <p class="already" style="color:white">Already have an Account! <a href='./login.html'>Login</a></p>
-        <p id="error" style="color: red;"></p>
+        <p class="already">Already have an Account! <a href='./login.html'>Login</a></p>
+        <p id="error"></p>
       </form>
+
       <script src="../js/usersignup.js"></script>
     </b>
   </div>
@@ -55,7 +68,7 @@
     <div class="container py-4">
       <div class="row">
         <div class="col" id="f1">
-          <h3>Traveller's choice</h3>
+          <h3>Traveller's Pick</h3>
           <p id="footerpara">Book your holiday tour with us to make the tour economical and the happiest.</p>
         </div>
         <div class="col links">
@@ -97,7 +110,7 @@
 
     </div>
     <div class="container-fluid" id="f3">
-      <p id="footerend">copyright &copy;2023 Traveller's Choice by SASTRA</p>
+      <p id="footerend">copyright &copy;2025 Traveller's Pick by SASTRA</p>
     </div>
 
   </footer>

@@ -1,45 +1,45 @@
-   body{
-     background-image: url('../images/viewback.jpg');
-    background-repeat:no-repeat;
-    background-size:cover;
+body{
+background-image: url('../images/viewback.jpg');
+background-repeat:no-repeat;
+background-size:cover;
 
-   }
-  
-   .h1{
-        color:bisque;
-        font-size: 4rem;
-        text-align: center;
-        margin-top:2.5%;
-        font-weight: 700;
-   }
+}
+
+.h1{
+     color: rgb(208, 150, 91);
+     font-size: 4rem;
+     text-align: center;
+     margin-top:2.5%;
+     font-weight: 700;
+}
 
 
-   #packagetable{
+#packagetable{
 
-    border: 2px solid white;
-    margin:4%;
-    margin-left:35%;
-    width: auto;
-    padding:30px;
+border: 2px solid white;
+margin:4%;
+margin-left:35%;
+width: auto;
+padding:30px;
 
-   }
+}
 
 th{
-        font-size: 2rem;
-        margin:6%;
-        background-color: rgba(57, 56, 8, 0.801);
-        color: white;
-        text-align: justify;
-        border:2px solid black;
-        padding:10px;
-   }
+     font-size: 2rem;
+     margin:6%;
+     background-color: rgba(57, 56, 8, 0.801);
+     color: white;
+     text-align: center;
+     border:2px solid black;
+     padding:10px;
+}
 
-   td{
-        font-size: 1.8rem;
-        margin:6%;
-        background-color: rgba(255, 255, 255, 0.712);
-        color: black;
-        text-align: left;
-        border:2px solid black;
-        padding:8.5px;
-   }
+td{
+     font-size: 1.8rem;
+     margin:6%;
+     background-color: rgba(255, 255, 255, 0.712);
+     color: black;
+     text-align: left;
+     border:2px solid black;
+     padding:8.5px;
+}

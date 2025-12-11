@@ -1,40 +1,40 @@
-document.getElementById("userloginform").addEventListener('submit',handleLogin)
+const form=document.getElementById("userloginform")
+form.addEventListener('submit', handleLogin);
+const error=document.getElementById('error');
 
-
-async function handleLogin(event){
-
-
+async function handleLogin(event) {
     event.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
 
-
-    const data=new FormData(event.target);
-
-    const error=document.getElementById('error');
-
-
-    try{
-        const response=await fetch("http://localhost:8080/user/userlogin",{
-
-            method:"POST",
-            body:data
+    const data = { email, password };
+    try {
+        const response = await fetch("http://localhost:8080/user/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+            credentials: "include"
         });
-
-        if(response.ok){
-
-            alert('Login Successful');
-            window.location.href='../html/index.html';
-            event.target.reset();
+        const text = await response.json();
+        if (response.ok) {
+            error.innerText="";
+            alert(text.message);
+            setTimeout(() => window.location.href = '/travellers-main/html/index.html', 1000);
+        } 
+        else {
+            error.innerText =text.message;
+            error.style.color='red';
         }
-
-        else{
-            alert('Login Failed')
-            const errorMsg=await response.json();
-            document.getElementById('error').innerText=errorMsg;
-            event.target.reset();
-        }
-    }
-    catch(err){
-        document.getElementById('error').innerText="Network error..Please try again..";
+    } catch (err) {
+        error.innerText = "Network error..Please try again..";
+        error.style.color='red';
         console.error(err);
     }
 }
+
+form.addEventListener('reset',()=>{
+    error.innerText='';
+    document.getElementById('email').value='';
+    document.getElementById('password').value='';
+    
+})

@@ -1,9 +1,9 @@
-<!DoCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Admin Home Page</title>
+    <title>Admin Home-Page</title>
     <link href="../css/admin.css" type="text/css" rel="stylesheet">
     <link rel="icon" type="image/png" href="../../travellers-main/images/package-icon.png">
 </head>
@@ -12,11 +12,7 @@
     <nav class="nav">
         <div>
             <img id="img" src="../images/destination.png" alt="logo" width="50px" height="40px">
-            <span id="logo">Traveller's Choice</span>
-        </div>
-        <span style="color: white;" id="login"></span>
-        <div class="webpreview">
-            <a href="./loginform.html">Logout</a>
+            <span id="logo">Traveller's Pick</span>
         </div>
     </nav>
     <div class="container">
@@ -55,27 +51,29 @@
 
             <!-- sub category-->
             <tr>
-                <td><a href="addcategory.html">ADD CATEGORY</a></td>
+                <td><a href="addcategory.html">ADD TOUR</a></td>
             </tr>
             <tr>
-                <td><a href="updatecategory.html">UPDATE CATEGORY</a></td>
+                <td><a href="updatecategory.html">UPDATE TOUR</a></td>
             </tr>
             <tr>
-                <td><a href="deletecategory.html">DELETE CATEGORY</a></td>
+                <td><a href="deletecategory.html">DELETE TOUR</a></td>
             </tr>
             <tr>
-                <td><a href="viewcategory.html">VIEW CATEGORY</a></td>
+                <td><a href="viewcategory.html">VIEW TOUR</a></td>
             </tr>
 
         </table>
     </div>
-    <script>
-        function handleLoginChange(select) {
-            if (select.value === "logout") {
-                window.location.href = "loginform.html";
-            }
-        }
-    </script>
+
+    <!-- display name and logout option-->
+    <div class="webpreview">
+        <select name="logindropdown" id="logindropdown" onchange="handleLogout(this)">
+            <option id="usernameoption" value="default"></option>
+            <option value="logout">logout</option>
+        </select>
+    </div>
+
     <script src="../js/left.js"></script>
 </body>
 

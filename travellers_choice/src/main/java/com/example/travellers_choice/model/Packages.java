@@ -11,18 +11,22 @@ import java.util.List;
 @Entity
 @Data
 public class Packages {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="package_id")
-    @JsonProperty("packageId")
     private int packageId;
 
     @Column(name="package_name", nullable = false, unique = true)
     private String packageName;
+
     @Column(name="package_slogan",nullable = false, unique = true)
     private String packageSlogan;
+
+    @Column(name="imgUrl", nullable = false)
+    private String imgUrl;
+
+    @Column(name="packageCode",nullable = false)
+    private String packageCode;
 
     @OneToMany(mappedBy = "packageName", orphanRemoval = true, cascade =CascadeType.ALL)
     @JsonManagedReference

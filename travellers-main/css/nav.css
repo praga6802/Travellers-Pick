@@ -1,0 +1,52 @@
+.nav{
+    background-color: rgba(0, 0, 0, 0.903);
+    margin:0;
+    height:80px;
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    gap: 20px;
+}
+
+
+#img{
+    margin:2%;
+    margin-left:4%;
+    margin-top:4%;
+}
+
+#text{
+    color: white;
+    font-size:15px;
+    margin: 0%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.webpreview a{
+    float: right;
+    position: absolute;
+    text-decoration: none;
+    top:2%;
+    right:2%;
+    color:white;
+    font-size: 1rem;
+    padding:5px;
+}
+
+
+.webpreview a:hover{
+    float: right;
+    position: absolute;
+    top:2%;
+    right:2%;
+    color:white;
+    background-color: black;
+    border:1px solid gold;
+    text-decoration: none;
+    font-size: 1rem;
+    padding:5px;
+    transition: 0.1s;
+}

@@ -1,20 +1,22 @@
 package com.example.travellers_choice.service;
 
 
+import com.example.travellers_choice.dto.*;
 import com.example.travellers_choice.exception.IDNotFoundException;
-import com.example.travellers_choice.exception.PackageNameNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
 import com.example.travellers_choice.model.Admin;
 import com.example.travellers_choice.model.Packages;
 import com.example.travellers_choice.model.Tour;
-import com.example.travellers_choice.repository.AdminRepo;
-import com.example.travellers_choice.repository.PackageRepo;
-import com.example.travellers_choice.repository.TourRepo;
+import com.example.travellers_choice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class TourService {
@@ -29,70 +31,146 @@ public class TourService {
     @Autowired
     AdminRepo adminRepo;
 
-    public Tour addTour(int packageName, Tour tour, int adminId, String password) {
+    @Autowired
+    CustomerRegister customerRepo;
 
-        Packages packageEntity = packageRepo.findById(packageName).orElseThrow(() -> new PackageNameNotFoundException("Package Name",String.valueOf(packageName)));
+    //add tour by all admin credentials
+    public ResponseEntity<?> addCategory(UploadCategoryDTO categoryDTO, String email) {
+        Admin exisitingAdmin= adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
 
-        Admin exisitingAdmin= adminRepo.findById(adminId).orElseThrow(()-> new IDNotFoundException("ID",adminId));
+        Packages pkg = packageRepo.findById(categoryDTO.getPackageId())
+                .orElseThrow(() -> new IDNotFoundException("Package ID",categoryDTO.getPackageId()));
 
-        if(!exisitingAdmin.getPassword().equals(password)){
-            throw new UnAuthorizedException("Password",password);
+        MultipartFile image = categoryDTO.getImageFile();
+        String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers-choice/travellers-main/images";
+        File dir= new File(path);
+        if(!dir.exists())dir.mkdirs();
+
+        String fileName=image.getOriginalFilename();
+        File destination=new File(dir,fileName);
+        try{
+            image.transferTo(destination);
+        }
+        catch (Exception e){
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AResponse(LocalDateTime.now(),"Failure","Failed to Upload Image!"));
         }
 
-        tour.setPackageName(packageEntity);
-        return tourRepo.save(tour);
-
+        Tour tour = new Tour();
+        tour.setPackageName(pkg);
+        tour.setTourName(categoryDTO.getTourName());
+        tour.setTourSlogan(categoryDTO.getTourSlogan());
+        tour.setPlaces(categoryDTO.getPlaces());
+        tour.setDays(categoryDTO.getDays());
+        tour.setNights(categoryDTO.getNights());
+        tour.setPrice(categoryDTO.getPrice());
+        tour.setImgUrl("images/"+fileName);
+        tourRepo.save(tour);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Added Successfully"));
     }
 
+    //update tour by all admin credentials
+    public ResponseEntity<?> updateCategory(UploadCategoryDTO categoryDTO, String email) {
+        Admin exisitingAdmin = adminRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Admin Email", email));
 
-    public Tour updateTour(int packageId, Tour tour, int adminId, String password) {
+        Packages pkg=packageRepo.findById(categoryDTO.getPackageId()).orElseThrow(()->new IDNotFoundException("Package ID",categoryDTO.getPackageId()));
 
-        Packages packageEntity = packageRepo.findById(packageId).orElseThrow(() -> new PackageNameNotFoundException("Package Name", String.valueOf(packageId)));
-        Tour tourEntity = tourRepo.findById(tour.getTourId()).orElseThrow(() -> new IDNotFoundException("Tour ID", tour.getTourId()));
-        Admin exisitingAdmin = adminRepo.findById(adminId).orElseThrow(() -> new IDNotFoundException("ID", adminId));
+        Tour tourEntity = tourRepo.findById(categoryDTO.getTourId())
+                .orElseThrow(() -> new IDNotFoundException("Tour ID", categoryDTO.getTourId()));
 
-        if (!exisitingAdmin.getPassword().equals(password)) {
-            throw new UnAuthorizedException("Password", password);
+        if(tourEntity.getPackageId()!=pkg.getPackageId() || categoryDTO.getTourId()!=tourEntity.getTourId()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).
+                    body(new AResponse(LocalDateTime.now(),"Failure","Tour ID not belongs to Package ID"));
         }
 
-        if (tour.getTourName() != null && !tour.getTourName().isBlank())
-            tourEntity.setTourName(tour.getTourName());
+        if (categoryDTO.getTourName() != null && !categoryDTO.getTourName().isBlank())
+            tourEntity.setTourName(categoryDTO.getTourName());
 
-        if (tour.getTourSlogan() != null && !tour.getTourSlogan().isBlank())
-            tourEntity.setTourSlogan(tour.getTourSlogan());
+        if (categoryDTO.getTourSlogan() != null && !categoryDTO.getTourSlogan().isBlank())
+            tourEntity.setTourSlogan(categoryDTO.getTourSlogan());
 
-        if (tour.getPlaces() != null && !tour.getPlaces().isBlank())
-            tourEntity.setPlaces(tour.getPlaces());
+        if (categoryDTO.getPlaces() != null && !categoryDTO.getPlaces().isBlank())
+            tourEntity.setPlaces(categoryDTO.getPlaces());
 
-        if (tour.getDays()!=null)
-            tourEntity.setDays(tour.getDays());
+        if (categoryDTO.getDays()!=null)
+            tourEntity.setDays(categoryDTO.getDays());
 
-        if (tour.getNights() != null)
-            tourEntity.setNights(tour.getNights());
+        if (categoryDTO.getNights() != null)
+            tourEntity.setNights(categoryDTO.getNights());
 
-        if (tour.getPrice() != null)
-            tourEntity.setPrice(tour.getPrice());
+        if (categoryDTO.getPrice() != null)
+            tourEntity.setPrice(categoryDTO.getPrice());
 
-        return tourRepo.save(tourEntity);
+        if(categoryDTO.getImageFile()!=null && !categoryDTO.getImageFile().isEmpty()){
+            MultipartFile image = categoryDTO.getImageFile();
+            String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers-choice/travellers-main/images";
+            File folder = new File(path);
+            if (!folder.exists()) folder.mkdirs();
 
+            String fileName = image.getOriginalFilename();
+            File file = new File(folder, fileName);
+            if (categoryDTO.getImageFile() != null && !categoryDTO.getImageFile().isEmpty()) {
+                tourEntity.setImgUrl("images/" + fileName);
+            }
+        }
+
+        tourRepo.save(tourEntity);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Updated Successfully"));
     }
 
-    public boolean deleteTour(int packageId, int tourId, int adminID, String password) {
-        Packages packageEntity = packageRepo.findById(packageId).orElseThrow(() -> new PackageNameNotFoundException("Package Name", String.valueOf(packageId)));
-        Tour tourEntity = tourRepo.findById(tourId).orElseThrow(() -> new IDNotFoundException("Tour ID", tourId));
-        Admin exisitingAdmin = adminRepo.findById(adminID).orElseThrow(() -> new IDNotFoundException("ID", adminID));
-
-        if (!exisitingAdmin.getPassword().equals(password)) {
-            throw new UnAuthorizedException("Password", password);
-        }
+    //delete tour by admin
+    public ResponseEntity<?> deleteCategory(DeleteTourDTO dto, String email) {
+        Admin exisitingAdmin = adminRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Admin Email", email));
+        Tour tourEntity = tourRepo.findById(dto.getTourId()).orElseThrow(() -> new IDNotFoundException("Tour ID", dto.getTourId()));
 
         tourRepo.delete(tourEntity);
-        return true;
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Deleted Successfully"));
+    }
+
+
+    //get list of tours
+    public List<UpdateCategoryDTO> getAllTours(){
+        List<Tour> tours=tourRepo.findAll();
+        return tours.stream().map(tour->{
+            String fileName="form.html?tourId="+tour.getTourId();
+            return new UpdateCategoryDTO(
+                    tour.getPackageName().getPackageId(),
+                    tour.getTourId(),
+                    tour.getTourName(),
+                    tour.getTourSlogan(),
+                    tour.getPlaces(),
+                    tour.getDays(),
+                    tour.getNights(),
+                    tour.getPrice(),
+                    tour.getImgUrl(),
+                    fileName
+            );
+        }).toList();
+    }
+
+
+    //get tour by ID
+    public ResponseEntity<?> getTourByID(Integer packageID,Integer tourID){
+
+        Packages existingID=packageRepo.findById(packageID).orElseThrow(()-> new IDNotFoundException("Package ID",packageID));
+        Tour tour=existingID.getTours().stream().
+                filter(t->t.getTourId()==(tourID)).findFirst().
+                orElseThrow(()->new IDNotFoundException("Tour ID '",tourID));
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("Package ID",packageID);
+        response.put("Tour ID",tourID);
+        response.put("Tour Name",tour.getTourName());
+        response.put("Tour Slogan",tour.getTourSlogan());
+        response.put("Price",tour.getPrice());
+        response.put("Name",tour.getTourName());
+        response.put("Places",tour.getPlaces());
+        response.put("Days",tour.getDays());
+        response.put("Nights",tour.getNights());
+        return ResponseEntity.ok(response);
+
 
     }
 
-    public List<Tour> getAllTours() {
 
-        return tourRepo.findAll();
-    }
+
 }

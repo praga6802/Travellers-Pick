@@ -10,6 +10,50 @@ body {
     font-size: 20px;
 }
 
+#btn-group{
+  display: flex;
+  flex-direction: row;
+  gap:20px;
+  padding: 0%;
+  width: auto;
+}
+/* login and signin button*/
+
+.silo{
+  width: 80px;
+  height: min-content;
+  padding: 10px;
+  margin-top: 8%;
+  background-color: rgb(222, 219, 219);
+  border-radius: 5px;
+  font-weight: 500;
+  color:white;
+}
+#signin-btn{
+  background-color:rgba(5, 117, 44, 0.809);
+}
+
+#login-btn{
+  background-color:rgb(9, 103, 174);
+}
+
+/* after login- select list*/
+#loginSelect{
+  background-color: rgba(39, 98, 198, 0.665);
+  color:white;
+  border-radius: 5px;
+  font-weight: 600;
+  outline:2px solid white;
+  height: min-content;
+  padding:10px;
+  margin-top: 5%;
+}
+
+.loginoption{
+  background-color: black;
+  color: white;
+}
+
 .contact-add {
     border: 1px solid#ddd;
     border-radius: 10px;
@@ -156,3 +200,81 @@ h2 {
     border: 3px solid white;
     margin: 1rem 1.2rem 2rem 3rem;
 }
+
+/*nav bar */
+nav{
+  background-color: black;
+  height: 118px;
+}
+/*nav bar*/
+nav{
+  background-color: black;
+  height: 118px;
+  
+}
+#logo{
+  color: white;
+  font-size: 30px;
+  
+}
+#logo:hover{
+  color: orange;
+  transition-duration: 0.3s;
+}
+
+#loginlist{
+  background-color: maroon;
+  color:white;
+  text-align: left;
+  font-size: 16px;
+  border:none;
+  font-weight: 600;
+  padding: 3px;
+  margin-top:9px;
+}
+
+#loginli{
+  width: auto;
+  margin:10px;
+  padding:5px;
+  background-color: maroon;
+}
+
+#loginli:hover{
+  background-color: maroon;
+  color:white;
+  border-radius:3px;
+  height:auto;
+}
+
+#loginlist:hover{
+  background-color: maroon;
+}
+
+.navbar-toggler {
+  border-color: rgb(250, 245, 248);
+  color:white;
+  background-color: #ff2;
+} 
+
+.loginopt{
+  background-color: white;
+  color: black;
+}
+#logo{
+  color: white;
+  font-size: 30px;
+  
+}
+#logo:hover{
+  color: orange;
+  transition-duration: 0.3s;
+}
+
+
+
+.navbar-toggler {
+  border-color: rgb(250, 245, 248);
+  color:white;
+  background-color: #ff2;
+} 

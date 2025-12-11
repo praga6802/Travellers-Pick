@@ -1,68 +1,94 @@
 package com.example.travellers_choice.controller;
 
-import com.example.travellers_choice.model.Admin;
-import com.example.travellers_choice.model.Customer;
-import com.example.travellers_choice.model.CustomerRegistry;
+import com.example.travellers_choice.dto.*;
+import com.example.travellers_choice.model.*;
 import com.example.travellers_choice.service.AdminService;
+import com.example.travellers_choice.service.IternaryService;
+import com.example.travellers_choice.service.PackageService;
+import com.example.travellers_choice.service.TourService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
-@CrossOrigin(origins = "http://127.0.0.1:5500", allowCredentials = "true")
 public class AdminController {
 
 
     @Autowired
     AdminService adminService;
 
+    @Autowired
+    PackageService packageService;
 
-    // ADMIN Controller
-    //SIGN UP ADMIN
-    @PostMapping("/adminsignup")
-    public ResponseEntity<?> signUp(@ModelAttribute Admin admin){
-        Admin saveAdmin=adminService.signUp(admin);
-        return ResponseEntity.ok(saveAdmin);
+    @Autowired
+    TourService tourService;
+
+    @Autowired
+    IternaryService iternaryService;
+
+
+                                            // --- ADMIN ---
+    //sign up admin
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUp(@RequestBody Admin admin){
+        return adminService.signUp(admin);
     }
 
-    //LOGIN ADMIN
-    @PostMapping("/adminlogin")
-    public ResponseEntity<?> adminLogin(@RequestParam("email") String email, @RequestParam("password") String password, HttpSession httpSession){
+    //login admin
+    @PostMapping("/login")
+    public ResponseEntity<?> adminLogin(@RequestBody LoginDTO loginData, HttpSession session) {
+        return adminService.adminLogin(loginData.getEmail(),loginData.getPassword(),session);
+    }
 
-        Admin adminLogin=adminService.adminLogin(email,password);
-        if(adminLogin!=null){
-            httpSession.setAttribute("loggedAdmin",adminLogin);
-            Map<String, Object> response=new HashMap<>();
-            response.put("adminId",adminLogin.getAdminId());
-            response.put("adminUserName",adminLogin.getUsername());
-            response.put("message","Login Successful");
-            return ResponseEntity.ok(response);
+    //get the current admin
+    @GetMapping("/current-admin")
+    public ResponseEntity<?> getCurrentAdmin(HttpSession session) {
+        Admin admin=(Admin) session.getAttribute("LoggedAdmin");
+        if(admin==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+           .body(new AResponse(LocalDateTime.now(),"Failure","No Active Session user"));
         }
-        Map<String,Object> error=new HashMap<>();
-        error.put("error","Invalid Credentials");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        return ResponseEntity.ok(Map.of(
+                "adminId", admin.getAdminId(),
+                "adminUserName", admin.getUsername(),
+                "adminEmail",admin.getEmail(),
+                "adminContact",admin.getContact()
+        ));
     }
 
 
-    @GetMapping("/username")
-    public ResponseEntity<?> getUsername(HttpSession session){
-        Admin admin=(Admin)session.getAttribute("loggedAdmin");
-
-        if(admin!=null){
-            Map<String,Object> response= new HashMap<>();
-            response.put("adminId",admin.getAdminId());
-            response.put("adminUserName",admin.getUsername());
-            return ResponseEntity.ok(response);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Not Found");
+    //logout admin
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpSession session){
+       return adminService.logout(session);
     }
+
+
+    // UPDATE ADMIN
+    @PostMapping("/updateAdmin")
+    public ResponseEntity<?> updateAdmin(@RequestBody AdminDTO admin, @AuthenticationPrincipal UserDetails user){
+        String email=user.getUsername();
+        System.out.println("EMAIL:"+email+" with data"+"DATA"+admin);
+        return adminService.updateAdmin(admin,email);
+    }
+
+
+    //DELETE ADMIN
+    @DeleteMapping("/deleteAdmin")
+    public ResponseEntity<?> deleteAdmin(@RequestBody DeleteAdminDTO deleteAdminDTO){
+        return adminService.deleteAdmin(deleteAdminDTO.getAdminId(), deleteAdminDTO.getPassword());
+    }
+
 
     //VIEW ADMIN
     @GetMapping("/alladmins")
@@ -71,43 +97,131 @@ public class AdminController {
         return ResponseEntity.ok(allAdmins);
     }
 
+
     //GET ADMIN BY ID
-    @GetMapping("/findadmin/{id}")
-    public Admin getAdmin(@PathVariable("id") int id){
-        return adminService.getAdmin(id);
+    @GetMapping("/getadmin/{adminId}")
+    public ResponseEntity<?> getAdmin(@PathVariable("adminId") Integer adminid){
+        return adminService.getAdmin(adminid);
+    }
+
+    @GetMapping("/adminData")
+    public ResponseEntity<?> adminData(@AuthenticationPrincipal UserDetails userDetails){
+        if(userDetails==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
+                    body(new AResponse(LocalDateTime.now(),"Failure","Network Error or Session Expired! Please try again"));
+        }
+        return adminService.adminData(userDetails.getUsername());
     }
 
 
-    //delete admin
-    @DeleteMapping("/deleteadmin")
-    public ResponseEntity<Map<String, String>> deleteAdmin(@RequestParam("adminId") int adminId, @RequestParam("password") String password){
-        boolean result=adminService.deleteAdmin(adminId, password);
-        if(!result)
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error","Admin ID Not Found"));
-        return ResponseEntity.ok(Map.of("message","Admin Deleted Successfully"));
-    }
-
-    // UPDATE ADMIN
-    @PostMapping("/updateadmin")
-    public ResponseEntity<Map<String, String>> updateAdmin(@ModelAttribute Admin admin){
-        adminService.updateAdmin(admin);
-        return ResponseEntity.ok(Map.of("message","Admin Updated Successfully"));
-    }
-
-
-    // CUSTOMERS
-    // get all register customers
+                                                    // --- CUSTOMERS --
+    // get all tour register customers
     @GetMapping("/allregusers")
-    public ResponseEntity<List<CustomerRegistry>> getAllUsers(){
-        List<CustomerRegistry> allUsers= adminService.getAllRegUsers();
+    public ResponseEntity<List<BookedUserDTO>> getAllUsers(){
+        List<BookedUserDTO> allUsers= adminService.getAllRegUsers();
         return ResponseEntity.ok(allUsers);
     }
 
 
-    //get all customers
+    //get all signup users
     @GetMapping("/allusers")
     public ResponseEntity<List<Customer>> getAllCustomers(){
         List<Customer> allCustomers= adminService.getAllCustomers();
         return ResponseEntity.ok(allCustomers);
+    }
+
+
+
+                                                    // --- PACKAGE ---
+    //ADD PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
+    @PostMapping(value = "/addPackage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> addPackage(@ModelAttribute PackageUploadDTO dto, @AuthenticationPrincipal UserDetails user){
+      return packageService.addPackage(dto, user.getUsername());
+    }
+
+
+    //UPDATE PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
+    @PostMapping(value = "/updatePackage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updatePackage(@ModelAttribute UpdatePackageDTO updatePackageDTO, @AuthenticationPrincipal UserDetails user) {
+        return packageService.updatePackage(updatePackageDTO, user.getUsername());
+    }
+
+    //DELETE PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
+    @DeleteMapping("/deletePackage")
+    public ResponseEntity<?> deletePackage(@RequestBody DeletePackageDTO deletePackageDTO, @AuthenticationPrincipal UserDetails user){
+         return packageService.deletePackage(deletePackageDTO.getPackageId(),user.getUsername());
+    }
+
+    //GET ALL PACKAGES
+    @GetMapping("/allPackages")
+    public ResponseEntity<?> getAllPackages(){
+        List<PackageDTO> listPackages=packageService.getAllPackages();
+        return ResponseEntity.ok(listPackages);
+    }
+
+
+    @GetMapping("/packageNames")
+    public ResponseEntity<?> getAllPackageNames(){
+        List<PackageInfoDTO> packageNames=packageService.getAllPackageNames();
+        return ResponseEntity.ok(packageNames);
+    }
+
+
+    //GET PACKAGE BY ID
+    @GetMapping("/getPackage/{package_id}")
+    public ResponseEntity<?> getPackageById(@PathVariable Integer package_id){
+        return packageService.getPackageById(package_id);
+    }
+
+
+                                                        //  --- TOUR ---
+    //ADD TOUR
+    @PostMapping(value = "/addCategory",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> addCategory(@ModelAttribute UploadCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return tourService.addCategory(categoryDTO,userDetails.getUsername());
+    }
+
+    // UPDATE TOUR
+    @PostMapping(value = "/updateCategory", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateCategory(@ModelAttribute UploadCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return tourService.updateCategory(categoryDTO,userDetails.getUsername());
+    }
+
+    // DELETE TOUR
+    @DeleteMapping("/deleteCategory")
+    public ResponseEntity<?> deleteCategory(@RequestBody DeleteTourDTO dto, @AuthenticationPrincipal UserDetails userDetails){
+        return tourService.deleteCategory(dto, userDetails.getUsername());
+    }
+
+    //GET ALL TOURS
+    @GetMapping("/allCategories")
+    public ResponseEntity<List<UpdateCategoryDTO>> getAllTours(){
+        List<UpdateCategoryDTO> allTours=tourService.getAllTours();
+        return ResponseEntity.ok(allTours);
+    }
+
+
+    // GET TOUR BY ID
+    @GetMapping("/getTour/{packageID}/{tourID}")
+    public ResponseEntity<?> getTourById(@PathVariable Integer packageID,@PathVariable Integer tourID){
+        return tourService.getTourByID(packageID,tourID);
+    }
+
+
+    // ITERNARY
+    //add iternary
+    @PostMapping("/addIternary")
+    public ResponseEntity<?> addIternary(@RequestBody AddIternaryDTO addIternaryDTO, @AuthenticationPrincipal UserDetails userDetails){
+        if(userDetails==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","Network Error or Session Expired! Please try again"));
+        }
+        return iternaryService.addIternary(addIternaryDTO,userDetails.getUsername());
+    }
+
+
+    @GetMapping("/allIternaries")
+    public ResponseEntity<List<SendIternaryDTO>> allIternaries(){
+        List<SendIternaryDTO> iternaryList= iternaryService.allIternaries();
+        return ResponseEntity.ok(iternaryList);
     }
 }

@@ -24,17 +24,18 @@
 
 <body>
 	<div class="container">
-		<form method="post" action="http://localhost:8080/tour/addtour" id="addcategoryform">
-			<legend>ADD Category</legend>
-			<label for="package_name">Package Name</label>
-			<select name="packageName" id="packages" required>
+		<form method="post" id="addcategoryform" enctype="multipart/form-data">
+			<legend>ADD TOUR</legend>
+
+			<label for="packageName">Package Name</label>
+			<select name="packageName" id="packageName" required>
 				<option disabled selected hidden value="">Select Package</option>
-			</select>
+			</select><br><br>
 
 			<label for="tourName">Tour Name</label>
-			<input type="text" name="tourName" id="tourName" placeholder="Enter the Tour Name" required><br><br>
+			<input type="text" name="tourName" id="tourName" placeholder="Enter the tour name" required><br><br>
 			<label for="tourslogan">Tour Slogan</label>
-			<input type="text" name="tourSlogan" id="tourslogan" maxlength="50" placeholder="Tour Slogan"/><br><br>
+			<input type="text" name="tourSlogan" id="tourSlogan" maxlength="50" placeholder="Enter the tour slogan"/><br><br>
 			<label for="places">Places</label>
 			<input type="text" name="places" id="places" placeholder="Enter the list of places seperated by comma" required><br><br>
 			<label for="days">Days</label>
@@ -43,17 +44,15 @@
 			<input type="number" name="nights" id="nights" max="10" min="1" required><br><br>
 			<label for="price">Price</label>
 			<input type="text" name="price" id="price" placeholder="Enter amount" required><br><br>
-			<label for="adminId">Admin ID</label>
-			<input type="text" placeholder="Admin ID" name="adminId" id="adminId"><br><br>
-			<label for="password">Admin Password</label>
-			<input type="password" name="password" id="password" pattern="[a-zA-Z0-9!@#$%^&*\(\)]{1,10}"
-				required placeholder="Password" /><br><br>
+
+			<label for="imageFile">Tour Image</label>
+			<input type="file" name="imageFile" id="imageFile" accept="images/*">
+	
 			<input type="submit" value="ADD" name="submit" />
 			<input type="reset" value="RESET" name="reset" />
 		</form>
 		<p id="error" style="margin-top: 3%;"></p>
 	</div>
-	<script src="../js/viewpackages.js"></script>
 	<script src="../js/addcategory.js"></script>
 </body>
 </html>

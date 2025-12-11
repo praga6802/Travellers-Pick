@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cancel Booking</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device,initial-scale=1.0">
+    <meta name="description" content="tourism details">
+    <meta name="keywords" content="tour,tourism,travel and tourism">
+    <meta name="robots" content="INDEX,FOLLOW">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <link href="../css/style.css" type="text/css" rel="stylesheet">
+    <link href="../css/userprofile.css" type="text/css" rel="stylesheet">
+    <link href="../css/cancelform.css" type="text/css" rel="stylesheet">
+    <link rel="icon" href="../images/userprofile.png" type="image/png">
+</head>
+
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark py-1 py-md-4" id>
+        <div class="container-fluid">
+            <div class="navbar-brand">
+                <img src="../images/destination.png" alt="logo" width="50px" height="40px">
+            </div>
+            <a class="navbar-brand" id="logo" href="#">Traveller's Pick</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ms-auto">
+                    <li class="nav-item" id="li">
+                        <a class="nav-link" id="li-a" href="./index.html">HOME</a>
+                    </li>
+                    <li class="nav-item" id="li">
+                        <a class="nav-link" id="li-a" href="./packages.html">PACKAGES</a>
+                    </li>
+
+                    <li class="nav-item" id="li">
+                        <a class="nav-link" id="li-a" href="./about.html">ABOUT US</a>
+                    </li>
+                    <li class="nav-item" id="li">
+                        <a class="nav-link" id="li-a" href="./contact.html">CONTACT</a>
+                    </li>
+
+                    <div id="btn-group">
+						<button value="signin" id="signin-btn" class="silo">SIGNUP</button>
+						<button value="login" id="login-btn" class="silo">LOGIN</button>
+					</div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br><br><br>
+
+
+    <div class="page-container">
+        <!--side bar-->
+        <div class="container">
+            <table id="table">
+                <tr id="user-link">
+                    <td id="user-data">USER LINKS</td>
+                </tr>
+                <tr class="row" id="update-link">
+                    <td class="row-data"><a href="./updateuser.html" class="link">UPDATE USER INFO</a></td>
+                </tr>
+                <tr class="row">
+                    <td class="row-data"><a href="./cancelbooking.html" class="link">CANCEL BOOKING</a></td>
+                </tr>
+                <tr class="row">
+                    <td class="row-data"><a href="./viewbookings.html" class="link">VIEW BOOKINGS</a></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-area">
+            <legend id="legend-cancel">Booking Cancellation</legend>
+            <form id="cancelform" method="post">
+                <h6 id="message">Please Enter the PNR number for ticket cancellation!</h6>
+                <div id="input">
+                    
+                    <label for="pnr">PNR Number</label>
+                    <input type="text" name="PNR" id="pnr" placeholder="Enter PNR Number" min="1">
+                </div>
+
+
+                <div id="btn">
+                    <button type="submit" id="submit">SUBMIT</button>
+                    <button type="reset" id="reset">RESET</button>
+                </div>
+            </form> 
+            <p id="error"></p>
+        </div>
+   
+    </div>
+    
+    
+    <script src="../js/userprofile.js"></script>
+    <script src="../js/cancelticket.js"></script>
+</body>
+
+</html>

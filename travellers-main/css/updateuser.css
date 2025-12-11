@@ -1,0 +1,150 @@
+body{
+    background-image: url('../images/user-back.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#legend-cancel{
+    text-align: center;
+    color: rgb(167, 66, 66);
+    font-size: 30px;
+    text-transform: uppercase;
+    text-shadow: 20;
+    margin-top: 7%;
+    margin-left: 20%;
+    font-weight: bold;
+}
+
+
+.page-container{
+    display: flex;
+    gap:30px;
+}
+#btn-group{
+  display: flex;
+  flex-direction: row;
+  gap:20px;
+  padding: 0%;
+  width: auto;
+}
+/* login and signin button*/
+
+.silo{
+  width: 80px;
+  height: min-content;
+  padding: 10px;
+  margin-top: 8%;
+  background-color: rgb(222, 219, 219);
+  border-radius: 5px;
+  font-weight: 500;
+  color:white;
+}
+
+#signin-btn{
+  background-color:rgba(5, 117, 44, 0.809);
+}
+
+#login-btn{
+  background-color:rgb(9, 103, 174);
+}
+
+/* after login- select list*/
+#loginSelect{
+  background-color: rgba(39, 98, 198, 0.665);
+  color:white;
+  border-radius: 5px;
+  font-weight: 600;
+  outline:2px solid white;
+  height: min-content;
+  padding:10px;
+  margin-top: 5%;
+}
+
+.loginoption{
+  background-color: black;
+  color: white;
+}
+
+#updateform{
+    padding: 40px 0px;
+    margin-top: 12%;
+    margin-left: 600px;
+    width: 70vh;
+    border: 3px solid rgba(102, 104, 100, 0.401);
+    border-radius: 5px;
+    height:43vh;
+}
+
+#input{
+    margin:0% 5%;
+    gap: 20px;
+    background-color: rgba(235, 231, 231, 0.375);
+    padding: 50px;
+}
+
+#email{
+    margin-left:15% ;
+}
+
+#username{
+    margin-left: 7%;
+}
+
+#input label{
+    color: rgb(47, 46, 46);
+    font-size: 17px;
+    font-weight:600;
+    margin: 0%;
+    margin-right: 10%;
+    margin-left: 0;
+}
+
+input[type="text"],input[type='email'], input[type='tel']{
+    padding: 8px;
+    width:50%;
+    border-style: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: white;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus{
+    border:3px solid rgba(31, 82, 165, 0.646);
+    outline: none;
+    padding: 8px;
+    width:50%;
+    border-radius: 5px;
+    background-color: white
+}
+
+/* button styles */
+#btn{
+    display: flex;
+    margin-top: 40px;
+    gap: 50px;
+    text-align: center;
+    justify-content: center;
+}
+
+#submit, #reset{
+    background-color: rgb(6, 70, 165);
+    color: white;
+    border: none;
+    padding: 7px;
+    width:auto;
+    border-radius: 8px;
+    font-weight: 450;
+
+}
+
+#submit:hover, #reset:hover{
+    background-color: rgb(35, 94, 154);
+    color: white;
+}
+
+.form-area #error{
+    font-size: 20px;
+    text-align: center;
+}

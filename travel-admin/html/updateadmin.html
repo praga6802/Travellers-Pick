@@ -20,15 +20,15 @@
 
 <body>
 	<div class="container">
-		<form method="post" action="http://localhost:8080/admin/updateadmin" id="updateAdmin">
+		<form method="post" id="updateAdmin">
 			<legend>UPDATE ADMIN</legend>
-			<label id="adminId">Admin ID</label>
-			<input type="text" name="adminId" id="adminId" placeholder="Admin ID" required><br><br>
+			<label for="adminId">Admin ID</label>
+			<input type="text" name="adminId" id="adminId" placeholder="Admin ID" disabled><br><br>
 			<label for="username">User Name</label>
-			<input type="text" name="username" placeholder="Full Name" /><br><br>
+			<input type="text" name="username" id="username" placeholder="Full Name" /><br><br>
 
 			<label for="password">Password</label>
-			<input type="password" name="password" id="password" pattern="[a-zA-z0-9!@#$%^&*\(\)]{1,10}"
+			<input type="password" name="password" id="password" pattern="[A-Za-z0-9!@#$%^&*\(\)]{6,16}"
 				placeholder="Password" required><br><br>
 
 			<label for="email">Email</label>
@@ -42,7 +42,7 @@
 			<input type="reset" value="RESET" name="reset" />
 
 		</form>
-		<p id="update-status"></p>
+		<p id="error"></p>
 	</div>
 
 	<script src="../js/updateadmin.js">
