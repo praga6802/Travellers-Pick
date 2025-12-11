@@ -23,6 +23,7 @@ async function handleSignUp(event){
         const responseData=await response.json();
         if(response.ok){
             alert(responseData.message);
+            form.reset();
         }
         else{
             error.innerText=responseData.message;

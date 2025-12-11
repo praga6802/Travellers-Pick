@@ -166,7 +166,7 @@ public class UserService {
 
         if(bookTourDTO.getEmail()!=null && !bookTourDTO.getEmail().isEmpty()){
             String subject="Confirmation of Tour Booking!";
-            String body = "Hi " + bookTourDTO.getName() + ",\n\n"
+            String body = "Hi " + user.getUsername() + ",\n\n"
                     + "Your tour has been booked successfully for the package: " + bookTourDTO.getRegion() + ".\n\n"
                     +"Booking Details:\n"
                     +"Booking ID: "+book.getBookingId()+"\n"
@@ -219,7 +219,7 @@ public class UserService {
 
         List<CustomerRegistry> userBookings=registerRepo.findByUserId(user.getId());
         List<TourDetailsDTO> bookedTourList=userBookings.stream()
-                .map(t->new TourDetailsDTO(t.getTour().getTourId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
+                .map(t->new TourDetailsDTO(t.getBookingId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
                         t.getNoOfAdults(),t.getNoOfChildren(),t.getBdate(),t.getTdate(),t.getStatus(),t.getPrice())).toList();
         return ResponseEntity.ok(bookedTourList);
     }
@@ -244,9 +244,10 @@ public class UserService {
 
         if(user.getEmail()!=null && !user.getEmail().isEmpty()){
             String subject="Cancellation of Ticket Booking!";
-            String body = "Hi " + reg.getName() + ",\n\n"
-                    + "Your ticket has been cancelled successfully for the package: " + reg.getRegion() + ".\n\n"
-                    + "Thank you for choosing Traveller's Pick!\n";
+            String body = "Hi " + user.getUsername() + ",\n"
+                    + "Your ticket has been cancelled successfully for the package: " + reg.getRegion() + ".\n"
+                    + "We look forward to helping you book your next tour in the future!"+"\n\n"
+                    +"By Traveller's Pick.";
 
             emailService.sendSimpleEMail(reg.getEmail(),subject,body);
         }

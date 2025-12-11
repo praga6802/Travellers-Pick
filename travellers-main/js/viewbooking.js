@@ -61,7 +61,7 @@ async function handleViewBooking() {
                     ${item.packageName} - ${item.region}
                 </div>
                  <div class="booking-body">
-                    <p><strong>Tour ID:</strong> ${item.tourId}</p>
+                    <p><strong>Booking ID:</strong> ${item.bookingId}</p>
                     <p><strong>Name:</strong> ${item.userName}</p>
                     <p><strong>Email:</strong> ${item.email}</p>
                     <p><strong>Contact:</strong> ${item.contact}</p>

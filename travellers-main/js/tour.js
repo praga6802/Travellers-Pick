@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async function loadTours() {
     }
     catch (e) {
         console.error("Failed to load tours:", e);
-        error.innerText = "Failed to load tours!";
+        error.innerText = "Network Error.. Unable to reach server!";
         error.style.color = 'red';
     }
 });
@@ -55,12 +55,12 @@ function showPackageTours(packageId){
                 <p>${t.places}</p>
                 <span class="package-name"> <i style="font-size:24px" class="fa">&#xf017;</i> Days: ${t.days} - Nights: ${t.nights}</span>
                 <p id='price'>Price: Rs.${t.price}</p>
-			    <button class="btn" onclick="tourChange('${t.fileName}','${t.tourId}')">BOOK NOW</button>
+			    <button class="btn" onclick="tourChange('${t.fileName}')">BOOK NOW</button>
 		</div>
         `;
     });
 }
 
-function tourChange(value,tourId){
-    window.location.href=`../html/${value}?tourId=${tourId}`;
+function tourChange(value){
+    window.location.href=`../html/${value}`;
 }

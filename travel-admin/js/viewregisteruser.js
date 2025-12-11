@@ -24,13 +24,13 @@ try{
     details.forEach(detail => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${detail.tourId}</td>
-            <td>${detail.user.id}</td>
-            <td>${detail.name}</td>
+            <td>${detail.userId}</td>
+            <td>${detail.userName}</td>
             <td>${detail.email}</td>
             <td>${detail.phone}</td>
+            <td>${detail.price}</td>
             <td>${detail.packageName}</td>
-            <td>${detail.region}</td>
+            <td>${detail.tourName}</td>
             <td>${new Date(detail.bdate).toLocaleDateString()}</td>
             <td>${new Date(detail.tdate).toLocaleDateString()}</td>
             <td>${detail.noOfSeats}</td>

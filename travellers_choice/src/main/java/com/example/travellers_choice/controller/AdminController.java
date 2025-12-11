@@ -3,6 +3,7 @@ package com.example.travellers_choice.controller;
 import com.example.travellers_choice.dto.*;
 import com.example.travellers_choice.model.*;
 import com.example.travellers_choice.service.AdminService;
+import com.example.travellers_choice.service.IternaryService;
 import com.example.travellers_choice.service.PackageService;
 import com.example.travellers_choice.service.TourService;
 import jakarta.servlet.http.HttpSession;
@@ -31,6 +32,9 @@ public class AdminController {
 
     @Autowired
     TourService tourService;
+
+    @Autowired
+    IternaryService iternaryService;
 
 
                                             // --- ADMIN ---
@@ -113,8 +117,8 @@ public class AdminController {
                                                     // --- CUSTOMERS --
     // get all tour register customers
     @GetMapping("/allregusers")
-    public ResponseEntity<List<CustomerRegistry>> getAllUsers(){
-        List<CustomerRegistry> allUsers= adminService.getAllRegUsers();
+    public ResponseEntity<List<BookedUserDTO>> getAllUsers(){
+        List<BookedUserDTO> allUsers= adminService.getAllRegUsers();
         return ResponseEntity.ok(allUsers);
     }
 
@@ -203,4 +207,21 @@ public class AdminController {
         return tourService.getTourByID(packageID,tourID);
     }
 
+
+    // ITERNARY
+    //add iternary
+    @PostMapping("/addIternary")
+    public ResponseEntity<?> addIternary(@RequestBody AddIternaryDTO addIternaryDTO, @AuthenticationPrincipal UserDetails userDetails){
+        if(userDetails==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","Network Error or Session Expired! Please try again"));
+        }
+        return iternaryService.addIternary(addIternaryDTO,userDetails.getUsername());
+    }
+
+
+    @GetMapping("/allIternaries")
+    public ResponseEntity<List<SendIternaryDTO>> allIternaries(){
+        List<SendIternaryDTO> iternaryList= iternaryService.allIternaries();
+        return ResponseEntity.ok(iternaryList);
+    }
 }

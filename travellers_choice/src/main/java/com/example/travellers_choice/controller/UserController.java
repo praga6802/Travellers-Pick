@@ -5,6 +5,7 @@ import com.example.travellers_choice.model.Customer;
 import com.example.travellers_choice.model.CustomerRegistry;
 import com.example.travellers_choice.model.Packages;
 import com.example.travellers_choice.model.Tour;
+import com.example.travellers_choice.service.IternaryService;
 import com.example.travellers_choice.service.PackageService;
 import com.example.travellers_choice.service.TourService;
 import com.example.travellers_choice.service.UserService;
@@ -36,6 +37,10 @@ public class UserController {
 
     @Autowired
     TourService tourService;
+
+    @Autowired
+    IternaryService iternaryService;
+
 
     //user signup
     @PostMapping("/signup")
@@ -113,6 +118,12 @@ public class UserController {
                     .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
         }
         return userService.userData(userDetails.getUsername());
+    }
+
+    @GetMapping("/allIternaries")
+    public ResponseEntity<List<SendIternaryDTO>> allIternaries(){
+        List<SendIternaryDTO> iternaryList= iternaryService.allIternaries();
+        return ResponseEntity.ok(iternaryList);
     }
 
 }

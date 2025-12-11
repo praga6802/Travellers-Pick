@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 public class Tour {
@@ -27,6 +29,9 @@ public class Tour {
     private Integer nights;
     private Double price;
     private String imgUrl;
+
+    @OneToMany(mappedBy = "tour",cascade = CascadeType.ALL)
+    private List<Iternary> iternaryList;
 
 
     @JsonProperty("packageId")
