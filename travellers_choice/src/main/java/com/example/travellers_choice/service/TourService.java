@@ -131,14 +131,8 @@ public class TourService {
     //get list of tours
     public List<UpdateCategoryDTO> getAllTours(){
         List<Tour> tours=tourRepo.findAll();
-
-        Map<String,Integer> counter=new HashMap<>();
         return tours.stream().map(tour->{
-            String pkgCode=tour.getPackageName().getPackageCode();
-            int count=counter.getOrDefault(pkgCode,0)+1;
-            counter.put(pkgCode,count);
-
-            String fileName="form"+pkgCode+count+".html";
+            String fileName="form.html?tourId="+tour.getTourId();
             return new UpdateCategoryDTO(
                     tour.getPackageName().getPackageId(),
                     tour.getTourId(),

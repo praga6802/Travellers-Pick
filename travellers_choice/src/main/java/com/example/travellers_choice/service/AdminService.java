@@ -2,6 +2,7 @@ package com.example.travellers_choice.service;
 
 
 import com.example.travellers_choice.dto.AdminDTO;
+import com.example.travellers_choice.dto.BookedUserDTO;
 import com.example.travellers_choice.exception.AlreadyExistsException;
 import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
@@ -182,8 +183,14 @@ public class AdminService {
 
 
     // CUSTOMERS
-    public List<CustomerRegistry> getAllRegUsers() {
-        return customerRegisterRepo.findAll();
+    public List<BookedUserDTO> getAllRegUsers() {
+        return customerRegisterRepo.findAll().stream()
+                //Integer userId, String userName, String email, String phone, Double price, String packageName, String tourName,
+                //                         String tdate, String bdate, String noOfSeats, String noOfAdults, String noOfChildren, String city,
+                //                         String state, String country, String status
+                .map(user->new BookedUserDTO(user.getUser().getId(),user.getName(),user.getEmail(),user.getPhone(),user.getPrice(),user.getPackageName(),user.getTour().getTourName(),
+                        user.getTdate(),user.getBdate(),user.getNoOfSeats(),user.getNoOfAdults(),user.getNoOfChildren(),user.getCity(),user.getState(),user.getCountry(),user.getStatus())).toList();
+
     }
 
     public List<Customer> getAllCustomers() {

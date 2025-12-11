@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class TourDetailsDTO {
-    private Integer tourId;
+    private Integer bookingId;
     private String userName;
     private String email;
     private String contact;
@@ -20,11 +20,11 @@ public class TourDetailsDTO {
     private String status;
     private Double price;
 
-    public TourDetailsDTO(Integer tourId,String userName, String email, String contact, String packageName, String region, Integer noOfSeats,
+    public TourDetailsDTO(Integer bookingId,String userName, String email, String contact, String packageName, String region, Integer noOfSeats,
                           Integer noOfAdults, Integer noOfChildren, String bookedAt,String travelAt, String status,Double price) {
         this.userName = userName;
         this.email = email;
-        this.tourId = tourId;
+        this.bookingId = bookingId;
         this.contact = contact;
         this.packageName = packageName;
         this.region = region;
