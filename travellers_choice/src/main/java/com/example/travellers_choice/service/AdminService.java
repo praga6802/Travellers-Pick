@@ -30,6 +30,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -79,16 +80,13 @@ public class AdminService {
 
     //ADMIN  LOGIN
     public ResponseEntity<?> adminLogin(String email, String password, HttpSession session) {
+        Admin admin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(email, password)
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            session.setAttribute("SPRING_SECURITY_CONTEXT",SecurityContextHolder.getContext());
-
-            Admin admin = adminRepo.findByEmail(email)
-                    .orElseThrow(() -> new UnAuthorizedException("Email not found", email));
-            session.setAttribute("LoggedAdmin",admin);
+            session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,SecurityContextHolder.getContext());
             return ResponseEntity.ok(new AResponse(
                     LocalDateTime.now(),
                     "Success",
@@ -105,9 +103,23 @@ public class AdminService {
         }
     }
 
+    //get current admin
+    public ResponseEntity<?> getCurrentAdmin(UserDetails userDetails) {
+        if(userDetails==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","No active session for Admin"));
+        }
+        String email=userDetails.getUsername();
+        Admin admin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
+        Map<String,Object> response=new HashMap<>();
+        response.put("Admin ID",admin.getAdminId());
+        response.put("User Name",admin.getUsername());
+        response.put("Email",admin.getEmail());
+        response.put("Contact",admin.getContact());
+        return ResponseEntity.ok(response);
+    }
 
     //logout admin
-    public ResponseEntity<?> logout(HttpSession session) {
+    public ResponseEntity<?> logout(UserDetails userDetails,HttpSession session) {
         session.invalidate();
         SecurityContextHolder.clearContext();
         return ResponseEntity.ok(new ApiResponse("Logged Out Successfully", "200", LocalDateTime.now()));
@@ -203,4 +215,6 @@ public class AdminService {
         AdminDTO dto= new AdminDTO(admin);
         return ResponseEntity.ok(dto);
     }
+
+
 }

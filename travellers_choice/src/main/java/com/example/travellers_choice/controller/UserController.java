@@ -9,6 +9,7 @@ import com.example.travellers_choice.service.IternaryService;
 import com.example.travellers_choice.service.PackageService;
 import com.example.travellers_choice.service.TourService;
 import com.example.travellers_choice.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -52,32 +54,35 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginData, HttpSession session) {
         System.out.println(loginData.getEmail() + " " + loginData.getPassword());
+
         return userService.customerLogin(loginData.getEmail(), loginData.getPassword(), session);
     }
 
     //get the current user
     @GetMapping("/current-user")
-    public ResponseEntity<?> getCurrentUser(HttpSession session) {
-        return userService.getCurrentUser(session);
-    }
-
-
-    //update user
-    @PutMapping("/updateUser")
-    public ResponseEntity<?> updateUser(@RequestBody UserDTO user,@AuthenticationPrincipal UserDetails userDetails){
-        if(userDetails == null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
-        }
-        return userService.updateUser(user,userDetails.getUsername());
+    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
+        return userService.getCurrentUser(userDetails);
     }
 
     //logout user
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpSession session) {
-        return userService.logout(session);
+    public ResponseEntity<?> logout(@AuthenticationPrincipal UserDetails userDetails, HttpSession session) {
+        return userService.logout(userDetails, session);
     }
 
+    //update user
+    @PatchMapping("/updateUser")
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO user,@AuthenticationPrincipal UserDetails userDetails){
+
+        System.out.println("hit");
+        if(userDetails == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
+        }
+        System.out.println(userDetails.getUsername());
+        System.out.println(userDetails.getAuthorities());
+        return userService.updateUser(user,userDetails.getUsername());
+    }
 
     // book tour
     @PostMapping("/{packageName}/book")
@@ -126,5 +131,9 @@ public class UserController {
         return ResponseEntity.ok(iternaryList);
     }
 
+    @PostMapping("/verifyOTP")
+    public ResponseEntity<?> verifyOTP(@RequestBody String otp,@AuthenticationPrincipal UserDetails userDetails) throws JsonProcessingException {
+        return userService.verifyOTP(userDetails.getUsername(),otp);
+    }
 }
 

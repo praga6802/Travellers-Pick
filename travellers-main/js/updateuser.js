@@ -48,7 +48,7 @@ async function handleUpdateUser(event) {
 
     try {
         const response = await fetch("http://localhost:8080/user/updateUser", {
-            method: "PUT",
+            method: "PATCH",
             headers: { "Content-Type": "application/json" },
             credentials: 'include',
             body: JSON.stringify(data)
