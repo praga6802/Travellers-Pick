@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,30 +48,20 @@ public class AdminController {
     //login admin
     @PostMapping("/login")
     public ResponseEntity<?> adminLogin(@RequestBody LoginDTO loginData, HttpSession session) {
+        System.out.println("hit");
         return adminService.adminLogin(loginData.getEmail(),loginData.getPassword(),session);
     }
 
     //get the current admin
     @GetMapping("/current-admin")
-    public ResponseEntity<?> getCurrentAdmin(HttpSession session) {
-        Admin admin=(Admin) session.getAttribute("LoggedAdmin");
-        if(admin==null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-           .body(new AResponse(LocalDateTime.now(),"Failure","No Active Session user"));
-        }
-        return ResponseEntity.ok(Map.of(
-                "adminId", admin.getAdminId(),
-                "adminUserName", admin.getUsername(),
-                "adminEmail",admin.getEmail(),
-                "adminContact",admin.getContact()
-        ));
+    public ResponseEntity<?> getCurrentAdmin(@AuthenticationPrincipal UserDetails userDetails) {
+        return adminService.getCurrentAdmin(userDetails);
     }
-
 
     //logout admin
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpSession session){
-       return adminService.logout(session);
+    public ResponseEntity<?> logout(@AuthenticationPrincipal UserDetails userDetails, HttpSession session){
+       return adminService.logout(userDetails,session);
     }
 
 

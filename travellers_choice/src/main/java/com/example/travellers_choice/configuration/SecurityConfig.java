@@ -39,17 +39,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers(
-                                "/admin/login", "/admin/signup", "/admin/logout","/admin/allPackages","/admin/allCategories","/admin/allIternaries",
-                                "/user/login", "/user/signup", "/user/logout","/user/allIternaries"
-                        ).permitAll()
+                                "/admin/login", "/admin/signup", "/admin/logout","/admin/allPackages","/admin/allCategories","/admin/allIternaries","/admin/current-admin",
+                                "/user/login", "/user/signup", "/user/logout","/user/allIternaries","/user/current-user").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH,"/user/updateUser").hasRole("USER")
                         .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
                 .formLogin(form -> form.disable())
+                .httpBasic(basic->basic.disable())
                 .logout(logout -> logout.disable())
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .cors(cors->cors.configurationSource(corsConfigurationSource()))
         .build();
     }
@@ -61,7 +62,7 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of("http://localhost:5500"));
         config.setAllowCredentials(true);
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE", "OPTIONS"));
+        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE", "OPTIONS","PATCH"));
         config.setExposedHeaders(List.of("Set-Cookie"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

@@ -19,16 +19,13 @@ async function handleLogin(event){
             body:JSON.stringify(data),
             credentials:"include"
         });
-
+        const responseData=await response.json();
         if(response.ok){
-            const msg=await response.json();
-            alert(msg.message);
+            alert(responseData.message);
             window.location.href = "/travel-admin/html/left.html";
         }
         else{
-            let err=await response.json();
-            error.innerText=err.message;
-            event.target.reset();
+            error.innerText=responseData.message;
         }
     }
     catch(err){
