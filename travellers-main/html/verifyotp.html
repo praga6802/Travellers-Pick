@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Update User</title>
+    <title>Verify OTP</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device,initial-scale=1.0">
     <meta name="description" content="tourism details">
@@ -15,7 +15,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
     <link href="../css/style.css" type="text/css" rel="stylesheet">
     <link href="../css/userprofile.css" type="text/css" rel="stylesheet">
-    <link href="../css/updateuser.css" type="text/css" rel="stylesheet">
+    <link href="../css/verifyotp.css" type="text/css" rel="stylesheet">
     <link rel="icon" href="../images/userprofile.png" type="image/png">
 </head>
 
@@ -47,7 +47,7 @@
                         <a class="nav-link" id="li-a" href="./contact.html">CONTACT</a>
                     </li>
 
-                   	<div id="btn-group">
+                    <div id="btn-group">
 						<button value="signin" id="signin-btn" class="silo">SIGNUP</button>
 						<button value="login" id="login-btn" class="silo">LOGIN</button>
 					</div>
@@ -55,7 +55,7 @@
             </div>
         </div>
     </nav>
-    <br><br><br>    
+    <br><br><br>
 
 
     <div class="page-container">
@@ -78,29 +78,32 @@
         </div>
 
         <div class="form-area">
-            <legend id="legend-cancel">UPDATE USER INFO</legend>
-            <form id="updateform" method="post">
-                <div id="input">
-                    <label for="username">User Name</label>
-                    <input type="text" id="username" name="username" placeholder="User Name"><br><br>
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Email"><br><br>
-                    <label for="contact">Mobile Number</label>
-                    <input type="tel" id="contact" name="contact" placeholder="Enter 10-digit Number" pattern="[0-9]{10}">
-                </div>
+            <legend id="legend-cancel">Verify OTP</legend>
 
+            <form id="otp-form" method="post">
+                <div id="otp-container">
+                    <label for="pnr" id="otp-label">Enter 6-digit OTP Number</label>
+                    <input type="tel" name="otp" class="otp" maxlength="1" inputmode="numeric">
+                    <input type="tel" name="otp" class="otp" maxlength="1" inputmode="numeric">
+                    <input type="tel" name="otp" class="otp" maxlength="1" inputmode="numeric">
+                    <input type="tel" name="otp" class="otp" maxlength="1" inputmode="numeric">
+                    <input type="tel" name="otp" class="otp" maxlength="1" inputmode="numeric">
+                    <input type="tel" name="otp" class="otp" maxlength="1" inputmode="numeric">
+                </div>
+                
                 <div id="btn">
-                    <button type="submit" id="submit">SUBMIT</button>
+                    <button type="submit" id="submit">VERIFY OTP</button>
                     <button type="reset" id="reset">RESET</button>
                 </div>
-            </form>
+            </form> 
             <p id="error"></p>
         </div>
-       
+   
     </div>
-  
+    
+    
     <script src="../js/userprofile.js"></script>
-    <script src="../js/updateuser.js"></script>
+    <script src="../js/verifyotp.js"></script>
 </body>
 
 </html>

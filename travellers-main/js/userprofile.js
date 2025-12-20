@@ -54,8 +54,7 @@ async function displayUserName(){
         }
     }
     catch(err){
-        alert('Network Error or Session Expired. Please login again!');
-        console.log(err);
+        setTimeout(()=>{window.location.href='../html/login.html'},1500);
     }
 }
 

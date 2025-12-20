@@ -4,6 +4,8 @@ const email=document.getElementById('email');
 const contact=document.getElementById('contact');
 const form = document.getElementById('updateform');
 
+let oldEmail,oldContact,oldUsername;
+
 //get the user details
 window.addEventListener("DOMContentLoaded",displayUserDetails);
 async function displayUserDetails(){
@@ -17,8 +19,14 @@ async function displayUserDetails(){
             displayMessage(responseData.message,response.ok);
             return;
         }
-        username.value=responseData.username;
+        oldEmail=responseData.email;
         email.value=responseData.email;
+
+        oldUsername=responseData.username;
+        username.value=responseData.username;
+
+
+        oldContact=responseData.contact;
         contact.value=responseData.contact;
 
     }
@@ -28,7 +36,7 @@ async function displayUserDetails(){
         contact.value='';
         displayMessage('Network Error or Session Expired. Please login again!');
         form.style.display='none';
-        console.log(e);
+        setTimeout(()=>{window.location.href='../html/login.html'},1500);
     }
 }
 
@@ -41,10 +49,15 @@ async function handleUpdateUser(event) {
     event.preventDefault();
 
     const updateUserName=username.value.trim();
-    const  updateEmail=email.value.trim();
+    const updateEmail=email.value.trim();
     const updateContact=contact.value.trim();
 
-    const data = { username:updateUserName, email:updateEmail, contact:updateContact };
+
+
+    const data = {};
+    if(updateUserName)data.username=updateUserName;
+    if(updateEmail)data.email=updateEmail;
+    if(updateContact)data.contact=updateContact;
 
     try {
         const response = await fetch("http://localhost:8080/user/updateUser", {
@@ -55,18 +68,22 @@ async function handleUpdateUser(event) {
         });
 
         const responseData = await response.json();
-        if(!response.ok){
-            displayMessage(responseData.message);
-            form.style.display='none';
-            return;
-        }
-        
         displayMessage(responseData.message,response.ok);
         form.style.display='block';
 
-        if(response.ok){
-            document.querySelector("#loginlist option[value='Login']").textContent=`Hello ${updateUserName}`;
+        
+        if(!response.ok){
+            displayMessage(responseData.message);
+            return;
         }
+
+        if(updateEmail!=oldEmail && updateUserName==oldUsername && updateContact==oldContact){
+            displayMessage(responseData.message,response.ok);
+            setTimeout(()=>{window.location.href='../html/verifyotp.html'},1500);
+            return;
+        }
+
+
 
     } catch (e) {
         displayMessage(e.message);

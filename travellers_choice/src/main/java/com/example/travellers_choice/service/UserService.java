@@ -1,9 +1,6 @@
 package com.example.travellers_choice.service;
 
-import com.example.travellers_choice.dto.AResponse;
-import com.example.travellers_choice.dto.BookTourDTO;
-import com.example.travellers_choice.dto.TourDetailsDTO;
-import com.example.travellers_choice.dto.UserDTO;
+import com.example.travellers_choice.dto.*;
 import com.example.travellers_choice.exception.AlreadyExistsException;
 import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
@@ -65,6 +62,9 @@ public class UserService {
 
     @Autowired
     OTPRepo otpRepo;
+
+    @Autowired
+    private MyUserDetailsService userDetailsService;
 
     //user sign up
     public ResponseEntity<?> customerSignUp(Customer customer) {
@@ -211,32 +211,31 @@ public class UserService {
     public ResponseEntity<?> updateUser(UserDTO userDTO, String email) {
         Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email", email));
         String message="";
-        if (email.equals(user.getEmail())) {
+        boolean isUpdated=true;
+        //update user name
+        if(userDTO.getUsername() != null && !userDTO.getUsername().isBlank() && !userDTO.getUsername().equals(user.getUsername())) {
+            user.setUsername(userDTO.getUsername());
+            isUpdated=true;
+            return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","User Name has been successfully changed to "+userDTO.getUsername()));
+        }
 
-            //update user name
-            if(userDTO.getUsername() != null && !userDTO.getUsername().isBlank())
-                user.setUsername(userDTO.getUsername());
+        //update contact
+        if(userDTO.getContact() != null && !userDTO.getContact().isBlank() && !userDTO.getContact().equals(user.getContact())) {
+            user.setContact(userDTO.getContact());
+            isUpdated=true;
+            return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Mobile Number has been successfully changed to "+userDTO.getContact()));
+        }
 
-            //update email
-            if(userDTO.getEmail() != null && !userDTO.getEmail().isBlank()){
-                if(userDTO.getEmail().equals(user.getEmail())) //same email is providing
-                    return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(new AResponse(LocalDateTime.now(),"Failure","Same Email has been provided"));
-                else if(userRepo.existsByEmail(userDTO.getEmail())) //if the entered email is already exists in repo
-                    return ResponseEntity.status(HttpStatus.FOUND).
+        //update email via otp
+        if(userDTO.getEmail() != null && !userDTO.getEmail().isBlank() && !userDTO.getEmail().equals(user.getEmail())){
+
+            if(userRepo.existsByEmail(userDTO.getEmail())) //if the entered email is already exists in repo
+                return ResponseEntity.status(HttpStatus.FOUND).
                         body(new AResponse(LocalDateTime.now(),"Failure","Can't Update! Email already taken"));
-                else
-                    return verificationEmail(userDTO.getEmail(),user); //if 2 conditions also fails, sends otp to new email(entered email)
-            }
-            //update contact
-            if(userDTO.getContact() != null && !userDTO.getContact().isBlank())
-                user.setContact(userDTO.getContact());
-            userRepo.save(user);
+            else
+                return verificationEmail(userDTO.getEmail(),user);
         }
-        else{
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
-                    body(new AResponse(LocalDateTime.now(),"Failure","User can update only own profile"));
-        }
-        return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "User Details Updated Successfully"));
+        return ResponseEntity.status(HttpStatus.FOUND).body(new AResponse(LocalDateTime.now(), "Failure", "No fields were updated!"));
     }
 
     //verification of email
@@ -273,9 +272,7 @@ public class UserService {
     //verify otp
     public ResponseEntity<AResponse> verifyOTP(String email, String enteredOtp) throws JsonProcessingException {
         Customer user= userRepo.findUserByEmail(email).orElseThrow(()->new UnAuthorizedException("User Email",email));
-        ObjectMapper mapper= new ObjectMapper();
-        JsonNode node=mapper.readTree(enteredOtp);
-        enteredOtp=node.get("otp").asText().trim();
+
 
         System.out.println("ENTERED OTP:"+enteredOtp);
         //check the user purpose for updating: email update
@@ -285,13 +282,20 @@ public class UserService {
             otpRepo.delete(otp);
             return ResponseEntity.status(HttpStatus.GONE).body(new AResponse(LocalDateTime.now(),"Failure","OTP has expired!"));
         }
-        if(!passwordEncoder.matches(enteredOtp.trim(),otp.getOtp())){
+        if(!passwordEncoder.matches(enteredOtp,otp.getOtp())){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AResponse(LocalDateTime.now(),"Failure","The entered OTP does not match!"));
         }
         user.setEmail(otp.getValue());//setting the new email
         userRepo.save(user); //saving the user in repo
 
         otpRepo.delete(otp);//deleting the otp request
+
+        //after updating email, changing the spring security session
+        Authentication auth=SecurityContextHolder.getContext().getAuthentication();
+        UserDetails newUserDetails=userDetailsService.loadUserByUsername(user.getEmail());
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(newUserDetails,auth.getCredentials(),newUserDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success", "Email Updated Successfully"));
     }
 

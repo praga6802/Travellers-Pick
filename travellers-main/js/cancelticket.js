@@ -19,7 +19,7 @@ async function displayUserDetails(){
     catch(e){
         displayMessage('Network Error or Session Expired. Please login again!');
         form.style.display='none';
-        console.log(e);
+        setTimeout(()=>{window.location.href='../html/login.html'},1500);
     }
 }
 
