@@ -132,8 +132,11 @@ public class UserController {
     }
 
     @PostMapping("/verifyOTP")
-    public ResponseEntity<?> verifyOTP(@RequestBody String otp,@AuthenticationPrincipal UserDetails userDetails) throws JsonProcessingException {
-        return userService.verifyOTP(userDetails.getUsername(),otp);
+    public ResponseEntity<?> verifyOTP(@RequestBody RequestOTPDTO otp,@AuthenticationPrincipal UserDetails userDetails) throws JsonProcessingException {
+        if(otp.getOtp()==null || otp.getOtp().isBlank()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AResponse(LocalDateTime.now(),"Failure","OTP is required! Before Updating the Email!"));
+        }
+        return userService.verifyOTP(userDetails.getUsername(),otp.getOtp());
     }
 }
 

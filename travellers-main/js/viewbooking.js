@@ -20,8 +20,11 @@ async function displayUserDetails() {
         console.log("Logged-in User:", data);
 
     } catch (e) {
-        showMessage(data.message);
-        console.log(e);
+        showMessage('Network Error or Session Expired. Please login again!');
+        form.style.display='none';
+        setTimeout(()=>{
+            window.location.href='../html/login.html';}
+        ,2000);
     }
 }
 
