@@ -16,9 +16,38 @@ body{
 }
 
 
-.page-container{
+/* side bar*/
+.page-container {
     display: flex;
-    gap:30px;
+    gap: 10%;
+    margin: 0%;
+    min-height: 100vh;
+}
+
+.container {
+    min-height:100%;
+    margin: 0%;
+}
+
+
+#table{
+    width: auto;
+}
+
+tr #user-link{
+    background-color: rgb(85, 16, 16);
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+tr.row{
+    background-color: rgba(73, 72, 72, 0.571);
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+tr.row:hover{
+    background-color: rgb(85, 83, 83);
 }
 #btn-group{
   display: flex;

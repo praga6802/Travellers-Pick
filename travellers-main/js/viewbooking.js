@@ -99,4 +99,5 @@ function showMessage(msg) {
     error.style.color = 'red';
     error.style.marginTop = '30px';
     error.style.marginLeft = '250px';
+    error.style.textAlign='center';
 }
