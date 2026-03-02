@@ -18,7 +18,7 @@ public class GlobalExceptionalHandler {
 
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<?> handleAlreadyExistsException(AlreadyExistsException exception){
-        return new ResponseEntity<>(new AResponse(LocalDateTime.now(),"Already Exists",exception.getMessage()),HttpStatus.CONFLICT);
+        return new ResponseEntity<>(new AResponse(LocalDateTime.now(),"Already Exists",exception.getMessage()),HttpStatus.ALREADY_REPORTED);
     }
 
     @ExceptionHandler(IDNotFoundException.class)
