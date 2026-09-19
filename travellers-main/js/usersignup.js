@@ -14,13 +14,16 @@ async function handleSignUp(event){
     
     const data={username,email,password,contact};
     try{
-        const response= await fetch("http://localhost:8080/user/signup",{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify(data)
-        });
+        const response = await fetch(
+            "https://travellers-pick-production.up.railway.app/user/signup",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            },
+        );
 
         const responseData=await response.json();
         if(response.ok){

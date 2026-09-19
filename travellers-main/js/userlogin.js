@@ -9,12 +9,15 @@ async function handleLogin(event) {
 
     const data = { email, password };
     try {
-        const response = await fetch("http://localhost:8080/user/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-            credentials: "include"
-        });
+        const response = await fetch(
+            "https://travellers-pick-production.up.railway.app/user/login",
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+                credentials: "include",
+            },
+        );
         const text = await response.json();
         if (response.ok) {
             error.innerText="";
