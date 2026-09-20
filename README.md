@@ -1,83 +1,117 @@
-🌍 Traveller’s Pick – Tour & Travel Management System
+# 🌍 Traveller’s Pick – Tour & Travel Management System
 
-Traveller’s Pick is a full-stack travel management application designed to help users discover, book, and manage tour packages across India.
-It provides an easy-to-use interface for users and a powerful admin dashboard for managing bookings and travel packages.
+**Traveller’s Pick** is a full-stack Tour & Travel Management System designed to help users discover, book, and manage tour packages across India. It provides a user-friendly booking experience along with an admin dashboard for managing packages, itineraries, and bookings.
 
-✨ Features
-👤 User Features
+## ✨ Features
 
-1. Browse and explore all available travel packages
+### 👤 User Features
 
-2. View detailed itineraries, images, destinations, and prices
+* Browse and explore available tour packages
+* View package details, destinations, images, prices, and itineraries
+* User registration and login
+* Book tour packages online
+* Generate a unique **PNR number** for confirmed bookings
+* Receive email notifications for signup, booking confirmation, and cancellation
+* View booking-related information
 
-3. Secure signup and login system
+### 🛠️ Admin Features
 
-4. Book a tour package online
+* Secure admin login
+* Admin Dashboard
+* View and manage booking requests
+* Approve, reject, and cancel bookings
+* Add, update, and delete tour packages
+* Manage package itineraries and content
+* View passenger and booking details
 
-5. Receive email notifications for:
+## 📧 Email Notification System
 
- - Successful signup
-  
- - Booking confirmation
-  
- - Ticket cancellation
+The application uses **Spring Boot JavaMailSender** to send automated emails.
 
-6. Get a unique PNR number for every booking
+* **Signup Email** – Welcome email after successful registration
+* **Booking Confirmation** – Includes package name, travel dates, number of seats, amount, contact information, and PNR
+* **Cancellation Email** – Confirms ticket cancellation with package name and PNR
 
-7. Check booking status using PNR (future enhancement)
+## 🛠️ Tech Stack
 
-🛠️ Admin Features
+**Backend**
 
-1. Secure admin login
+* Java
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* Hibernate
+* REST APIs
+* JavaMailSender
+* Maven
 
-2. View all user booking requests
+**Frontend**
 
-3. Approve, reject, or cancel bookings
+* HTML
+* CSS
+* JavaScript
 
-3. Add new tour packages
+**Database**
 
-4. Update existing packages
+* MySQL
 
-5. Delete packages
+**Tools**
 
-6. Manage itineraries and package content
+* Git & GitHub
+* Postman
+* IntelliJ IDEA / Eclipse
 
-📬 Email Notification System
+## 🔄 Booking Workflow
 
-Traveller’s Pick includes a full email communication module using Spring Boot (JavaMailSender).
+```text
+User Registration
+       ↓
+Browse Tour Packages
+       ↓
+Select Package
+       ↓
+Create Booking
+       ↓
+Admin Reviews Booking
+       ↓
+Approve / Reject / Cancel
+       ↓
+PNR Generation
+       ↓
+Email Notification
+```
 
-✔️ Signup Email
+## 🔐 Security
 
-1. Sent immediately when the user registers:
+* Spring Security-based authentication
+* Protected admin endpoints
+* Role-based access control
+* Secure password handling
+* Session-based admin authentication
 
-2. Confirms account creation
+## 🗄️ Main Modules
 
-3. Includes welcome message
+```text
+User Management
+Admin Management
+Tour Packages
+Categories
+Itineraries
+Bookings
+Passenger Management
+Email Notifications
+```
 
-✔️ Booking Confirmation Email
+## 🔮 Future Enhancements
 
-1. Sent after successful booking:
+* Online payment integration
+* User booking history
+* Package search and filtering
+* Reviews and ratings
 
- - Package name
+## 👨‍💻 Author
 
- -Travel dates
-  
- - Number of seats
-  
- - Amount
+**Pragadeeswaran Sekar**
 
-- Contact info
-
-- Auto-generated PNR number
-
-
-✔️ Ticket Cancellation Email
-
-1. Sent when user cancels a booking:
-
-2. Confirms cancellation
-
-3. Shows package name + PNR
-
-Provides message:
-“We look forward to helping you book your next tour with Traveller’s Pick.”
+* GitHub: https://github.com/praga6802
+* LinkedIn: https://www.linkedin.com/in/praga06/
