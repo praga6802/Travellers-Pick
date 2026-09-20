@@ -16,4 +16,5 @@ public interface CustomerRegister extends JpaRepository<CustomerRegistry, Intege
     Optional<CustomerRegistry> findByPNR(String pnr);
 
 
+    Long countByStatus(String confirmed);
 }

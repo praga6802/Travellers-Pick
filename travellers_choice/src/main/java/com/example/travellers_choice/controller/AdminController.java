@@ -215,4 +215,46 @@ public class AdminController {
         List<SendIternaryDTO> iternaryList= iternaryService.allIternaries();
         return ResponseEntity.ok(iternaryList);
     }
+
+    // count admins
+    @GetMapping("/getAdmins")
+    public ResponseEntity<AResponse> getAdmins(@AuthenticationPrincipal UserDetails userDetails){
+        return adminService.getAdmins(userDetails.getUsername());
+    }
+
+    // couht users
+    @GetMapping("/getUsers")
+    public ResponseEntity<AResponse> getUsers(@AuthenticationPrincipal UserDetails userDetails){
+        return adminService.getUsers(userDetails.getUsername());
+    }
+
+    // count packages
+    @GetMapping("/getPackages")
+    public ResponseEntity<AResponse> getPackages(@AuthenticationPrincipal UserDetails userDetails){
+        return adminService.getPackages(userDetails.getUsername());
+    }
+
+    // count tours
+    @GetMapping("/getTours")
+    public ResponseEntity<AResponse> getTours(@AuthenticationPrincipal UserDetails userDetails){
+        return adminService.getTours(userDetails.getUsername());
+    }
+
+    // count bookings
+    @GetMapping("/getBookings")
+    public ResponseEntity<AResponse> getBookings(@AuthenticationPrincipal UserDetails userDetails){
+        return adminService.getBookings(userDetails.getUsername());
+    }
+
+    // count confirmed
+    @GetMapping("/getConfirmed")
+    public ResponseEntity<AResponse> getConfirmed(@AuthenticationPrincipal UserDetails userDetails){
+        return adminService.getConfirmed(userDetails.getUsername());
+    }
+
+    // count cancelled
+    @GetMapping("/getCancelled")
+    public ResponseEntity<AResponse> getCancelled(@AuthenticationPrincipal UserDetails userDetails){
+        return adminService.getCancelled(userDetails.getUsername());
+    }
 }

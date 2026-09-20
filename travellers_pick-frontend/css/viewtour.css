@@ -1,0 +1,53 @@
+body {
+     background-image: url('../img/viewback.jpg');
+     background-repeat: no-repeat;
+     background-size: cover;
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+/*heading */
+.h1 {
+     color: rgb(208, 150, 91);
+     font-size: 40px;
+     text-align: center;
+     margin-top: 2.5%;
+     font-weight: 600;
+}
+
+
+#viewcategory,
+#regtable,
+#packagetable {
+     margin-top: 2%;
+     margin-left: 2%;
+     margin-right: 2%;
+     justify-content: center;
+     margin-bottom: 20%;
+     align-content: center;
+     border-collapse: collapse;
+}
+
+#head-data {
+     margin: 6%;
+     background-color: rgba(6, 45, 67, 0.801);
+     color: white;
+     height: auto;
+     text-align: center;
+}
+
+th {
+     text-align: center;
+     width: 400px;
+     padding: 6px;
+     outline: 1px solid rgb(95, 95, 95);
+}
+
+td {
+     font-size: 15px;
+     background-color: rgb(235, 231, 231);
+     color: black;
+     text-align: center;
+     padding: 5px;
+     outline: 1px solid rgb(114, 114, 114);
+}

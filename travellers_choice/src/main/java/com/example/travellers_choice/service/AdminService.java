@@ -12,9 +12,7 @@ import com.example.travellers_choice.dto.AResponse;
 import com.example.travellers_choice.model.Customer;
 import com.example.travellers_choice.model.CustomerRegistry;
 
-import com.example.travellers_choice.repository.AdminRepo;
-import com.example.travellers_choice.repository.CustomerRegister;
-import com.example.travellers_choice.repository.UserRepo;
+import com.example.travellers_choice.repository.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -50,6 +48,12 @@ public class AdminService {
 
     @Autowired
     AdminRepo adminRepo;
+
+    @Autowired
+    private PackageRepo packageRepo;
+
+    @Autowired
+    private TourRepo tourRepo;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -216,5 +220,59 @@ public class AdminService {
         return ResponseEntity.ok(dto);
     }
 
+    // admin count
+    public ResponseEntity<AResponse> getAdmins(String username) {
+        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
 
+        Long adminCount = adminRepo.count();
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",adminCount));
+    }
+
+    // user count
+    public ResponseEntity<AResponse> getUsers(String username) {
+        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
+
+        Long userCount = userRepo.count();
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",userCount));
+    }
+
+    // package count
+    public ResponseEntity<AResponse> getPackages(String username) {
+        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
+
+        Long packageCount = packageRepo.count();
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",packageCount));
+    }
+
+    // tour count
+    public ResponseEntity<AResponse> getTours(String username) {
+        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
+
+        Long tourCount = tourRepo.count();
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",tourCount));
+    }
+
+    // bookings count
+    public ResponseEntity<AResponse> getBookings(String username) {
+        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
+
+        Long bookingCount = customerRegisterRepo.count();
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",bookingCount));
+    }
+
+    // count confirmed customer
+    public ResponseEntity<AResponse> getConfirmed(String username) {
+        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
+
+        Long confirmedCount = customerRegisterRepo.countByStatus("CONFIRMED");
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",confirmedCount));
+    }
+
+    // count cancelled customer
+    public ResponseEntity<AResponse> getCancelled(String username) {
+        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
+
+        Long cancelledCount = customerRegisterRepo.countByStatus("CANCELLED");
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",cancelledCount));
+    }
 }

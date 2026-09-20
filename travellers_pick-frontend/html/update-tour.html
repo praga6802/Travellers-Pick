@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Update Category</title>
+	<link
+		href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic'
+		rel='stylesheet' type='text/css'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../css/tour.css" type="text/css">
+	<link rel="icon" type="image/png" href="../img/tour-icon.png">
+</head>
+
+<body>
+	<div class="container">
+		<form method="post" id="updatecategoryform">
+			<input type="hidden" value="PUT" name="_method">
+			<legend>UPDATE TOUR</legend>
+
+			<label for="packageName">Package Name</label>
+			<select name="packageName" id="packageName" required>
+				<option disabled selected hidden value="">Select Package</option>
+			</select><br><br>
+
+			<label for="tourId">Tour ID</label>
+			<input type="text" name="tourId" id="tourId" maxlength="50" placeholder="Enter the tour ID" /><br><br>
+
+			<label for="tourName">Tour Name</label>
+			<input type="text" name="tourName" id="tourName" maxlength="50" placeholder="Enter the tour Name" /><br><br>
+
+			<label for="tourslogan">Tour Slogan</label>
+			<input type="text" name="tourSlogan" id="tourSlogan" maxlength="50"
+				placeholder="Enter the tour slogan" /><br><br>
+
+			<label for="places">Places</label>
+			<input type="text" name="places" id="places"
+				placeholder="Enter the list of places seperate by comma"><br><br>
+
+			<label for="days">Days</label>
+			<input type="number" name="days" id="days" max="10" min="1">
+
+			<label for="days">Nights</label>
+			<input type="number" name="nights" id="nights" max="10" min="1"><br><br>
+
+			<label for="price">Price</label>
+			<input type="text" name="price" id="price" placeholder="Enter amount"><br><br>
+
+			<label for="imageFile">Tour Image</label>
+			<input type="file" name="imageFile" id="imageFile" accept="image/*">
+
+			<div class="button-group">
+				<input type="submit" value="ADD" name="submit" class="button" />
+				<input type="reset" value="RESET" name="reset" class="button" />
+			</div>
+		</form>
+		<p id="error"></p>
+	</div>
+	<script src="../js/updatetour.js"></script>
+</body>
+
+</html>

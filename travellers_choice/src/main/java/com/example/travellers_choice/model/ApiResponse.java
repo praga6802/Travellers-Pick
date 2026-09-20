@@ -11,6 +11,7 @@ public class ApiResponse {
     private String message;
     private String status;
     private LocalDateTime localDateTime;
+    private Long count;
 
     private Object data;
 
@@ -30,6 +31,11 @@ public class ApiResponse {
         this.data = data;
     }
 
+    public ApiResponse(LocalDateTime time, String status, Long count) {
+        this.localDateTime=time;
+        this.status= status;
+        this.count=count;
+    }
 
 
     public String getMessage() {

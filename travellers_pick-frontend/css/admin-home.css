@@ -1,0 +1,199 @@
+body {
+
+    background-image: url('../img/admin-back.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    color: beige;
+    background-color: rgba(0, 0, 0, 0.815);
+    width: 12%;
+    margin: 0%;
+    height: 100vh;
+    ;
+}
+
+
+.link-row {
+    padding: 60%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: auto;
+    font-size: 0.8rem;
+}
+
+.link-row:hover {
+    color: white;
+    background-color: rgb(30, 29, 29);
+}
+
+.link-row th {
+
+    color: rgb(12, 94, 142);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.link-row td {
+    padding: 9%;
+    color: white;
+    border-bottom: 0.5px solid rgb(56, 55, 55);
+}
+
+.link-row a {
+    color: white;
+    text-decoration: none;
+}
+
+
+
+.nav {
+    background-color: rgba(0, 0, 0, 0.778);
+    margin: 0;
+    height: 90px;
+}
+
+#img,
+#logo {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+#img {
+    margin: 1%;
+}
+
+#logo {
+    color: white;
+    font-size: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.admin-home {
+    display: flex;
+}
+
+.webpreview select {
+    float: right;
+    position: absolute;
+    top: 3%;
+    right: 2%;
+    padding: 6px;
+    background-color: rgb(13, 8, 4);
+    border: 2px solid rgb(125, 108, 10);
+    border-radius: 10px;
+    font-size: 18px;
+    color: white;
+}
+
+#logindropdown option {
+    background-color: black;
+    color: white;
+}
+
+
+.admin-dashboard {
+    padding: 50px;
+    width: 100%;
+}
+
+.admin-dashboard h1 {
+    margin-bottom: 30px;
+    color: goldenrod;
+    text-align: center;
+    font-size: 40px;
+}
+
+.dashboard-cards {
+    display: flex;
+    gap: 50px;
+    background-color: #f7f5f5;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+}
+
+.dashboard-card {
+    width: 200px;
+    height: 160px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    text-align: center;
+    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.5s ease, border-color 0.2s ease;
+}
+
+.dashboard-card:hover {
+    background-color: rgb(249, 248, 247);
+    color: white;
+    border: 2px solid goldenrod;
+}
+
+.dashboard-card h3 {
+    margin-bottom: 10px;
+    color: orange;
+}
+
+.dashboard-card p {
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+}
+
+.dashboard-section {
+    margin-top: 40px;
+}
+
+.dashboard-section table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dashboard-section th,
+.dashboard-section td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.dashboard-section th {
+    background-color: #333;
+    color: white;
+}
+
+
+.statustable {
+    width: 1000px;
+    border-collapse: collapse;
+    text-align: center;
+    margin-left: 100px;
+    margin-top: 50px;
+}
+
+.head {
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    background-color: rgb(16, 75, 128);
+    border: 2px solid rgb(228, 225, 225);
+}
+
+.status-row {
+    height: 50px;
+}
+
+.data {
+    height: 50px;
+    background-color: whitesmoke;
+    border: 2px solid rgb(226, 226, 226);
+    font-weight: 600;
+    font-size: 30px;
+}
