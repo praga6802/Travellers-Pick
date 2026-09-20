@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Delete Category</title>
+	<link
+		href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic'
+		rel='stylesheet' type='text/css'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../css/tour.css" type="text/css">
+	<link rel="stylesheet" href="../css/index.css" type="text/css">
+	<link rel="icon" type="image/png" href="../img/tour-icon.png">
+</head>
+
+<body>
+	<div class="container">
+		<form id="deletecategoryform">
+			<input type="hidden" name="_method" value="DELETE">
+			<legend>DELETE TOUR</legend>
+
+			<label for="tourId">Tour ID</label>
+			<input type="text" name="tourId" id="tourId" placeholder="Enter Tour ID" required><br><br>
+
+			<div class="button-group">
+				<input type="submit" value="DELETE" name="submit" class="button" />
+				<input type="reset" value="RESET" name="reset" class="button" />
+			</div>
+		</form>
+		<br><br>
+		<p id="error"></p>
+	</div>
+	<script src="../js/deletetour.js"></script>
+</body>
+
+</html>

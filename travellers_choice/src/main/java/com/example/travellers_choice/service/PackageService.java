@@ -87,14 +87,14 @@ public class PackageService {
 
         if(updatePackageDTO.getImageFile()!=null && !updatePackageDTO.getImageFile().isEmpty()) {
             MultipartFile image = updatePackageDTO.getImageFile();
-            String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers-choice/travellers-main/images";
+            String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers_pick-frontend/img";
             File folder = new File(path);
             if (!folder.exists()) folder.mkdirs();
 
             String fileName = image.getOriginalFilename();
             File file = new File(folder, fileName);
             if (updatePackageDTO.getImageFile() != null && !updatePackageDTO.getImageFile().isEmpty()) {
-                existingPackage.setImgUrl("images/" + fileName);
+                existingPackage.setImgUrl("img/" + fileName);
             }
         }
         packageRepo.save(existingPackage);

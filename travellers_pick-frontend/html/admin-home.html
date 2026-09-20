@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Admin Home Page</title>
+    <link href="../css/admin-home.css" type="text/css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../img/package-icon.png">
+</head>
+
+<body>
+    <nav class="nav">
+        <div>
+            <img id="img" src="../img/destination.png" alt="logo" width="50px" height="40px">
+            <span id="logo">Traveller's Pick</span>
+        </div>
+    </nav>
+    <div class="admin-home">
+        <div class="container">
+            <table style="width:100%;font-size:20px;padding:15px;">
+                <tr class="link-row">
+                    <th>LINKS</th>
+                </tr>
+
+                <tr class="link-row">
+                    <td><a href="../html/update-admin.html">UPDATE ADMIN</a></td>
+                </tr>
+
+                <tr class="link-row">
+                    <td><a href="../html/delete-admin.html">DELETE ADMIN</a></td>
+                </tr>
+
+                <tr class="link-row">
+                    <td><a href="../html/view-admin.html">VIEW ADMIN</a></td>
+                </tr>
+
+                <tr class="link-row">
+                    <td><a href="../html/view-users.html">VIEW USERS</a></td>
+                </tr>
+
+                <tr class="link-row">
+                    <td><a href="../html/view-booked-users.html">BOOKED USERS</a></td>
+                </tr>
+
+                <!-- package-->
+                <tr class="link-row">
+                    <td><a href="../html/add-package.html">ADD PACKAGE</a></td>
+                </tr>
+
+                <tr class="link-row">
+                    <td><a href="../html/update-package.html">UPDATE PACKAGE</a></td>
+                </tr>
+
+                <tr class="link-row">
+                    <td><a href="../html/delete-package.html">DELETE PACKAGE</a></td>
+                </tr>
+
+                <tr class="link-row">
+                    <td><a href="../html/view-package.html">VIEW PACKAGE</a></td>
+                </tr>
+
+                <!-- sub category-->
+                <tr class="link-row">
+                    <td><a href="../html/add-tour.html">ADD TOUR</a></td>
+                </tr>
+
+                <tr class="link-row">
+                    <td><a href="../html/update-tour.html">UPDATE TOUR</a></td>
+                </tr>
+
+                <tr class="link-row">
+                    <td><a href="../html/delete-tour.html">DELETE TOUR</a></td>
+                </tr>
+
+                <tr class="link-row">
+                    <td><a href="../html/view-tour.html">VIEW TOUR</a></td>
+                </tr>
+
+            </table>
+        </div>
+
+        <div class="admin-dashboard">
+
+            <h1>ADMIN DASHBOARD</h1>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+                    <h3>Users</h3>
+                    <p id="total-users">0</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Admins</h3>
+                    <p id="total-admins">0</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Bookings</h3>
+                    <p id="total-bookings">0</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Tours</h3>
+                    <p id="total-tours">0</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Packages</h3>
+                    <p id="total-packages">0</p>
+                </div>
+
+            </div>
+            <br><br><br>
+            <div class="status-table">
+                <table class="statustable">
+                    <tr class="status-row">
+                        <th class="head">Booked</th>
+                        <th class="head">Cancelled</th>
+                    </tr>
+
+                    <tr class="status-row">
+                        <td class="data" id="confirmed">0</td>
+                        <td class="data" id="cancelled">0</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- display name and logout option-->
+    <div class="webpreview">
+        <select name="logindropdown" id="logindropdown" onchange="handleLogout(this)">
+            <option id="usernameoption" value="default"></option>
+            <option value="logout">Logout</option>
+        </select>
+    </div>
+
+    <script src="../js/admin-home.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+body {
+  background-image: url('../img/package-back.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.container {
+  margin-top: 5%;
+  margin-left: 60%;
+  text-align: left;
+  width: 22%;
+  height: auto;
+  border: 3px solid rgb(241, 234, 234);
+  border-radius: 10px;
+  padding: 3%;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.452);
+}
+
+.container:hover {
+  background-color: rgba(0, 0, 0, 0.726);
+  color: white;
+}
+
+form:hover label,
+form:hover legend {
+  color: white;
+  transition: 0.1s;
+}
+
+legend {
+  text-align: center;
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 30px;
+}
+
+label {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+label:hover {
+  color: white;
+}
+
+select {
+  padding: 3%;
+  height: 5%;
+  margin-bottom: 3%;
+  color: black;
+  border: 2px solid #fcf6f6;
+  border-radius: 5px;
+  width: 100%;
+  background-color: #f8f6f6;
+}
+
+input[type="number"] {
+  padding: 3%;
+  height: 5%;
+  margin: 2%;
+  margin-bottom: 3%;
+  color: black;
+  border: 2px solid #fcf6f6;
+  border-radius: 5px;
+  width: 20%;
+  background-color: #f8f6f6d3;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"] {
+  padding: 3%;
+  height: 5%;
+  margin-bottom: 3%;
+  color: black;
+  border: 2px solid #fcf6f6;
+  border-radius: 5px;
+  width: 100%;
+  background-color: #f8f6f6d3;
+}
+
+
+option {
+  color: black;
+  background-color: white;
+}
+
+
+#packages {
+  color: black;
+  background-color: white;
+}
+
+.button-group {
+  display: flex;
+  justify-content: start;
+  gap: 50px;
+}
+
+.button {
+  background-color: #0e5eba;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px;
+  width: auto;
+  border-radius: 5px;
+  cursor: pointer;
+  float: left;
+  margin-left: 70px;
+  margin-top: 20px;
+  border: none;
+  transition: color 0.5s ease;
+}
+
+.button:hover {
+  background-color: rgb(61, 61, 203);
+  color: white;
+}

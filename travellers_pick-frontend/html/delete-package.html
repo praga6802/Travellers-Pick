@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Delete Package</title>
+	<link
+		href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic'
+		rel='stylesheet' type='text/css'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../css/admin-package.css" type="text/css">
+	<link rel="icon" type="image/png" href="../img/package-icon.png">
+</head>
+
+<body>
+	<div>
+		<form id="deletepackageform">
+			<legend>DELETE PACKAGE</legend>
+
+			<div class="input-box">
+				<label>Choose Package ID</label>
+				<span>
+					<select name="packageId" id="packageId">
+						<option value="" hidden selected disabled>Select Package</option>
+					</select>
+				</span>
+			</div>
+			<div class="button-group">
+				<input type="submit" value="UPDATE" name="submit" class="button" />
+				<input type="reset" value="RESET" name="reset" class="button" />
+			</div>
+
+			<p id='error'></p>
+		</form>
+	</div>
+	<script src="../js/deletepackageform.js"></script>
+</body>
+
+</html>
