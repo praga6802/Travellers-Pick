@@ -12,7 +12,7 @@ async function handleSignUp(event) {
 
     const data = { username, email, password, contact };
     try {
-        const response = await fetch(`${url}user/user-signup`, {
+        const response = await fetch(`${url}user/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
