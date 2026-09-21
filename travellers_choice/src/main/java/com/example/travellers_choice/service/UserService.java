@@ -98,17 +98,15 @@ public class UserService {
 
     //login
     public ResponseEntity<?> customerLogin(String email, String password, HttpSession session) {
-        Customer user=userRepo.findUserByEmail(email).orElseThrow(()-> new UnAuthorizedException("User Email",email));
         try{
             Authentication auth=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
             SecurityContextHolder.getContext().setAuthentication(auth);
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,SecurityContextHolder.getContext());
-            System.out.println(SecurityContextHolder.getContext());
             return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Login Successful"));
         }
         catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
-                    body(new AResponse(LocalDateTime.now(), "Failure", "Invalid Email or Password"));
+                    body(new AResponse(LocalDateTime.now(), "Failure", "Invalid Credentials"));
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
@@ -116,19 +114,21 @@ public class UserService {
         }
     }
 
-    //current logged in user
+    //current login user
     public ResponseEntity<?> getCurrentUser(UserDetails userDetails) {
         if(userDetails==null)
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","No active session user"));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","Session Expired..Please login again!"));
 
         String email=userDetails.getUsername();
+
+        //from the email getting user details
         Customer user=userRepo.findUserByEmail(email).orElseThrow(()-> new UnAuthorizedException("User Email",email));
         Map<String,Object> response= new HashMap<>();
         response.put("userId",user.getId());
         response.put("userName",user.getUsername());
         response.put("userEmail",user.getEmail());
         response.put("userContact",user.getContact());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",response));
     }
 
     //logout user
@@ -157,7 +157,7 @@ public class UserService {
     //book tour
     public ResponseEntity<?> bookCategory(BookTourDTO bookTourDTO, String email) {
         Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Email ID", email));
-
+        System.out.println(user);
         Tour tour=tourRepo.findById(bookTourDTO.getTourId()).orElseThrow(()-> new IDNotFoundException("Tour ID",bookTourDTO.getTourId()));
 
         CustomerRegistry book = new CustomerRegistry();
@@ -180,11 +180,15 @@ public class UserService {
         book.setStatus("CONFIRMED");
 
         String pnr=generatePNR();
+        System.out.println("pnr"+pnr);
+        System.out.println("before pnr");
         book.setPNR(pnr);
+        System.out.println("after pnr");
         registerRepo.save(book);
 
 
         if(bookTourDTO.getEmail()!=null && !bookTourDTO.getEmail().isEmpty()){
+            System.out.println("before email");
             String subject="Confirmation of Tour Booking!";
             String body = "Hi " + user.getUsername() + ",\n\n"
                     + "Your tour has been booked successfully for the package: " + bookTourDTO.getRegion() + ".\n\n"
@@ -200,10 +204,8 @@ public class UserService {
                     +"From: "+bookTourDTO.getCity()+", "+bookTourDTO.getState()+"\n\n"
                     +"Your PNR number is: " + pnr + ". Kindly use this PNR for any future ticket cancellation or support requests.\n\n"
                     +"Thank you for choosing Traveller's Pick!\n";
-
             emailService.sendSimpleEMail(bookTourDTO.getEmail(),subject,body);
         }
-
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Tour Booked Successfully"));
     }
 

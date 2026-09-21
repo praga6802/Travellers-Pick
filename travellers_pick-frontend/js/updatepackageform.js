@@ -18,6 +18,8 @@ window.addEventListener('DOMContentLoaded', async () => {
         error.style.color = "red";
     }
 });
+
+
 window.addEventListener("DOMContentLoaded",async function(){
 
     const packageId=document.getElementById("packageId");
@@ -79,7 +81,7 @@ async function handleUpdatePackage(event) {
 
     try {
         const response = await fetch("http://localhost:8080/admin/updatePackage", {
-            method: "POST",
+            method: "PUT",
             body: data,
             credentials:"include",
         });

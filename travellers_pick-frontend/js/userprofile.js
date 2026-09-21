@@ -1,96 +1,132 @@
-//login in option
-const login=document.getElementById('login-btn');
-if(login){
-    login.value='login';
-    login.addEventListener('click',goLogin);
+const login = document.getElementById("login-btn");
+const signin = document.getElementById("signin-btn");
+const error = document.getElementById("profile-error");
+
+if (error) {
+    error.style.display = "none";
+}
+
+if (login) {
+    login.value = "login";
+    login.addEventListener("click", goLogin);
 }
 
 
-//signin in option
-const signin=document.getElementById('signin-btn');
-if(signin){
-    signin.addEventListener('click',()=>{
-    window.location.href='../html/signup.html';
-});
+if (signin) {
+    signin.addEventListener("click", () => {
+        window.location.href = "../html/user-signup.html";
+    });
+
 }
 
-
-//after login, display the current user
-async function displayUserName(){
-    try{
-        const response= await fetch("http://localhost:8080/user/userData",{
-            method:"GET",
-            credentials:"include"
-        });
-    
-        if(response.ok){
-            const data=await response.json();
-
-            const loginSelect=document.createElement('select');
-            loginSelect.id='loginSelect'
-            loginSelect.innerHTML = '';
-
-            const greeting = document.createElement('option');
-            greeting.className='loginoption';
-            greeting.textContent = `Hello ${data.username}!`;
-            greeting.value=`Hello ${data.username}`;
-            loginSelect.appendChild(greeting);
-            
-            const logoutOption = document.createElement('option');
-            logoutOption.className='loginoption';
-            logoutOption.value = 'logout';
-            logoutOption.textContent = 'Logout';
-            loginSelect.appendChild(logoutOption);
-
-            const loginbtn = document.getElementById('login-btn');
-            if (loginbtn) {
-                loginbtn.replaceWith(loginSelect);
-                loginSelect.addEventListener('change', goLogin);
+async function displayUserName() {
+    try {
+        const response = await fetch(
+            "http://localhost:8080/user/current-user",
+            {
+                method: "GET",
+                credentials: "include"
             }
+        );
 
-            //sign in not shown
-            const signin=document.getElementById('signin-btn');
-            if(signin)signin.style.display='none';
+        const data = await response.json();
+        if (response.status === 401) {
+            error.textContent = data.message;
+            error.classList.remove("success");
+            error.classList.add("failure");
+            error.style.display = "inline-block";
+            setTimeout(() => {
+            window.location.href ="../html/user-login.html";
+            }, 2000);
+            return;
         }
-    }
-    catch(err){
-        setTimeout(()=>{window.location.href='../html/login.html'},1500);
+
+        if (!response.ok) {
+            error.textContent = data.message;
+            error.classList.remove("success");
+            error.classList.add("failure");
+            error.style.display = "inline-block";
+            return;
+        }
+
+        const loginSelect = document.createElement("select");
+        loginSelect.id = "loginSelect";
+        loginSelect.className = "login-select";
+
+        // Greeting
+        const greetingOption = document.createElement("option");
+        greetingOption.textContent = `Hello ${data.data.userName}!`;
+        greetingOption.disabled = true;
+        greetingOption.selected = true;
+
+
+        // Logout
+        const logoutOption = document.createElement("option");
+        logoutOption.value = "logout";
+        logoutOption.textContent = "Logout";
+
+        // Add options
+        loginSelect.appendChild(greetingOption);
+        loginSelect.appendChild(logoutOption);
+
+        if (login) {
+            login.replaceWith(loginSelect);
+        }
+
+        if (signin) {
+            signin.style.display = "none";
+        }
+
+        loginSelect.addEventListener("change",goLogin);
+
+    } catch (err) {
+        console.error("Network Error:", err);
+        error.textContent ="Unable to connect to the server.Please try again later!";
+        error.classList.remove("success");
+        error.classList.add("failure");
+        error.style.display = "inline-block";
     }
 }
 
-
-
-
-// INDEX Login option
 async function goLogin(e) {
-    const value=e.target.value;
-    switch(value) {
-        case 'login':
-            window.location.href = "../html/login.html";
+    const value = e.target.value;
+    switch (value) {
+
+        case "login":
+            window.location.href =
+                "../html/user-login.html";
             break;
 
-        case 'logout':
+        case "logout":
             try {
-                const response = await fetch("http://localhost:8080/user/logout", {
-                    method: "POST",
-                    credentials: "include"
-                });
+                const response = await fetch(
+                    "http://localhost:8080/user/logout",
+                    {
+                        method: "POST",
+                        credentials: "include"
+                    }
+                );
+
                 if (response.ok) {
                     alert("Logged out successfully!");
-                    window.location.href = '../html/index.html';
+                    window.location.href ="../index.html";
+
                 } else {
                     console.error("Logout failed");
                 }
-            } catch(err) {
-                console.error("Error logging out:", err);
+
+            } catch (err) {
+                console.error("Error logging out:",err);
             }
             break;
 
         default:
-            console.log("No action for selected value");
+            console.log("No action");
     }
+
 }
 
-
-window.addEventListener("DOMContentLoaded",displayUserName);
-
+window.addEventListener(
+    "DOMContentLoaded",
+    displayUserName
+);

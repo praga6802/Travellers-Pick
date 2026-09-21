@@ -42,7 +42,7 @@ public class TourService {
                 .orElseThrow(() -> new IDNotFoundException("Package ID",categoryDTO.getPackageId()));
 
         MultipartFile image = categoryDTO.getImageFile();
-        String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers-choice/travellers-main/images";
+        String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers-choice/travellers_pick-frontend/img";
         File dir= new File(path);
         if(!dir.exists())dir.mkdirs();
 
@@ -64,7 +64,7 @@ public class TourService {
         tour.setDays(categoryDTO.getDays());
         tour.setNights(categoryDTO.getNights());
         tour.setPrice(categoryDTO.getPrice());
-        tour.setImgUrl("images/"+fileName);
+        tour.setImgUrl("img/"+fileName);
         tourRepo.save(tour);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Added Successfully"));
     }
@@ -103,14 +103,14 @@ public class TourService {
 
         if(categoryDTO.getImageFile()!=null && !categoryDTO.getImageFile().isEmpty()){
             MultipartFile image = categoryDTO.getImageFile();
-            String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers-choice/travellers-main/images";
+            String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers-choice/travellers_pick-frontend/img";
             File folder = new File(path);
             if (!folder.exists()) folder.mkdirs();
 
             String fileName = image.getOriginalFilename();
             File file = new File(folder, fileName);
             if (categoryDTO.getImageFile() != null && !categoryDTO.getImageFile().isEmpty()) {
-                tourEntity.setImgUrl("images/" + fileName);
+                tourEntity.setImgUrl("img/" + fileName);
             }
         }
 
