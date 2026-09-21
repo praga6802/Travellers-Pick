@@ -14,17 +14,18 @@
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
-  <link href="../css/style.css" type="text/css" rel="stylesheet">
-  <link href="../css/form.css" type="text/css" rel="stylesheet">
   <link rel="icon" type="image/icon" href="../img/tour-icon.png">
+  <link href="../css/form.css" type="text/css" rel="stylesheet">
 
+  <link href="../css/index.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
   <div style="margin-top:2%;text-align:center" ;>
     <div class="iternary-container" id="iternaryContainer"></div><br><br>
+    <p id="error"></p>
     <div class="form-data" id="formData"></div>
-    <p id="error" class="error-message"></p>
+
   </div>
 
   <footer>
@@ -55,7 +56,7 @@
               href="https://www.google.com/maps/place/Sastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001/@10.9631309,79.3836662,17z/data=!4m15!1m8!3m7!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!2sSastra+College+Rd,+Anna+Nagar,+Kumbakonam,+Tamil+Nadu+612001!3b1!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8!3m5!1s0x3a5532b3deaf51bb:0x6fd3a5932bb429a7!8m2!3d10.9631309!4d79.3862411!16s%2Fg%2F11gy73zp_8?authuser=0">
               Kumbakonam</a>
           </p>
-         <p>
+          <p>
             <i class="fa fa-envelope"></i>
             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=picktravellers@gmail.com">
               picktravellers@gmail.com
@@ -72,9 +73,11 @@
 
     </div>
 
-    <div class="container-fluid" id="f3">
-      <p id="footerend">copyright &copy;<script>new Date().getFullYear()</script> Traveller's Pick. All Rights Reserved.</p>
-    </div>
+
+    <p id="footerend">copyright &copy;
+      <script>new Date().getFullYear()</script> Traveller's Pick. All Rights Reserved.
+    </p>
+
 
   </footer>
   <script src="../js/form.js"></script>

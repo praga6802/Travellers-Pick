@@ -1,179 +1,75 @@
-body{
-    background-image: url('../images/user-back.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-#legend-cancel{
-    text-align: center;
-    color: rgb(167, 66, 66);
-    font-size: 30px;
-    text-transform: uppercase;
-    text-shadow: 20;
-    margin-top: 7%;
-    margin-left: 20%;
-    font-weight: bold;
-}
-
-
-/* side bar*/
-.page-container {
+.update-container{
     display: flex;
-    gap: 10%;
-    margin: 0%;
-    min-height: 100vh;
+    justify-content: space-between;
 }
 
-.container {
-    min-height:100%;
-    margin: 0%;
-}
-
-
-#table{
-    width: auto;
-}
-
-tr #user-link{
-    background-color: rgb(85, 16, 16);
-    border-radius: 20px;
-    font-weight: 600;
-}
-
-tr.row{
-    background-color: rgba(73, 72, 72, 0.571);
+#update-form{
+    margin-right: 600px;
+    margin-top:70px;
+    background-color: aliceblue;
+    height: 400px;
+    width: 600px;
     border-radius: 10px;
-    font-size: 13px;
+    position: relative;
 }
 
-tr.row:hover{
-    background-color: rgb(85, 83, 83);
-}
-#btn-group{
-  display: flex;
-  flex-direction: row;
-  gap:20px;
-  padding: 0%;
-  width: auto;
-}
-/* login and signin button*/
-
-.silo{
-  width: 80px;
-  height: min-content;
-  padding: 10px;
-  margin-top: 8%;
-  background-color: rgb(222, 219, 219);
-  border-radius: 5px;
-  font-weight: 500;
-  color:white;
-}
-
-#signin-btn{
-  background-color:rgba(5, 117, 44, 0.809);
-}
-
-#login-btn{
-  background-color:rgb(9, 103, 174);
-}
-
-/* after login- select list*/
-#loginSelect{
-  background-color: rgba(39, 98, 198, 0.665);
-  color:white;
-  border-radius: 5px;
-  font-weight: 600;
-  outline:2px solid white;
-  height: min-content;
-  padding:10px;
-  margin-top: 5%;
-}
-
-.loginoption{
-  background-color: black;
-  color: white;
-}
-
-#updateform{
-    padding: 40px 0px;
-    margin-top: 12%;
-    margin-left: 600px;
-    width: 70vh;
-    border: 3px solid rgba(102, 104, 100, 0.401);
-    border-radius: 5px;
-    height:43vh;
-}
-
-#input{
-    margin:0% 5%;
-    gap: 20px;
-    background-color: rgba(235, 231, 231, 0.375);
-    padding: 50px;
-}
-
-#email{
-    margin-left:15% ;
-}
-
-#username{
-    margin-left: 7%;
-}
-
-#input label{
-    color: rgb(47, 46, 46);
-    font-size: 17px;
-    font-weight:600;
-    margin: 0%;
-    margin-right: 10%;
-    margin-left: 0;
-}
-
-input[type="text"],input[type='email'], input[type='tel']{
-    padding: 8px;
-    width:50%;
-    border-style: none;
-    outline: none;
-    border-radius: 5px;
-    background-color: white;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="tel"]:focus{
-    border:3px solid rgba(31, 82, 165, 0.646);
-    outline: none;
-    padding: 8px;
-    width:50%;
-    border-radius: 5px;
-    background-color: white
-}
-
-/* button styles */
-#btn{
-    display: flex;
-    margin-top: 40px;
-    gap: 50px;
+#update-legend{
     text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 20px;
+    color: rgb(161, 12, 12);
+}
+
+#update-form div{
+    padding: 15px;
+    margin: 0;
+}
+
+#update-form div label{
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 40px;
+    text-align: left;
+}
+
+.input{
+    width: 300px;
+    margin-left: 50px;
+    padding: 10px;
+    border: 1px solid rgb(217, 214, 214);
+    border-radius: 5px;
+}
+
+.input:focus{
+    border:2px solid rgb(10, 90, 155);
+    outline:none
+}
+
+.button-group {
+    display: flex;
+    gap: 40px;
     justify-content: center;
 }
 
-#submit, #reset{
-    background-color: rgb(6, 70, 165);
+.button {
     color: white;
+    padding: 10px;
+    height: auto;
     border: none;
-    padding: 7px;
-    width:auto;
-    border-radius: 8px;
-    font-weight: 450;
-
+    border-radius: 5px;
+    font-weight: 600;
+    margin-left: 100px;
+    width: 80px;
+    background-color: rgb(21, 112, 232);
 }
 
-#submit:hover, #reset:hover{
-    background-color: rgb(35, 94, 154);
-    color: white;
-}
-
-.form-area #error{
-    font-size: 20px;
-    text-align: center;
+.button:hover{
+    background-color:rgb(10, 57, 118) ;
 }

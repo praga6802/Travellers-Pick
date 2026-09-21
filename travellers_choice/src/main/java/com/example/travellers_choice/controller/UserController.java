@@ -54,7 +54,6 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginData, HttpSession session) {
         System.out.println(loginData.getEmail() + " " + loginData.getPassword());
-
         return userService.customerLogin(loginData.getEmail(), loginData.getPassword(), session);
     }
 
@@ -87,11 +86,15 @@ public class UserController {
     // book tour
     @PostMapping("/{packageName}/book")
     public ResponseEntity<?> bookCategory(@RequestBody BookTourDTO bookTourDTO, @PathVariable String packageName, @AuthenticationPrincipal UserDetails userDetails) {
-        if(userDetails == null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
-        }
         bookTourDTO.setPackageName(packageName);
+        System.out.println("userDetails = " + userDetails);
+        System.out.println("username = " + userDetails.getUsername());
+        System.out.println("packageName = " + packageName);
+        System.out.println("DTO = " + bookTourDTO);
+
+        System.out.println("BEFORE SERVICE");
+        System.out.println("booking form...");
+        System.out.println("Saved email: "+userDetails.getUsername());
         return userService.bookCategory(bookTourDTO, userDetails.getUsername());
     }
     

@@ -13,56 +13,57 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
-	<link href="../css/style.css" type="text/css" rel="stylesheet">
 	<link href="../css/index.css" type="text/css" rel="stylesheet">
 	<link rel="icon" href="../img/package-icon.png" type="image/png">
 	<link rel="stylesheet" href="../css/package.css" type="text/css">
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-lg bg-dark">
-		<div class="container-fluid">
+	<main>
+		<nav class="navbar navbar-expand-lg bg-dark">
+			<div class="container-fluid">
 
-			<!-- 1. Logo & Brand Name -->
-			<a class="navbar-brand d-flex align-items-center gap-2" id="brand" href="../index.html">
-				<img src="../img/destination.png" alt="logo" id="brand-logo">
-				<span>Traveller's Pick</span>
-			</a>
+				<!-- 1. Logo & Brand Name -->
+				<a class="navbar-brand d-flex align-items-center gap-2" id="brand" href="../index.html">
+					<img src="../img/destination.png" alt="logo" id="brand-logo">
+					<span>Traveller's Pick</span>
+				</a>
 
-			<!-- 2. Nav Links -->
-			<div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-				<ul class="navbar-nav">
-					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="../index.html">Home</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="../html/packages.html">Packages</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="../html/about.html">About</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="../html/contact.html">Contact</a>
-					</li>
-				</ul>
+				<!-- 2. Nav Links -->
+				<div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="../html/packages.html">Packages</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="../html/about.html">About</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="../html/contact.html">Contact</a>
+						</li>
+					</ul>
+				</div>
+
+				<!-- 3. Buttons -->
+				<div id="btn-group">
+					<button value="signin" id="signin-btn" class="silo">SignUp</button>
+					<button value="login" id="login-btn" class="silo">Login</button>
+				</div>
+
 			</div>
+		</nav>
+		<br><br>
 
-			<!-- 3. Buttons -->
-			<div id="btn-group">
-				<button value="signin" id="signin-btn" class="silo">SignUp</button>
-				<button value="login" id="login-btn" class="silo">Login</button>
-			</div>
+		<h1 class="heading">POPULAR PACKAGES</h1>
 
+		<div class="package-container" id="packageContainer">
 		</div>
-	</nav>
-	<br><br>
-	
-	<h1 class="heading">POPULAR PACKAGES</h1>
 
-	<div class="package-container" id="packageContainer">
-	</div>
-
-
+	</main>
+	<br><br><br>
 	<footer>
 		<div class="container py-4">
 			<div class="row">
@@ -112,11 +113,11 @@
 			</div>
 
 		</div>
-		<div class="container-fluid" id="f3">
-			<p id="footerend">copyright &copy;
-				<script>new Date().getFullYear()</script> Traveller's Pick. All Rights Reserved.
-			</p>
-		</div>
+
+		<p id="footerend">copyright &copy;
+			<script>new Date().getFullYear()</script> Traveller's Pick. All Rights Reserved.
+		</p>
+
 
 	</footer>
 

@@ -1,5 +1,5 @@
 body {
-    background-image: url('../img/contact-wall.jpg');
+    background-image: url('../img/adminback.jpg');
     width: 100%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -7,7 +7,7 @@ body {
 
 .heading {
     padding: 3px;
-    color: white;
+    color: rgb(239, 239, 176);
     font-size: 35px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 700;

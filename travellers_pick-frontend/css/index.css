@@ -13,7 +13,8 @@ body {
 }
 
 nav {
-  height: 120px;
+  height: max-content;
+  background-color: black;
 }
 
 #brand-logo {
@@ -164,6 +165,7 @@ section h1 {
   height: 70px;
   margin-top: 70px;
   margin-bottom: 20px;
+  margin-left: 800px;
   background-color: #101820ff;
   transition: width 0.6s;
   font-family: fantasy;
@@ -196,40 +198,6 @@ section h1 {
   font-weight: bold;
 }
 
-
-/* footer styles */
-footer {
-  height: 200px;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.307);
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-  margin: 80px;
-}
-
-.row {
-  height: 300px;
-}
-
-.col h3 {
-  color: goldenrod;
-}
-
-.col a {
-  color: white;
-  text-decoration: none;
-}
-
-.col a:hover {
-  color: yellow;
-}
-
-.container-fluid #footerend {
-  background-color: #244a9b;
-  width: 100%;
-}
-
 #error {
   font-weight: 600;
   background-color: rgb(238, 236, 236);
@@ -249,3 +217,62 @@ footer {
   color: rgb(231, 19, 19);
   border: 2px solid rgb(231, 19, 19);
 }
+
+.login-select {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 10px;
+  width: auto;
+  border-radius: 6px;
+  font-size: 17px;
+  font-weight: 500;
+  color: black;
+}
+
+.login-select option {
+  background-color: white;
+  color: black;
+}
+
+
+/* footer styles */
+footer {
+  height: 300px;
+  color: white;
+  background-color: black;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  box-sizing: border-box;
+}
+
+footer p{
+  margin: 0;
+  padding: 4px;
+}
+
+.row {
+  height: 300px;
+  padding: 20px;
+}
+
+.col h3 {
+  color: goldenrod;
+}
+
+.col a {
+  color: white;
+  text-decoration: none;
+}
+
+.col a:hover {
+  color: yellow;
+}
+
+#footerend {
+  background-color: #244a9b;
+  width: 100%;
+  margin: 0;
+}
+

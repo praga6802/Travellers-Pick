@@ -132,7 +132,7 @@ public class AdminController {
 
 
     //UPDATE PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
-    @PostMapping(value = "/updatePackage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/updatePackage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updatePackage(@ModelAttribute UpdatePackageDTO updatePackageDTO, @AuthenticationPrincipal UserDetails user) {
         return packageService.updatePackage(updatePackageDTO, user.getUsername());
     }

@@ -46,7 +46,7 @@ function showPackageTours(packageId){
     }
 
     packageTours.forEach(t=>{
-        container.innerHTML+=`
+        container.innerHTML += `
             <div class='card'>
                 <img src="../${t.imgUrl}" alt="${t.tourName}">
                 <h4>${t.tourName}</h4>
@@ -55,7 +55,7 @@ function showPackageTours(packageId){
                 <p>${t.places}</p>
                 <span class="package-name"> <i style="font-size:24px" class="fa">&#xf017;</i> Days: ${t.days} - Nights: ${t.nights}</span>
                 <p id='price'>Price: Rs.${t.price}</p>
-			    <button class="btn" onclick="tourChange('${t.fileName}')">BOOK NOW</button>
+			    <button class="book-button" onclick="tourChange('${t.fileName}')">BOOK NOW</button>
 		</div>
         `;
     });

@@ -1,109 +1,173 @@
-const error = document.getElementById('error');
-const username=document.getElementById('username');
-const email=document.getElementById('email');
-const contact=document.getElementById('contact');
-const form = document.getElementById('updateform');
+(function () {
+    const errorMsg = document.getElementById("profile-error");
+    const updateContainer = document.getElementById("update-form");
 
-let oldEmail,oldContact,oldUsername;
+    let oldEmail = "";
+    let oldUsername = "";
+    let oldContact = "";
 
-//get the user details
-window.addEventListener("DOMContentLoaded",displayUserDetails);
-async function displayUserDetails(){
-    try{
-        const response=await fetch("http://localhost:8080/user/userData",{
-            method:"GET",
-            credentials:"include"
-        });
-        const responseData=await response.json();
-        if(!response.ok){
-            displayMessage(responseData.message,response.ok);
-            return;
-        }
-        oldEmail=responseData.email;
-        email.value=responseData.email;
+    updateContainer.innerHTML += `
+        <h1 id="update-legend">UPDATE USER INFO</h1>
+        <form id="update-form">
+            <div>
+                <label for="username">User Name</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="User Name"
+                    class="input">
+            </div>
 
-        oldUsername=responseData.username;
-        username.value=responseData.username;
+            <div>
+                <label for="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    class="input">
+            </div>
 
+            <div>
+                <label for="contact">Mobile Number</label>
+                <input
+                    type="tel"
+                    id="contact"
+                    name="contact"
+                    placeholder="Enter 10-digit Number"
+                    pattern="[0-9]{10}"
+                    class="input">
+            </div>
 
-        oldContact=responseData.contact;
-        contact.value=responseData.contact;
+            <div id="button-group">
+                <button type="submit" id="submit" class="button">SUBMIT</button>
+                <button type="reset" id="reset" class="button">RESET</button>
+            </div>
+        </form>
+    `;
 
+    const form = document.getElementById("update-form");
+    const username = document.getElementById("username");
+    const email = document.getElementById("email");
+    const contact = document.getElementById("contact");
+
+    window.addEventListener("DOMContentLoaded", displayUserDetails);
+    if (form) {
+        form.addEventListener("submit", handleUpdateUser);
     }
-    catch(e){
-        username.value='';
-        email.value='';
-        contact.value='';
-        displayMessage('Network Error or Session Expired. Please login again!');
-        form.style.display='none';
-        setTimeout(()=>{window.location.href='../html/login.html'},1500);
-    }
-}
 
+    async function displayUserDetails() {
+        try {
+            const response = await fetch(
+                "http://localhost:8080/user/current-user",
+                {
+                    method: "GET",
+                    credentials: "include",
+                },
+            );
 
-//update the user details
+            const responseData = await response.json();
 
-form.addEventListener('submit', handleUpdateUser);
+            if (response.status === 401) {
+                displayMessage(responseData.message, false);
+                if (form) form.style.display = "none";
+                setTimeout(() => {
+                    window.location.href = "../html/user-login.html";
+                }, 2000);
+                return;
+            }
 
-async function handleUpdateUser(event) {
-    event.preventDefault();
+            if (!response.ok) {
+                displayMessage(responseData.message,false);
+                return;
+            }
 
-    const updateUserName=username.value.trim();
-    const updateEmail=email.value.trim();
-    const updateContact=contact.value.trim();
+            const { data } = responseData;
+            if (data) {
+                oldEmail = data.userEmail;
+                oldUsername = data.userName;
+                oldContact = data.userContact;
 
-
-
-    const data = {};
-    if(updateUserName)data.username=updateUserName;
-    if(updateEmail)data.email=updateEmail;
-    if(updateContact)data.contact=updateContact;
-
-    try {
-        const response = await fetch("http://localhost:8080/user/updateUser", {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            credentials: 'include',
-            body: JSON.stringify(data)
-        });
-
-        const responseData = await response.json();
-        displayMessage(responseData.message,response.ok);
-        form.style.display='block';
-
-        
-        if(!response.ok){
-            displayMessage(responseData.message);
-            return;
+                username.value = oldUsername;
+                email.value = oldEmail;
+                contact.value = oldContact;
+            }
+        } catch (e) {
+            console.error("Network Error:", e);
+            displayMessage("Network Error. Please login again!", false);
+            if (form) form.style.display = "none";
+            setTimeout(() => {
+                window.location.href = "../html/user-login.html";
+            }, 2000);
         }
-
-        if(updateEmail!=oldEmail && updateUserName==oldUsername && updateContact==oldContact){
-            displayMessage(responseData.message,response.ok);
-            setTimeout(()=>{window.location.href='../html/verifyotp.html'},1500);
-            return;
-        }
-
-
-
-    } catch (e) {
-        displayMessage(e.message);
-        form.style.display='none';
-        console.log(e);
     }
-}
 
-//display message
-function displayMessage(msg,response=false){
-    error.innerText=msg;
-    error.style.color = response ? "green" : "red";
-    error.style.marginTop = "20px";
-    error.style.marginLeft="170px";
-}
+    async function handleUpdateUser(event) {
+        event.preventDefault();
+        const updateUserName = username.value.trim();
+        const updateEmail = email.value.trim();
+        const updateContact = contact.value.trim();
 
-//reset button
-form.addEventListener('reset',()=>{
-    username.value='';
-    email.value='';
-    contact.value='';
-    error.innerText='';
-})
+        const payload = {};
+        if (updateUserName) payload.username = updateUserName;
+        if (updateEmail) payload.email = updateEmail;
+        if (updateContact) payload.contact = updateContact;
+
+        try {
+            const response = await fetch(
+                "http://localhost:8080/user/updateUser",
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify(payload),
+                },
+            );
+
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                displayMessage(
+                    responseData.message || "Failed to update profile.",
+                    false,
+                );
+                return;
+            }
+
+            displayMessage(
+                responseData.message || "Profile updated successfully!",
+                true,
+            );
+
+            if (updateEmail !== oldEmail) {
+                setTimeout(() => {
+                    window.location.href = "../html/verifyotp.html";
+                }, 1500);
+                return;
+            }
+
+            oldEmail = updateEmail;
+            oldUsername = updateUserName;
+            oldContact = updateContact;
+        } catch (e) {
+            console.error("Update Error:", e);
+            displayMessage("Network Error. Please try again.", false);
+        }
+    }
+
+    function displayMessage(message, isSuccess) {
+        if (!errorMsg) return;
+        errorMsg.textContent = message;
+        errorMsg.style.display = "inline-block";
+        if (isSuccess) {
+            errorMsg.classList.remove("failure");
+            errorMsg.classList.add("success");
+        } else {
+            errorMsg.classList.remove("success");
+            errorMsg.classList.add("failure");
+        }
+    }
+})();

@@ -34,9 +34,3 @@ async function handleLogin(event) {
         console.error(err);
     }
 }
-
-form.addEventListener("reset", () => {
-    error.style.display = "none";
-    document.getElementById("email").value = "";
-    document.getElementById("password").value = "";
-});

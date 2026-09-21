@@ -111,7 +111,7 @@ public class PackageService {
 
     public List<PackageDTO> getAllPackages(){
         return packageRepo.findAll().stream().map(pkg-> {
-            String fileName= pkg.getPackageName().split(" ")[0].toLowerCase()+".html";
+            String fileName= pkg.getPackageName().split(" ")[0].toLowerCase()+"-package"+".html";
                 return new PackageDTO(pkg.getPackageId(),pkg.getPackageName(),pkg.getPackageSlogan(),pkg.getImgUrl(),fileName);
         }).toList();
     }

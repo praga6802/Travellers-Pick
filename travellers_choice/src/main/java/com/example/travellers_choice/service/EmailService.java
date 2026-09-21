@@ -12,13 +12,20 @@ public class EmailService {
     JavaMailSender javaMailSender;
 
     public void sendSimpleEMail(String to, String subject, String message){
-        SimpleMailMessage smm=new SimpleMailMessage();
-        smm.setTo(to);
-        smm.setSubject(subject);
-        smm.setText(message);
 
-        smm.setFrom("picktravellers@gmail.com");
 
-        javaMailSender.send(smm);
-    }
+            try {
+                SimpleMailMessage smm = new SimpleMailMessage();
+                smm.setTo(to);
+                smm.setSubject(subject);
+                smm.setText(message);
+                smm.setFrom("picktravellers@gmail.com");
+
+                javaMailSender.send(smm);
+            } catch (Exception e) {
+                System.out.println("Mail sending failed!");
+                e.printStackTrace();
+            }
+        }
+
 }
