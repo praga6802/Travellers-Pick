@@ -16,14 +16,15 @@ async function handleLogin(event) {
             body: JSON.stringify(data),
             credentials: "include",
         });
-        const text = await response.json();
+        const data = await response.json();
+        console.log(data);
         if (response.ok) {
-            error.textContent = text.message;
+            error.textContent = data.message;
             error.classList.remove("failure");
             error.classList.add("success");
             setTimeout(() => (window.location.href = `../index.html`), 2000);
         } else {
-            error.textContent = text.message;
+            error.textContent = data.message;
             error.classList.remove("success");
             error.classList.add("failure");
             console.log("Back end error:", text);
