@@ -13,6 +13,7 @@
 * Generate a unique **PNR number** for confirmed bookings
 * Receive email notifications for signup, booking confirmation, and cancellation
 * View booking-related information
+* View Booking History
 
 ### 🛠️ Admin Features
 
@@ -23,7 +24,7 @@
 * Add, update, and delete tour packages
 * Manage package itineraries and content
 * View passenger and booking details
-* View Booking History
+
 
 ## 📧 Email Notification System
 
