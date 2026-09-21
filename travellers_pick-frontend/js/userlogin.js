@@ -10,7 +10,7 @@ async function handleLogin(event) {
 
     const data = { email, password };
     try {
-        const response = await fetch(`${url}user/user-login`, {
+        const response = await fetch(`${url}user/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

@@ -39,8 +39,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers("/",
-                                "/admin/admin-login", "/admin/admin-signup", "/admin/logout","/admin/allPackages","/admin/allCategories","/admin/allIternaries","/admin/current-admin",
-                                "/user/user-login", "/user/user-login", "/user/logout","/user/allIternaries","/user/current-user", "/user/userData").permitAll()
+                                "/admin/login", "/admin/signup", "/admin/logout","/admin/allPackages","/admin/allCategories","/admin/allIternaries","/admin/current-admin",
+                                "/user/signup", "/user/login", "/user/logout","/user/allIternaries","/user/current-user", "/user/userData").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH,"/user/updateUser").hasRole("USER")
                         .requestMatchers("/user/**").hasRole("USER")
