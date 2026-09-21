@@ -9,6 +9,8 @@ async function handleLogin(event) {
     const password = document.getElementById("password").value.trim();
 
     const data = { email, password };
+    console.log(data);
+
     try {
         const response = await fetch(`${url}user/login`, {
             method: "POST",
