@@ -23,6 +23,7 @@
 * Add, update, and delete tour packages
 * Manage package itineraries and content
 * View passenger and booking details
+* View Booking History
 
 ## 📧 Email Notification System
 
@@ -105,7 +106,6 @@ Email Notifications
 ## 🔮 Future Enhancements
 
 * Online payment integration
-* User booking history
 * Package search and filtering
 * Reviews and ratings
 
