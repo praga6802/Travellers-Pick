@@ -1,7 +1,6 @@
 const login = document.getElementById("login-btn");
 const signin = document.getElementById("signin-btn");
 const error = document.getElementById("profile-error");
-const url = "https://travellers-pick-production.up.railway.app/";
 if (error) {
     error.style.display = "none";
 }
@@ -19,7 +18,7 @@ if (signin) {
 
 async function displayUserName() {
     try {
-        const response = await fetch(`${url}user/current-user`, {
+        const response = await fetch(`${url}/user/current-user`, {
             method: "GET",
             credentials: "include",
         });
@@ -91,7 +90,7 @@ async function goLogin(e) {
 
         case "logout":
             try {
-                const response = await fetch(`${url}user/logout`, {
+                const response = await fetch(`${url}/user/logout`, {
                     method: "POST",
                     credentials: "include",
                 });

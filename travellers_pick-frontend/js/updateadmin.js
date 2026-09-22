@@ -1,9 +1,8 @@
 const error = document.getElementById("error");
-const url = "https://travellers-pick-production.up.railway.app/";
 
 window.addEventListener("DOMContentLoaded", async () => {
     try {
-        const response = await fetch(`${url}admin/adminData`, {
+        const response = await fetch(`${url}/admin/adminData`, {
             method: "GET",
             credentials: "include",
         });
@@ -53,7 +52,7 @@ async function handleUpdateAdmin(event) {
     if (contact) payload.contact = contact;
 
     try {
-        const response = await fetch(`${url}admin/updateAdmin`, {
+        const response = await fetch(`${url}/admin/updateAdmin`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",

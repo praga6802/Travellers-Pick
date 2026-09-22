@@ -1,10 +1,8 @@
 document.addEventListener("DOMContentLoaded", displayPackage);
 const error = document.getElementById("error");
-const url = "https://travellers-pick-production.up.railway.app/";
-
 async function displayPackage() {
     try {
-        const response = await fetch(`${url}admin/allPackages`, {
+        const response = await fetch(`${url}/admin/allPackages`, {
             method: "GET",
             credentials: "include",
         });

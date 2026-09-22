@@ -1,9 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const url = "https://travellers-pick-production.up.railway.app/";
     const tbody = document.querySelector("#viewcategory tbody");
 
     try {
-        const response = await fetch(`${url}admin/allCategories`, {
+        const response = await fetch(`${url}/admin/allCategories`, {
             method: "GET",
             credentials: "include",
         });

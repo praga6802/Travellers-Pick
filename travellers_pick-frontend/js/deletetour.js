@@ -1,12 +1,11 @@
 //get the admin detail
 const errorMsg = document.getElementById("error");
-const url = "https://travellers-pick-production.up.railway.app/";
 
 window.addEventListener("DOMContentLoaded", async () => {
     const input = document.getElementById("adminId");
 
     try {
-        const response = await fetch(`${url}admin/current-admin`, {
+        const response = await fetch(`${url}/admin/current-admin`, {
             method: "GET",
             credentials: "include",
         });
@@ -43,7 +42,7 @@ async function handledeletecategory(event) {
     }
 
     try {
-        const response = await fetch(`${url}admin/deleteCategory`, {
+        const response = await fetch(`${url}/admin/deleteCategory`, {
             method: "DELETE",
             body: JSON.stringify({ tourId }),
             headers: { "Content-Type": "application/json" },

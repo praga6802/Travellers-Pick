@@ -1,12 +1,9 @@
-// get the package names
 
 const errorMsg = document.getElementById("error");
-const url = "https://travellers-pick-production.up.railway.app/";
-
 window.addEventListener("DOMContentLoaded", async function () {
     const packageName = document.getElementById("packageName");
     try {
-        const response = await fetch(`${url}admin/packageNames`, {
+        const response = await fetch(`${url}/admin/packageNames`, {
             method: "GET",
             credentials: "include",
         });
@@ -71,7 +68,7 @@ async function handledaddcategory(event) {
     data.append("imageFile", imageFile.files[0]);
 
     try {
-        const response = await fetch(`${url}admin/addCategory`, {
+        const response = await fetch(`${url}/admin/addCategory`, {
             method: "POST",
             body: data,
             credentials: "include",

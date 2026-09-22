@@ -1,7 +1,6 @@
 (function () {
     const errorMsg = document.getElementById("profile-error");
     const updateContainer = document.getElementById("update-form");
-    const url = "https://travellers-pick-production.up.railway.app/";
 
     let oldEmail = "";
     let oldUsername = "";
@@ -60,7 +59,7 @@
 
     async function displayUserDetails() {
         try {
-            const response = await fetch(`${url}user/current-user`, {
+            const response = await fetch(`${url}/user/current-user`, {
                 method: "GET",
                 credentials: "include",
             });
@@ -113,7 +112,7 @@
         if (updateContact) payload.contact = updateContact;
 
         try {
-            const response = await fetch(`${url}user/updateUser`, {
+            const response = await fetch(`${url}/user/updateUser`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",

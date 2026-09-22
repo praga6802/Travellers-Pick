@@ -1,20 +1,19 @@
 const error = document.getElementById("error");
 const form = document.getElementById("otp-form");
 const otpinp = document.querySelectorAll(".otp");
-const url = "https://travellers-pick-production.up.railway.app/";
 
 //get the user data
 window.addEventListener("DOMContentLoaded", displayUserDetails);
 async function displayUserDetails() {
     try {
-        const response = await fetch(`${url}user/userData`, {
+        const response = await fetch(`${url}/user/current-user`, {
             method: "GET",
             credentials: "include",
         });
         const responseData = await response.json();
 
         if (!response.ok) {
-            console.log("logged User");
+            console.log("User not logged in");
             return;
         }
     } catch (e) {
@@ -59,7 +58,7 @@ async function verifyOTP(e) {
     const data = { otp };
 
     try {
-        const response = await fetch(`${url}user/verifyOTP`, {
+        const response = await fetch(`${url}/user/verifyOTP`, {
             method: "POST",
             credentials: "include",
             headers: { "Content-Type": "application/json" },

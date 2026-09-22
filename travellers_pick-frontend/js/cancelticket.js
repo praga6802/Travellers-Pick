@@ -5,7 +5,6 @@
     if (errorMsg) {
         errorMsg.style.display = "none";
     }
-    const url = "https://travellers-pick-production.up.railway.app/";
 
     cancelContainer.innerHTML += `
         <form id="cancelform" method="post">
@@ -45,7 +44,7 @@
         }
 
         try {
-            const response = await fetch(`${url}user/cancelTour`, {
+            const response = await fetch(`${url}/user/cancelTour`, {
                 method: "DELETE",
                 credentials: "include",
                 body: JSON.stringify({ pnr: PNR_NUMBER }),

@@ -1,6 +1,5 @@
 (function () {
     window.addEventListener("DOMContentLoaded", handleViewBooking);
-    const url = "https://travellers-pick-production.up.railway.app/";
     async function handleViewBooking() {
         const errorMsg = document.getElementById("profile-error");
         const cardContainer = document.getElementById("booking-card");
@@ -10,7 +9,7 @@
         }
 
         try {
-            const response = await fetch(`${url}user/bookedTours`, {
+            const response = await fetch(`${url}/user/bookedTours`, {
                 method: "GET",
                 credentials: "include",
             });

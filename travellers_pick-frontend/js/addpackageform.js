@@ -1,5 +1,4 @@
 const error = document.getElementById('error');
-const url = "https://travellers-pick-production.up.railway.app/";
 
 window.addEventListener('DOMContentLoaded', async () => {
 
@@ -46,7 +45,7 @@ async function handleAddPackage(event) {
     formData.append("imageFile",imageFile.files[0]);
 
     try {
-        const response = await fetch(`${url}admin/addPackag`, {
+        const response = await fetch(`${url}/admin/addPackag`, {
             method: "POST",
             body: formData,
             credentials:"include",

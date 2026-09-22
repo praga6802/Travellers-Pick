@@ -1,9 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const url = "https://travellers-pick-production.up.railway.app/";
     const tbody = document.querySelector("#usertable tbody");
 
     try {
-        const response = await fetch(`${url}admin/allusers`, {
+        const response = await fetch(`${url}/admin/allusers`, {
             method: "GET",
             credentials: "include",
             headers: { "Content-Type": "application/json" },

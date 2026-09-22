@@ -1,6 +1,5 @@
 const form = document.getElementById("delAdmin");
 form.addEventListener("submit", handleDeleteAdmin);
-const url = "https://travellers-pick-production.up.railway.app/";
 
 async function handleDeleteAdmin(event) {
     event.preventDefault();
@@ -18,7 +17,7 @@ async function handleDeleteAdmin(event) {
     }
 
     try {
-        const response = await fetch(`${url}admin/deleteAdmin`, {
+        const response = await fetch(`${url}/admin/deleteAdmin`, {
             body: JSON.stringify(data),
             method: "DELETE",
             headers: {

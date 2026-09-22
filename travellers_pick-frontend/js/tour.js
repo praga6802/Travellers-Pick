@@ -1,10 +1,9 @@
 const error = document.getElementById("error");
 let tourdata = [];
-const url = "https://travellers-pick-production.up.railway.app/";
 
 document.addEventListener("DOMContentLoaded", async function loadTours() {
     try {
-        const response = await fetch(`${url}admin/allCategories`, {
+        const response = await fetch(`${url}/admin/allCategories`, {
             method: "GET",
             credentials: "include",
         });

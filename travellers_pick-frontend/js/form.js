@@ -2,14 +2,13 @@ const error = document.getElementById("error");
 error.style.display = "none";
 const formContainer = document.getElementById("formData");
 const iternaryContainer = document.getElementById("iternaryContainer");
-const url = "https://travellers-pick-production.up.railway.app/";
 
 let iternaryData = [];
 let userId = 0;
 
 async function displayUserName() {
     try {
-        const response = await fetch(`${url}user/current-user`, {
+        const response = await fetch(`${url}/user/current-user`, {
             method: "GET",
             credentials: "include",
         });
@@ -47,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async function loadIternaries() {
     if (!logged) return;
 
     try {
-        const response = await fetch(`${url}user/allIternaries`, {
+        const response = await fetch(`${url}/user/allIternaries`, {
             method: "GET",
             credentials: "include",
         });
@@ -218,7 +217,7 @@ function showIternaries(tourId) {
         }
         const pkgName = encodeURIComponent(packageName);
         try {
-            const response = await fetch(`${url}user/${pkgName}/book`, {
+            const response = await fetch(`${url}/user/${pkgName}/book`, {
                 method: "POST",
                 body: JSON.stringify(data),
                 credentials: "include",

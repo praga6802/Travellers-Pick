@@ -1,12 +1,11 @@
 const error = document.getElementById("error");
 const form = document.getElementById("deletepackageform");
 const packageName = document.getElementById("packageName");
-const url = "https://travellers-pick-production.up.railway.app/";
 
 //get the current admin
 window.addEventListener("DOMContentLoaded", async () => {
     try {
-        const response = await fetch(`${url}admin/current-admin`, {
+        const response = await fetch(`${url}/admin/current-admin`, {
             method: "GET",
             credentials: "include",
         });
@@ -24,7 +23,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 //get the package names to send package id
 window.addEventListener("DOMContentLoaded", async function () {
     try {
-        const response = await fetch(`${url}admin/packageNames`, {
+        const response = await fetch(`${url}/admin/packageNames`, {
             method: "GET",
             credentials: "include",
         });
@@ -65,7 +64,7 @@ form.addEventListener("submit", async (event) => {
     }
 
     try {
-        const response = await fetch(`${url}admin/deletePackage`, {
+        const response = await fetch(`${url}/admin/deletePackage`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             credentials: "include",

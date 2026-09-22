@@ -1,9 +1,8 @@
 const error = document.getElementById("error");
-const url = "https://travellers-pick-production.up.railway.app/";
 
 window.addEventListener("DOMContentLoaded", async () => {
     try {
-        const response = await fetch(`${url}admin/current-admin`, {
+        const response = await fetch(`${url}/admin/current-admin`, {
             method: "GET",
             credentials: "include",
         });
@@ -21,7 +20,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 window.addEventListener("DOMContentLoaded", async function () {
     const packageId = document.getElementById("packageId");
     try {
-        const response = await fetch(`${url}admin/packageNames`, {
+        const response = await fetch(`${url}/admin/packageNames`, {
             method: "GET",
             credentials: "include",
         });
@@ -73,7 +72,7 @@ async function handleUpdatePackage(event) {
         data.append("imageFile", imageFile.files[0]);
 
     try {
-        const response = await fetch(`${url}admin/updatePackage`, {
+        const response = await fetch(`${url}/admin/updatePackage`, {
             method: "PUT",
             body: data,
             credentials: "include",

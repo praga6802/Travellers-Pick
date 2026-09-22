@@ -2,12 +2,11 @@ const error = document.getElementById("error");
 const iternaryContainer = document.getElementById("iternaryContainer");
 const form = document.getElementById("formData");
 let iternaryData = [];
-const url = "https://travellers-pick-production.up.railway.app/";
 
 //load all iternaries and selecting according to the tour id
 document.addEventListener("DOMContentLoaded", async function loadIternaries() {
     try {
-        const response = await fetch(`${url}admin/allIternaries`, {
+        const response = await fetch(`${url}/admin/allIternaries`, {
             method: "GET",
             credentials: "include",
         });
