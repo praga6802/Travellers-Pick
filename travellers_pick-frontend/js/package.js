@@ -2,16 +2,16 @@ import { showMessage } from "./error.js";
 
 const displayPackage = async () => {
     try {
-        const authResponse = await fetch(`${url}/user/current-user`, {
-            method: "GET",
-        });
+        // const authResponse = await fetch(`${url}/user/current-user`, {
+        //     method: "GET",
+        // });
 
-        const authData = await authResponse.json();
+        // const authData = await authResponse.json();
 
-        if (!authResponse.ok) {
-            showMessage(authData.message, false);
-            return;
-        }
+        // if (!authResponse.ok) {
+        //     showMessage(authData.message, false);
+        //     return;
+        // }
 
         const response = await fetch(`${url}/admin/allPackages`, {
             method: "GET",
