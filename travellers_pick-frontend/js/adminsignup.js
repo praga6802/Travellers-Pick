@@ -2,6 +2,7 @@ const form = document
     .getElementById("signup-form")
     .addEventListener("submit", handleSignUp);
 const error = document.getElementById("error");
+const url = "https://travellers-pick-production.up.railway.app/";
 
 async function handleSignUp(event) {
     event.preventDefault();
@@ -18,7 +19,7 @@ async function handleSignUp(event) {
         contact: contact,
     };
     try {
-        const response = await fetch("http://localhost:8080/admin/signup", {
+        const response = await fetch(`${url}admin/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

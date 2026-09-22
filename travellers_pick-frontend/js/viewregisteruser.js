@@ -1,29 +1,26 @@
-document.addEventListener("DOMContentLoaded",async ()=>{
+document.addEventListener("DOMContentLoaded", async () => {
+    const url = "https://travellers-pick-production.up.railway.app/";
+    const tbody = document.querySelector("#regtable tbody");
 
-const tbody=document.querySelector("#regtable tbody");
+    try {
+        const response = await fetch(`${url}admin/allregusers`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+        });
 
-try{
+        if (!response) throw new Error("Network Issue..Please try again");
 
-    const response=await fetch("http://localhost:8080/admin/allregusers",
-        {
-            method:"GET",
-            headers:{
-            "Content-Type":'application/json'},
-            credentials:"include"
+        const details = await response.json();
+
+        if (details.length === 0) {
+            tbody.innerHTML = "<tr><td>Customer details not found</td></tr>";
         }
-    );
-
-    if(!response) throw new Error("Network Issue..Please try again");
-
-
-    const details=await response.json();
-
-    if(details.length===0){
-        tbody.innerHTML="<tr><td>Customer details not found</td></tr>";
-    }
-    details.forEach(detail => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
+        details.forEach((detail) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
             <td>${detail.userId}</td>
             <td>${detail.userName}</td>
             <td>${detail.email}</td>
@@ -41,16 +38,15 @@ try{
             <td>${detail.country}</td>
             <td>${detail.status}</td>
         `;
-        if (detail.status === 'CANCELLED') {
-            row.querySelectorAll('td').forEach(td=>{td.setAttribute("style","color:red;font-weight:bold");
-            });
-        }
-        tbody.appendChild(row);
-    });
-
-}
-catch(err){
-    console.error(err);
-    tbody.innerHTML="<tr><td>Error! No Details Found</td></tr>";
-}
+            if (detail.status === "CANCELLED") {
+                row.querySelectorAll("td").forEach((td) => {
+                    td.setAttribute("style", "color:red;font-weight:bold");
+                });
+            }
+            tbody.appendChild(row);
+        });
+    } catch (err) {
+        console.error(err);
+        tbody.innerHTML = "<tr><td>Error! No Details Found</td></tr>";
+    }
 });

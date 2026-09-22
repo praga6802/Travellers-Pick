@@ -1,64 +1,56 @@
-const error = document.getElementById('error');
+const error = document.getElementById("error");
 const form = document.getElementById("deletepackageform");
 const packageName = document.getElementById("packageName");
+const url = "https://travellers-pick-production.up.railway.app/";
 
 //get the current admin
-window.addEventListener('DOMContentLoaded', async () => {
-
+window.addEventListener("DOMContentLoaded", async () => {
     try {
-        const response = await fetch("http://localhost:8080/admin/current-admin", {
+        const response = await fetch(`${url}admin/current-admin`, {
             method: "GET",
-            credentials: "include"
+            credentials: "include",
         });
 
-        if(!response.ok){
-            alert('Session Expired or Network Error..Please try again!');
-            window.location.href='../html/loginform.html';
+        if (!response.ok) {
+            alert("Session Expired or Network Error..Please try again!");
+            window.location.href = "../html/loginform.html";
         }
-
     } catch (err) {
         error.innerText = "Network Error..Please Try again";
         error.style.color = "red";
     }
 });
 
-
 //get the package names to send package id
-window.addEventListener("DOMContentLoaded",async function(){
-
-    try{
-        const response=await fetch("http://localhost:8080/admin/packageNames",{
-            method:"GET",
-            credentials:"include",
+window.addEventListener("DOMContentLoaded", async function () {
+    try {
+        const response = await fetch(`${url}admin/packageNames`, {
+            method: "GET",
+            credentials: "include",
         });
-        
-        const responseData=await response.json();
-        if(!response.ok){
-            errorMsg.innerText=responseData.message;
-            errorMsg.style.color='red';
-            window.location.href='loginform.html';
+
+        const responseData = await response.json();
+        if (!response.ok) {
+            errorMsg.innerText = responseData.message;
+            errorMsg.style.color = "red";
+            window.location.href = "loginform.html";
         }
 
-
-        if(!responseData){
-            errorMsg.innerText="No Packages Found!";
-            errorMsg.style.color='red';
+        if (!responseData) {
+            errorMsg.innerText = "No Packages Found!";
+            errorMsg.style.color = "red";
         }
-        responseData.forEach(pkg=>{
-            const option=document.createElement("option");
-            option.value=pkg.packageId;
-            option.innerText=pkg.packageName;
+        responseData.forEach((pkg) => {
+            const option = document.createElement("option");
+            option.value = pkg.packageId;
+            option.innerText = pkg.packageName;
             packageName.appendChild(option);
         });
-    }
-    catch(err){
+    } catch (err) {
         errorMsg.innerText = "Network error..Unable to reach Server!";
         errorMsg.style.color = "red";
     }
-
 });
-
-
 
 //delete package
 form.addEventListener("submit", async (event) => {
@@ -73,11 +65,11 @@ form.addEventListener("submit", async (event) => {
     }
 
     try {
-        const response = await fetch("http://localhost:8080/admin/deletePackage", {
+        const response = await fetch(`${url}admin/deletePackage`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
-            body: JSON.stringify({ packageId })
+            body: JSON.stringify({ packageId }),
         });
 
         const responseData = await response.json();
@@ -87,14 +79,8 @@ form.addEventListener("submit", async (event) => {
         if (response.ok) {
             packageName.querySelector(`option[value="${packageId}"]`).remove();
         }
-
     } catch (err) {
         error.innerText = "Network error..Unable to reach server!";
         error.style.color = "red";
     }
 });
-
-form.addEventListener('reset',()=>{
-    error.innerText='';
-    packageIdInp.innerText='';
-})

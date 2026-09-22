@@ -6,12 +6,13 @@ const total_bookings = document.getElementById("total-bookings");
 const total_confirm = document.getElementById("confirmed");
 const total_cancel = document.getElementById("cancelled");
 
+const url = "https://travellers-pick-production.up.railway.app/";
 
 
 async function displayUserName() {
     console.log("Cookies before fetch:", document.cookie);
     try {
-        const response = await fetch("http://localhost:8080/admin/adminData", {
+        const response = await fetch(`${url}admin/adminData`, {
             method: "GET",
             credentials: "include",
         });
@@ -36,7 +37,7 @@ async function displayUserName() {
 async function handleLogout(select) {
     if (select.value == "logout") {
         try {
-            const response = await fetch("http://localhost:8080/admin/logout", {
+            const response = await fetch(`${url}admin/logout`, {
                 method: "POST",
                 credentials: "include",
             });
@@ -58,7 +59,7 @@ async function handleLogout(select) {
 
 const getAdmins = async () => {
     try {
-        const response = await fetch("http://localhost:8080/admin/getAdmins", {
+        const response = await fetch(`${url}admin/getAdmins`, {
             method: "GET",
             credentials:"include"
         });
@@ -76,7 +77,7 @@ const getAdmins = async () => {
 
 const getUsers = async () => {
     try {
-        const response = await fetch("http://localhost:8080/admin/getUsers", {
+        const response = await fetch(`${url}admin/getUsers`, {
             method: "GET",
             credentials:"include"
         });
@@ -94,7 +95,7 @@ const getUsers = async () => {
 
 const getPackages = async () => {
     try {
-        const response = await fetch("http://localhost:8080/admin/getPackages", {
+        const response = await fetch(`${url}admin/getPackages`, {
             method: "GET",
             credentials:"include"
         });
@@ -112,7 +113,7 @@ const getPackages = async () => {
 
 const getTours = async () => {
     try {
-        const response = await fetch("http://localhost:8080/admin/getTours", {
+        const response = await fetch(`${url}admin/getTours`, {
             method: "GET",
             credentials:"include"
         });
@@ -130,7 +131,7 @@ const getTours = async () => {
 
 const getBookings = async () => {
     try {
-        const response = await fetch("http://localhost:8080/admin/getBookings", {
+        const response = await fetch(`${url}admin/getBookings`, {
             method: "GET",
             credentials:"include"
         });
@@ -149,7 +150,7 @@ const getBookings = async () => {
 const getConfirmedCount = async () => {
     try {
         const response = await fetch(
-            "http://localhost:8080/admin/getConfirmed",
+            `${url}admin/getConfirmed`,
             {
                 method: "GET",
                 credentials: "include",
@@ -170,7 +171,7 @@ const getConfirmedCount = async () => {
 const getCancelledCount = async () => {
     try {
         const response = await fetch(
-            "http://localhost:8080/admin/getCancelled",
+            `${url}admin/getCancelled`,
             {
                 method: "GET",
                 credentials: "include",

@@ -1,6 +1,7 @@
 (function () {
     const errorMsg = document.getElementById("profile-error");
     const updateContainer = document.getElementById("update-form");
+    const url = "https://travellers-pick-production.up.railway.app/";
 
     let oldEmail = "";
     let oldUsername = "";
@@ -59,13 +60,10 @@
 
     async function displayUserDetails() {
         try {
-            const response = await fetch(
-                "http://localhost:8080/user/current-user",
-                {
-                    method: "GET",
-                    credentials: "include",
-                },
-            );
+            const response = await fetch(`${url}user/current-user`, {
+                method: "GET",
+                credentials: "include",
+            });
 
             const responseData = await response.json();
 
@@ -79,7 +77,7 @@
             }
 
             if (!response.ok) {
-                displayMessage(responseData.message,false);
+                displayMessage(responseData.message, false);
                 return;
             }
 
@@ -115,17 +113,14 @@
         if (updateContact) payload.contact = updateContact;
 
         try {
-            const response = await fetch(
-                "http://localhost:8080/user/updateUser",
-                {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    credentials: "include",
-                    body: JSON.stringify(payload),
+            const response = await fetch(`${url}user/updateUser`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
                 },
-            );
+                credentials: "include",
+                body: JSON.stringify(payload),
+            });
 
             const responseData = await response.json();
 
@@ -170,4 +165,8 @@
             errorMsg.classList.add("failure");
         }
     }
+
+    form.addEventListener("reset", () => {
+        errorMsg.style.display = "none";
+    });
 })();

@@ -1,12 +1,14 @@
 //get the admin detail
 const errorMsg = document.getElementById("error");
-window.addEventListener('DOMContentLoaded', async () => {
+const url = "https://travellers-pick-production.up.railway.app/";
+
+window.addEventListener("DOMContentLoaded", async () => {
     const input = document.getElementById("adminId");
 
     try {
-        const response = await fetch("http://localhost:8080/admin/current-admin", {
+        const response = await fetch(`${url}admin/current-admin`, {
             method: "GET",
-            credentials: "include"
+            credentials: "include",
         });
 
         if (response.ok) {
@@ -15,14 +17,13 @@ window.addEventListener('DOMContentLoaded', async () => {
         } else {
             errorMsg.style.color = "red";
             errorMsg.innerText = "Unable to fetch admin details";
-            window.location.href="loginform.html";
+            window.location.href = "loginform.html";
         }
     } catch (err) {
         errorMsg.innerText = "Network Error..Please Try again";
         errorMsg.style.color = "red";
     }
 });
-
 
 //delete the tour category
 const form = document.getElementById("deletecategoryform");
@@ -42,11 +43,11 @@ async function handledeletecategory(event) {
     }
 
     try {
-        const response = await fetch("http://localhost:8080/admin/deleteCategory", {
+        const response = await fetch(`${url}admin/deleteCategory`, {
             method: "DELETE",
             body: JSON.stringify({ tourId }),
             headers: { "Content-Type": "application/json" },
-            credentials: "include"
+            credentials: "include",
         });
 
         const responseData = await response.json();
@@ -56,18 +57,12 @@ async function handledeletecategory(event) {
         errorMsg.style.marginTop = "50px";
 
         if (response.ok) setTimeout(() => form.reset(), 1000);
-
     } catch (err) {
         event.preventDefault();
-        error.innerText='Error: Session Expired & Cannot fetch user details'
-        error.style.color='red';
-        error.style.marginLeft="200px";
-        error.style.marginTop="20px";
-        console.log(err);   
+        error.innerText = "Error: Session Expired & Cannot fetch user details";
+        error.style.color = "red";
+        error.style.marginLeft = "200px";
+        error.style.marginTop = "20px";
+        console.log(err);
     }
 }
-
-form.addEventListener('reset',()=>{
-    error.innerText='';
-    form.querySelectorAll('input').forEach(inp=>inp.value="");
-})

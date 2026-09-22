@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const tbody = document.querySelector("#packagetable tbody");
-
+    const url = "https://travellers-pick-production.up.railway.app/";
     try {
-        const response = await fetch("http://localhost:8080/admin/allPackages", {
+        const response = await fetch(`${url}admin/allPackages`, {
             method: "GET",
             credentials: "include",
-            headers: { "Content-Type": "application/json" }
+            headers: { "Content-Type": "application/json" },
         });
 
         if (!response.ok) {
@@ -15,12 +15,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const details = await response.json();
 
         if (details.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='3'>No Package details found</td></tr>";
+            tbody.innerHTML =
+                "<tr><td colspan='3'>No Package details found</td></tr>";
             return;
         }
 
-        details.forEach(detail => {
-            const row = document.createElement('tr');
+        details.forEach((detail) => {
+            const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${detail.packageId}</td>
                 <td>${detail.packageName}</td>
@@ -30,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     } catch (err) {
         console.error(err);
-        tbody.innerHTML = "<tr><td colspan='3'>Error fetching package details</td></tr>";
+        tbody.innerHTML =
+            "<tr><td colspan='3'>Error fetching package details</td></tr>";
     }
 });
