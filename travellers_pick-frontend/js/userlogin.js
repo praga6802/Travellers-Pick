@@ -24,7 +24,7 @@ async function handleLogin(event) {
             error.textContent = responseData.message;
             error.classList.remove("failure");
             error.classList.add("success");
-            setTimeout(() => (window.location.href = `../index.html`), 2000);
+            setTimeout(() => (window.location.href = `/index.html`), 2000);
         } else {
             error.textContent = responseData.message;
             error.classList.remove("success");

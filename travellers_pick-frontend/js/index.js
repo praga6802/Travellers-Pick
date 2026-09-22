@@ -17,7 +17,10 @@ async function goLogin(e) {
     const value = e.target.value;
 
     switch (value) {
-        
+        case "login":
+            window.location.href = "/index.html";
+            break;
+
         case "profile":
             window.location.href = `/html/user-profile.html`;
             break;
@@ -52,19 +55,22 @@ async function displayUserName() {
             credentials: "include",
         });
 
-        const data = await response.json();
         if (!response.ok) {
             console.log("User not logged in");
             return;
         }
 
-        const loginSelect = document.createElement("select");
 
+        const responseData = await response.json();
+        console.log(responseData);
+
+
+        const loginSelect = document.createElement("select");
         loginSelect.id = "loginSelect";
         loginSelect.className = "login-select";
 
         const greetingOption = document.createElement("option");
-        greetingOption.textContent = `Hello ${data.data.userName}!`;
+        greetingOption.textContent = `Hello ${responseData.data.userName}!`;
         greetingOption.disabled = true;
         greetingOption.selected = true;
 
@@ -90,6 +96,7 @@ async function displayUserName() {
         if (signinBtn) {
             signinBtn.style.display = "none";
         }
+
         loginSelect.addEventListener("change", goLogin);
     } catch (err) {
         console.error("Network Error:", err);
