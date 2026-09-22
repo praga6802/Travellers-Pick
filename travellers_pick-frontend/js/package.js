@@ -1,4 +1,4 @@
-const error = document.getElementById("error");
+// const error = document.getElementById("error");
 
 document.addEventListener("DOMContentLoaded", displayPackage);
 async function displayPackage() {
