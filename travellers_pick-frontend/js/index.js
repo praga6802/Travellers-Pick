@@ -40,7 +40,7 @@ async function handleLogin(event) {
 
         if (response.ok) {
             if (error) {
-                error.textContent = responseData.message || "Login successful!";
+                error.textContent = responseData.message;
                 error.classList.remove("failure");
                 error.classList.add("success");
             }
@@ -49,7 +49,7 @@ async function handleLogin(event) {
             }, 1500);
         } else {
             if (error) {
-                error.textContent = responseData.message || "Login failed!";
+                error.textContent = responseData.message;
                 error.classList.remove("success");
                 error.classList.add("failure");
             }
