@@ -1,6 +1,6 @@
 const signin = document.getElementById("signin-btn");
 const login = document.getElementById("login-btn");
-const url = "https://travellers-pick-production.up.railway.app/";
+const url = "https://travellers-pick-production.up.railway.app";
 
 if (signin) {
     signin.addEventListener("click", () => {
@@ -17,10 +17,7 @@ async function goLogin(e) {
     const value = e.target.value;
 
     switch (value) {
-        case "login":
-            window.location.href = `./html/user-login.html`;
-            break;
-
+        
         case "profile":
             window.location.href = `./html/user-profile.html`;
             break;
@@ -50,7 +47,7 @@ async function goLogin(e) {
 
 async function displayUserName() {
     try {
-        const response = await fetch(`${url}user/current-user`, {
+        const response = await fetch(`${url}/user/current-user`, {
             method: "GET",
             credentials: "include",
         });
