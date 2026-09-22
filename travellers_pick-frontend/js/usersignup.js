@@ -36,6 +36,3 @@ async function handleSignUp(event) {
     }
 }
 
-form.addEventListener("reset", () => {
-    errorMsg.style.display = "none";
-});
