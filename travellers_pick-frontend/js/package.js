@@ -1,32 +1,29 @@
-document.addEventListener("DOMContentLoaded", displayPackage);
 const error = document.getElementById("error");
+
+document.addEventListener("DOMContentLoaded", displayPackage);
 async function displayPackage() {
     try {
         const response = await fetch(`${url}/admin/allPackages`, {
             method: "GET",
             credentials: "include",
         });
-        if (!response.ok) throw new Error("Unable to fetch Packages");
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            showMessage(responseData.message, false);
+            return;
+        }
+
+        if (responseData.length === 0) {
+            showMessage("No Packages found!", false);
+        }
 
         const tourContainer = document.getElementById("packageContainer");
-
-        if (!tourContainer) {
-            error.innerText = "Unable to get package container!";
-            error.style.color = "red";
-            return;
-        }
-        const responseData = await response.json();
-        if (!responseData) {
-            error.innerText = "No Packages Found!";
-            error.style.color = "red";
-            return;
-        }
-
         tourContainer.innerHTML = "";
 
         responseData.forEach((pkg) => {
             const card = document.createElement("div");
-
             card.className = "card";
             card.innerHTML = `
         <img src='../${pkg.imgUrl}' alt='${pkg.packageName}'>
@@ -37,11 +34,22 @@ async function displayPackage() {
             tourContainer.appendChild(card);
         });
     } catch (e) {
-        error.textContent = e.message;
-        console.error("Failed to fetch or display packages:", e);
+        showMessage(e.message, false);
+        console.error("Failed to fetch:", e);
     }
 }
 
 function tourChange(fileName, packageId) {
     window.location.href = `../html/${fileName}?packageId=${packageId}`;
+}
+
+function showMessage(message, isSuccess) {
+    error.textContent = message;
+    if (isSuccess) {
+        error.classList.remove("failure");
+        error.classList.add("success");
+    } else {
+        error.classList.remove("success");
+        error.classList.add("failure");
+    }
 }
