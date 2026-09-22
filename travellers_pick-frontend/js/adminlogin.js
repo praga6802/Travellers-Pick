@@ -1,6 +1,7 @@
 const form = document.getElementById("login-form");
 form.addEventListener("submit", handleLogin);
 const error = document.getElementById("error");
+const url = "https://travellers-pick-production.up.railway.app/";
 
 async function handleLogin(event) {
     event.preventDefault();
@@ -11,7 +12,7 @@ async function handleLogin(event) {
     const data = { email, password };
 
     try {
-        const response = await fetch("http://localhost:8080/admin/login", {
+        const response = await fetch(`${url}admin/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

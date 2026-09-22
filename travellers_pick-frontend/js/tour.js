@@ -1,51 +1,49 @@
-const error=document.getElementById('error');
-let tourdata=[];
+const error = document.getElementById("error");
+let tourdata = [];
+const url = "https://travellers-pick-production.up.railway.app/";
 
-
-document.addEventListener('DOMContentLoaded', async function loadTours() {
+document.addEventListener("DOMContentLoaded", async function loadTours() {
     try {
-        const response = await fetch("http://localhost:8080/admin/allCategories", {
+        const response = await fetch(`${url}admin/allCategories`, {
             method: "GET",
-            credentials: "include"
+            credentials: "include",
         });
 
         tourdata = await response.json();
-        if(!tourdata || tourdata.length===0){
+        if (!tourdata || tourdata.length === 0) {
             error.innerText = "No tours found!";
-            error.style.color = 'red';
+            error.style.color = "red";
         }
-        
-        const url=new URLSearchParams(window.location.search);
-        const packageId=parseInt(url.get('packageId'));
+
+        const url = new URLSearchParams(window.location.search);
+        const packageId = parseInt(url.get("packageId"));
         showPackageTours(packageId);
 
         console.log("Tours loaded:", tourdata);
-    }
-    catch (e) {
+    } catch (e) {
         console.error("Failed to load tours:", e);
         error.innerText = "Network Error.. Unable to reach server!";
-        error.style.color = 'red';
+        error.style.color = "red";
     }
 });
 
-
-function showPackageTours(packageId){
+function showPackageTours(packageId) {
     if (!tourdata || tourdata.length === 0) {
-        error.innerText="Tour data not loaded yet!";
-        error.style.color='red';
+        error.innerText = "Tour data not loaded yet!";
+        error.style.color = "red";
         return;
     }
 
-    const packageTours=tourdata.filter(tour=>tour.packageId==packageId);
-    const container=document.getElementById('packageTourContainer');
-    container.innerHTML='';
+    const packageTours = tourdata.filter((tour) => tour.packageId == packageId);
+    const container = document.getElementById("packageTourContainer");
+    container.innerHTML = "";
 
     if (packageTours.length === 0) {
         container.innerHTML = "<p>No tours found for this package</p>";
         return;
     }
 
-    packageTours.forEach(t=>{
+    packageTours.forEach((t) => {
         container.innerHTML += `
             <div class='card'>
                 <img src="../${t.imgUrl}" alt="${t.tourName}">
@@ -61,6 +59,6 @@ function showPackageTours(packageId){
     });
 }
 
-function tourChange(value){
-    window.location.href=`../html/${value}`;
+function tourChange(value) {
+    window.location.href = `../html/${value}`;
 }

@@ -1,15 +1,14 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    const tbody = document.querySelector('#packagetable tbody');
+document.addEventListener("DOMContentLoaded", async () => {
+    const tbody = document.querySelector("#packagetable tbody");
+    const url = "https://travellers-pick-production.up.railway.app/";
 
     try {
-        const response = await fetch('http://localhost:8080/admin/packages',
-            {
-                method:"GET",
-                credentials:"include",
-                "Content-Type":"application/json"
-            }
-        );
-        if (!response.ok) throw new Error('Failed to fetch packages');
+        const response = await fetch(`${url}admin/packages`, {
+            method: "GET",
+            credentials: "include",
+            "Content-Type": "application/json",
+        });
+        if (!response.ok) throw new Error("Failed to fetch packages");
 
         const packages = await response.json();
 
@@ -19,8 +18,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Populate table
-        packages.forEach(pkg => {
-            const row = document.createElement('tr');
+        packages.forEach((pkg) => {
+            const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${pkg.packageId}</td>
                 <td>${pkg.packageName}</td>
@@ -28,9 +27,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             `;
             tbody.appendChild(row);
         });
-
     } catch (err) {
         console.error(err);
-        tbody.innerHTML = '<tr><td colspan="3">Error loading packages</td></tr>';
+        tbody.innerHTML =
+            '<tr><td colspan="3">Error loading packages</td></tr>';
     }
 });

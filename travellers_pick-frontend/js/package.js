@@ -1,14 +1,13 @@
 document.addEventListener("DOMContentLoaded", displayPackage);
 const error = document.getElementById("error");
+const url = "https://travellers-pick-production.up.railway.app/";
+
 async function displayPackage() {
     try {
-        const response = await fetch(
-            "http://localhost:8080/admin/allPackages",
-            {
-                method: "GET",
-                credentials: "include",
-            },
-        );
+        const response = await fetch(`${url}admin/allPackages`, {
+            method: "GET",
+            credentials: "include",
+        });
         if (!response.ok) throw new Error("Unable to fetch Packages");
 
         const tourContainer = document.getElementById("packageContainer");

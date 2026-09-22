@@ -25,8 +25,9 @@ async function handleSignUp(event) {
             error.textContent = responseData.message;
             error.classList.remove("failure");
             error.classList.add("success");
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
             setTimeout(() => {
-                form.reset();
                 window.location.href = "../html/user-login.html";
             }, 2000);
         } else {
@@ -44,9 +45,5 @@ async function handleSignUp(event) {
 }
 
 form.addEventListener("reset", () => {
-    error.style.display = "none";
-    document.getElementById("username").innerText = "";
-    document.getElementById("email").innerText = "";
-    document.getElementById("password").innerText = "";
-    document.getElementById("contact").innerText = "";
+    errorMsg.style.display = "none";
 });

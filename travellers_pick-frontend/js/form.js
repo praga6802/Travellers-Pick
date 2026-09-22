@@ -2,19 +2,17 @@ const error = document.getElementById("error");
 error.style.display = "none";
 const formContainer = document.getElementById("formData");
 const iternaryContainer = document.getElementById("iternaryContainer");
+const url = "https://travellers-pick-production.up.railway.app/";
 
 let iternaryData = [];
 let userId = 0;
 
 async function displayUserName() {
     try {
-        const response = await fetch(
-            "http://localhost:8080/user/current-user",
-            {
-                method: "GET",
-                credentials: "include",
-            },
-        );
+        const response = await fetch(`${url}user/current-user`, {
+            method: "GET",
+            credentials: "include",
+        });
 
         const responseData = await response.json();
         console.log(responseData);
@@ -49,13 +47,10 @@ document.addEventListener("DOMContentLoaded", async function loadIternaries() {
     if (!logged) return;
 
     try {
-        const response = await fetch(
-            "http://localhost:8080/user/allIternaries",
-            {
-                method: "GET",
-                credentials: "include",
-            },
-        );
+        const response = await fetch(`${url}user/allIternaries`, {
+            method: "GET",
+            credentials: "include",
+        });
         const responseData = await response.json();
 
         if (!response.ok) {
@@ -223,15 +218,12 @@ function showIternaries(tourId) {
         }
         const pkgName = encodeURIComponent(packageName);
         try {
-            const response = await fetch(
-                `http://localhost:8080/user/${pkgName}/book`,
-                {
-                    method: "POST",
-                    body: JSON.stringify(data),
-                    credentials: "include",
-                    headers: { "Content-Type": "application/json" },
-                },
-            );
+            const response = await fetch(`${url}user/${pkgName}/book`, {
+                method: "POST",
+                body: JSON.stringify(data),
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+            });
 
             const responseData = await response.json();
             if (response.ok) {

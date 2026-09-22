@@ -1,37 +1,36 @@
-const error = document.getElementById('error');
+const error = document.getElementById("error");
+const url = "https://travellers-pick-production.up.railway.app/";
 
-window.addEventListener('DOMContentLoaded', async () => {
-
+window.addEventListener("DOMContentLoaded", async () => {
     try {
-        const response = await fetch("http://localhost:8080/admin/adminData", {
+        const response = await fetch(`${url}admin/adminData`, {
             method: "GET",
-            credentials: "include"
+            credentials: "include",
         });
 
         if (response.ok) {
             const data = await response.json();
-            document.getElementById("adminId").value=data.adminId;
-            document.getElementById("username").value=data.username;
-            document.getElementById("email").value=data.email;
-            document.getElementById("contact").value=data.contact;
-            
+            document.getElementById("adminId").value = data.adminId;
+            document.getElementById("username").value = data.username;
+            document.getElementById("email").value = data.email;
+            document.getElementById("contact").value = data.contact;
         } else {
             error.style.color = "red";
             error.innerText = "Unable to fetch admin details";
-            window.location.href="loginform.html";
+            window.location.href = "loginform.html";
         }
     } catch (err) {
-        error.innerText='Error: Session Expired & Cannot fetch user details'
-        error.style.color='red';
-        error.style.marginLeft="200px";
-        error.style.marginTop="20px";
+        error.innerText = "Error: Session Expired & Cannot fetch user details";
+        error.style.color = "red";
+        error.style.marginLeft = "200px";
+        error.style.marginTop = "20px";
         console.log(err);
     }
 });
 
 // update admin
 const form = document.getElementById("updateAdmin");
-form.addEventListener('submit', handleUpdateAdmin);
+form.addEventListener("submit", handleUpdateAdmin);
 
 async function handleUpdateAdmin(event) {
     event.preventDefault();
@@ -39,11 +38,11 @@ async function handleUpdateAdmin(event) {
     const username = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
     const contact = document.getElementById("contact").value.trim();
-    const password = document.getElementById('password').value.trim();
+    const password = document.getElementById("password").value.trim();
 
     if (!password) {
-        error.innerText = 'Password is required to update details';
-        error.style.color = 'red';
+        error.innerText = "Password is required to update details";
+        error.style.color = "red";
         return;
     }
 
@@ -54,11 +53,11 @@ async function handleUpdateAdmin(event) {
     if (contact) payload.contact = contact;
 
     try {
-        const response = await fetch("http://localhost:8080/admin/updateAdmin", {
+        const response = await fetch(`${url}admin/updateAdmin`, {
             method: "POST",
-            headers: { 'Content-Type': "application/json" },
+            headers: { "Content-Type": "application/json" },
             credentials: "include",
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
         });
 
         const responseData = await response.json();
@@ -67,12 +66,8 @@ async function handleUpdateAdmin(event) {
         error.style.color = response.ok ? "green" : "red";
         error.style.textAlign = "center";
         error.style.marginTop = "50px";
-     } catch (err) {
+    } catch (err) {
         error.innerText = "Network Error..Please Try again";
-        error.style.color = 'red';
+        error.style.color = "red";
     }
 }
-form.addEventListener('reset',()=>{
-    error.innerText='';
-    form.querySelectorAll('input').forEach(inp=>inp.value="");
-})

@@ -1,5 +1,6 @@
 const signin = document.getElementById("signin-btn");
 const login = document.getElementById("login-btn");
+const url = "https://travellers-pick-production.up.railway.app/";
 
 if (signin) {
     signin.addEventListener("click", () => {
@@ -26,13 +27,10 @@ async function goLogin(e) {
 
         case "logout":
             try {
-                const response = await fetch(
-                    "http://localhost:8080/user/logout",
-                    {
-                        method: "POST",
-                        credentials: "include",
-                    },
-                );
+                const response = await fetch(`${url}/user/logout`, {
+                    method: "POST",
+                    credentials: "include",
+                });
 
                 if (response.ok) {
                     alert("Logged out successfully!");
@@ -52,13 +50,10 @@ async function goLogin(e) {
 
 async function displayUserName() {
     try {
-        const response = await fetch(
-            "http://localhost:8080/user/current-user",
-            {
-                method: "GET",
-                credentials: "include",
-            },
-        );
+        const response = await fetch(`${url}user/current-user`, {
+            method: "GET",
+            credentials: "include",
+        });
 
         const data = await response.json();
         if (!response.ok) {

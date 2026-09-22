@@ -1,56 +1,56 @@
-const error = document.getElementById('error');
-const iternaryContainer=document.getElementById('iternaryContainer');
-const form=document.getElementById('formData');
-let iternaryData=[];
+const error = document.getElementById("error");
+const iternaryContainer = document.getElementById("iternaryContainer");
+const form = document.getElementById("formData");
+let iternaryData = [];
+const url = "https://travellers-pick-production.up.railway.app/";
 
 //load all iternaries and selecting according to the tour id
-document.addEventListener('DOMContentLoaded',async function loadIternaries(){
-    try{
-        const response=await fetch("http://localhost:8080/admin/allIternaries",{
-            method:"GET",
-            credentials:"include"
+document.addEventListener("DOMContentLoaded", async function loadIternaries() {
+    try {
+        const response = await fetch(`${url}admin/allIternaries`, {
+            method: "GET",
+            credentials: "include",
         });
-        const responseData=await response.json();
+        const responseData = await response.json();
 
-        if(!response.ok){
-            error.innerText=responseData.message;
-            error.style.color='red';
+        if (!response.ok) {
+            error.innerText = responseData.message;
+            error.style.color = "red";
             return;
         }
-        if(!responseData || responseData.length===0){
-            error.innerText='No Iternaries Found!';
-            error.style.color='red';
+        if (!responseData || responseData.length === 0) {
+            error.innerText = "No Iternaries Found!";
+            error.style.color = "red";
             return;
         }
-        iternaryData=responseData;
+        iternaryData = responseData;
 
-        const url=new URLSearchParams(window.location.search);
-        const tourId=parseInt(url.get('tourId'));
+        const url = new URLSearchParams(window.location.search);
+        const tourId = parseInt(url.get("tourId"));
         showIternaries(tourId);
         console.log("Tour ID received:", tourId);
         console.log("All Iternaries:", iternaryData);
 
         console.log(responseData);
-    }
-    catch(e){
+    } catch (e) {
         console.error("Failed to load Iternaries:", e);
         error.innerText = "Network Error.. Unable to reach server!";
-        error.style.color = 'red';
+        error.style.color = "red";
     }
 });
 
 //show iternary for corresponding tour id
-function showIternaries(tourId){
-    if(!iternaryData || iternaryData.length===0){
-            error.innerText='No Iternaries Found!';
-            error.style.color='red';
-            return;
+function showIternaries(tourId) {
+    if (!iternaryData || iternaryData.length === 0) {
+        error.innerText = "No Iternaries Found!";
+        error.style.color = "red";
+        return;
     }
 
-    const iternaries=iternaryData.filter(it=>it.tourId==tourId);
-    if(!iternaries || iternaries.length==0){
-        error.innerText=`No Iternaries found for this tour`;
-        error.style.color='red';
+    const iternaries = iternaryData.filter((it) => it.tourId == tourId);
+    if (!iternaries || iternaries.length == 0) {
+        error.innerText = `No Iternaries found for this tour`;
+        error.style.color = "red";
         return;
     }
 
@@ -64,21 +64,20 @@ function showIternaries(tourId){
             </tr>
     `;
 
-
-    iternaries.forEach(it=>{
-        html+=`
+    iternaries.forEach((it) => {
+        html += `
             <tr>
                 <td>${it.dayNumber}</td>
                 <td>${it.destination}</td>
                 <td>${it.description}</td>
             </tr>
-        `
+        `;
     });
-    html+=`</table>`;
-    iternaryContainer.innerHTML=html;
+    html += `</table>`;
+    iternaryContainer.innerHTML = html;
 
-    const it=iternaryData[0];
-    form.innerHTML+=`
+    const it = iternaryData[0];
+    form.innerHTML += `
     <h1 class="h1">BOOKING FORM</h1>
       <form method="POST" id="tourForm">
         <label for="name">Name</label>
@@ -121,14 +120,14 @@ function showIternaries(tourId){
         <input type="submit" value="Submit">
         <p id="error"></p>
       </form>`;
-       const today = new Date().toISOString().split('T')[0];
-       const bdate=document.getElementById('bdate');
-       const tdate=document.getElementById('tdate');
-       
-        bdate.value = today;
-        bdate.min = today;
-        bdate.max = today;
+    const today = new Date().toISOString().split("T")[0];
+    const bdate = document.getElementById("bdate");
+    const tdate = document.getElementById("tdate");
 
-        tdate.value = today;
-        tdate.min = today;
+    bdate.value = today;
+    bdate.min = today;
+    bdate.max = today;
+
+    tdate.value = today;
+    tdate.min = today;
 }

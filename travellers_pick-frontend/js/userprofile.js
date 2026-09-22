@@ -1,7 +1,7 @@
 const login = document.getElementById("login-btn");
 const signin = document.getElementById("signin-btn");
 const error = document.getElementById("profile-error");
-
+const url = "https://travellers-pick-production.up.railway.app/";
 if (error) {
     error.style.display = "none";
 }
@@ -11,23 +11,18 @@ if (login) {
     login.addEventListener("click", goLogin);
 }
 
-
 if (signin) {
     signin.addEventListener("click", () => {
         window.location.href = "../html/user-signup.html";
     });
-
 }
 
 async function displayUserName() {
     try {
-        const response = await fetch(
-            "http://localhost:8080/user/current-user",
-            {
-                method: "GET",
-                credentials: "include"
-            }
-        );
+        const response = await fetch(`${url}user/current-user`, {
+            method: "GET",
+            credentials: "include",
+        });
 
         const data = await response.json();
         if (response.status === 401) {
@@ -36,7 +31,7 @@ async function displayUserName() {
             error.classList.add("failure");
             error.style.display = "inline-block";
             setTimeout(() => {
-            window.location.href ="../html/user-login.html";
+                window.location.href = "../html/user-login.html";
             }, 2000);
             return;
         }
@@ -59,7 +54,6 @@ async function displayUserName() {
         greetingOption.disabled = true;
         greetingOption.selected = true;
 
-
         // Logout
         const logoutOption = document.createElement("option");
         logoutOption.value = "logout";
@@ -77,11 +71,11 @@ async function displayUserName() {
             signin.style.display = "none";
         }
 
-        loginSelect.addEventListener("change",goLogin);
-
+        loginSelect.addEventListener("change", goLogin);
     } catch (err) {
         console.error("Network Error:", err);
-        error.textContent ="Unable to connect to the server.Please try again later!";
+        error.textContent =
+            "Unable to connect to the server.Please try again later!";
         error.classList.remove("success");
         error.classList.add("failure");
         error.style.display = "inline-block";
@@ -91,42 +85,31 @@ async function displayUserName() {
 async function goLogin(e) {
     const value = e.target.value;
     switch (value) {
-
         case "login":
-            window.location.href =
-                "../html/user-login.html";
+            window.location.href = "../html/user-login.html";
             break;
 
         case "logout":
             try {
-                const response = await fetch(
-                    "http://localhost:8080/user/logout",
-                    {
-                        method: "POST",
-                        credentials: "include"
-                    }
-                );
+                const response = await fetch(`${url}user/logout`, {
+                    method: "POST",
+                    credentials: "include",
+                });
 
                 if (response.ok) {
                     alert("Logged out successfully!");
-                    window.location.href ="../index.html";
-
+                    window.location.href = "../index.html";
                 } else {
                     console.error("Logout failed");
                 }
-
             } catch (err) {
-                console.error("Error logging out:",err);
+                console.error("Error logging out:", err);
             }
             break;
 
         default:
             console.log("No action");
     }
-
 }
 
-window.addEventListener(
-    "DOMContentLoaded",
-    displayUserName
-);
+window.addEventListener("DOMContentLoaded", displayUserName);

@@ -5,6 +5,7 @@
     if (errorMsg) {
         errorMsg.style.display = "none";
     }
+    const url = "https://travellers-pick-production.up.railway.app/";
 
     cancelContainer.innerHTML += `
         <form id="cancelform" method="post">
@@ -44,15 +45,12 @@
         }
 
         try {
-            const response = await fetch(
-                "http://localhost:8080/user/cancelTour",
-                {
-                    method: "DELETE",
-                    credentials: "include",
-                    body: JSON.stringify({ pnr: PNR_NUMBER }),
-                    headers: { "Content-Type": "application/json" },
-                },
-            );
+            const response = await fetch(`${url}user/cancelTour`, {
+                method: "DELETE",
+                credentials: "include",
+                body: JSON.stringify({ pnr: PNR_NUMBER }),
+                headers: { "Content-Type": "application/json" },
+            });
 
             const responseData = await response.json();
 

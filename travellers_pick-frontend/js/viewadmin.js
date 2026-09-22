@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const tbody = document.querySelector("#admintable tbody");
-
+    const url = "https://travellers-pick-production.up.railway.app/";
     try {
-        const response = await fetch("http://localhost:8080/admin/alladmins", {
+        const response = await fetch(`${url}admin/alladmins`, {
             method: "GET",
             credentials: "include",
-            headers: { "Content-Type": "application/json" }
+            headers: { "Content-Type": "application/json" },
         });
 
         if (!response.ok) {
@@ -17,12 +17,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const details = await response.json();
 
         if (details.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='4'>No admin details found</td></tr>";
+            tbody.innerHTML =
+                "<tr><td colspan='4'>No admin details found</td></tr>";
             return;
         }
 
-        details.forEach(detail => {
-            const row = document.createElement('tr');
+        details.forEach((detail) => {
+            const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${detail.adminId}</td>
                 <td>${detail.username}</td>
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     } catch (err) {
         console.error(err);
-        tbody.innerHTML = "<tr><td colspan='4'>Error fetching details</td></tr>";
+        tbody.innerHTML =
+            "<tr><td colspan='4'>Error fetching details</td></tr>";
     }
 });
