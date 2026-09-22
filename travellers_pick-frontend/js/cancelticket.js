@@ -1,5 +1,5 @@
 import { showMessage } from "./error.js";
-
+import { url } from "./config.js";
 document.addEventListener("DOMContentLoaded", () => {
     const cancelContainer = document.getElementById("cancel-container");
     if (!cancelContainer) return;

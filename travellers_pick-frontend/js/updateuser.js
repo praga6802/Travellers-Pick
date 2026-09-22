@@ -1,4 +1,5 @@
 import { showMessage } from "./error.js";
+import {url} from './config.js'
 const updateContainer = document.getElementById("update-form");
 
 let oldEmail = "";

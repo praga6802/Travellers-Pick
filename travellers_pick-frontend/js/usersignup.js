@@ -1,5 +1,5 @@
 import { showMessage } from "./error.js";
-
+import { url } from "./config.js";
 const form = document.getElementById("signup-form");
 form.addEventListener("submit", handleSignUp);
 

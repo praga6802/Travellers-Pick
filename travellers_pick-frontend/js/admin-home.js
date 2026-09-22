@@ -1,5 +1,5 @@
 import { showMessage } from "./error.js";
-
+import { url } from "./config.js";
 const total_admins = document.getElementById("total-admins");
 const total_users = document.getElementById("total-users");
 const total_packages = document.getElementById("total-packages");

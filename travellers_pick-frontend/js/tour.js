@@ -1,5 +1,5 @@
 import { showMessage } from "./error.js";
-
+import { url } from "./config.js";
 const displayTour = async () => {
     try {
         const authResponse = await fetch(`${url}/user/current-user`, {

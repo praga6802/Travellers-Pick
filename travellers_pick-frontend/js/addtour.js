@@ -1,5 +1,5 @@
 import { showMessage } from "./error.js";
-
+import { url } from "./config.js";
 const initAddCategoryForm = async () => {
     try {
         const authResponse = await fetch(`${url}/admin/current-admin`, {

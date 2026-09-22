@@ -1,5 +1,5 @@
 import { showMessage } from "./error.js";
-
+import { url } from "./config.js";
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("signup-form");
     if (form) {
