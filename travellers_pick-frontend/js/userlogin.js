@@ -1,7 +1,6 @@
 const form = document.getElementById("login-form");
 form.addEventListener("submit", handleLogin);
 const error = document.getElementById("error");
-const url = "https://travellers-pick-production.up.railway.app/";
 
 async function handleLogin(event) {
     event.preventDefault();
