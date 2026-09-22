@@ -1,4 +1,4 @@
-const BASE_URL = "https://travellers-pick-production.up.railway.app";
+const url = "https://travellers-pick-production.up.railway.app";
 const error = document.getElementById("error");
 
 const signin = document.getElementById("signin-btn");
