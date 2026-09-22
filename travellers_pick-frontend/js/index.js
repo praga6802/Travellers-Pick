@@ -1,5 +1,4 @@
 const BASE_URL = "https://travellers-pick-production.up.railway.app";
-const form = document.getElementById("login-form");
 const error = document.getElementById("error");
 
 const signin = document.getElementById("signin-btn");
@@ -15,54 +14,6 @@ if (login) {
     login.addEventListener("click", () => {
         window.location.href = "/html/user-login.html";
     });
-}
-
-if (form) {
-    form.addEventListener("submit", handleLogin);
-}
-
-async function handleLogin(event) {
-    event.preventDefault();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    const data = { email, password };
-
-    try {
-        const response = await fetch(`${BASE_URL}/user/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-            credentials: "include",
-        });
-
-        const responseData = await response.json();
-
-        if (response.ok) {
-            if (error) {
-                error.textContent = responseData.message;
-                error.classList.remove("failure");
-                error.classList.add("success");
-            }
-            setTimeout(() => {
-                window.location.href = "/index.html";
-            }, 1500);
-        } else {
-            if (error) {
-                error.textContent = responseData.message;
-                error.classList.remove("success");
-                error.classList.add("failure");
-            }
-            console.log("Backend error:", responseData);
-        }
-    } catch (err) {
-        if (error) {
-            error.textContent = "Network error.. Please try again..";
-            error.classList.remove("success");
-            error.classList.add("failure");
-        }
-        console.error(err);
-    }
 }
 
 async function displayUserName() {
