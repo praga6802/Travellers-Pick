@@ -19,7 +19,7 @@ async function goLogin(e) {
     switch (value) {
         
         case "profile":
-            window.location.href = `./html/user-profile.html`;
+            window.location.href = `/html/user-profile.html`;
             break;
 
         case "logout":
@@ -31,7 +31,7 @@ async function goLogin(e) {
 
                 if (response.ok) {
                     alert("Logged out successfully!");
-                    window.location.href = "./index.html";
+                    window.location.href = "/index.html";
                 } else {
                     alert("Logout failed!");
                 }
