@@ -4,7 +4,15 @@ export function showMessage(message, isSuccess) {
     if (!error) {
         return;
     }
+
+    if (!message) {
+        error.style.display = "none";
+        error.textContent = "";
+        return;
+    }
+
     error.textContent = message;
+    
     if (isSuccess) {
         error.classList.remove("failure");
         error.classList.add("success");
