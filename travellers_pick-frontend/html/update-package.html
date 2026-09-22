@@ -13,49 +13,14 @@
 </head>
 
 <body>
-	<div>
-		<form method="POST" id="packageform" enctype="multipart/form-data">
-			<legend>UPDATE PACKAGE</legend>
-
-			<div class="input-box">
-				<label>Choose Package ID</label>
-				<span>
-					<select name="packageId" id="packageId">
-						<option value="" hidden selected disabled>Select Package</option>
-					</select>
-				</span>
-			</div><br>
-
-			<div class="input-box">
-				<label for="package_name">Package Name</label><br>
-				<input type="text" name="packageName" id="packageName" required maxlength="30"
-					placeholder="Package Name" /><br><br>
-			</div>
-			<div class="input-box">
-				<label for="slogan">Package Slogan</label><br>
-				<input type="text" name="packageSlogan" id="packageSlogan" maxlength="50"
-					placeholder="Package Slogan" /><br><br>
-			</div>
-			<div class="input-box">
-				<label for="code">Package Code</label><br>
-				<input type="text" name="packageCode" id="packageCode" maxlength="3"
-					placeholder="Package Code" /><br><br>
-			</div>
-			<div class="input-box">
-				<label for="imageFile">Package Image</label><br>
-				<input type="file" name="imageFile" id="imageFile" accept="image/*"><br><br>
-			</div>
-			<div class="button-group">
-				<input type="submit" value="UPDATE" name="submit" class="button" />
-				<input type="reset" value="RESET" name="reset" class="button" />
-			</div>
-
-			<p id='error'></p>
-		</form>
-	</div>
+	<main>
+		<div id="package-container"></div>
+		<p id="error"></p>
+	</main>
 
 	<script src="../js/config.js"></script>
-	<script src="../js/updatepackageform.js"></script>
+	<script src="../js/updatepackage.js"></script>
+	<script type="module" src="../js/error.js"></script>
 </body>
 
 </html>

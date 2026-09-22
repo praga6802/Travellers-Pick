@@ -6,6 +6,7 @@ import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
 import com.example.travellers_choice.model.Admin;
 import com.example.travellers_choice.model.Packages;
+import com.example.travellers_choice.model.Tour;
 import com.example.travellers_choice.repository.AdminRepo;
 import com.example.travellers_choice.repository.PackageRepo;
 import jakarta.servlet.ServletContext;

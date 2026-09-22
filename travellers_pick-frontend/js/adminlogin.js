@@ -1,12 +1,25 @@
-const form = document.getElementById("login-form");
-form.addEventListener("submit", handleLogin);
-const error = document.getElementById("error");
+import { showMessage } from "./error.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("login-form");
+    if (form) {
+        form.addEventListener("submit", handleLogin);
+        form.addEventListener("reset", () => {
+            showMessage("", true);
+        });
+    }
+});
 
 async function handleLogin(event) {
     event.preventDefault();
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!email || !password) {
+        showMessage("Email and password are required!", false);
+        return;
+    }
 
     const data = { email, password };
 
@@ -21,28 +34,19 @@ async function handleLogin(event) {
         });
 
         const responseData = await response.json();
+
         if (response.ok) {
-            error.textContent = responseData.message;
-            error.classList.remove("failure");
-            error.classList.add("success");
+            showMessage(responseData.message || "Login successful!", true);
             setTimeout(() => {
                 window.location.href = "../html/admin-home.html";
             }, 2000);
+            return;
         } else {
-            error.innerText = responseData.message;
-            error.classList.remove("success");
-            error.classList.add("failure");
-
-            console.log(responseData);
+            showMessage(responseData.message || "Invalid credentials", false);
+            console.error(responseData);
         }
     } catch (err) {
-        error.innerText = "Network Error..Please try again";
-        error.classList.remove("success");
-        error.classList.add("failure");
+        showMessage("Network error..Please try again", false);
         console.error(err);
     }
 }
-
-form.addEventListener("reset", () => {
-    error.style.display = "none";
-});

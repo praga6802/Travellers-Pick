@@ -1,22 +1,35 @@
-const form = document
-    .getElementById("signup-form")
-    .addEventListener("submit", handleSignUp);
-const error = document.getElementById("error");
+import { showMessage } from "./error.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("signup-form");
+    if (form) {
+        form.addEventListener("submit", handleSignUp);
+        form.addEventListener("reset", () => {
+            showMessage("", true);
+        });
+    }
+});
 
 async function handleSignUp(event) {
     event.preventDefault();
 
-    const userName = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const contact = document.getElementById("contact").value;
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const contact = document.getElementById("contact").value.trim();
+
+    if (!username || !email || !password || !contact) {
+        showMessage("All fields are required!", false);
+        return;
+    }
 
     const data = {
-        username: userName,
-        email: email,
-        password: password,
-        contact: contact,
+        username,
+        email,
+        password,
+        contact,
     };
+
     try {
         const response = await fetch(`${url}/admin/signup`, {
             method: "POST",
@@ -24,29 +37,26 @@ async function handleSignUp(event) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
+            credentials: "include",
         });
 
         const responseData = await response.json();
+
         if (response.ok) {
-            error.textContent = responseData.message;
-            error.classList.remove("failure");
-            error.classList.add("success");
+            showMessage(
+                responseData.message || "Registration successful!",
+                true,
+            );
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
             }, 2000);
+            return;
         } else {
-            error.textContent = responseData.message;
-            error.classList.remove("succes");
-            error.classList.add("failure");
+            showMessage(responseData.message || "Registration failed", false);
+            return;
         }
     } catch (err) {
-        error.textContent = "Network error.Please try again";
-        error.classList.remove("success");
-        error.classList.add("failure");
+        showMessage("Network error..Please try again!", false);
         console.error(err);
     }
 }
-
-form.addEventListener("reset", () => {
-    error.style.display = "none";
-});

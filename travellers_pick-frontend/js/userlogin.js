@@ -1,6 +1,7 @@
+import { showMessage } from "./error.js";
+
 const form = document.getElementById("login-form");
 form.addEventListener("submit", handleLogin);
-const error = document.getElementById("error");
 
 async function handleLogin(event) {
     event.preventDefault();
@@ -8,7 +9,7 @@ async function handleLogin(event) {
     const password = document.getElementById("password").value.trim();
 
     const data = { email, password };
-    console.log(data);
+
 
     try {
         const response = await fetch(`${url}/user/login`, {
@@ -20,20 +21,14 @@ async function handleLogin(event) {
         const responseData = await response.json();
         console.log(responseData);
         if (response.ok) {
-            error.textContent = responseData.message;
-            error.classList.remove("failure");
-            error.classList.add("success");
+            showMessage(responseData.message, true);
             setTimeout(() => (window.location.href = `/index.html`), 2000);
         } else {
-            error.textContent = responseData.message;
-            error.classList.remove("success");
-            error.classList.add("failure");
+            showMessage(responseData.message, false);
             console.log("Back end error:", responseData);
         }
     } catch (err) {
-        error.textContent = "Network error..Please try again..";
-        error.classList.remove("success");
-        error.classList.add("failure");
+        showMessage("Network error..Please try again!")
         console.error(err);
     }
 }

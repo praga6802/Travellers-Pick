@@ -1,12 +1,10 @@
-(function () {
-    const errorMsg = document.getElementById("profile-error");
+import { showMessage } from "./error.js";
+
+document.addEventListener("DOMContentLoaded", () => {
     const cancelContainer = document.getElementById("cancel-container");
+    if (!cancelContainer) return;
 
-    if (errorMsg) {
-        errorMsg.style.display = "none";
-    }
-
-    cancelContainer.innerHTML += `
+    cancelContainer.innerHTML = `
         <form id="cancelform" method="post">
             <legend id="cancel-legend">Booking Cancellation</legend>
 
@@ -32,59 +30,50 @@
 
     const cancelForm = document.getElementById("cancelform");
     cancelForm.addEventListener("submit", handleCancel);
+    cancelForm.addEventListener("reset", () => {
+        showMessage("", true);
+    });
+});
 
-    async function handleCancel(event) {
-        event.preventDefault();
-        const pnrInp = document.getElementById("pnr");
-        const PNR_NUMBER = pnrInp.value.trim();
+async function handleCancel(event) {
+    event.preventDefault();
+    const pnrInp = document.getElementById("pnr");
+    const PNR_NUMBER = pnrInp.value.trim();
 
-        if (!PNR_NUMBER) {
-            displayMessage("Please enter your PNR number.", false);
-            return;
-        }
-
-        try {
-            const response = await fetch(`${url}/user/cancelTour`, {
-                method: "DELETE",
-                credentials: "include",
-                body: JSON.stringify({ pnr: PNR_NUMBER }),
-                headers: { "Content-Type": "application/json" },
-            });
-
-            const responseData = await response.json();
-
-            if (response.ok) {
-                displayMessage(
-                    responseData.message || "Booking cancelled successfully.",
-                    true,
-                );
-                pnrInp.value = "";
-            } else if (response.status === 401) {
-                displayMessage("Session Expired. Please login again.", false);
-                setTimeout(() => {
-                    window.location.href = "../html/user-login.html";
-                }, 2000);
-            } else {
-                displayMessage(
-                    responseData.message || "Failed to cancel booking.",
-                    false,
-                );
-            }
-        } catch (e) {
-            console.error("Cancellation Error:", e);
-            displayMessage("Network Error. Please try again.", false);
-        }
+    if (!PNR_NUMBER) {
+        showMessage("Please enter your PNR number.", false);
+        return;
     }
 
-    function displayMessage(message, isSuccess) {
-        errorMsg.textContent = message;
-        errorMsg.style.display = "inline-block";
-        if (isSuccess) {
-            errorMsg.classList.remove("failure");
-            errorMsg.classList.add("success");
+    try {
+        const response = await fetch(`${url}/user/cancelTour`, {
+            method: "DELETE",
+            credentials: "include",
+            body: JSON.stringify({ pnr: PNR_NUMBER }),
+            headers: { "Content-Type": "application/json" },
+        });
+
+        const responseData = await response.json();
+
+        if (response.ok) {
+            showMessage(
+                responseData.message || "Booking cancelled successfully.",
+                true,
+            );
+            pnrInp.value = "";
+        } else if (response.status === 401) {
+            showMessage("Session Expired. Please login again.", false);
+            setTimeout(() => {
+                window.location.href = "../html/user-login.html";
+            }, 2000);
         } else {
-            errorMsg.classList.remove("success");
-            errorMsg.classList.add("failure");
+            showMessage(
+                responseData.message || "Failed to cancel booking.",
+                false,
+            );
         }
+    } catch (e) {
+        console.error("Cancellation Error:", e);
+        showMessage("Network Error. Please try again.", false);
     }
-})();
+}

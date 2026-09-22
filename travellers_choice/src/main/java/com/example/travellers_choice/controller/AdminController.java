@@ -66,7 +66,7 @@ public class AdminController {
 
 
     // UPDATE ADMIN
-    @PostMapping("/updateAdmin")
+    @PutMapping("/updateAdmin")
     public ResponseEntity<?> updateAdmin(@RequestBody AdminDTO admin, @AuthenticationPrincipal UserDetails user){
         String email=user.getUsername();
         System.out.println("EMAIL:"+email+" with data"+"DATA"+admin);
@@ -157,6 +157,12 @@ public class AdminController {
         return ResponseEntity.ok(packageNames);
     }
 
+    @GetMapping("/tourNames")
+    public ResponseEntity<?> getTourInfo(){
+        List<TourInfoDTO> tours = tourService.getTourInfo();
+        return ResponseEntity.ok(tours);
+    }
+
 
     //GET PACKAGE BY ID
     @GetMapping("/getPackage/{package_id}")
@@ -173,7 +179,7 @@ public class AdminController {
     }
 
     // UPDATE TOUR
-    @PostMapping(value = "/updateCategory", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/updateCategory", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateCategory(@ModelAttribute UploadCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
         return tourService.updateCategory(categoryDTO,userDetails.getUsername());
     }

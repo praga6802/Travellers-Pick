@@ -1,6 +1,7 @@
+import { showMessage } from "./error.js";
+
 const form = document.getElementById("signup-form");
 form.addEventListener("submit", handleSignUp);
-const error = document.getElementById("error");
 
 async function handleSignUp(event) {
     event.preventDefault();
@@ -21,24 +22,16 @@ async function handleSignUp(event) {
 
         const responseData = await response.json();
         if (response.ok) {
-            error.textContent = responseData.message;
-            error.classList.remove("failure");
-            error.classList.add("success");
-            document.getElementById("email").value = "";
-            document.getElementById("password").value = "";
+            showMessage(responseData.message, true);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
             }, 2000);
         } else {
-            error.textContent = responseData.message;
-            error.classList.remove("success");
-            error.classList.add("failure");
-
+            showMessage(responseData.message, false);
             console.error("Backend Error:", responseData);
         }
     } catch (err) {
-        error.innerText = "Network error. Please try again";
-        error.classList.add("failure");
+        showMessage("Network error..Please try again!");
         console.error(err);
     }
 }

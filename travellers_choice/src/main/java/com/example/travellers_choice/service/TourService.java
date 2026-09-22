@@ -172,5 +172,7 @@ public class TourService {
     }
 
 
-
+    public List<TourInfoDTO> getTourInfo() {
+        return tourRepo.findAll().stream().map(tour-> new TourInfoDTO(tour.getTourId(),tour.getTourName())).toList();
+    }
 }

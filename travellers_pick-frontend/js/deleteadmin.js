@@ -1,50 +1,95 @@
-const form = document.getElementById("delAdmin");
-form.addEventListener("submit", handleDeleteAdmin);
+import { showMessage } from "./error.js";
 
-async function handleDeleteAdmin(event) {
-    event.preventDefault();
-    let adminId = document.getElementById("adminId").value.trim();
-    let password = document.getElementById("password").value.trim();
-    let error = document.getElementById("deleteadmin");
-    const data = {
-        adminId,
-        password,
-    };
+const displayAdminForm = async () => {
+    try {
+        const authResponse = await fetch(`${url}/admin/current-admin`, {
+            method: "GET",
+            credentials: "include",
+        });
+        const authData = await authResponse.json();
+
+        if (!authResponse.ok) {
+            showMessage(authData.message || "Unauthorized access", false);
+            setTimeout(() => {
+                window.location.href = "../html/loginform.html";
+            }, 1500);
+            return;
+        }
+
+        const adminContainer = document.getElementById("admin-container");
+        adminContainer.innerHTML = `
+            <form id="delAdmin">
+                <legend>DELETE ADMIN</legend>
+                
+                <label for="adminId">Admin ID</label>
+                <input type="text" name="adminId" id="adminId" placeholder="Admin ID" readonly required><br><br>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter Password to Confirm" required><br><br>
+
+                <div class="button-group">
+                    <input type="submit" value="DELETE" name="submit" class="button" />
+                    <input type="reset" value="RESET" name="reset" class="button" />
+                </div>
+            </form>
+        `;
+
+        document.getElementById("adminId").value =
+            authData.adminId;
+
+        const adminForm = document.getElementById("delAdmin");
+        adminForm.addEventListener("submit", handleDelete);
+    } catch (err) {
+        console.error(err);
+        showMessage("Network error..Please try again!", false);
+    }
+};
+
+const handleDelete = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const adminId = document.getElementById("adminId").value.trim();
+    const password = document.getElementById("password").value.trim();
+
     if (!adminId || !password) {
-        error.innerText = "Admin ID and Password are required";
-        error.style.color = "red";
+        showMessage("Admin ID and Password are required!", false);
         return;
     }
 
     try {
         const response = await fetch(`${url}/admin/deleteAdmin`, {
-            body: JSON.stringify(data),
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
             credentials: "include",
+            body: JSON.stringify({ adminId, password }),
         });
 
         const responseData = await response.json();
-        setTimeout(() => {
-            error.innerText = responseData.message;
-            error.style.color = response.ok ? "green" : "red";
-            error.style.textAlign = "center";
-            error.style.marginTop = "50px";
-            form.reset();
-        }, 2000);
-    } catch (err) {
-        event.preventDefault();
-        error.innerText = "Error: Session Expired & Cannot fetch user details";
-        error.style.color = "red";
-        error.style.marginLeft = "200px";
-        error.style.marginTop = "20px";
-        console.log(err);
-    }
-}
 
-form.addEventListener("reset", () => {
-    error.innerText = "";
-    form.querySelectorAll("input").forEach((inp) => (inp.value = ""));
-});
+        if (!response.ok) {
+            showMessage(
+                responseData.message || "Unable to delete admin",
+                false,
+            );
+            return;
+        }
+
+        showMessage(
+            responseData.message || "Admin deleted successfully!",
+            true,
+        );
+
+        setTimeout(() => {
+            form.reset();
+            window.location.href = "../html/loginform.html";
+        }, 1500);
+    } catch (err) {
+        showMessage("Network error..Please try again..", false);
+        console.error(err);
+    }
+};
+
+document.addEventListener("DOMContentLoaded", displayAdminForm);

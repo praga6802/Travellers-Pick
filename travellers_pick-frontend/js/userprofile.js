@@ -1,9 +1,7 @@
+import { showMessage } from "./error.js";
+
 const login = document.getElementById("login-btn");
 const signin = document.getElementById("signin-btn");
-const error = document.getElementById("profile-error");
-if (error) {
-    error.style.display = "none";
-}
 
 if (login) {
     login.value = "login";
@@ -25,10 +23,7 @@ async function displayUserName() {
 
         const data = await response.json();
         if (response.status === 401) {
-            error.textContent = data.message;
-            error.classList.remove("success");
-            error.classList.add("failure");
-            error.style.display = "inline-block";
+            showMessage(data.message, false);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
             }, 2000);
@@ -36,10 +31,7 @@ async function displayUserName() {
         }
 
         if (!response.ok) {
-            error.textContent = data.message;
-            error.classList.remove("success");
-            error.classList.add("failure");
-            error.style.display = "inline-block";
+            showMessage(data.message, false);
             return;
         }
 
@@ -72,12 +64,8 @@ async function displayUserName() {
 
         loginSelect.addEventListener("change", goLogin);
     } catch (err) {
-        console.error("Network Error:", err);
-        error.textContent =
-            "Unable to connect to the server.Please try again later!";
-        error.classList.remove("success");
-        error.classList.add("failure");
-        error.style.display = "inline-block";
+        console.error(err);
+       showMessage("Network error..Please try again", false);
     }
 }
 

@@ -1,6 +1,32 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    const tbody = document.querySelector("#regtable tbody");
+import { showMessage } from "./error.js";
 
+const displayCurrentAdmin = async () => {
+    try {
+        const response = await fetch(`${url}/admin/current-admin`, {
+            method: "GET",
+            credentials: "include",
+        });
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            showMessage(
+                responseData.message || "Session expired. Please login again.",
+                false,
+            );
+            setTimeout(() => {
+                window.location.href = "../html/loginform.html";
+            }, 1500);
+            return false;
+        }
+        return true;
+    } catch (err) {
+        showMessage("Network error..Please try again", false);
+        console.error(err);
+        return false;
+    }
+};
+
+const displayBookedUsers = async () => {
     try {
         const response = await fetch(`${url}/admin/allregusers`, {
             method: "GET",
@@ -10,42 +36,110 @@ document.addEventListener("DOMContentLoaded", async () => {
             credentials: "include",
         });
 
-        if (!response) throw new Error("Network Issue..Please try again");
+        const responseData = await response.json();
 
-        const details = await response.json();
-
-        if (details.length === 0) {
-            tbody.innerHTML = "<tr><td>Customer details not found</td></tr>";
+        if (!response.ok) {
+            showMessage(
+                responseData.message || "Failed to fetch booked users.",
+                false,
+            );
+            console.error(response);
+            return;
         }
-        details.forEach((detail) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-            <td>${detail.userId}</td>
-            <td>${detail.userName}</td>
-            <td>${detail.email}</td>
-            <td>${detail.phone}</td>
-            <td>${detail.price}</td>
-            <td>${detail.packageName}</td>
-            <td>${detail.tourName}</td>
-            <td>${new Date(detail.bdate).toLocaleDateString()}</td>
-            <td>${new Date(detail.tdate).toLocaleDateString()}</td>
-            <td>${detail.noOfSeats}</td>
-            <td>${detail.noOfAdults}</td>
-            <td>${detail.noOfChildren}</td>
-            <td>${detail.city}</td>
-            <td>${detail.state}</td>
-            <td>${detail.country}</td>
-            <td>${detail.status}</td>
+
+        const usersList = Array.isArray(responseData)
+            ? responseData
+            : responseData.data;
+
+        if (!usersList || !Array.isArray(usersList) || usersList.length === 0) {
+            showMessage("No booked users found.", false);
+            return;
+        }
+
+        const bookedUsersContainer = document.getElementById(
+            "booked-users-container",
+        );
+        if (!bookedUsersContainer) return;
+
+        bookedUsersContainer.innerHTML = `
+            <h1 class="h1">TOUR BOOKED USERS</h1>
+            <table id="regtable">
+                <thead>
+                    <tr id="head-data">
+                        <th class="data">Customer ID</th>
+                        <th>Customer Name</th>
+                        <th class="data">Email</th>
+                        <th class="data">Phone</th>
+                        <th class="data">Price</th>
+                        <th>Package Name</th>
+                        <th>Region</th>
+                        <th class="data">Booking Date</th>
+                        <th class="data">Travel Date</th>
+                        <th class="data">No Of Seats</th>
+                        <th class="data">No of Adults</th>
+                        <th class="data">No of Children</th>
+                        <th class="data">City</th>
+                        <th>State</th>
+                        <th class="data">Country</th>
+                        <th class="data">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="user-container">
+                </tbody>
+            </table>
         `;
-            if (detail.status === "CANCELLED") {
+
+        const userContainer = document.getElementById("user-container");
+
+        usersList.forEach((user) => {
+            const row = document.createElement("tr");
+
+            const formattedBdate =
+                user.bdate || user.bookedAt
+                    ? new Date(user.bdate || user.bookedAt).toLocaleDateString()
+                    : "N/A";
+            const formattedTdate =
+                user.tdate || user.travelAt
+                    ? new Date(user.tdate || user.travelAt).toLocaleDateString()
+                    : "N/A";
+
+            row.innerHTML = `
+                <td>${user.userId || user.id || "N/A"}</td>
+                <td>${user.userName || user.name || "N/A"}</td>
+                <td>${user.email || "N/A"}</td>
+                <td>${user.phone || user.contact || "N/A"}</td>
+                <td>${user.price || "N/A"}</td>
+                <td>${user.packageName || "N/A"}</td>
+                <td>${user.tourName || user.region || "N/A"}</td>
+                <td>${formattedBdate}</td>
+                <td>${formattedTdate}</td>
+                <td>${user.noOfSeats || 0}</td>
+                <td>${user.noOfAdults || 0}</td>
+                <td>${user.noOfChildren || 0}</td>
+                <td>${user.city || "N/A"}</td>
+                <td>${user.state || "N/A"}</td>
+                <td>${user.country || "N/A"}</td>
+                <td>${user.status || "UNKNOWN"}</td>
+            `;
+
+            if (user.status && user.status.toUpperCase() === "CANCELLED") {
                 row.querySelectorAll("td").forEach((td) => {
-                    td.setAttribute("style", "color:red;font-weight:bold");
+                    td.style.color = "red";
+                    td.style.fontWeight = "bold";
                 });
             }
-            tbody.appendChild(row);
+
+            userContainer.appendChild(row);
         });
     } catch (err) {
+        showMessage("Network error..Please try again", false);
         console.error(err);
-        tbody.innerHTML = "<tr><td>Error! No Details Found</td></tr>";
+    }
+};
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const isAuthenticated = await displayCurrentAdmin();
+    if (isAuthenticated) {
+        await displayBookedUsers();
     }
 });

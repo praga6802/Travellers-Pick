@@ -1,5 +1,5 @@
+import { showMessage } from "./error.js";
 
-const error = document.getElementById("error");
 const signin = document.getElementById("signin-btn");
 const login = document.getElementById("login-btn");
 
@@ -86,12 +86,14 @@ async function goLogin(e) {
                     method: "POST",
                     credentials: "include",
                 });
+                const responseData = await response.json();
 
                 if (response.ok) {
-                    alert("Logged out successfully!");
+                    alert(responseData.message);
                     window.location.href = "/index.html";
                 } else {
-                    alert("Logout failed!");
+                    showMessage(responseData.message, false);
+                    console.error(responseData);
                 }
             } catch (err) {
                 console.error("Logout Error:", err);

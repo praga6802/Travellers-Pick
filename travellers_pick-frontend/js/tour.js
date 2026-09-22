@@ -1,49 +1,51 @@
-const error = document.getElementById("error");
-let tourdata = [];
+import { showMessage } from "./error.js";
 
-document.addEventListener("DOMContentLoaded", async function loadTours() {
+const displayTour = async () => {
     try {
-        const response = await fetch(`${url}/admin/allCategories`, {
+        const authResponse = await fetch(`${url}/user/current-user`, {
+            method: "GET",
+        });
+
+        const authData = await authResponse.json();
+
+        if (!authResponse.ok) {
+            showMessage(authData.message, false);
+            return;
+        }
+
+        const tourResponse = await fetch(`${url}/admin/allCategories`, {
             method: "GET",
             credentials: "include",
         });
 
-        tourdata = await response.json();
-        if (!tourdata || tourdata.length === 0) {
-            error.innerText = "No tours found!";
-            error.style.color = "red";
+        const tourData = await tourResponse.json();
+
+        if (!tourResponse.ok) {
+            showMessage(tourData.message, false);
+            return;
+        }
+
+        if (tourData.length === 0) {
+            showMessage(tourData.message, false);
+            return;
         }
 
         const url = new URLSearchParams(window.location.search);
         const packageId = parseInt(url.get("packageId"));
-        showPackageTours(packageId);
 
-        console.log("Tours loaded:", tourdata);
-    } catch (e) {
-        console.error("Failed to load tours:", e);
-        error.innerText = "Network Error.. Unable to reach server!";
-        error.style.color = "red";
-    }
-});
+        const packageTours = tourData.filter(
+            (tour) => tour.packageId === packageId,
+        );
 
-function showPackageTours(packageId) {
-    if (!tourdata || tourdata.length === 0) {
-        error.innerText = "Tour data not loaded yet!";
-        error.style.color = "red";
-        return;
-    }
+        const tourContainer = document.getElementById("packageTourContainer");
 
-    const packageTours = tourdata.filter((tour) => tour.packageId == packageId);
-    const container = document.getElementById("packageTourContainer");
-    container.innerHTML = "";
+        if (packageTours.length === 0) {
+            showMessage("No tours found for this package!", false);
+            return;
+        }
 
-    if (packageTours.length === 0) {
-        container.innerHTML = "<p>No tours found for this package</p>";
-        return;
-    }
-
-    packageTours.forEach((t) => {
-        container.innerHTML += `
+        packageTours.forEach((t) => {
+            tourContainer.innerHTML = `
             <div class='card'>
                 <img src="../${t.imgUrl}" alt="${t.tourName}">
                 <h4>${t.tourName}</h4>
@@ -52,12 +54,18 @@ function showPackageTours(packageId) {
                 <p>${t.places}</p>
                 <span class="package-name"> <i style="font-size:24px" class="fa">&#xf017;</i> Days: ${t.days} - Nights: ${t.nights}</span>
                 <p id='price'>Price: Rs.${t.price}</p>
-			    <button class="book-button" onclick="tourChange('${t.fileName}')">BOOK NOW</button>
-		</div>
-        `;
-    });
-}
+			    <button class="book-button" onclick="bookTour('${t.fileName}')">BOOK NOW</button>
+		    </div>
+            `;
+        });
+    } catch (error) {
+        showMessage("Network error..Please try again");
+        console.error(error);
+    }
+};
 
-function tourChange(value) {
+function bookTour(value) {
     window.location.href = `../html/${value}`;
 }
+
+document.addEventListener("DOMContentLoaded", displayTour);

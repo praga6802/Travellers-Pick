@@ -1,37 +1,103 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    const tbody = document.querySelector("#viewcategory tbody");
+import { showMessage } from "./error.js";
 
+const displayCurrentAdmin = async () => {
+    try {
+        const response = await fetch(`${url}/admin/current-admin`, {
+            method: "GET",
+            credentials: "include",
+        });
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            showMessage(
+                responseData.message || "Session expired. Please login again.",
+                false,
+            );
+            setTimeout(() => {
+                window.location.href = "../html/loginform.html";
+            }, 1500);
+            return false;
+        }
+        return true;
+    } catch (err) {
+        showMessage("Network error..Please try again", false);
+        console.error(err);
+        return false;
+    }
+};
+
+const displayTours = async () => {
     try {
         const response = await fetch(`${url}/admin/allCategories`, {
             method: "GET",
             credentials: "include",
         });
 
-        if (!response) throw new Error("Failed to fetch tours");
+        const responseData = await response.json();
 
-        const tours = await response.json();
-
-        if (tours === 0) {
-            tbody.innerHTML = '<tr><td colspan="8">No Tours Found</td></tr>';
+        if (!response.ok) {
+            showMessage(responseData.message || "Failed to fetch tours", false);
+            console.error(response);
             return;
         }
 
-        tours.forEach((tour) => {
+        const toursList = Array.isArray(responseData)
+            ? responseData
+            : responseData.data;
+
+        if (!toursList || !Array.isArray(toursList) || toursList.length === 0) {
+            showMessage("No tours found.", false);
+            return;
+        }
+
+        const tourContainer = document.getElementById("tour-container");
+        if (!tourContainer) return;
+
+        tourContainer.innerHTML = `
+            <h1 class="h1">VIEW TOURS</h1>
+            <table id="viewcategory">
+                <thead>
+                    <tr id="head-data">
+                        <th class="data">Tour ID</th>
+                        <th class="data">Package ID</th>
+                        <th>Tour Name</th>
+                        <th>Tour Slogan</th>
+                        <th>Places</th>
+                        <th class="data">Price</th>
+                        <th class="data">Days</th>
+                        <th class="data">Nights</th>
+                    </tr>
+                </thead>
+                <tbody id="tour-body">
+                </tbody>
+            </table>
+        `;
+
+        const tourBody = document.getElementById("tour-body");
+
+        toursList.forEach((tour) => {
             const row = document.createElement("tr");
             row.innerHTML = `
-        <td>${tour.tourId}</td>
-        <td>${tour.packageId}</td>
-        <td>${tour.tourName}</td>
-        <td>${tour.tourSlogan}</td>
-        <td>${tour.places}</td>
-        <td>${tour.price}</td>
-        <td>${tour.days}</td>
-        <td>${tour.nights}</td>
-        `;
-            tbody.appendChild(row);
+                <td>${tour.tourId || tour.id || "N/A"}</td>
+                <td>${tour.packageId || tour.pkgId || "N/A"}</td>
+                <td>${tour.tourName || tour.name || "N/A"}</td>
+                <td>${tour.tourSlogan || tour.slogan || "N/A"}</td>
+                <td>${tour.places || "N/A"}</td>
+                <td>${tour.price || "N/A"}</td>
+                <td>${tour.days || 0}</td>
+                <td>${tour.nights || 0}</td>
+            `;
+            tourBody.appendChild(row);
         });
     } catch (err) {
+        showMessage("Network error..Please try again", false);
         console.error(err);
-        tbody.innerHTML = "<tr><td>Failed to Load Tours</td></tr>";
+    }
+};
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const isAuthenticated = await displayCurrentAdmin();
+    if (isAuthenticated) {
+        await displayTours();
     }
 });

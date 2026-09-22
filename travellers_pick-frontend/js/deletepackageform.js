@@ -1,28 +1,46 @@
-const error = document.getElementById("error");
-const form = document.getElementById("deletepackageform");
-const packageName = document.getElementById("packageName");
+import { showMessage } from "./error.js";
 
 //get the current admin
-window.addEventListener("DOMContentLoaded", async () => {
+
+const displayUpdatePackageForm = async () => {
     try {
-        const response = await fetch(`${url}/admin/current-admin`, {
+        const authResponse = await fetch(`${url}/admin/current-admin`, {
             method: "GET",
             credentials: "include",
         });
 
-        if (!response.ok) {
-            alert("Session Expired or Network Error..Please try again!");
-            window.location.href = "../html/loginform.html";
-        }
-    } catch (err) {
-        error.innerText = "Network Error..Please Try again";
-        error.style.color = "red";
-    }
-});
+        const authData = await authResponse.json();
 
-//get the package names to send package id
-window.addEventListener("DOMContentLoaded", async function () {
-    try {
+        if (!authResponse.ok) {
+            showMessage(authData.message, false);
+            setTimeout(() => {
+                window.location.href = "../html/loginform.html";
+            }, 1500);
+            return;
+        }
+
+        // if admin logged, then create delete container
+        const packageContainer = document.getElementById("package-container");
+        packageContainer.innerHTML = `
+            <form id="deletepackageform">
+                <legend>DELETE PACKAGE</legend>
+
+                <div class="input-box">
+                    <label>Choose Package ID</label>
+                    <span>
+                        <select name="packageId" id="packageId">
+                            <option value="" hidden selected disabled>Select Package</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="button-group">
+                    <input type="submit" value="DELETE" name="submit" class="button" />
+                    <input type="reset" value="RESET" name="reset" class="button" />
+                </div>
+            </form>
+        `;
+
+        const packageSelect = document.getElementById("packageId");
         const response = await fetch(`${url}/admin/packageNames`, {
             method: "GET",
             credentials: "include",
@@ -30,36 +48,38 @@ window.addEventListener("DOMContentLoaded", async function () {
 
         const responseData = await response.json();
         if (!response.ok) {
-            errorMsg.innerText = responseData.message;
-            errorMsg.style.color = "red";
-            window.location.href = "loginform.html";
+            showMessage(responseData.message, false);
+            return;
         }
 
         if (!responseData) {
-            errorMsg.innerText = "No Packages Found!";
-            errorMsg.style.color = "red";
+            showMessage("No packages found!", false);
+            return;
         }
+
         responseData.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
             option.innerText = pkg.packageName;
-            packageName.appendChild(option);
+            packageSelect.appendChild(option);
         });
+
+        const packageform = document.getElementById("deletepackageform");
+        packageform.addEventListener("submit", deletePackage);
     } catch (err) {
-        errorMsg.innerText = "Network error..Unable to reach Server!";
-        errorMsg.style.color = "red";
+        showMessage("Network error..Please try again!");
+        console.error(err);
     }
-});
+};
 
-//delete package
-form.addEventListener("submit", async (event) => {
-    event.preventDefault();
+const deletePackage = async (e) => {
+    e.preventDefault();
 
-    const packageId = packageName.value;
+    const packageSelect = document.getElementById("packageId");
+    const packageId = packageSelect ? packageSelect.value : "";
 
     if (!packageId) {
-        error.innerText = "Please select a package to delete";
-        error.style.color = "red";
+        showMessage("Please select Package Name to delete");
         return;
     }
 
@@ -72,14 +92,25 @@ form.addEventListener("submit", async (event) => {
         });
 
         const responseData = await response.json();
-        error.innerText = responseData.message;
-        error.style.color = response.ok ? "green" : "red";
-
-        if (response.ok) {
-            packageName.querySelector(`option[value="${packageId}"]`).remove();
+        if (!response.ok) {
+            showMessage(responseData.message, false);
+            return;
         }
+
+        showMessage(responseData.message, true);
+
+        const selectedOption = packageSelect.querySelector(
+            `option[value="${packageId}"]`,
+        );
+        if (selectedOption) {
+            selectedOption.remove();
+        }
+
+        document.getElementById("deletepackageform").reset();
     } catch (err) {
-        error.innerText = "Network error..Unable to reach server!";
-        error.style.color = "red";
+        showMessage("Network error..Please try again!");
+        console.error(err);
     }
-});
+};
+
+document.addEventListener("DOMContentLoaded", displayUpdatePackageForm);

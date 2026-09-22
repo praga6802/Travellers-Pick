@@ -1,15 +1,24 @@
-// const error = document.getElementById("error");
+import { showMessage } from "./error.js";
 
-document.addEventListener("DOMContentLoaded", displayPackage);
-async function displayPackage() {
+const displayPackage = async () => {
     try {
+        const authResponse = await fetch(`${url}/user/current-user`, {
+            method: "GET",
+        });
+
+        const authData = await authResponse.json();
+
+        if (!authResponse.ok) {
+            showMessage(authData.message, false);
+            return;
+        }
+
         const response = await fetch(`${url}/admin/allPackages`, {
             method: "GET",
             credentials: "include",
         });
 
         const responseData = await response.json();
-        console.log(responseData);
 
         if (!response.ok) {
             showMessage(responseData.message, false);
@@ -20,37 +29,28 @@ async function displayPackage() {
             showMessage("No Packages found!", false);
         }
 
-        const tourContainer = document.getElementById("packageContainer");
-        tourContainer.innerHTML = "";
+        const packageContainer = document.getElementById("packageContainer");
+        packageContainer.innerHTML = "";
 
         responseData.forEach((pkg) => {
             const card = document.createElement("div");
             card.className = "card";
             card.innerHTML = `
-        <img src='../${pkg.imgUrl}' alt='${pkg.packageName}'>
-        <h2 class="package-title">${pkg.packageName}</h2>
-        <h6 class="package-slogan"> -${pkg.packageSlogan}- </h6>
-        <button class='explore-button' onclick="tourChange('${pkg.fileName}','${pkg.packageId}')">EXPLORE</button>
-        `;
-            tourContainer.appendChild(card);
+                <img src='../${pkg.imgUrl}' alt='${pkg.packageName}'>
+                <h2 class="package-title">${pkg.packageName}</h2>
+                <h6 class="package-slogan"> -${pkg.packageSlogan}- </h6>
+                <button class='explore-button' onclick="bookPackage('${pkg.fileName}','${pkg.packageId}')">EXPLORE</button>
+            `;
+            packageContainer.appendChild(card);
         });
     } catch (e) {
         showMessage(e.message, false);
-        console.error("Failed to fetch:", e);
+        console.error(e);
     }
-}
+};
 
-function tourChange(fileName, packageId) {
+function bookPackage(fileName, packageId) {
     window.location.href = `../html/${fileName}?packageId=${packageId}`;
 }
 
-function showMessage(message, isSuccess) {
-    error.textContent = message;
-    if (isSuccess) {
-        error.classList.remove("failure");
-        error.classList.add("success");
-    } else {
-        error.classList.remove("success");
-        error.classList.add("failure");
-    }
-}
+document.addEventListener("DOMContentLoaded", displayPackage);

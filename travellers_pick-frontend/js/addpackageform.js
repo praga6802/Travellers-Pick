@@ -1,76 +1,108 @@
-const error = document.getElementById('error');
+import { showMessage } from "./error.js";
 
-window.addEventListener('DOMContentLoaded', async () => {
-
+const displayForm = async () => {
     try {
-        const response = await fetch(`${url}admin/current-admin`, {
+        const authResponse = await fetch(`${url}/admin/current-admin`, {
             method: "GET",
-            credentials: "include"
+            credentials: "include",
         });
 
-        if(!response.ok){
-            alert('Session Expired or Network Error..Please try again!');
-            window.location.href='../html/loginform.html';
+        const authData = await authResponse.json();
+        if (!authResponse.ok) {
+            showMessage(authData.message, false);
+            setTimeout(() => {
+                window.location.href = "../html/loginform.html";
+            }, 1500);
+            return;
         }
 
+        const packageContainer = document.getElementById("package-container");
+        packageContainer.innerHTML = `
+        		<form id="packageform" enctype="multipart/form-data">
+                <legend>ADD PACKAGE</legend>
+
+                <div class="input-box">
+                    <label for="package_name">Package Name</label><br>
+                    <input type="text" name="packageName" id="packageName" required maxlength="30"
+                        placeholder="Package Name" /><br><br>
+                </div>
+                <div class="input-box">
+                    <label for="slogan">Package Slogan</label><br>
+                    <input type="text" name="packageSlogan" id="packageSlogan" maxlength="50"
+                        placeholder="Package Slogan" /><br><br>
+                </div>
+                <div class="input-box">
+                    <label for="code">Package Code</label><br>
+                    <input type="text" name="packageCode" id="packageCode" maxlength="3"
+                        placeholder="Package Code" /><br><br>
+                </div>
+                <div class="input-box">
+                    <label for="imageFile">Package Image</label><br>
+                    <input type="file" name="imageFile" id="imageFile" accept="image/*"><br><br>
+                </div>
+                <div class="button-group">
+                    <input type="submit" value="ADD" name="submit" class="button" />
+                    <input type="reset" value="RESET" name="reset" class="button" />
+                </div>
+		</form>
+        `;
+
+        const addpackageform = document.getElementById("packageform");
+        addpackageform.addEventListener("submit", handlePackage);
     } catch (err) {
-        error.innerText = "Network Error..Please Try again";
-        error.style.color = "red";
+        showMessage("Network error..Please try again");
+        console.error(err);
     }
-});
+};
 
-//add package in form
-const form = document.getElementById("addpackageform");
-form.addEventListener("submit", handleAddPackage);
-async function handleAddPackage(event) {
-    event.preventDefault();
-    const packageNameInp=document.getElementById("packageName");
-    const packageSloganInp=document.getElementById("packageSlogan");
-    const imageFile=document.getElementById('imageFile');
-    const packageCodeInp=document.getElementById('packageCode');
+const handlePackage = async (e) => {
+    e.preventDefault();
+    const packageName = document.getElementById("packageName").value.trim();
+    const packageSlogan = document.getElementById("packageSlogan").value.trim();
+    const imageFile = document.getElementById("imageFile");
+    const packageCode = document.getElementById("packageCode").value.trim();
 
-    const packageName=packageNameInp.value.trim();
-    const packageSlogan=packageSloganInp.value.trim();
-    const packageCode=packageCodeInp.value.trim();
+    if (!packageName) {
+        showMessage("Package name is required!", false);
+        return;
+    }
+    if (!packageSlogan) {
+        showMessage("Package Slogan is required!", false);
+        return;
+    }
+    if (!packageCode) {
+        showMessage("Package Code is required!", false);
+        return;
+    }
+    if (!imageFile.files || imageFile.files.length === 0) {
+        showMessage("Image is required!", false);
+        return;
+    }
 
-    if(!packageName)displayMessage('Package name is required!');
-    if(!packageSlogan)displayMessage('Package Slogan is required');
-    if(!packageCode) displayMessage('Package Code is required!');
-    if(!imageFile.files || imageFile.files.length===0)displayMessage('Image is required!');
-
-    const formData= new FormData();
-    formData.append("packageName",packageName);
-    formData.append("packageSlogan",packageSlogan);
-    formData.append('packageCode',packageCode);
-    formData.append("imageFile",imageFile.files[0]);
+    const formData = new FormData();
+    formData.append("packageName", packageName);
+    formData.append("packageSlogan", packageSlogan);
+    formData.append("packageCode", packageCode);
+    formData.append("imageFile", imageFile.files[0]);
 
     try {
-        const response = await fetch(`${url}/admin/addPackag`, {
+        const response = await fetch(`${url}/admin/addPackage`, {
             method: "POST",
             body: formData,
-            credentials:"include",
+            credentials: "include",
         });
-
         const responseData = await response.json();
-        error.innerText = responseData.message;
-        error.style.color = response.ok ? "green" : "red";
-        error.style.textAlign = "center";
-        error.style.marginTop = "50px";
+        if (!response.ok) {
+            showMessage(responseData.message, false);
+            return;
+        }
+
+        showMessage(responseData.message, true);
+        document.getElementById("packageform").reset();
     } catch (err) {
-        event.preventDefault();
-        error.innerText='Error: Session Expired & Cannot fetch user details'
-        error.style.color='red';
-        error.style.marginLeft="200px";
-        error.style.marginTop="20px";
+        showMessage("Network error..Please try again!");
         console.log(err);
     }
-}
-form.addEventListener('reset',()=>{
-    error.innerText='';
-})
+};
 
-function displayMessage(msg){
-    error.innerText=msg;
-    error.style.color = "red";
-    return;
-}
+document.addEventListener("DOMContentLoaded", displayForm);

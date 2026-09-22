@@ -1,5 +1,32 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    const tbody = document.querySelector("#packagetable tbody");
+import { showMessage } from "./error.js";
+
+const displayCurrentAdmin = async () => {
+    try {
+        const response = await fetch(`${url}/admin/current-admin`, {
+            method: "GET",
+            credentials: "include",
+        });
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            showMessage(
+                responseData.message || "Session expired. Please login again.",
+                false,
+            );
+            setTimeout(() => {
+                window.location.href = "../html/loginform.html";
+            }, 1500);
+            return false;
+        }
+        return true;
+    } catch (err) {
+        showMessage("Network error..Please try again", false);
+        console.error(err);
+        return false;
+    }
+};
+
+const displayPackages = async () => {
     try {
         const response = await fetch(`${url}/admin/allPackages`, {
             method: "GET",
@@ -7,30 +34,59 @@ document.addEventListener("DOMContentLoaded", async () => {
             headers: { "Content-Type": "application/json" },
         });
 
+        const responseData = await response.json();
+
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const details = await response.json();
-
-        if (details.length === 0) {
-            tbody.innerHTML =
-                "<tr><td colspan='3'>No Package details found</td></tr>";
+            showMessage(
+                responseData.message || "Failed to fetch packages",
+                false,
+            );
+            console.error(response);
             return;
         }
 
-        details.forEach((detail) => {
+        if (Array.isArray(responseData) && responseData.length === 0) {
+            showMessage("No packages found.", false);
+            return;
+        }
+
+        const packageContainer = document.getElementById("package-container");
+        if (!packageContainer) return;
+
+        packageContainer.innerHTML = `
+            <h1 class="h1">VIEW PACKAGE</h1>
+            <table id="packagetable">
+                <thead id="head-data">
+                    <tr>
+                        <th id="pkgid">Package ID</th>
+                        <th>Package Name</th>
+                        <th>Package Slogan</th>
+                    </tr>
+                </thead>
+                <tbody id="package-body">
+                </tbody>
+            </table>
+        `;
+
+        const packageBody = document.getElementById("package-body");
+        responseData.forEach((pkg) => {
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td>${detail.packageId}</td>
-                <td>${detail.packageName}</td>
-                <td>${detail.packageSlogan}</td>
+                <td>${pkg.packageId || pkg.id || ""}</td>
+                <td>${pkg.packageName || ""}</td>
+                <td>${pkg.packageSlogan || ""}</td>
             `;
-            tbody.appendChild(row);
+            packageBody.appendChild(row);
         });
     } catch (err) {
+        showMessage("Network error..Please try again", false);
         console.error(err);
-        tbody.innerHTML =
-            "<tr><td colspan='3'>Error fetching package details</td></tr>";
+    }
+};
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const isAuthenticated = await displayCurrentAdmin();
+    if (isAuthenticated) {
+        await displayPackages();
     }
 });

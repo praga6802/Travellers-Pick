@@ -1,94 +1,97 @@
-(function () {
-    window.addEventListener("DOMContentLoaded", handleViewBooking);
-    async function handleViewBooking() {
-        const errorMsg = document.getElementById("profile-error");
-        const cardContainer = document.getElementById("booking-card");
+import { showMessage } from "./error.js";
 
-        if (errorMsg) {
-            errorMsg.style.display = "none";
+document.addEventListener("DOMContentLoaded", handleViewBooking);
+
+async function handleViewBooking() {
+    const cardContainer = document.getElementById("booking-card");
+    if (!cardContainer) return;
+
+    try {
+        const response = await fetch(`${url}/user/bookedTours`, {
+            method: "GET",
+            credentials: "include",
+        });
+
+        const responseData = await response.json();
+
+        if (response.status === 401) {
+            showMessage(
+                responseData.message || "Session expired. Please login again.",
+                false,
+            );
+            setTimeout(() => {
+                window.location.href = "../html/user-login.html";
+            }, 1500);
+            return;
         }
 
-        try {
-            const response = await fetch(`${url}/user/bookedTours`, {
-                method: "GET",
-                credentials: "include",
-            });
-
-            const responseData = await response.json();
-            if (response.status === 401) {
-                showError(errorMsg, responseData.message);
-            }
-            if (!response.ok) {
-                showError(errorMsg, responseData.message);
-                return;
-            }
-            const bookings = Array.isArray(responseData)
-                ? responseData
-                : responseData.data;
-
-            if (!bookings || !Array.isArray(bookings)) {
-                showError(errorMsg, "No bookings found!");
-                return;
-            }
-
-            cardContainer.innerHTML = "";
-
-            bookings.forEach((booking) => {
-                const card = document.createElement("div");
-                card.classList.add("booking-card");
-
-                // Determine status class
-                let statusClass = "";
-                if (booking.status === "CONFIRMED") {
-                    statusClass = "status-confirmed";
-                } else if (booking.status === "CANCELLED") {
-                    statusClass = "status-cancelled";
-                } else if (booking.status === "PENDING") {
-                    statusClass = "status-pending";
-                }
-
-                card.innerHTML = `
-                    <div class="booking-header">
-                        ${booking.packageName || "Package"} - ${booking.region || ""}
-                        <h4 class="status ${statusClass}">
-                            <span>${booking.status || "UNKNOWN"}</span>
-                        </h4>
-                    </div>
-                    
-                    <div class="date-info">
-                        <span class="date">
-                            <strong>Booked Date:</strong> ${booking.bookedAt || "N/A"}
-                        </span>
-                        <span class="date">
-                            <strong>Travel Date:</strong> ${booking.travelAt || "N/A"}
-                        </span>
-                    </div>
-
-                    <div class="booking-body">
-                        <p><strong>Booking ID:</strong> ${booking.bookingId}</p>
-                        <p><strong>Name:</strong> ${booking.userName}</p>
-                        <p><strong>Email:</strong> ${booking.email}</p>
-                        <p><strong>Contact:</strong> ${booking.contact}</p>
-                        <p><strong>Seats:</strong> ${booking.noOfSeats}</p>
-                        <p><strong>Adults:</strong> ${booking.noOfAdults}</p>
-                        <p><strong>Children:</strong> ${booking.noOfChildren}</p>
-                        <p><strong>Price:</strong> ${booking.price}</p>
-                    </div>
-                `;
-
-                cardContainer.appendChild(card);
-            });
-        } catch (e) {
-            console.error("View Bookings Error:", e);
-            showError(errorMsg, "Network Error. Please try again!");
+        if (!response.ok) {
+            showMessage(
+                responseData.message || "Failed to load bookings.",
+                false,
+            );
+            return;
         }
-    }
 
-    function showError(element, message) {
-        if (!element) return;
-        element.textContent = message;
-        element.classList.remove("success");
-        element.classList.add("failure");
-        element.style.display = "inline-block";
+        const bookings = Array.isArray(responseData)
+            ? responseData
+            : responseData.data;
+
+        if (!bookings || !Array.isArray(bookings) || bookings.length === 0) {
+            showMessage("No bookings found!", false);
+            return;
+        }
+
+        cardContainer.innerHTML = "";
+
+        bookings.forEach((booking) => {
+            const card = document.createElement("div");
+            card.classList.add("booking-card");
+
+            let statusClass = "";
+            const statusUpper = (booking.status || "").toUpperCase();
+
+            if (statusUpper === "CONFIRMED") {
+                statusClass = "status-confirmed";
+            } else if (statusUpper === "CANCELLED") {
+                statusClass = "status-cancelled";
+            } else if (statusUpper === "PENDING") {
+                statusClass = "status-pending";
+            }
+
+            card.innerHTML = `
+                <div class="booking-header">
+                    ${booking.packageName || "Package"} - ${booking.region || ""}
+                    <h4 class="status ${statusClass}">
+                        <span>${booking.status || "UNKNOWN"}</span>
+                    </h4>
+                </div>
+                
+                <div class="date-info">
+                    <span class="date">
+                        <strong>Booked Date:</strong> ${booking.bookedAt || booking.bdate || "N/A"}
+                    </span>
+                    <span class="date">
+                        <strong>Travel Date:</strong> ${booking.travelAt || booking.tdate || "N/A"}
+                    </span>
+                </div>
+
+                <div class="booking-body">
+                    <p><strong>Booking ID:</strong> ${booking.bookingId || booking.id || "N/A"}</p>
+                    <p><strong>Name:</strong> ${booking.userName || booking.name || "N/A"}</p>
+                    <p><strong>Email:</strong> ${booking.email || "N/A"}</p>
+                    <p><strong>Contact:</strong> ${booking.contact || booking.phone || "N/A"}</p>
+                    <p><strong>Seats:</strong> ${booking.noOfSeats || 0}</p>
+                    <p><strong>Adults:</strong> ${booking.noOfAdults || 0}</p>
+                    <p><strong>Children:</strong> ${booking.noOfChildren || 0}</p>
+                    <p><strong>Price:</strong> ${booking.price || "N/A"}</p>
+                </div>
+            `;
+
+            cardContainer.appendChild(card);
+        });
+    } catch (err) {
+        showMessage("Network error..Please try again", false);
+        console.error(err);
     }
-})();
+}

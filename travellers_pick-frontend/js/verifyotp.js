@@ -1,93 +1,114 @@
-const error = document.getElementById("error");
-const form = document.getElementById("otp-form");
-const otpinp = document.querySelectorAll(".otp");
+import { showMessage } from "./error.js";
 
-//get the user data
-window.addEventListener("DOMContentLoaded", displayUserDetails);
-async function displayUserDetails() {
-    try {
-        const response = await fetch(`${url}/user/current-user`, {
-            method: "GET",
-            credentials: "include",
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("otp-form");
+    const otpinp = document.querySelectorAll(".otp");
+
+
+    displayUserDetails();
+
+    otpinp.forEach((inp, index) => {
+        inp.addEventListener("input", (e) => {
+            if (inp.value && index < otpinp.length - 1) {
+                otpinp[index + 1].focus();
+            }
         });
-        const responseData = await response.json();
 
-        if (!response.ok) {
-            console.log("User not logged in");
+
+        inp.addEventListener("keydown", (e) => {
+            if (e.key === "Backspace" && !inp.value && index > 0) {
+                otpinp[index - 1].focus();
+            }
+        });
+
+        inp.addEventListener("paste", (e) => {
+            e.preventDefault();
+            const pasteData = e.clipboardData.getData("text").trim();
+            if (/^\d{6}$/.test(pasteData)) {
+                pasteData.split("").forEach((char, i) => {
+                    if (otpinp[i]) {
+                        otpinp[i].value = char;
+                    }
+                });
+                otpinp[otpinp.length - 1].focus();
+            }
+        });
+    });
+
+    if (form) {
+        form.addEventListener("submit", verifyOTP);
+    }
+
+    async function displayUserDetails() {
+        try {
+            const response = await fetch(`${url}/user/current-user`, {
+                method: "GET",
+                credentials: "include",
+            });
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                showMessage(
+                    responseData.message || "User not logged in",
+                    false,
+                );
+                if (form) form.style.display = "none";
+                setTimeout(() => {
+                    window.location.href = "../html/user-login.html";
+                }, 1500);
+                return;
+            }
+        } catch (e) {
+            console.error("Auth check error:", e);
+            showMessage(
+                "Network Error or Session Expired. Please login again!",
+                false,
+            );
+            if (form) form.style.display = "none";
+            setTimeout(() => {
+                window.location.href = "../html/user-login.html";
+            }, 1500);
+        }
+    }
+
+    async function verifyOTP(e) {
+        e.preventDefault();
+        let otp = "";
+
+        otpinp.forEach((inp) => (otp += inp.value.trim()));
+
+        if (otp.length !== 6) {
+            showMessage("Please Enter 6-digit OTP", false);
             return;
         }
-    } catch (e) {
-        displayMessage("Network Error or Session Expired. Please login again!");
-        form.style.display = "none";
-        setTimeout(() => {
-            window.location.href = "../html/login.html";
-        }, 1500);
-    }
-}
 
-// otp box navigation
-otpinp.forEach((inp, index) => {
-    //moving forward
-    inp.addEventListener("input", () => {
-        if (inp.value && index < otpinp.length - 1) {
-            otpinp[index + 1].focus();
+        const data = { otp };
+
+        try {
+            const response = await fetch(`${url}/user/verifyOTP`, {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+            const resData = await response.json();
+
+            showMessage(
+                resData.message ||
+                    (response.ok
+                        ? "OTP verified successfully!"
+                        : "Verification failed"),
+                response.ok,
+            );
+
+            if (response.ok) {
+                setTimeout(() => {
+                    window.location.href = "../html/user-login.html";
+                }, 1500);
+            }
+        } catch (e) {
+            console.error("OTP verification error:", e);
+            showMessage("Network error..Please try again", false);
         }
-    });
-
-    //moving backward
-    inp.addEventListener("keydown", (e) => {
-        if (e.key === "Backspace" && !inp.value && index > 0) {
-            otpinp[index - 1].focus();
-        }
-    });
-});
-
-form.addEventListener("submit", verifyOTP);
-
-async function verifyOTP(e) {
-    e.preventDefault();
-    let otp = "";
-
-    otpinp.forEach((inp) => (otp += inp.value));
-
-    if (otp.length !== 6) {
-        displayMessage("Please Enter 6-digit OTP");
-        return;
     }
-
-    const data = { otp };
-
-    try {
-        const response = await fetch(`${url}/user/verifyOTP`, {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
-        const resData = await response.json();
-        displayMessage(resData.message, response.ok);
-
-        if (response.ok) {
-            setTimeout(() => {
-                window.location.href = "../html/login.html";
-            }, 1000);
-        }
-    } catch (e) {
-        displayMessage("Network error..Please try again");
-        console.log(e);
-        return;
-    }
-}
-
-//display message
-function displayMessage(msg, response = false) {
-    error.innerText = msg;
-    error.style.color = response ? "green" : "red";
-    error.style.marginTop = "20px";
-    error.style.marginLeft = "170px";
-}
-
-//reset button
-form.addEventListener("reset", () => {
-    errorMsg.style.display = "none";
 });

@@ -13,43 +13,48 @@
 </head>
 
 <body>
-	<div class="container">
-		<form method="post" id="addcategoryform" enctype="multipart/form-data">
-			<legend>ADD TOUR</legend>
 
-			<label for="packageName">Package Name</label>
-			<select name="packageName" id="packageName" required>
-				<option disabled selected hidden value="">Select Package</option>
-			</select><br><br>
-
-			<label for="tourName">Tour Name</label>
-			<input type="text" name="tourName" id="tourName" placeholder="Enter the tour name" required><br><br>
-			<label for="tourslogan">Tour Slogan</label>
-			<input type="text" name="tourSlogan" id="tourSlogan" maxlength="50"
-				placeholder="Enter the tour slogan" /><br><br>
-			<label for="places">Places</label>
-			<input type="text" name="places" id="places" placeholder="Enter the list of places seperated by comma"
-				required><br><br>
-			<label for="days">Days</label>
-			<input type="number" name="days" id="days" max="10" min="1" required>
-			<label for="days">Nights</label>
-			<input type="number" name="nights" id="nights" max="10" min="1" required><br><br>
-			<label for="price">Price</label>
-			<input type="text" name="price" id="price" placeholder="Enter amount" required><br><br>
-
-			<label for="imageFile">Tour Image</label><br>
-			<input type="file" name="imageFile" id="imageFile" accept="images/*">
-
-			<div class="button-group">
-				<input type="submit" value="ADD" name="submit" class="button" />
-				<input type="reset" value="RESET" name="reset" class="button" />
-			</div>
-		</form>
+	<main>
+		<div id="tour-container"></div>
 		<p id="error"></p>
-	</div>
+	</main>
+
+	
+	<form method="post" id="addcategoryform" enctype="multipart/form-data">
+		<legend>ADD TOUR</legend>
+
+		<label for="packageName">Package Name</label>
+		<select name="packageName" id="packageName" required>
+			<option disabled selected hidden value="">Select Package</option>
+		</select><br><br>
+
+		<label for="tourName">Tour Name</label>
+		<input type="text" name="tourName" id="tourName" placeholder="Enter the tour name" required><br><br>
+		<label for="tourslogan">Tour Slogan</label>
+		<input type="text" name="tourSlogan" id="tourSlogan" maxlength="50"
+			placeholder="Enter the tour slogan" /><br><br>
+		<label for="places">Places</label>
+		<input type="text" name="places" id="places" placeholder="Enter the list of places seperated by comma"
+			required><br><br>
+		<label for="days">Days</label>
+		<input type="number" name="days" id="days" max="10" min="1" required>
+		<label for="days">Nights</label>
+		<input type="number" name="nights" id="nights" max="10" min="1" required><br><br>
+		<label for="price">Price</label>
+		<input type="text" name="price" id="price" placeholder="Enter amount" required><br><br>
+
+		<label for="imageFile">Tour Image</label><br>
+		<input type="file" name="imageFile" id="imageFile" accept="images/*">
+
+		<div class="button-group">
+			<input type="submit" value="ADD" name="submit" class="button" />
+			<input type="reset" value="RESET" name="reset" class="button" />
+		</div>
+	</form>
 
 	<script src="../js/config.js"></script>
 	<script src="../js/addtour.js"></script>
+	<script type="module" src="../js/error.js"></script>
 </body>
 
 </html>

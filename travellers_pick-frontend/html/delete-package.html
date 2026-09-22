@@ -12,29 +12,18 @@
 </head>
 
 <body>
-	<div>
-		<form id="deletepackageform">
-			<legend>DELETE PACKAGE</legend>
 
-			<div class="input-box">
-				<label>Choose Package ID</label>
-				<span>
-					<select name="packageId" id="packageId">
-						<option value="" hidden selected disabled>Select Package</option>
-					</select>
-				</span>
-			</div>
-			<div class="button-group">
-				<input type="submit" value="UPDATE" name="submit" class="button" />
-				<input type="reset" value="RESET" name="reset" class="button" />
-			</div>
+	<main>
+		<div id="package-container"></div>
+		<p id="error"></p>
+	</main>
 
-			<p id='error'></p>
-		</form>
-	</div>
+
+
 
 	<script src="../js/config.js"></script>
 	<script src="../js/deletepackageform.js"></script>
+	<script type="module" src="../js/error.js"></script>
 </body>
 
 </html>

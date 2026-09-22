@@ -13,25 +13,17 @@
 </head>
 
 <body>
-	<div class="container">
-		<form id="deletecategoryform">
-			<input type="hidden" name="_method" value="DELETE">
-			<legend>DELETE TOUR</legend>
 
-			<label for="tourId">Tour ID</label>
-			<input type="text" name="tourId" id="tourId" placeholder="Enter Tour ID" required><br><br>
-
-			<div class="button-group">
-				<input type="submit" value="DELETE" name="submit" class="button" />
-				<input type="reset" value="RESET" name="reset" class="button" />
-			</div>
-		</form>
-		<br><br>
+	<main>
+		<div id="tourContainer"></div>
 		<p id="error"></p>
-	</div>
+	</main>
+	
+
 
 	<script src="../js/config.js"></script>
 	<script src="../js/deletetour.js"></script>
+	<script type="module" src="../js/error.js"></script>
 </body>
 
 </html>

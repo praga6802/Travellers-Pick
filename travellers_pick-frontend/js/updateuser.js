@@ -1,12 +1,13 @@
-(function () {
-    const errorMsg = document.getElementById("profile-error");
-    const updateContainer = document.getElementById("update-form");
+import { showMessage } from "./error.js";
 
-    let oldEmail = "";
-    let oldUsername = "";
-    let oldContact = "";
+const errorMsg = document.getElementById("profile-error");
+const updateContainer = document.getElementById("update-form");
 
-    updateContainer.innerHTML += `
+let oldEmail = "";
+let oldUsername = "";
+let oldContact = "";
+
+updateContainer.innerHTML = `
         <h1 id="update-legend">UPDATE USER INFO</h1>
         <form id="update-form">
             <div>
@@ -47,125 +48,107 @@
         </form>
     `;
 
-    const form = document.getElementById("update-form");
-    const username = document.getElementById("username");
-    const email = document.getElementById("email");
-    const contact = document.getElementById("contact");
+const form = document.getElementById("update-form");
+const username = document.getElementById("username");
+const email = document.getElementById("email");
+const contact = document.getElementById("contact");
 
-    window.addEventListener("DOMContentLoaded", displayUserDetails);
-    if (form) {
-        form.addEventListener("submit", handleUpdateUser);
-    }
+window.addEventListener("DOMContentLoaded", displayUserDetails);
+if (form) {
+    form.addEventListener("submit", handleUpdateUser);
+}
 
-    async function displayUserDetails() {
-        try {
-            const response = await fetch(`${url}/user/current-user`, {
-                method: "GET",
-                credentials: "include",
-            });
+async function displayUserDetails() {
+    try {
+        const response = await fetch(`${url}/user/current-user`, {
+            method: "GET",
+            credentials: "include",
+        });
 
-            const responseData = await response.json();
+        const responseData = await response.json();
 
-            if (response.status === 401) {
-                displayMessage(responseData.message, false);
-                if (form) form.style.display = "none";
-                setTimeout(() => {
-                    window.location.href = "../html/user-login.html";
-                }, 2000);
-                return;
-            }
-
-            if (!response.ok) {
-                displayMessage(responseData.message, false);
-                return;
-            }
-
-            const { data } = responseData;
-            if (data) {
-                oldEmail = data.userEmail;
-                oldUsername = data.userName;
-                oldContact = data.userContact;
-
-                username.value = oldUsername;
-                email.value = oldEmail;
-                contact.value = oldContact;
-            }
-        } catch (e) {
-            console.error("Network Error:", e);
-            displayMessage("Network Error. Please login again!", false);
+        if (response.status === 401) {
+            showMessage(responseData.message, false);
             if (form) form.style.display = "none";
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
             }, 2000);
+            return;
         }
+
+        if (!response.ok) {
+            showMessage(responseData.message, false);
+            return;
+        }
+
+        const { data } = responseData;
+        if (data) {
+            oldEmail = data.userEmail;
+            oldUsername = data.userName;
+            oldContact = data.userContact;
+
+            username.value = oldUsername;
+            email.value = oldEmail;
+            contact.value = oldContact;
+        }
+    } catch (e) {
+        console.error("Network Error:", e);
+        showMessage("Network Error. Please login again!", false);
+        if (form) form.style.display = "none";
+        setTimeout(() => {
+            window.location.href = "../html/user-login.html";
+        }, 2000);
     }
+}
 
-    async function handleUpdateUser(event) {
-        event.preventDefault();
-        const updateUserName = username.value.trim();
-        const updateEmail = email.value.trim();
-        const updateContact = contact.value.trim();
+async function handleUpdateUser(event) {
+    event.preventDefault();
+    const updateUserName = username.value.trim();
+    const updateEmail = email.value.trim();
+    const updateContact = contact.value.trim();
 
-        const payload = {};
-        if (updateUserName) payload.username = updateUserName;
-        if (updateEmail) payload.email = updateEmail;
-        if (updateContact) payload.contact = updateContact;
+    const payload = {};
+    if (updateUserName) payload.username = updateUserName;
+    if (updateEmail) payload.email = updateEmail;
+    if (updateContact) payload.contact = updateContact;
 
-        try {
-            const response = await fetch(`${url}/user/updateUser`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify(payload),
-            });
+    try {
+        const response = await fetch(`${url}/user/updateUser`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(payload),
+        });
 
-            const responseData = await response.json();
+        const responseData = await response.json();
 
-            if (!response.ok) {
-                displayMessage(
-                    responseData.message || "Failed to update profile.",
-                    false,
-                );
-                return;
-            }
-
+        if (!response.ok) {
             displayMessage(
-                responseData.message || "Profile updated successfully!",
-                true,
+                responseData.message || "Failed to update profile.",
+                false,
             );
-
-            if (updateEmail !== oldEmail) {
-                setTimeout(() => {
-                    window.location.href = "../html/verifyotp.html";
-                }, 1500);
-                return;
-            }
-
-            oldEmail = updateEmail;
-            oldUsername = updateUserName;
-            oldContact = updateContact;
-        } catch (e) {
-            console.error("Update Error:", e);
-            displayMessage("Network Error. Please try again.", false);
+            return;
         }
-    }
 
-    function displayMessage(message, isSuccess) {
-        if (!errorMsg) return;
-        errorMsg.textContent = message;
-        errorMsg.style.display = "inline-block";
-        if (isSuccess) {
-            errorMsg.classList.remove("failure");
-            errorMsg.classList.add("success");
-        } else {
-            errorMsg.classList.remove("success");
-            errorMsg.classList.add("failure");
+        displayMessage(
+            responseData.message || "Profile updated successfully!",
+            true,
+        );
+
+        if (updateEmail !== oldEmail) {
+            setTimeout(() => {
+                window.location.href = "../html/verifyotp.html";
+            }, 1500);
+            return;
         }
-    }
 
-    form.addEventListener("reset", () => {
-        errorMsg.style.display = "none";
-    });
-})();
+        oldEmail = updateEmail;
+        oldUsername = updateUserName;
+        oldContact = updateContact;
+    } catch (e) {
+        console.error("Update Error:", e);
+        displayMessage("Network Error. Please try again.", false);
+    }
+}
