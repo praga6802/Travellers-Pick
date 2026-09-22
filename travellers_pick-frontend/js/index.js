@@ -1,6 +1,5 @@
-const url = "https://travellers-pick-production.up.railway.app";
-const error = document.getElementById("error");
 
+const error = document.getElementById("error");
 const signin = document.getElementById("signin-btn");
 const login = document.getElementById("login-btn");
 
@@ -18,7 +17,7 @@ if (login) {
 
 async function displayUserName() {
     try {
-        const response = await fetch(`${BASE_URL}/user/current-user`, {
+        const response = await fetch(`${url}/user/current-user`, {
             method: "GET",
             credentials: "include",
         });
@@ -83,7 +82,7 @@ async function goLogin(e) {
 
         case "logout":
             try {
-                const response = await fetch(`${BASE_URL}/user/logout`, {
+                const response = await fetch(`${url}/user/logout`, {
                     method: "POST",
                     credentials: "include",
                 });
