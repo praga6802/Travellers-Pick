@@ -1,6 +1,4 @@
 import { showMessage } from "./error.js";
-
-const errorMsg = document.getElementById("profile-error");
 const updateContainer = document.getElementById("update-form");
 
 let oldEmail = "";
@@ -125,14 +123,14 @@ async function handleUpdateUser(event) {
         const responseData = await response.json();
 
         if (!response.ok) {
-            displayMessage(
+            showMessage(
                 responseData.message || "Failed to update profile.",
                 false,
             );
             return;
         }
 
-        displayMessage(
+        showMessage(
             responseData.message || "Profile updated successfully!",
             true,
         );
@@ -149,6 +147,6 @@ async function handleUpdateUser(event) {
         oldContact = updateContact;
     } catch (e) {
         console.error("Update Error:", e);
-        displayMessage("Network Error. Please try again.", false);
+        showMessage("Network Error. Please try again.", false);
     }
 }
