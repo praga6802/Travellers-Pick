@@ -4,13 +4,13 @@ const url = "https://travellers-pick-production.up.railway.app";
 
 if (signin) {
     signin.addEventListener("click", () => {
-        window.location.href = `../html/user-signup.html`;
+        window.location.href = `./html/user-signup.html`;
     });
 }
 
 if (login) {
     login.addEventListener("click", () => {
-        window.location.href = `../html/user-login.html`;
+        window.location.href = `./html/user-login.html`;
     });
 }
 async function goLogin(e) {
