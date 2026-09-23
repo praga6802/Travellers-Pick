@@ -251,7 +251,7 @@ public class UserService {
         }
 
         if (!isUpdated) {
-            return ResponseEntity.status(HttpStatus.NOT_MODIFIED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new AResponse(
                             LocalDateTime.now(),
                             "Failure",
