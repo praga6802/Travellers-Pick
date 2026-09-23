@@ -141,7 +141,7 @@ async function handleUpdate(event) {
 
         if (newEmail !== oldEmail) {
             setTimeout(() => {
-                window.location.href = "../html/verifyotp.html";
+                window.location.href = "../html/verify-otp.html";
             }, 1500);
             return;
         }

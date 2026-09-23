@@ -245,7 +245,7 @@ public class UserService {
         if (userDTO.getEmail() != null && !userDTO.getEmail().isBlank() && !userDTO.getEmail().equals(user.getEmail())) {
 
             if (userRepo.existsByEmail(userDTO.getEmail())) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(new AResponse(LocalDateTime.now(), "Failure", "Can't Update! Email already taken"));
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(new AResponse(LocalDateTime.now(), "Failure", "Email already taken!"));
             }
             return verificationEmail(userDTO.getEmail(), user);
         }
