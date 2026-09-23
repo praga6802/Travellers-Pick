@@ -46,15 +46,14 @@ public class UserController {
 
     //user signup
     @PostMapping("/signup")
-    public ResponseEntity<?> customerSignUp(@RequestBody UserRegisterDTO user) {
-        return userService.customerSignUp(user);
+    public ResponseEntity<?> userSignUp(@RequestBody UserRegisterDTO user) {
+        return userService.userSignUp(user);
     }
 
     //user login
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO loginData, HttpSession session) {
-        System.out.println(loginData.getEmail() + " " + loginData.getPassword());
-        return userService.customerLogin(loginData.getEmail(), loginData.getPassword(), session);
+    public ResponseEntity<?> userLogin(@RequestBody LoginDTO user, HttpSession session) {
+        return userService.userLogin(user, session);
     }
 
     //get the current user
@@ -72,8 +71,6 @@ public class UserController {
     //update user
     @PatchMapping("/updateUser")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO user,@AuthenticationPrincipal UserDetails userDetails){
-
-        System.out.println("hit");
         if(userDetails == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));

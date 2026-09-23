@@ -38,7 +38,6 @@ public class AdminController {
     IternaryService iternaryService;
 
 
-                                            // --- ADMIN ---
     //sign up admin
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody UserRegisterDTO admin){
@@ -48,7 +47,6 @@ public class AdminController {
     //login admin
     @PostMapping("/login")
     public ResponseEntity<?> adminLogin(@RequestBody LoginDTO loginData, HttpSession session) {
-        System.out.println("hit");
         return adminService.adminLogin(loginData.getEmail(),loginData.getPassword(),session);
     }
 

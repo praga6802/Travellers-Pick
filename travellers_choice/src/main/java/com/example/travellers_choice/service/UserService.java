@@ -67,45 +67,51 @@ public class UserService {
     private MyUserDetailsService userDetailsService;
 
     //user sign up
-    public ResponseEntity<?> customerSignUp(UserRegisterDTO user) {
-        if (userRepo.existsByContact(user.getContact())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new AlreadyExistsException("Mobile Number", user.getContact()));
+    public ResponseEntity<?> userSignUp(UserRegisterDTO user) {
+        try {
+            if (userRepo.existsByContact(user.getContact())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body(new AlreadyExistsException("Mobile Number", user.getContact()));
+            }
+            if (userRepo.existsByEmail(user.getEmail())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body(new AlreadyExistsException("Email ID", user.getEmail()));
+            }
+
+            Customer customer = new Customer();
+            customer.setUsername(user.getUsername());
+            customer.setEmail(user.getEmail());
+            customer.setPassword(passwordEncoder.encode(user.getPassword()));
+            customer.setContact(user.getContact());
+            customer.setRole("ROLE_USER");
+            userRepo.save(customer);
+
+            String sub = "Welcome to Traveller’s Pick – Your Account is Ready!";
+            String message = "Hi " + customer.getUsername() + ",\n\n"
+                    + "Thank you for signing up with Traveller’s Choice!\n"
+                    + "Your account has been created successfully, and you’re all set to explore the best travel experiences.\n\n"
+                    + "What you can do next:\n"
+                    + "- Browse and book your dream destinations.\n"
+                    + "- Manage your bookings easily.\n"
+                    + "If this wasn’t you, please ignore this email.\n\n"
+                    + "If you need any help, feel free to reply — we’re always here to assist you!\n\n"
+                    + "Best Regards,\n"
+                    + "Traveller’s Pick Team\n"
+                    + "© " + java.time.Year.now() + " Traveller’s Pick. All Rights Reserved.";
+
+            emailService.sendSimpleEMail(customer.getEmail(), sub, message);
+            return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Sign Up Successfully"));
         }
-        if (userRepo.existsByEmail(user.getEmail())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new AlreadyExistsException("Email ID", user.getEmail()));
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
+                    body(new AResponse(LocalDateTime.now(), "Failure", "Network error..Please try again!"));
         }
-
-        Customer customer = new Customer();
-        customer.setUsername(user.getUsername());
-        customer.setEmail(user.getEmail());
-        customer.setPassword(passwordEncoder.encode(user.getPassword()));
-        customer.setContact(user.getContact());
-        customer.setRole("ROLE_USER");
-        userRepo.save(customer);
-
-        String sub="Welcome to Traveller’s Pick – Your Account is Ready!";
-        String message = "Hi " + customer.getUsername() + ",\n\n"
-                + "Thank you for signing up with Traveller’s Choice!\n"
-                + "Your account has been created successfully, and you’re all set to explore the best travel experiences.\n\n"
-                + "What you can do next:\n"
-                + "- Browse and book your dream destinations.\n"
-                + "- Manage your bookings easily.\n"
-                + "If this wasn’t you, please ignore this email.\n\n"
-                + "If you need any help, feel free to reply — we’re always here to assist you!\n\n"
-                + "Best Regards,\n"
-                + "Traveller’s Pick Team\n"
-                + "© " + java.time.Year.now() + " Traveller’s Pick. All Rights Reserved.";
-
-        emailService.sendSimpleEMail(customer.getEmail(),sub,message);
-        return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Sign Up Successfully"));
     }
 
     //login
-    public ResponseEntity<?> customerLogin(String email, String password, HttpSession session) {
+    public ResponseEntity<?> userLogin(LoginDTO login, HttpSession session) {
         try{
-            Authentication auth=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
+            Authentication auth=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(),login.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(auth);
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,SecurityContextHolder.getContext());
             return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Login Successful"));
@@ -116,7 +122,7 @@ public class UserService {
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
-                    body(new AResponse(LocalDateTime.now(), "Failure", "Something went wrong"));
+                    body(new AResponse(LocalDateTime.now(), "Failure", "Network error..Please try again!"));
         }
     }
 
@@ -139,8 +145,10 @@ public class UserService {
 
     //logout user
     public ResponseEntity<?> logout(UserDetails userDetails, HttpSession session) {
-        if(session!=null) session.invalidate();
-        SecurityContextHolder.clearContext();
+        if(userDetails==null) {
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","Session expired..Please try again!"));
+        }
+        session.invalidate();
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Logout Successfully"));
     }
 

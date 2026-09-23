@@ -130,10 +130,12 @@ public class AdminService {
     }
 
     //logout admin
-    public ResponseEntity<?> logout(UserDetails userDetails,HttpSession session) {
+    public ResponseEntity<?> logout(UserDetails userDetails, HttpSession session) {
+        if(userDetails==null) {
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","Session expired..Please try again!"));
+        }
         session.invalidate();
-        SecurityContextHolder.clearContext();
-        return ResponseEntity.ok(new ApiResponse("Logged Out Successfully", "200", LocalDateTime.now()));
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Logout Successfully"));
     }
 
 
