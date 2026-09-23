@@ -18,7 +18,10 @@ async function displayUserName() {
         const responseData = await response.json();
 
         if (!response.ok) {
-            console.log("admin not logged in or session expired!");
+            console.log(responseData.message);
+            setTimeout(() => {
+                window.location.href = "../html/admin-login.html";
+            }, 1500);
             return;
         }
 
@@ -44,7 +47,6 @@ async function displayUserName() {
 
         const adminContainer = document.getElementById("webpreview");
         adminContainer.appendChild(adminSelect);
-        
     } catch (err) {
         showMessage("Network error..Please try again!", false);
         console.error(err);
