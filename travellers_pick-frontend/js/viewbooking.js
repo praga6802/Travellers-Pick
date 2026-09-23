@@ -27,6 +27,7 @@ async function handleViewBooking() {
         }
 
         if (bookings.length === 0) {
+            cardContainer.style.display = "none";
             showSessionMessage("No bookings found!", false);
             return;
         }
