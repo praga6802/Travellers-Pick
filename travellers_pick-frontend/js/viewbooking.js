@@ -1,9 +1,27 @@
 import { showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 
-const cardContainer = document.getElementById("booking-card");
+const bookingList = document.getElementById("booking-list");
+const user_links = document.querySelector(".user-links");
+
 async function handleViewBooking() {
     try {
+        const authResponse = await fetch(`${url}/user/current-user`, {
+            method: "GET",
+            credentials: "include",
+        });
+        const authData = await response.json();
+
+        if (!authResponse.ok) {
+            bookingList.style.display = "none";
+            user_links.style.display = "none";
+            showSessionMessage(authData.message, false);
+            setTimeout(() => {
+                window.location.href = "../html/user-login.html";
+            }, 1500);
+            return;
+        }
+
         const response = await fetch(`${url}/user/bookedTours`, {
             method: "GET",
             credentials: "include",
@@ -11,30 +29,26 @@ async function handleViewBooking() {
 
         const responseData = await response.json();
 
-        if (response.status === 401) {
-            cardContainer.style.display = "none";
-            showSessionMessage(responseData.message, false);
-            setTimeout(() => {
-                window.location.href = "../html/user-login.html";
-            }, 1500);
-            return;
-        }
-
         if (!response.ok) {
-            cardContainer.style.display = "none";
+            bookingList.style.display = "none";
             showSessionMessage("Failed to load bookings!", false);
             return;
         }
 
         if (bookings.length === 0) {
-            cardContainer.style.display = "none";
+            bookingList.style.display = "none";
             showSessionMessage("No bookings found!", false);
             return;
         }
 
-        cardContainer.innerHTML = "";
+        bookingList.innerHTML = `
+            <h1 class="h1">VIEW BOOKINGS</h1>
+            <div id="booking-card"></div>
+        `;
 
-        bookings.forEach((booking) => {
+        const cardContainer = document.getElementById("booking-card");
+
+        responseData.forEach((booking) => {
             const card = document.createElement("div");
             card.classList.add("booking-card");
 
