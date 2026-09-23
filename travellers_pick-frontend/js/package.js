@@ -1,11 +1,6 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayPackage = async () => {
-
-    
-
-
-
     try {
         const response = await fetch(`${url}/admin/allPackages`, {
             method: "GET",
@@ -24,7 +19,9 @@ const displayPackage = async () => {
         }
 
         const packageContainer = document.getElementById("packageContainer");
-        packageContainer.innerHTML = "";
+        packageContainer.innerHTML = `
+        	<h1 class="heading">POPULAR PACKAGES</h1>
+        `;
 
         responseData.forEach((pkg) => {
             const card = document.createElement("div");
