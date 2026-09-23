@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayCurrentAdmin = async () => {
     try {
@@ -9,7 +9,7 @@ const displayCurrentAdmin = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
-            showMessage(authData.message, false);
+            showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/loginform.html";
             }, 1500);
@@ -67,12 +67,12 @@ const displayCurrentAdmin = async () => {
 
         const packageData = await pkgResponse.json();
         if (!pkgResponse.ok) {
-            showMessage(packageData.message, false);
+            showSessionMessage(packageData.message, false);
             return;
         }
 
         if (packageData.length === 0) {
-            showMessage("No Packages found", false);
+            showSessionMessage("No Packages found", false);
             return;
         }
 
@@ -93,7 +93,7 @@ const displayCurrentAdmin = async () => {
         const form = document.getElementById("updatecategoryform");
         form.addEventListener("submit", handleUpdate);
     } catch (err) {
-        showMessage("Network error..Please try again");
+        showSessionMessage("Network error..Please try again");
         console.error(err);
     }
 };
@@ -104,7 +104,7 @@ const handleUpdate = async (event) => {
     const tourIdVal = document.getElementById("tourId").value.trim();
 
     if (!tourIdVal) {
-        showMessage("Tour ID not found", false);
+        showFormMessage("Tour ID not found", false);
         return;
     }
 
@@ -137,14 +137,14 @@ const handleUpdate = async (event) => {
 
         const responseData = await response.json();
         if (!response.ok) {
-            showMessage(responseData.message, false);
+            showFormMessage(responseData.message, false);
             return;
         }
 
-        showMessage(responseData.message, true);
+        showFormMessage(responseData.message, true);
         document.getElementById("updatecategoryform").reset();
     } catch (err) {
-        showMessage("Network error..Please try again");
+        showFormMessage("Network error..Please try again");
         console.error(err);
     }
 };

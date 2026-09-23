@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayCurrentAdmin = async () => {
     try {
@@ -9,7 +9,7 @@ const displayCurrentAdmin = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
-            showMessage(authData.message, false);
+            showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/loginform.html";
             }, 1500);
@@ -65,12 +65,12 @@ const displayCurrentAdmin = async () => {
         const packageData = await pkgResponse.json();
 
         if (!pkgResponse.ok) {
-            showMessage(packageData.message, false);
+            showFormMessage(packageData.message, false);
             return;
         }
 
         if (packageData.length === 0) {
-            showMessage("No Packages found", false);
+            showFormMessage("No Packages found", false);
             return;
         }
 
@@ -84,7 +84,7 @@ const displayCurrentAdmin = async () => {
         const updateform = document.getElementById("packageform");
         updateform.addEventListener("submit", handleUpdate);
     } catch (err) {
-        showMessage("Network error..Please try again");
+        showSessionMessage("Network error..Please try again");
         console.error(err);
     }
 };
@@ -98,7 +98,7 @@ const handleUpdate = async (e) => {
     const imageFile = document.getElementById("imageFile");
 
     if (!packageId) {
-        showMessage("Package Id not found!");
+        showFormMessage("Package Id not found!");
         return;
     }
 
@@ -119,13 +119,13 @@ const handleUpdate = async (e) => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(responseData.message, false);
+            showFormMessage(responseData.message, false);
             return;
         }
 
-        showMessage(responseData.message, true);
+        showFormMessage(responseData.message, true);
     } catch (err) {
-        showMessage("Network error..Please try again");
+        showFormMessage("Network error..Please try again");
         console.error(err);
     }
 };

@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const initDeleteTourForm = async () => {
     try {
@@ -10,14 +10,14 @@ const initDeleteTourForm = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
-            showMessage(authData.message || "Unauthorized access", false);
+            showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/loginform.html";
             }, 1500);
             return;
         }
 
-        const container = document.getElementById("package-container");
+        const container = document.getElementById("tourContainer");
         container.innerHTML = `
             <form id="deletecategoryform">
                 <legend>DELETE TOUR</legend>
@@ -56,7 +56,7 @@ const initDeleteTourForm = async () => {
         form.addEventListener("submit", deleteTour);
         form.addEventListener("reset", handleReset);
     } catch (err) {
-        showMessage("Network error.. Please try again!", false);
+        showSessionMessage("Network error.. Please try again!", false);
         console.error(err);
     }
 };
@@ -72,7 +72,7 @@ const loadPackages = async () => {
 
         const data = await response.json();
         if (!response.ok) {
-            showMessage(data.message || "Failed to load packages", false);
+            showSessionMessage(data.message || "Failed to load packages", false);
             return;
         }
 
@@ -83,7 +83,7 @@ const loadPackages = async () => {
             packageSelect.appendChild(option);
         });
     } catch (err) {
-        showMessage("Failed to load packages", false);
+        showSessionMessage("Network error..Please try again!", false);
         console.error(err);
     }
 };
@@ -109,12 +109,12 @@ const handlePackageChange = async (e) => {
         const tours = await response.json();
 
         if (!response.ok) {
-            showMessage(tours.message || "Failed to load tours", false);
+            showSessionMessage("Failed to load tours", false);
             return;
         }
 
         if (tours.length === 0) {
-            showMessage("No tours found for this package", false);
+            showSessionMessage("No tours found for this package", false);
             return;
         }
 
@@ -127,7 +127,7 @@ const handlePackageChange = async (e) => {
 
         tourSelect.disabled = false;
     } catch (err) {
-        showMessage("Failed to load tours", false);
+        showSessionMessage("Network error..Please try again!", false);
         console.error(err);
     }
 };
@@ -139,7 +139,7 @@ const deleteTour = async (e) => {
     const packageId = document.getElementById("packageId").value;
 
     if (!packageId || !tourId) {
-        showMessage("Please select both Package Name and Tour Name", false);
+        showFormMessage("Please select both Package Name and Tour Name", false);
         return;
     }
 
@@ -154,11 +154,11 @@ const deleteTour = async (e) => {
         const data = await response.json();
 
         if (!response.ok) {
-            showMessage(data.message || "Failed to delete tour", false);
+            showFormMessage("Failed to delete tour", false);
             return;
         }
 
-        showMessage(data.message || "Tour deleted successfully!", true);
+        showFormMessage(data.message, true);
 
         const tourSelect = document.getElementById("tourId");
         const selectedOption = tourSelect.querySelector(
@@ -168,7 +168,7 @@ const deleteTour = async (e) => {
 
         tourSelect.value = "";
     } catch (err) {
-        showMessage("Network error.. Please try again!", false);
+        showSessionMessage("Network error.. Please try again!", false);
         console.error(err);
     }
 };

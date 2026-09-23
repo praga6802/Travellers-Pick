@@ -1,6 +1,5 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
-
 
 const displayUpdatePackageForm = async () => {
     try {
@@ -12,7 +11,7 @@ const displayUpdatePackageForm = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
-            showMessage(authData.message, false);
+            showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/loginform.html";
             }, 1500);
@@ -48,12 +47,12 @@ const displayUpdatePackageForm = async () => {
 
         const responseData = await response.json();
         if (!response.ok) {
-            showMessage(responseData.message, false);
+            showSessionMessage(responseData.message, false);
             return;
         }
 
         if (!responseData) {
-            showMessage("No packages found!", false);
+            showSessionMessage("No packages found!", false);
             return;
         }
 
@@ -67,7 +66,7 @@ const displayUpdatePackageForm = async () => {
         const packageform = document.getElementById("deletepackageform");
         packageform.addEventListener("submit", deletePackage);
     } catch (err) {
-        showMessage("Network error..Please try again!");
+        showSessionMessage("Network error..Please try again!");
         console.error(err);
     }
 };
@@ -79,7 +78,7 @@ const deletePackage = async (e) => {
     const packageId = packageSelect ? packageSelect.value : "";
 
     if (!packageId) {
-        showMessage("Please select Package Name to delete");
+        showSessionMessage("Please select Package Name to delete");
         return;
     }
 
@@ -93,11 +92,11 @@ const deletePackage = async (e) => {
 
         const responseData = await response.json();
         if (!response.ok) {
-            showMessage(responseData.message, false);
+            showFormMessage(responseData.message, false);
             return;
         }
 
-        showMessage(responseData.message, true);
+        showFormMessage(responseData.message, true);
 
         const selectedOption = packageSelect.querySelector(
             `option[value="${packageId}"]`,
@@ -108,7 +107,7 @@ const deletePackage = async (e) => {
 
         document.getElementById("deletepackageform").reset();
     } catch (err) {
-        showMessage("Network error..Please try again!");
+        showSessionMessage("Network error..Please try again!");
         console.error(err);
     }
 };

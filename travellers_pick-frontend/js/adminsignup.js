@@ -1,11 +1,13 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("signup-form");
     if (form) {
         form.addEventListener("submit", handleSignUp);
         form.addEventListener("reset", () => {
-            showMessage("", true);
+            showFormMessage("", true);
+            showSessionMessage("", true);
         });
     }
 });
@@ -19,7 +21,7 @@ async function handleSignUp(event) {
     const contact = document.getElementById("contact").value.trim();
 
     if (!username || !email || !password || !contact) {
-        showMessage("All fields are required!", false);
+        showFormMessage("All fields are required!", false);
         return;
     }
 
@@ -43,7 +45,7 @@ async function handleSignUp(event) {
         const responseData = await response.json();
 
         if (response.ok) {
-            showMessage(
+            showFormMessage(
                 responseData.message || "Registration successful!",
                 true,
             );
@@ -52,11 +54,14 @@ async function handleSignUp(event) {
             }, 2000);
             return;
         } else {
-            showMessage(responseData.message || "Registration failed", false);
+            showFormMessage(
+                responseData.message || "Registration failed",
+                false,
+            );
             return;
         }
     } catch (err) {
-        showMessage("Network error..Please try again!", false);
+        showSessionMessage("Network error..Please try again!", false);
         console.error(err);
     }
 }

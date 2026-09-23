@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayCurrentAdmin = async () => {
     try {
@@ -9,7 +9,7 @@ const displayCurrentAdmin = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(
+            showSessionMessage(
                 responseData.message || "Session expired. Please login again.",
                 false,
             );
@@ -20,7 +20,7 @@ const displayCurrentAdmin = async () => {
         }
         return true;
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showSessionMessage("Network error..Please try again", false);
         console.error(err);
         return false;
     }
@@ -39,20 +39,13 @@ const displayBookedUsers = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(
-                responseData.message || "Failed to fetch booked users.",
-                false,
-            );
+            showSessionMessage("Failed to fetch booked users.",false);
             console.error(response);
             return;
         }
 
-        const usersList = Array.isArray(responseData)
-            ? responseData
-            : responseData.data;
-
-        if (!usersList || !Array.isArray(usersList) || usersList.length === 0) {
-            showMessage("No booked users found.", false);
+        if (responseData.length === 0) {
+            showSessionMessage("No booked users found.", false);
             return;
         }
 
@@ -132,7 +125,7 @@ const displayBookedUsers = async () => {
             userContainer.appendChild(row);
         });
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showSessionMessage("Network error..Please try again", false);
         console.error(err);
     }
 };

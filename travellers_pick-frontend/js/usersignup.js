@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import {showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const form = document.getElementById("signup-form");
 form.addEventListener("submit", handleSignUp);
@@ -22,17 +22,16 @@ async function handleSignUp(event) {
 
         const responseData = await response.json();
         if (response.ok) {
-            showMessage(responseData.message, true);
+            showSessionMessage(responseData.message, true);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
             }, 2000);
         } else {
-            showMessage(responseData.message, false);
+            showSessionMessage(responseData.message, false);
             console.error("Backend Error:", responseData);
         }
     } catch (err) {
-        showMessage("Network error..Please try again!");
+        showSessionMessage("Network error..Please try again!");
         console.error(err);
     }
 }
-

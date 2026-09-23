@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const login = document.getElementById("login-btn");
 const signin = document.getElementById("signin-btn");
@@ -23,7 +23,7 @@ async function displayUserName() {
 
         const data = await response.json();
         if (response.status === 401) {
-            showMessage(data.message, false);
+            showSessionMessage(data.message, false);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
             }, 2000);
@@ -31,7 +31,7 @@ async function displayUserName() {
         }
 
         if (!response.ok) {
-            showMessage(data.message, false);
+            showSessionMessage(data.message, false);
             return;
         }
 
@@ -65,7 +65,7 @@ async function displayUserName() {
         loginSelect.addEventListener("change", goLogin);
     } catch (err) {
         console.error(err);
-       showMessage("Network error..Please try again", false);
+        showSessionMessage("Network error..Please try again", false);
     }
 }
 
@@ -84,13 +84,16 @@ async function goLogin(e) {
                 });
 
                 if (response.ok) {
-                    alert("Logged out successfully!");
-                    window.location.href = "../index.html";
+                    showSessionMessage("Logged out successfully!");
+                    setTimeout(() => {
+                        window.location.href = "../index.html";
+                    }, 2000);
                 } else {
-                    console.error("Logout failed");
+                    showSessionMessage("Logout failed");
                 }
             } catch (err) {
                 console.error("Error logging out:", err);
+                showSessionMessage(err);
             }
             break;
 

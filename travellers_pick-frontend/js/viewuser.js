@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayCurrentAdmin = async () => {
     try {
@@ -9,18 +9,14 @@ const displayCurrentAdmin = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(
-                responseData.message || "Session expired. Please login again.",
-                false,
-            );
+            showSessionMessage(responseData.message, false);
             setTimeout(() => {
-                window.location.href = "../html/loginform.html";
+                window.location.href = "../html/admin-login.html";
             }, 1500);
-            return false;
+            return;
         }
-        return true;
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showSessionMessage("Network error..Please try again", false);
         console.error(err);
         return false;
     }
@@ -37,17 +33,13 @@ const displayUsers = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(responseData.message || "Failed to fetch users", false);
+            showSessionMessage("Failed to fetch users", false);
             console.error(response);
             return;
         }
 
-        const usersList = Array.isArray(responseData)
-            ? responseData
-            : responseData.data;
-
-        if (!usersList || !Array.isArray(usersList) || usersList.length === 0) {
-            showMessage("No users found.", false);
+        if (responseData.length === 0) {
+            showSessionMessage("No users found.", false);
             return;
         }
 
@@ -83,7 +75,7 @@ const displayUsers = async () => {
             userBody.appendChild(userRow);
         });
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showFormMessage("Network error..Please try again", false);
         console.error(err);
     }
 };

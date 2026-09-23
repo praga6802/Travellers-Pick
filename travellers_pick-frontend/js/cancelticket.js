@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 document.addEventListener("DOMContentLoaded", () => {
     const cancelContainer = document.getElementById("cancel-container");
@@ -31,7 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelForm = document.getElementById("cancelform");
     cancelForm.addEventListener("submit", handleCancel);
     cancelForm.addEventListener("reset", () => {
-        showMessage("", true);
+        showFormMessage("", true);
+        showFormMessage("", true);
     });
 });
 
@@ -41,7 +42,7 @@ async function handleCancel(event) {
     const PNR_NUMBER = pnrInp.value.trim();
 
     if (!PNR_NUMBER) {
-        showMessage("Please enter your PNR number.", false);
+        showFormMessage("Please enter your PNR number.", false);
         return;
     }
 
@@ -56,24 +57,24 @@ async function handleCancel(event) {
         const responseData = await response.json();
 
         if (response.ok) {
-            showMessage(
+            showFormMessage(
                 responseData.message || "Booking cancelled successfully.",
                 true,
             );
             pnrInp.value = "";
         } else if (response.status === 401) {
-            showMessage("Session Expired. Please login again.", false);
+            showSessionMessage("Session Expired. Please login again.", false);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
             }, 2000);
         } else {
-            showMessage(
+            showFormMessage(
                 responseData.message || "Failed to cancel booking.",
                 false,
             );
         }
     } catch (e) {
         console.error("Cancellation Error:", e);
-        showMessage("Network Error. Please try again.", false);
+        showSessionMessage("Network Error. Please try again.", false);
     }
 }

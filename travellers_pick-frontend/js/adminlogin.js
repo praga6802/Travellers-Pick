@@ -1,11 +1,13 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("login-form");
     if (form) {
         form.addEventListener("submit", handleLogin);
         form.addEventListener("reset", () => {
-            showMessage("", true);
+            showFormMessage("", true);
+            showSessionMessage("", true);
         });
     }
 });
@@ -17,7 +19,7 @@ async function handleLogin(event) {
     const password = document.getElementById("password").value.trim();
 
     if (!email || !password) {
-        showMessage("Email and password are required!", false);
+        showFormMessage("Email and password are required!", false);
         return;
     }
 
@@ -36,17 +38,17 @@ async function handleLogin(event) {
         const responseData = await response.json();
 
         if (response.ok) {
-            showMessage(responseData.message, true);
+            showFormMessage(responseData.message, true);
             setTimeout(() => {
                 window.location.href = "../html/admin-home.html";
             }, 2000);
             return;
         } else {
-            showMessage(responseData.message, false);
+            showFormMessage(responseData.message, false);
             console.error(responseData);
         }
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showFormMessage("Network error..Please try again", false);
         console.error(err);
     }
 }

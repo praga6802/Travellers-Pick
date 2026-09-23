@@ -22,32 +22,34 @@
 
 <body>
 
-  <div id="container">
-    <div class="content">
-      <h1>Welcome, Admin!</h1>
-      <h4>Manage,Monitor and Grow..</h4>
+  <main>
+    <div id="container">
+      <div class="content">
+        <h1>Welcome, Admin!</h1>
+        <h4>Manage,Monitor and Grow..</h4>
+      </div>
+
+      <form id="login-form">
+        <h1 class="heading">LOGIN</h1>
+        <div class="txt">
+          <input type="email" id="email" name="email" placeholder="alex@gmail.com" autocomplete="email">
+        </div>
+
+        <div class="txt">
+          <input type="password" id="password" name="password" placeholder="Enter your Password" required
+            autocomplete="new-password">
+        </div>
+
+        <div class="button-group">
+          <input type="submit" value="LOGIN" class="button" />
+          <input type="reset" value="RESET" class="button" />
+        </div>
+
+        <p class="already">Doesn't have an Account? <a href='../html/admin-signup.html'>SignUp</a></p>
+        <p id="form-error"></p>
+      </form>
     </div>
-
-    <form id="login-form">
-      <h1 class="heading">LOGIN</h1>
-      <div class="txt">
-        <input type="email" id="email" name="email" placeholder="alex@gmail.com" autocomplete="email">
-      </div>
-
-      <div class="txt">
-        <input type="password" id="password" name="password" placeholder="Enter your Password" required
-          autocomplete="new-password">
-      </div>
-
-      <div class="button-group">
-        <input type="submit" value="LOGIN" class="button" />
-        <input type="reset" value="RESET" class="button" />
-      </div>
-
-      <p class="already">Doesn't have an Account? <a href='../html/admin-signup.html'>SignUp</a></p>
-      <p id="error"></p>
-    </form>
-  </div>
+  </main>
 
   <script type="module" src="../js/config.js"></script>
   <script type="module" src="../js/adminlogin.js"></script>

@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayAdminForm = async () => {
     try {
@@ -9,7 +9,7 @@ const displayAdminForm = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
-            showMessage(authData.message || "Unauthorized access", false);
+            showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/loginform.html";
             }, 1500);
@@ -34,14 +34,13 @@ const displayAdminForm = async () => {
             </form>
         `;
 
-        document.getElementById("adminId").value =
-            authData.adminId;
+        document.getElementById("adminId").value = authData.adminId;
 
         const adminForm = document.getElementById("delAdmin");
         adminForm.addEventListener("submit", handleDelete);
     } catch (err) {
         console.error(err);
-        showMessage("Network error..Please try again!", false);
+        showSessionMessage("Network error..Please try again!", false);
     }
 };
 
@@ -53,7 +52,7 @@ const handleDelete = async (e) => {
     const password = document.getElementById("password").value.trim();
 
     if (!adminId || !password) {
-        showMessage("Admin ID and Password are required!", false);
+        showFormMessage("Admin ID and Password are required!", false);
         return;
     }
 
@@ -70,14 +69,14 @@ const handleDelete = async (e) => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(
+            showFormMessage(
                 responseData.message || "Unable to delete admin",
                 false,
             );
             return;
         }
 
-        showMessage(
+        showFormMessage(
             responseData.message || "Admin deleted successfully!",
             true,
         );
@@ -87,7 +86,7 @@ const handleDelete = async (e) => {
             window.location.href = "../html/loginform.html";
         }, 1500);
     } catch (err) {
-        showMessage("Network error..Please try again..", false);
+        showSessionMessage("Network error..Please try again..", false);
         console.error(err);
     }
 };

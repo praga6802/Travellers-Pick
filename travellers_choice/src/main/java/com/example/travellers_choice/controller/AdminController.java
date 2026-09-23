@@ -191,7 +191,7 @@ public class AdminController {
     }
 
     //GET ALL TOURS
-    @GetMapping("/allCategories")
+    @GetMapping("/allTours")
     public ResponseEntity<List<UpdateCategoryDTO>> getAllTours(){
         List<UpdateCategoryDTO> allTours=tourService.getAllTours();
         return ResponseEntity.ok(allTours);

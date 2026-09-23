@@ -198,28 +198,53 @@ section h1 {
   font-weight: bold;
 }
 
-#error {
+
+/* show form error message*/
+#form-error {
   font-weight: 600;
-  background-color: rgb(238, 236, 236);
-  display: none;
   text-align: center;
-  margin-left: 400px;
-  margin-top: 100px;
+  margin-left: 200px;
+  margin-top: 20px;
   padding: 10px;
   font-size: 20px;
 }
 
-#error.success {
+#form-error.success {
   display: inline-block;
   color: green;
   border: 2px solid green;
 }
 
-#error.failure {
+#form-error.failure {
   display: inline-block;
   color: rgb(231, 19, 19);
   border: 2px solid rgb(231, 19, 19);
 }
+
+/* show form error message*/
+#session-error {
+  font-weight: 600;
+  width:max-content;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 15px;
+  font-size: 30px;
+}
+
+#session-error.success {
+  display: inline-block;
+  color: green;
+  border: 2px solid green;
+}
+
+#session-error.failure {
+  display: inline-block;
+  color: rgb(231, 19, 19);
+  border: 2px solid rgb(231, 19, 19);
+}
+
+
 
 .login-select {
   background-color: white;

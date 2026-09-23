@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const signin = document.getElementById("signin-btn");
 const login = document.getElementById("login-btn");
@@ -28,7 +28,8 @@ async function displayUserName() {
         }
 
         const responseData = await response.json();
-        const userName = responseData?.data?.userName || responseData?.userName || "User";
+        const userName =
+            responseData?.data?.userName || responseData?.userName || "User";
 
         const loginSelect = document.createElement("select");
         loginSelect.id = "loginSelect";
@@ -91,7 +92,7 @@ async function goLogin(e) {
                     alert(responseData.message);
                     window.location.href = "/index.html";
                 } else {
-                    showMessage(responseData.message, false);
+                    showSessionMessage(responseData.message, false);
                     console.error(responseData);
                 }
             } catch (err) {

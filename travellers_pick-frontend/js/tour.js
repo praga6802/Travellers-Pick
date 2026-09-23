@@ -1,5 +1,6 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
 const displayTour = async () => {
     try {
         const authResponse = await fetch(`${url}/user/current-user`, {
@@ -9,11 +10,11 @@ const displayTour = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
-            showMessage(authData.message, false);
+            showSessionMessage(authData.message, false);
             return;
         }
 
-        const tourResponse = await fetch(`${url}/admin/allCategories`, {
+        const tourResponse = await fetch(`${url}/admin/allTours`, {
             method: "GET",
             credentials: "include",
         });
@@ -21,12 +22,7 @@ const displayTour = async () => {
         const tourData = await tourResponse.json();
 
         if (!tourResponse.ok) {
-            showMessage(tourData.message, false);
-            return;
-        }
-
-        if (tourData.length === 0) {
-            showMessage(tourData.message, false);
+            showSessionMessage("Unable to load tours!", false);
             return;
         }
 
@@ -40,7 +36,7 @@ const displayTour = async () => {
         const tourContainer = document.getElementById("packageTourContainer");
 
         if (packageTours.length === 0) {
-            showMessage("No tours found for this package!", false);
+            showSessionMessage("No tours found for this package!", false);
             return;
         }
 
@@ -59,7 +55,7 @@ const displayTour = async () => {
             `;
         });
     } catch (error) {
-        showMessage("Network error..Please try again");
+        showSessionMessage("Network error..Please try again");
         console.error(error);
     }
 };

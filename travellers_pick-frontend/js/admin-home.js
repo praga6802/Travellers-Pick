@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 
 const total_admins = document.getElementById("total-admins");
@@ -18,7 +18,7 @@ async function displayUserName() {
         const responseData = await response.json();
 
         if (!response.ok) {
-            console.log(responseData.message);
+            showSessionMessage(responseData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
             }, 1500);
@@ -48,7 +48,7 @@ async function displayUserName() {
         const adminContainer = document.getElementById("webpreview");
         adminContainer.appendChild(adminSelect);
     } catch (err) {
-        showMessage("Network error..Please try again!", false);
+        showSessionMessage("Network error..Please try again!", false);
         console.error(err);
         setTimeout(() => {
             window.location.href = "../html/admin-login.html";
@@ -66,16 +66,16 @@ async function handleLogout(select) {
 
             const responseData = await response.json();
             if (response.ok) {
-                alert(responseData.message);
+                showSessionMessage(responseData.message);
                 setTimeout(() => {
                     window.location.href = "../html/admin-login.html";
                 }, 1500);
             } else {
-                alert("Logout Failed. Try again.");
+                showSessionMessage("Logout Failed. Try again.");
                 console.log(responseData);
             }
         } catch (err) {
-            alert("Network error..Please try again!");
+            showSessionMessage("Network error..Please try again!");
             console.log(err);
         }
     } else {
@@ -95,10 +95,12 @@ const getAdmins = async () => {
             const data = await response.json();
             total_admins.innerText = data.data;
         } else {
-            console.log("Failed to fetch admin account");
+            showFormMessage("Failed to fetch", false);
+            return;
         }
     } catch (err) {
-        console.error(err);
+        showSessionMessage("Network error..Please try again");
+        console.log(err);
     }
 };
 
@@ -113,10 +115,12 @@ const getUsers = async () => {
             const data = await response.json();
             total_users.innerText = data.data;
         } else {
-            console.log("Failed to fetch admin account");
+            showFormMessage("Failed to fetch", false);
+            return;
         }
     } catch (err) {
-        console.error(err);
+        showSessionMessage("Network error..Please try again");
+        console.log(err);
     }
 };
 
@@ -131,10 +135,12 @@ const getPackages = async () => {
             const data = await response.json();
             total_packages.innerText = data.data;
         } else {
-            console.log("Failed to fetch admin account");
+            showFormMessage("Failed to fetch", false);
+            return;
         }
     } catch (err) {
-        console.error(err);
+        showSessionMessage("Network error..Please try again");
+        console.log(err);
     }
 };
 
@@ -149,10 +155,12 @@ const getTours = async () => {
             const data = await response.json();
             total_tours.innerText = data.data;
         } else {
-            console.log("Failed to fetch admin account");
+            showFormMessage("Failed to fetch", false);
+            return;
         }
     } catch (err) {
-        console.error(err);
+        showSessionMessage("Network error..Please try again");
+        console.log(err);
     }
 };
 
@@ -167,10 +175,12 @@ const getBookings = async () => {
             const data = await response.json();
             total_bookings.innerText = data.data;
         } else {
-            console.log("Failed to fetch admin account");
+            showFormMessage("Failed to fetch", false);
+            return;
         }
     } catch (err) {
-        console.error(err);
+        showSessionMessage("Network error..Please try again");
+        console.log(err);
     }
 };
 
@@ -185,10 +195,12 @@ const getConfirmedCount = async () => {
             const data = await response.json();
             total_confirm.innerText = data.data;
         } else {
-            console.log("Failed to fetch admin account");
+            showFormMessage("Failed to fetch", false);
+            return;
         }
     } catch (err) {
-        console.error(err);
+        showSessionMessage("Network error..Please try again");
+        console.log(err);
     }
 };
 
@@ -203,10 +215,12 @@ const getCancelledCount = async () => {
             const data = await response.json();
             total_cancel.innerText = data.data;
         } else {
-            console.log("Failed to fetch admin account");
+            showFormMessage("Failed to fetch", false);
+            return;
         }
     } catch (err) {
-        console.error(err);
+        showSessionMessage("Network error..Please try again");
+        console.log(err);
     }
 };
 

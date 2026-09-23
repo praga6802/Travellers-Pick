@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayPackage = async () => {
     try {
@@ -21,12 +21,12 @@ const displayPackage = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(responseData.message, false);
+            showSessionMessage("Unable to load packages", false);
             return;
         }
 
         if (responseData.length === 0) {
-            showMessage("No Packages found!", false);
+            showSessionMessage("No Packages found!", false);
         }
 
         const packageContainer = document.getElementById("packageContainer");

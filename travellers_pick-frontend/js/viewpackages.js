@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayCurrentAdmin = async () => {
     try {
@@ -9,18 +9,15 @@ const displayCurrentAdmin = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(
-                responseData.message || "Session expired. Please login again.",
-                false,
-            );
+            showSessionMessage(responseData.message, false);
             setTimeout(() => {
-                window.location.href = "../html/loginform.html";
+                window.location.href = "../html/admin-login.html";
             }, 1500);
             return false;
         }
         return true;
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showSessionMessage("Network error..Please try again", false);
         console.error(err);
         return false;
     }
@@ -37,21 +34,17 @@ const displayPackages = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(
-                responseData.message || "Failed to fetch packages",
-                false,
-            );
+            showSessionMessage("Failed to fetch packages", false);
             console.error(response);
             return;
         }
 
-        if (Array.isArray(responseData) && responseData.length === 0) {
-            showMessage("No packages found.", false);
+        if (responseData.length === 0) {
+            showSessionMessage("No packages found!", false);
             return;
         }
 
         const packageContainer = document.getElementById("package-container");
-        if (!packageContainer) return;
 
         packageContainer.innerHTML = `
             <h1 class="h1">VIEW PACKAGE</h1>
@@ -79,7 +72,7 @@ const displayPackages = async () => {
             packageBody.appendChild(row);
         });
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showSessionMessage("Network error..Please try again", false);
         console.error(err);
     }
 };

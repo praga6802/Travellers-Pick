@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayForm = async () => {
     try {
@@ -9,10 +9,10 @@ const displayForm = async () => {
 
         const authData = await authResponse.json();
         if (!authResponse.ok) {
-            showMessage(authData.message, false);
+            showSessionMessage(authData.message, false);
             setTimeout(() => {
-                window.location.href = "../html/loginform.html";
-            }, 1500);
+                window.location.href = "../html/admin-login.html";
+            }, 2000);
             return;
         }
 
@@ -50,7 +50,7 @@ const displayForm = async () => {
         const addpackageform = document.getElementById("packageform");
         addpackageform.addEventListener("submit", handlePackage);
     } catch (err) {
-        showMessage("Network error..Please try again");
+        showSessionMessage("Network error..Please try again");
         console.error(err);
     }
 };
@@ -63,19 +63,19 @@ const handlePackage = async (e) => {
     const packageCode = document.getElementById("packageCode").value.trim();
 
     if (!packageName) {
-        showMessage("Package name is required!", false);
+        showFormMessage("Package name is required!", false);
         return;
     }
     if (!packageSlogan) {
-        showMessage("Package Slogan is required!", false);
+        showFormMessage("Package Slogan is required!", false);
         return;
     }
     if (!packageCode) {
-        showMessage("Package Code is required!", false);
+        showFormMessage("Package Code is required!", false);
         return;
     }
     if (!imageFile.files || imageFile.files.length === 0) {
-        showMessage("Image is required!", false);
+        showFormMessage("Image is required!", false);
         return;
     }
 
@@ -93,14 +93,14 @@ const handlePackage = async (e) => {
         });
         const responseData = await response.json();
         if (!response.ok) {
-            showMessage(responseData.message, false);
+            showFormMessage(responseData.message, false);
             return;
         }
 
-        showMessage(responseData.message, true);
+        showFormMessage(responseData.message, true);
         document.getElementById("packageform").reset();
     } catch (err) {
-        showMessage("Network error..Please try again!");
+        showFormMessage("Network error..Please try again!");
         console.log(err);
     }
 };

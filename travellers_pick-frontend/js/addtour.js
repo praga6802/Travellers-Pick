@@ -1,6 +1,8 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
-const initAddCategoryForm = async () => {
+
+
+const displayAddTourForm = async () => {
     try {
         const authResponse = await fetch(`${url}/admin/current-admin`, {
             method: "GET",
@@ -10,12 +12,47 @@ const initAddCategoryForm = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
-            showMessage(authData.message || "Unauthorized access", false);
+            showSessionMessage(authData.message, false);
             setTimeout(() => {
-                window.location.href = "../html/loginform.html";
-            }, 1500);
+                window.location.href = "../html/admin-login.html";
+            }, 2000);
             return;
         }
+
+        const tourContainer = document.getElementById("tour-container");
+        tourContainer.innerHTML = `
+        	<form id="addcategoryform" enctype="multipart/form-data">
+                <legend>ADD TOUR</legend>
+
+                <label for="packageName">Package Name</label>
+                <select name="packageName" id="packageName" required>
+                    <option disabled selected hidden value="">Select Package</option>
+                </select><br><br>
+
+                <label for="tourName">Tour Name</label>
+                <input type="text" name="tourName" id="tourName" placeholder="Enter the tour name" required><br><br>
+                <label for="tourslogan">Tour Slogan</label>
+                <input type="text" name="tourSlogan" id="tourSlogan" maxlength="50"
+                    placeholder="Enter the tour slogan" /><br><br>
+                <label for="places">Places</label>
+                <input type="text" name="places" id="places" placeholder="Enter the list of places seperated by comma"
+                    required><br><br>
+                <label for="days">Days</label>
+                <input type="number" name="days" id="days" max="10" min="1" required>
+                <label for="days">Nights</label>
+                <input type="number" name="nights" id="nights" max="10" min="1" required><br><br>
+                <label for="price">Price</label>
+                <input type="text" name="price" id="price" placeholder="Enter amount" required><br><br>
+
+                <label for="imageFile">Tour Image</label><br>
+                <input type="file" name="imageFile" id="imageFile" accept="images/*">
+
+                <div class="button-group">
+                    <input type="submit" value="ADD" name="submit" class="button" />
+                    <input type="reset" value="RESET" name="reset" class="button" />
+                </div>
+        </form>
+        `;
 
         const packageNameSelect = document.getElementById("packageName");
         if (!packageNameSelect) return;
@@ -28,15 +65,12 @@ const initAddCategoryForm = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(
-                responseData.message || "Failed to load packages",
-                false,
-            );
+            showSessionMessage("Failed to load packages", false);
             return;
         }
 
         if (Array.isArray(responseData) && responseData.length === 0) {
-            showMessage("No packages available", false);
+            showSessionMessage("No packages available", false);
             return;
         }
 
@@ -47,8 +81,11 @@ const initAddCategoryForm = async () => {
             option.textContent = pkg.packageName;
             packageNameSelect.appendChild(option);
         });
+
+        const tourForm = document.getElementById("addcategoryform");
+        tourForm.addEventListener("submit", handleAddCategory);
     } catch (err) {
-        showMessage("Network error. Please try again.", false);
+        showSessionMessage("Network error. Please try again.", false);
         console.error(err);
     }
 };
@@ -78,12 +115,12 @@ async function handleAddCategory(event) {
         isNaN(price) ||
         price <= 0
     ) {
-        showMessage("Please fill all fields with valid information", false);
+        showFormMessage("Please fill all fields with valid information", false);
         return;
     }
 
     if (!imageFileInput.files || imageFileInput.files.length === 0) {
-        showMessage("Image file is required", false);
+        showFormMessage("Image file is required", false);
         return;
     }
 
@@ -107,26 +144,16 @@ async function handleAddCategory(event) {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(responseData.message || "Failed to add tour", false);
+            showFormMessage("Failed to add tour", false);
             return;
         }
 
-        showMessage(responseData.message || "Tour added successfully!", true);
+        showFormMessage(responseData.message, true);
         document.getElementById("addcategoryform").reset();
     } catch (err) {
-        showMessage("Network error. Could not connect to server.", false);
+        showSessionMessage("Network error..Unable to with the server!", false);
         console.error(err);
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    initAddCategoryForm();
-
-    const form = document.getElementById("addcategoryform");
-    if (form) {
-        form.addEventListener("submit", handleAddCategory);
-        form.addEventListener("reset", () => {
-            showMessage("", true);
-        });
-    }
-});
+document.addEventListener("DOMContentLoaded", displayAddTourForm);

@@ -1,6 +1,5 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
-document.addEventListener("DOMContentLoaded", displayBookingForm);
 
 const displayBookingForm = async () => {
     const formContainer = document.getElementById("formData");
@@ -17,7 +16,7 @@ const displayBookingForm = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
-            showMessage(authData.message || "Unauthorized access", false);
+            showSessionMessage(authData.message, false);
             return;
         }
 
@@ -30,15 +29,12 @@ const displayBookingForm = async () => {
         const iternaryData = await iternaryResponse.json();
 
         if (!iternaryResponse.ok) {
-            showMessage(
-                iternaryData.message || "Failed to fetch itineraries",
-                false,
-            );
+            showSessionMessage("Failed to fetch itineraries", false);
             return;
         }
 
         if (!Array.isArray(iternaryData) || iternaryData.length === 0) {
-            showMessage("No Itineraries found!", false);
+            showSessionMessage("No Itineraries found!", false);
             return;
         }
 
@@ -49,7 +45,7 @@ const displayBookingForm = async () => {
             (tour) => tour.tourId === tourId,
         );
         if (!iternaries || iternaries.length === 0) {
-            showMessage("No Itineraries found for this tour!", false);
+            showSessionMessage("No Itineraries found for this tour!", false);
             return;
         }
 
@@ -132,7 +128,7 @@ const displayBookingForm = async () => {
         form.addEventListener("submit", submitForm);
     } catch (e) {
         console.error(e);
-        showMessage("Network error..Please try again..", false);
+        showSessionMessage("Network error..Please try again..", false);
     }
 };
 
@@ -182,7 +178,7 @@ async function submitForm(event) {
             (value) => value === "" || value === null || value === undefined,
         )
     ) {
-        showMessage("Please fill all customer details correctly", false);
+        showFormMessage("Please fill all customer details correctly", false);
         return;
     }
 
@@ -198,12 +194,14 @@ async function submitForm(event) {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(responseData.message || "Booking failed", false);
+            showSessionMessage(responseData.message || "Booking failed", false);
             return;
         }
-        showMessage(responseData.message || "Booking successful!", true);
+        showSessionMessage(responseData.message || "Booking successful!", true);
     } catch (err) {
         console.error(err);
-        showMessage("Network error..Please try again", false);
+        showSessionMessage("Network error..Please try again", false);
     }
 }
+
+document.addEventListener("DOMContentLoaded", displayBookingForm);

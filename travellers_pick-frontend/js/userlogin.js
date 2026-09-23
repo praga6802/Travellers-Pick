@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const form = document.getElementById("login-form");
 form.addEventListener("submit", handleLogin);
@@ -10,7 +10,6 @@ async function handleLogin(event) {
 
     const data = { email, password };
 
-
     try {
         const response = await fetch(`${url}/user/login`, {
             method: "POST",
@@ -21,14 +20,14 @@ async function handleLogin(event) {
         const responseData = await response.json();
         console.log(responseData);
         if (response.ok) {
-            showMessage(responseData.message, true);
+            showFormMessage(responseData.message, true);
             setTimeout(() => (window.location.href = `/index.html`), 2000);
         } else {
-            showMessage(responseData.message, false);
+            showFormMessage(responseData.message, false);
             console.log("Back end error:", responseData);
         }
     } catch (err) {
-        showMessage("Network error..Please try again!")
+        showFormMessage("Network error..Please try again!");
         console.error(err);
     }
 }

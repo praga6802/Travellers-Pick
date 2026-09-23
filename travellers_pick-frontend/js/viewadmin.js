@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayCurrentAdmin = async () => {
     try {
@@ -9,7 +9,7 @@ const displayCurrentAdmin = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(
+            showSessionMessage(
                 responseData.message || "Session expired. Please login again.",
                 false,
             );
@@ -20,7 +20,7 @@ const displayCurrentAdmin = async () => {
         }
         return true;
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showSessionMessage("Network error..Please try again", false);
         console.error(err);
         return false;
     }
@@ -37,7 +37,7 @@ const displayAdmins = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(
+            showFormMessage(
                 responseData.message || "Failed to fetch admins",
                 false,
             );
@@ -46,7 +46,7 @@ const displayAdmins = async () => {
         }
 
         if (Array.isArray(responseData) && responseData.length === 0) {
-            showMessage("No admins found.", false);
+            showFormMessage("No admins found.", false);
             return;
         }
 
@@ -82,7 +82,7 @@ const displayAdmins = async () => {
             adminBody.appendChild(row);
         });
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showFormMessage("Network error..Please try again", false);
         console.error(err);
     }
 };

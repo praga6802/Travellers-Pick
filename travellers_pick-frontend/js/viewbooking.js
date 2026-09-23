@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import {showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 document.addEventListener("DOMContentLoaded", handleViewBooking);
 
@@ -15,10 +15,7 @@ async function handleViewBooking() {
         const responseData = await response.json();
 
         if (response.status === 401) {
-            showMessage(
-                responseData.message || "Session expired. Please login again.",
-                false,
-            );
+            showSessionMessage(responseData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
             }, 1500);
@@ -26,19 +23,12 @@ async function handleViewBooking() {
         }
 
         if (!response.ok) {
-            showMessage(
-                responseData.message || "Failed to load bookings.",
-                false,
-            );
+            showSessionMessage("Failed to load bookings!", false);
             return;
         }
 
-        const bookings = Array.isArray(responseData)
-            ? responseData
-            : responseData.data;
-
-        if (!bookings || !Array.isArray(bookings) || bookings.length === 0) {
-            showMessage("No bookings found!", false);
+        if (bookings.length === 0) {
+            showSessionMessage("No bookings found!", false);
             return;
         }
 
@@ -91,7 +81,7 @@ async function handleViewBooking() {
             cardContainer.appendChild(card);
         });
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showSessionMessage("Network error..Please try again", false);
         console.error(err);
     }
 }

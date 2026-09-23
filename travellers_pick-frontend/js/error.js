@@ -1,23 +1,47 @@
-export function showMessage(message, isSuccess) {
-    const error = document.getElementById("error");
+export function showFormMessage(message, isSuccess) {
+    const formError = document.getElementById("form-error");
 
-    if (!error) {
+    if (!formError) {
         return;
     }
 
     if (!message) {
-        error.style.display = "none";
-        error.textContent = "";
+        formError.style.display = "none";
+        formError.textContent = "";
         return;
     }
 
-    error.textContent = message;
-    
+    formError.textContent = message;
+
     if (isSuccess) {
-        error.classList.remove("failure");
-        error.classList.add("success");
+        formError.classList.remove("failure");
+        formError.classList.add("success");
     } else {
-        error.classList.remove("success");
-        error.classList.add("failure");
+        formError.classList.remove("success");
+        formError.classList.add("failure");
+    }
+}
+
+export function showSessionMessage(message, isSuccess) {
+    const sessionError = document.getElementById("session-error");
+
+    if (!sessionError) {
+        return;
+    }
+
+    if (!message) {
+        sessionError.style.display = "none";
+        sessionError.textContent = "";
+        return;
+    }
+
+    sessionError.textContent = message;
+
+    if (isSuccess) {
+        sessionError.classList.remove("failure");
+        sessionError.classList.add("success");
+    } else {
+        sessionError.classList.remove("success");
+        sessionError.classList.add("failure");
     }
 }

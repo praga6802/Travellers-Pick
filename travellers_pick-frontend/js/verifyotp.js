@@ -1,9 +1,8 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("otp-form");
     const otpinp = document.querySelectorAll(".otp");
-
 
     displayUserDetails();
 
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 otpinp[index + 1].focus();
             }
         });
-
 
         inp.addEventListener("keydown", (e) => {
             if (e.key === "Backspace" && !inp.value && index > 0) {
@@ -48,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const responseData = await response.json();
 
             if (!response.ok) {
-                showMessage(
+                showSessionMessage(
                     responseData.message || "User not logged in",
                     false,
                 );
@@ -60,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (e) {
             console.error("Auth check error:", e);
-            showMessage(
+            showSessionMessage(
                 "Network Error or Session Expired. Please login again!",
                 false,
             );
@@ -78,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         otpinp.forEach((inp) => (otp += inp.value.trim()));
 
         if (otp.length !== 6) {
-            showMessage("Please Enter 6-digit OTP", false);
+            showFormMessage("Please Enter 6-digit OTP", false);
             return;
         }
 
@@ -93,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             const resData = await response.json();
 
-            showMessage(
+            showFormMessage(
                 resData.message ||
                     (response.ok
                         ? "OTP verified successfully!"
@@ -108,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (e) {
             console.error("OTP verification error:", e);
-            showMessage("Network error..Please try again", false);
+            showFormMessage("Network error..Please try again", false);
         }
     }
 });

@@ -1,5 +1,5 @@
-import { showMessage } from "./error.js";
-import {url} from './config.js'
+import { showFormMessage, showSessionMessage } from "./error.js";
+import { url } from "./config.js";
 const updateContainer = document.getElementById("update-form");
 
 let oldEmail = "";
@@ -67,7 +67,7 @@ async function displayUserDetails() {
         const responseData = await response.json();
 
         if (response.status === 401) {
-            showMessage(responseData.message, false);
+            showSessionMessage(responseData.message, false);
             if (form) form.style.display = "none";
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
@@ -76,7 +76,7 @@ async function displayUserDetails() {
         }
 
         if (!response.ok) {
-            showMessage(responseData.message, false);
+            showSessionMessage(responseData.message, false);
             return;
         }
 
@@ -92,7 +92,7 @@ async function displayUserDetails() {
         }
     } catch (e) {
         console.error("Network Error:", e);
-        showMessage("Network Error. Please login again!", false);
+        showSessionMessage("Network Error. Please login again!", false);
         if (form) form.style.display = "none";
         setTimeout(() => {
             window.location.href = "../html/user-login.html";
@@ -124,14 +124,11 @@ async function handleUpdateUser(event) {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(
-                responseData.message || "Failed to update profile.",
-                false,
-            );
+            showFormMessage(responseData.message, false);
             return;
         }
 
-        showMessage(
+        showFormMessage(
             responseData.message || "Profile updated successfully!",
             true,
         );
@@ -148,6 +145,6 @@ async function handleUpdateUser(event) {
         oldContact = updateContact;
     } catch (e) {
         console.error("Update Error:", e);
-        showMessage("Network Error. Please try again.", false);
+        showFormMessage("Network Error. Please try again.", false);
     }
 }

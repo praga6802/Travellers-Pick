@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayCurrentAdmin = async () => {
     try {
@@ -9,20 +9,16 @@ const displayCurrentAdmin = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(
-                responseData.message || "Session expired. Please login again.",
-                false,
-            );
+            showSessionMessage(responseData.message, false);
             setTimeout(() => {
-                window.location.href = "../html/loginform.html";
+                window.location.href = "../html/admin-login.html";
             }, 1500);
-            return false;
+            return;
         }
-        return true;
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showSessionMessage("Network error..Please try again", false);
         console.error(err);
-        return false;
+        return;
     }
 };
 
@@ -36,22 +32,17 @@ const displayTours = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(responseData.message || "Failed to fetch tours", false);
+            showSessionMessage("Failed to fetch tours", false);
             console.error(response);
             return;
         }
 
-        const toursList = Array.isArray(responseData)
-            ? responseData
-            : responseData.data;
-
-        if (!toursList || !Array.isArray(toursList) || toursList.length === 0) {
-            showMessage("No tours found.", false);
+        if (responseData.length === 0) {
+            showSessionMessage("No tours found!", false);
             return;
         }
 
         const tourContainer = document.getElementById("tour-container");
-        if (!tourContainer) return;
 
         tourContainer.innerHTML = `
             <h1 class="h1">VIEW TOURS</h1>
@@ -90,7 +81,7 @@ const displayTours = async () => {
             tourBody.appendChild(row);
         });
     } catch (err) {
-        showMessage("Network error..Please try again", false);
+        showFormMessage("Network error..Please try again", false);
         console.error(err);
     }
 };

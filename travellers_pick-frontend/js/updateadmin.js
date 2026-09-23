@@ -1,4 +1,4 @@
-import { showMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayCurrentAdmin = async () => {
     try {
@@ -9,7 +9,7 @@ const displayCurrentAdmin = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
-            showMessage(authData.message, false);
+            showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/loginform.html";
             }, 1500);
@@ -49,8 +49,9 @@ const displayCurrentAdmin = async () => {
 
         const updateform = document.getElementById("updateAdmin");
         updateform.addEventListener("submit", handleUpdate);
+
     } catch (err) {
-        showMessage("Network error..Please try again");
+        showSessionMessage("Network error..Please try again");
         console.error(err);
     }
 };
@@ -64,7 +65,7 @@ const handleUpdate = async (e) => {
     const password = document.getElementById("password").value.trim();
 
     if (!password) {
-        showMessage("Password is required to update details", false);
+        showFormMessage("Password is required to update details", false);
         return;
     }
 
@@ -85,14 +86,14 @@ const handleUpdate = async (e) => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showMessage(responseData.message, false);
+            showFormMessage(responseData.message, false);
             console.error(responseData);
             return;
         }
-        showMessage(responseData.message, true);
+        showFormMessage(responseData.message, true);
         document.getElementById("password").value = "";
     } catch (err) {
-        showMessage("Network error..Please try again!");
+        showFormMessage("Network error..Please try again!");
         console.error(err);
     }
 };
