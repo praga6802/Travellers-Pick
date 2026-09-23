@@ -66,7 +66,7 @@ public class PackageService {
         Packages newPackage = new Packages();
         newPackage.setPackageName(packageDTO.getPackageName());
         newPackage.setPackageSlogan(packageDTO.getPackageSlogan());
-        newPackage.setImgUrl("images/"+fileName);
+        newPackage.setImgUrl("img/"+fileName);
         packageRepo.save(newPackage);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Package Added Successfully"));
     }
@@ -110,7 +110,7 @@ public class PackageService {
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Package Deleted Successfully"));
     }
 
-    
+
     public List<PackageDTO> getAllPackages(){
         return packageRepo.findAll().stream().map(pkg-> {
             String fileName= pkg.getPackageName().split(" ")[0].toLowerCase()+"-package"+".html";
