@@ -48,7 +48,7 @@ public class PackageService {
                     body(new AResponse(LocalDateTime.now(),"Failure","Package Already Added"));
         }
         MultipartFile image=packageDTO.getImageFile();
-        String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers-choice/travellers-main/images";
+        String path = "C:/Users/praga/OneDrive/Documents/Java Projects/TravellersPick/travellers_pick-frontend/img";
         File dir=new File(path);
         if(!dir.exists())dir.mkdirs();
 
@@ -88,7 +88,7 @@ public class PackageService {
 
         if(updatePackageDTO.getImageFile()!=null && !updatePackageDTO.getImageFile().isEmpty()) {
             MultipartFile image = updatePackageDTO.getImageFile();
-            String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers_pick-frontend/img";
+            String path = "C:/Users/praga/OneDrive/Documents/Java Projects/TravellersPick/travellers_pick-frontend/img";
             File folder = new File(path);
             if (!folder.exists()) folder.mkdirs();
 
@@ -110,6 +110,7 @@ public class PackageService {
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Package Deleted Successfully"));
     }
 
+    
     public List<PackageDTO> getAllPackages(){
         return packageRepo.findAll().stream().map(pkg-> {
             String fileName= pkg.getPackageName().split(" ")[0].toLowerCase()+"-package"+".html";
