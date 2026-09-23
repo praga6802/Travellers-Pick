@@ -28,8 +28,7 @@ async function displayUserName() {
         }
 
         const responseData = await response.json();
-        const userName =
-            responseData?.data?.userName || responseData?.userName || "User";
+        const userName = responseData?.data?.userName || responseData?.userName || "User";
 
         const loginSelect = document.createElement("select");
         loginSelect.id = "loginSelect";

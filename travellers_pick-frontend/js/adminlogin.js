@@ -36,13 +36,13 @@ async function handleLogin(event) {
         const responseData = await response.json();
 
         if (response.ok) {
-            showMessage(responseData.message || "Login successful!", true);
+            showMessage(responseData.message, true);
             setTimeout(() => {
                 window.location.href = "../html/admin-home.html";
             }, 2000);
             return;
         } else {
-            showMessage(responseData.message || "Invalid credentials", false);
+            showMessage(responseData.message, false);
             console.error(responseData);
         }
     } catch (err) {

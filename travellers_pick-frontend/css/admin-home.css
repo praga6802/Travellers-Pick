@@ -47,8 +47,6 @@ body {
     text-decoration: none;
 }
 
-
-
 .nav {
     background-color: rgba(0, 0, 0, 0.778);
     margin: 0;
@@ -76,7 +74,7 @@ body {
     display: flex;
 }
 
-.webpreview select {
+#webpreview select {
     float: right;
     position: absolute;
     top: 3%;
@@ -86,11 +84,6 @@ body {
     border: 2px solid rgb(125, 108, 10);
     border-radius: 10px;
     font-size: 18px;
-    color: white;
-}
-
-#logindropdown option {
-    background-color: black;
     color: white;
 }
 

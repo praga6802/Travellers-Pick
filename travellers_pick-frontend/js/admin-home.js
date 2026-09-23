@@ -1,5 +1,6 @@
 import { showMessage } from "./error.js";
 import { url } from "./config.js";
+
 const total_admins = document.getElementById("total-admins");
 const total_users = document.getElementById("total-users");
 const total_packages = document.getElementById("total-packages");
@@ -9,27 +10,47 @@ const total_confirm = document.getElementById("confirmed");
 const total_cancel = document.getElementById("cancelled");
 
 async function displayUserName() {
-    console.log("Cookies before fetch:", document.cookie);
     try {
-        const response = await fetch(`${url}/admin/adminData`, {
+        const response = await fetch(`${url}/admin/current-admin`, {
             method: "GET",
             credentials: "include",
         });
+        const responseData = await response.json();
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-            const username = data.username;
-            const userNameOption = document.getElementById("usernameoption");
-            userNameOption.innerText = `Hello ${username}`;
-            userNameOption.value = "default";
-        } else {
-            const error = await response.json();
-            console.log(error);
+        if (!response.ok) {
+            console.log("admin not logged in or session expired!");
+            return;
         }
+
+        const adminSelect = document.createElement("select");
+        adminSelect.className = "admin-select";
+        adminSelect.id = "adminSelect";
+
+        const greetingOption = document.createElement("option");
+        greetingOption.textContent = responseData.userName;
+        greetingOption.disabled = true;
+        greetingOption.selected = true;
+
+        const logoutOption = document.createElement("option");
+        logoutOption.value = "logout";
+        logoutOption.textContent = "Logout";
+
+        adminSelect.appendChild(greetingOption);
+        adminSelect.appendChild(logoutOption);
+
+        adminSelect.addEventListener("change", () => {
+            handleLogout(adminSelect);
+        });
+
+        const adminContainer = document.getElementById("webpreview");
+        adminContainer.appendChild(adminSelect);
+        
     } catch (err) {
-        console.error("Error Fetching Admin Info", err);
-        window.location.href = "../html/admin-login.html";
+        showMessage("Network error..Please try again!", false);
+        console.error(err);
+        setTimeout(() => {
+            window.location.href = "../html/admin-login.html";
+        }, 2000);
     }
 }
 
@@ -40,22 +61,27 @@ async function handleLogout(select) {
                 method: "POST",
                 credentials: "include",
             });
+
+            const responseData = await response.json();
             if (response.ok) {
-                const res = await response.json();
-                alert(res.message);
-                window.location.href = "../html/admin-login.html";
+                alert(responseData.message);
+                setTimeout(() => {
+                    window.location.href = "../html/admin-login.html";
+                }, 1500);
             } else {
                 alert("Logout Failed. Try again.");
+                console.log(responseData);
             }
         } catch (err) {
-            alert("Error: Session Expired & Cannot fetch user details");
+            alert("Network error..Please try again!");
             console.log(err);
         }
     } else {
-        select.value = "default";
+        select.selectedIndex = 0;
     }
 }
 
+// admin analytics
 const getAdmins = async () => {
     try {
         const response = await fetch(`${url}/admin/getAdmins`, {

@@ -16,6 +16,9 @@
             <span id="logo">Traveller's Pick</span>
         </div>
     </nav>
+
+    <!-- display name and logout option-->
+    <div id="webpreview"></div>
     <div class="admin-home">
         <div class="container">
             <table style="width:100%;font-size:20px;padding:15px;">
@@ -80,6 +83,8 @@
             </table>
         </div>
 
+
+
         <div class="admin-dashboard">
 
             <h1>ADMIN DASHBOARD</h1>
@@ -131,16 +136,10 @@
         </div>
     </div>
 
-    <!-- display name and logout option-->
-    <div class="webpreview">
-        <select name="logindropdown" id="logindropdown" onchange="handleLogout(this)">
-            <option id="usernameoption" value="default"></option>
-            <option value="logout">Logout</option>
-        </select>
-    </div>
+
 
     <script type="module" src="../js/config.js"></script>
-    <script src="../js/admin-home.js"></script>
+    <script type="module" src="../js/admin-home.js"></script>
     <script type="module" src="../js/error.js"></script>
 </body>
 
