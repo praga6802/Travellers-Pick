@@ -72,7 +72,7 @@ body {
     display: flex;
 }
 
-#webpreview select {
+#adminSelect {
     float: right;
     position: absolute;
     top: 3%;
