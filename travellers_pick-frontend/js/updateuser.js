@@ -61,6 +61,7 @@ const displayUpdateForm = async () => {
                     pattern="[0-9]{10}"
                     class="input">
             </div>
+            <p id="form-error"></p>
 
             <div id="button-group">
                 <button type="submit" id="submit" class="button">SUBMIT</button>

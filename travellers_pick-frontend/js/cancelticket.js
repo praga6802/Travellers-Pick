@@ -43,6 +43,8 @@ const displayCancelForm = async () => {
                     <button type="submit" id="submit" class="button">SUBMIT</button>
                     <button type="reset" id="reset" class="button">RESET</button>
                 </div>
+
+                <p id="error"></p>
             </form>
         `;
 
