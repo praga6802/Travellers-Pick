@@ -1,25 +1,25 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-.update-container{
-    display: flex;
-    justify-content: space-between;
+.update-container {
+    position: relative;
 }
 
-#update-form{
-    margin-right: 600px;
-    margin-top:70px;
+#update-form {
+    position: absolute;
+    left: 50%;
+    top: 70px;
+    
     background-color: aliceblue;
     height: 400px;
     width: 600px;
     border-radius: 10px;
-    position: relative;
 }
 
-#update-legend{
+#update-legend {
     text-align: center;
     font-size: 30px;
     font-weight: 600;
@@ -27,19 +27,19 @@
     color: rgb(161, 12, 12);
 }
 
-#update-form div{
+#update-form div {
     padding: 15px;
     margin: 0;
 }
 
-#update-form div label{
+#update-form div label {
     font-size: 15px;
     font-weight: 500;
     margin-left: 40px;
     text-align: left;
 }
 
-.input{
+.input {
     width: 300px;
     margin-left: 50px;
     padding: 10px;
@@ -47,9 +47,9 @@
     border-radius: 5px;
 }
 
-.input:focus{
-    border:2px solid rgb(10, 90, 155);
-    outline:none
+.input:focus {
+    border: 2px solid rgb(10, 90, 155);
+    outline: none
 }
 
 .button-group {
@@ -70,6 +70,6 @@
     background-color: rgb(21, 112, 232);
 }
 
-.button:hover{
-    background-color:rgb(10, 57, 118) ;
+.button:hover {
+    background-color: rgb(10, 57, 118);
 }
