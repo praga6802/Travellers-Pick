@@ -42,6 +42,7 @@ const displayForm = async () => {
                     <input type="submit" value="ADD" name="submit" class="button" />
                     <input type="reset" value="RESET" name="reset" class="button" />
                 </div>
+                <p id="form-error"></p>
 		</form>
         `;
 

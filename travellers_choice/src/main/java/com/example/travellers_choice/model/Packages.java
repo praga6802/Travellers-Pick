@@ -22,7 +22,7 @@ public class Packages {
     @Column(name="package_slogan",nullable = false, unique = true)
     private String packageSlogan;
 
-    @Column(name="imgUrl", nullable = false)
+    @Column(name="img_url", nullable = false)
     private String imgUrl;
     
 

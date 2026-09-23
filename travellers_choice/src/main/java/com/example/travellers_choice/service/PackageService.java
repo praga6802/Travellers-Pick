@@ -48,8 +48,8 @@ public class PackageService {
                     body(new AResponse(LocalDateTime.now(),"Failure","Package Already Added"));
         }
         MultipartFile image=packageDTO.getImageFile();
-        String path = "C:/Users/praga/OneDrive/Documents/Java Projects/TravellersPick/travellers_pick-frontend/img";
-        File dir=new File(path);
+        String uploadDir = "uploads/packages";
+        File dir=new File(uploadDir);
         if(!dir.exists())dir.mkdirs();
 
         String fileName=image.getOriginalFilename();
@@ -66,7 +66,7 @@ public class PackageService {
         Packages newPackage = new Packages();
         newPackage.setPackageName(packageDTO.getPackageName());
         newPackage.setPackageSlogan(packageDTO.getPackageSlogan());
-        newPackage.setImgUrl("img/"+fileName);
+        newPackage.setImgUrl("/uploads/packages/"+fileName);
         packageRepo.save(newPackage);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Package Added Successfully"));
     }
@@ -88,14 +88,14 @@ public class PackageService {
 
         if(updatePackageDTO.getImageFile()!=null && !updatePackageDTO.getImageFile().isEmpty()) {
             MultipartFile image = updatePackageDTO.getImageFile();
-            String path = "C:/Users/praga/OneDrive/Documents/Java Projects/TravellersPick/travellers_pick-frontend/img";
+            String path = "uploads/packages";
             File folder = new File(path);
             if (!folder.exists()) folder.mkdirs();
 
             String fileName = image.getOriginalFilename();
             File file = new File(folder, fileName);
             if (updatePackageDTO.getImageFile() != null && !updatePackageDTO.getImageFile().isEmpty()) {
-                existingPackage.setImgUrl("img/" + fileName);
+                existingPackage.setImgUrl("/uploads/packages/" + fileName);
             }
         }
         packageRepo.save(existingPackage);
