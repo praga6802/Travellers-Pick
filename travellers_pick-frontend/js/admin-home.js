@@ -27,7 +27,7 @@ async function displayUserName() {
         adminSelect.id = "adminSelect";
 
         const greetingOption = document.createElement("option");
-        greetingOption.textContent = responseData.userName;
+        greetingOption.textContent = responseData.username;
         greetingOption.disabled = true;
         greetingOption.selected = true;
 

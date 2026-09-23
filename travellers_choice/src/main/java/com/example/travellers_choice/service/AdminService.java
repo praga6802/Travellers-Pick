@@ -110,15 +110,16 @@ public class AdminService {
     //get current admin
     public ResponseEntity<?> getCurrentAdmin(UserDetails userDetails) {
         if(userDetails==null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","No active session for Admin"));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","Session Expired..Please try again!"));
         }
         String email=userDetails.getUsername();
         Admin admin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
+
         Map<String,Object> response=new HashMap<>();
-        response.put("Admin ID",admin.getAdminId());
-        response.put("User Name",admin.getUsername());
-        response.put("Email",admin.getEmail());
-        response.put("Contact",admin.getContact());
+        response.put("adminId",admin.getAdminId());
+        response.put("username",admin.getUsername());
+        response.put("email",admin.getEmail());
+        response.put("contact",admin.getContact());
         return ResponseEntity.ok(response);
     }
 
