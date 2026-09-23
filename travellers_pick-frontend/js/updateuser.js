@@ -131,6 +131,8 @@ async function handleUpdate(event) {
         });
 
         const responseData = await response.json();
+        console.log("response",responseData);
+        console.log('status',response.status);
 
         if (!response.ok) {
             showFormMessage(responseData.message, false);
