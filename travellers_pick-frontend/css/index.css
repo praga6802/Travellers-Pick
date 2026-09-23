@@ -207,20 +207,22 @@ section h1 {
   margin-left: 20px;
   margin-top: 20px;
   padding: 10px;
-  background-color: wheat;
+  display: none;
   font-size: 10px;
 }
 
 #form-error.success {
   display: inline;
-  color: green;
+  color: white;
   border: 2px solid green;
+  background-color: green;
 }
 
 #form-error.failure {
   display: inline;
-  color: rgb(231, 19, 19);
+  color: white;
   border: 2px solid rgb(231, 19, 19);
+  background-color: rgb(231, 19, 19);
 }
 
 /* show form error message*/
@@ -228,21 +230,26 @@ section h1 {
   font-weight: 600;
   width: max-content;
   background-color: white;
-  display: flex;
+  display: none;
   justify-content: center;
   text-align: center;
   padding: 15px;
   font-size: 30px;
-  display: block;
+  margin-left: 400px;
+  margin-top: 40px;
 }
 
 #session-error.success {
-  color: green;
+  color: white;
+  display: block;
   border: 2px solid green;
+  background-color: green;
 }
 
 #session-error.failure {
-  color: rgb(231, 19, 19);
+  color: white;
+  display: block;
+  background-color: rgb(231, 19, 19);
   border: 2px solid rgb(231, 19, 19);
 }
 
