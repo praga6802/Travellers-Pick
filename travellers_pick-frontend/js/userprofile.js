@@ -1,37 +1,38 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
-const login = document.getElementById("login-btn");
-const signin = document.getElementById("signin-btn");
 
-if (login) {
-    login.value = "login";
-    login.addEventListener("click", goLogin);
-}
+const userHeader = document.getElementById("user-header");
+const userLinks = document.querySelector(".user-links");
 
-if (signin) {
-    signin.addEventListener("click", () => {
-        window.location.href = "../html/user-signup.html";
-    });
-}
+// const login = document.getElementById("login-btn");
+// const signin = document.getElementById("signin-btn");
+
+// if (login) {
+//     login.value = "login";
+//     login.addEventListener("click", goLogin);
+// }
+
+// if (signin) {
+//     signin.addEventListener("click", () => {
+//         window.location.href = "../html/user-signup.html";
+//     });
+// }
 
 async function displayUserName() {
     try {
-        const response = await fetch(`${url}/user/current-user`, {
+        const authResponse = await fetch(`${url}/user/current-user`, {
             method: "GET",
             credentials: "include",
         });
 
-        const data = await response.json();
-        if (response.status === 401) {
+        const authData = await authResponse.json();
+        if (!authResponse.ok) {
+            userHeader.style.display = "none";
+            userLinks.style.display = "none";
             showSessionMessage(data.message, false);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
             }, 2000);
-            return;
-        }
-
-        if (!response.ok) {
-            showSessionMessage(data.message, false);
             return;
         }
 
@@ -41,7 +42,7 @@ async function displayUserName() {
 
         // Greeting
         const greetingOption = document.createElement("option");
-        greetingOption.textContent = `Hello ${data.data.userName}!`;
+        greetingOption.textContent = `Hello ${authData.data.userName}!`;
         greetingOption.disabled = true;
         greetingOption.selected = true;
 
@@ -54,13 +55,13 @@ async function displayUserName() {
         loginSelect.appendChild(greetingOption);
         loginSelect.appendChild(logoutOption);
 
-        if (login) {
-            login.replaceWith(loginSelect);
-        }
+        // if (login) {
+        //     login.replaceWith(loginSelect);
+        // }
 
-        if (signin) {
-            signin.style.display = "none";
-        }
+        // if (signin) {
+        //     signin.style.display = "none";
+        // }
 
         loginSelect.addEventListener("change", goLogin);
     } catch (err) {
@@ -72,9 +73,9 @@ async function displayUserName() {
 async function goLogin(e) {
     const value = e.target.value;
     switch (value) {
-        case "login":
-            window.location.href = "../html/user-login.html";
-            break;
+        // case "login":
+        //     window.location.href = "../html/user-login.html";
+        //     break;
 
         case "logout":
             try {
@@ -84,16 +85,17 @@ async function goLogin(e) {
                 });
 
                 if (response.ok) {
-                    showSessionMessage("Logged out successfully!");
+                    showSessionMessage("Logged out successfully!", true);
                     setTimeout(() => {
                         window.location.href = "../index.html";
                     }, 2000);
                 } else {
-                    showSessionMessage("Logout failed");
+                    showSessionMessage("Logout failed", false);
+                    console.error(response);
                 }
             } catch (err) {
-                console.error("Error logging out:", err);
-                showSessionMessage(err);
+                console.error(err);
+                showSessionMessage("Error logging out", false);
             }
             break;
 
