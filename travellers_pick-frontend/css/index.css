@@ -130,7 +130,6 @@ section h1 {
 
 
 .container {
-  margin-top: 20px;
   display: flex;
   justify-content: center;
   gap: 130px;
@@ -236,22 +235,22 @@ section h1 {
   text-align: center;
   padding: 10px;
   font-size: 20px;
-  margin-left: 600px;
+  margin-left: 800px;
   border-radius: 10px;
-  margin-top: 40px;
+  margin-top: 200px;
 }
 
 #session-error.success {
-  color: white;
+  color: green;
   display: block;
   border: 2px solid green;
-  background-color: green;
+  background-color: white;
 }
 
 #session-error.failure {
-  color: white;
+  color: red;
   display: block;
-  background-color: rgb(209, 31, 31);
+  background-color: white;
   border: 2px solid rgb(209, 31, 31);
 }
 
