@@ -13,8 +13,8 @@ async function handleViewBooking() {
         const authData = await response.json();
 
         if (!authResponse.ok) {
-            bookingList.style.display = "none";
             user_links.style.display = "none";
+            bookingList.style.display = "none";
             showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
