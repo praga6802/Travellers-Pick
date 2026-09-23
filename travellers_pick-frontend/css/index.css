@@ -201,22 +201,24 @@ section h1 {
 
 /* show form error message*/
 #form-error {
+  width: max-content;
   font-weight: 600;
   text-align: center;
-  margin-left: 200px;
+  margin-left: 20px;
   margin-top: 20px;
   padding: 10px;
-  font-size: 20px;
+  background-color: wheat;
+  font-size: 10px;
 }
 
 #form-error.success {
-  display: inline-block;
+  display: inline;
   color: green;
   border: 2px solid green;
 }
 
 #form-error.failure {
-  display: inline-block;
+  display: inline;
   color: rgb(231, 19, 19);
   border: 2px solid rgb(231, 19, 19);
 }
@@ -224,22 +226,22 @@ section h1 {
 /* show form error message*/
 #session-error {
   font-weight: 600;
-  width:max-content;
+  width: max-content;
+  background-color: white;
   display: flex;
   justify-content: center;
   text-align: center;
   padding: 15px;
   font-size: 30px;
+  display: block;
 }
 
 #session-error.success {
-  display: inline-block;
   color: green;
   border: 2px solid green;
 }
 
 #session-error.failure {
-  display: inline-block;
   color: rgb(231, 19, 19);
   border: 2px solid rgb(231, 19, 19);
 }
