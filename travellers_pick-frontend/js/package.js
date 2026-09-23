@@ -1,6 +1,11 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayPackage = async () => {
+
+    
+
+
+
     try {
         const response = await fetch(`${url}/admin/allPackages`, {
             method: "GET",

@@ -10,7 +10,7 @@ const total_confirm = document.getElementById("confirmed");
 const total_cancel = document.getElementById("cancelled");
 
 const webpreview = document.getElementById("webpreview");
-const adminContainer = document.querySelector("admin-home");
+const adminContainer = document.querySelector(".admin-home");
 const adminHeader = document.getElementById("admin-homeheader");
 
 
