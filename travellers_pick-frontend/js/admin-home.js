@@ -12,6 +12,8 @@ const total_cancel = document.getElementById("cancelled");
 const webpreview = document.getElementById("webpreview");
 const adminContainer = document.querySelector("admin-home");
 const adminHeader = document.getElementById("admin-homeheader");
+
+
 async function displayUserName() {
     try {
         const response = await fetch(`${url}/admin/current-admin`, {
@@ -23,7 +25,7 @@ async function displayUserName() {
         if (!response.ok) {
             adminHeader.style.display = "none";
             webpreview.style.display = "none";
-            adminHome.style.display = "none";
+            adminContainer.style.display = "none";
 
             showSessionMessage(responseData.message, false);
             setTimeout(() => {
