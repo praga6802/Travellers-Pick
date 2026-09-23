@@ -48,7 +48,7 @@ public class PackageService {
                     body(new AResponse(LocalDateTime.now(),"Failure","Package Already Added"));
         }
         MultipartFile image=packageDTO.getImageFile();
-        String uploadDir = "uploads/packages";
+        String uploadDir = "/app/uploads/packages";
         File dir=new File(uploadDir);
         if(!dir.exists())dir.mkdirs();
 
