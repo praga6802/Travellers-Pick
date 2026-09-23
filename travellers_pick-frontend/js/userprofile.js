@@ -4,19 +4,19 @@ import { url } from "./config.js";
 const userHeader = document.getElementById("user-header");
 const userLinks = document.querySelector(".user-links");
 
-// const login = document.getElementById("login-btn");
-// const signin = document.getElementById("signin-btn");
+const login = document.getElementById("login-btn");
+const signin = document.getElementById("signin-btn");
 
-// if (login) {
-//     login.value = "login";
-//     login.addEventListener("click", goLogin);
-// }
+if (login) {
+    login.value = "login";
+    login.addEventListener("click", goLogin);
+}
 
-// if (signin) {
-//     signin.addEventListener("click", () => {
-//         window.location.href = "../html/user-signup.html";
-//     });
-// }
+if (signin) {
+    signin.addEventListener("click", () => {
+        window.location.href = "../html/user-signup.html";
+    });
+}
 
 async function displayUserName() {
     try {
@@ -29,7 +29,7 @@ async function displayUserName() {
         if (!authResponse.ok) {
             userHeader.style.display = "none";
             userLinks.style.display = "none";
-            showSessionMessage(data.message, false);
+            showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
             }, 2000);
@@ -55,13 +55,13 @@ async function displayUserName() {
         loginSelect.appendChild(greetingOption);
         loginSelect.appendChild(logoutOption);
 
-        // if (login) {
-        //     login.replaceWith(loginSelect);
-        // }
+        if (login) {
+            login.replaceWith(loginSelect);
+        }
 
-        // if (signin) {
-        //     signin.style.display = "none";
-        // }
+        if (signin) {
+            signin.style.display = "none";
+        }
 
         loginSelect.addEventListener("change", goLogin);
     } catch (err) {
@@ -73,9 +73,9 @@ async function displayUserName() {
 async function goLogin(e) {
     const value = e.target.value;
     switch (value) {
-        // case "login":
-        //     window.location.href = "../html/user-login.html";
-        //     break;
+        case "login":
+            window.location.href = "../html/user-login.html";
+            break;
 
         case "logout":
             try {
