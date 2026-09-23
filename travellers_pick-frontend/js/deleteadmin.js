@@ -1,5 +1,7 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
+const adminContainer = document.getElementById("admin-container");
 const displayAdminForm = async () => {
     try {
         const authResponse = await fetch(`${url}/admin/current-admin`, {
@@ -9,6 +11,8 @@ const displayAdminForm = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
+            adminContainer.style.display = "none";
+
             showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/loginform.html";
@@ -16,7 +20,6 @@ const displayAdminForm = async () => {
             return;
         }
 
-        const adminContainer = document.getElementById("admin-container");
         adminContainer.innerHTML = `
             <form id="delAdmin">
                 <legend>DELETE ADMIN</legend>

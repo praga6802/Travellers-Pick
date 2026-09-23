@@ -1,5 +1,7 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
+const tourContainer = document.getElementById("tour-container");
 const displayCurrentAdmin = async () => {
     try {
         const response = await fetch(`${url}/admin/current-admin`, {
@@ -9,6 +11,7 @@ const displayCurrentAdmin = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
+            tourContainer.style.display = "none";
             showSessionMessage(responseData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
@@ -41,8 +44,6 @@ const displayTours = async () => {
             showSessionMessage("No tours found!", false);
             return;
         }
-
-        const tourContainer = document.getElementById("tour-container");
 
         tourContainer.innerHTML = `
             <h1 class="h1">VIEW TOURS</h1>

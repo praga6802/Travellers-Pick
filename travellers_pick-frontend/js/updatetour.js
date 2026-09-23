@@ -1,5 +1,8 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
+//admin is logged, create update tour container
+const tourContainer = document.getElementById("tour-container");
 const displayCurrentAdmin = async () => {
     try {
         const authResponse = await fetch(`${url}/admin/current-admin`, {
@@ -9,6 +12,7 @@ const displayCurrentAdmin = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
+            tourContainer.style.display = "none";
             showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/loginform.html";
@@ -16,8 +20,6 @@ const displayCurrentAdmin = async () => {
             return;
         }
 
-        //admin is logged, create update tour container
-        const tourContainer = document.getElementById("tour-container");
         tourContainer.innerHTML = `
             <form id="updatecategoryform">
                 <legend>UPDATE TOUR</legend>

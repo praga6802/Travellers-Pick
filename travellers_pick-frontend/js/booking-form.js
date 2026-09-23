@@ -1,12 +1,10 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 
+const formContainer = document.getElementById("formData");
+const iternaryContainer = document.getElementById("iternaryContainer");
+
 const displayBookingForm = async () => {
-    const formContainer = document.getElementById("formData");
-    const iternaryContainer = document.getElementById("iternaryContainer");
-
-    if (!formContainer || !iternaryContainer) return;
-
     try {
         const authResponse = await fetch(`${url}/user/current-user`, {
             method: "GET",
@@ -16,6 +14,9 @@ const displayBookingForm = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
+            formContainer.style.display = "none";
+            iternaryContainer.style.display = "none";
+
             showSessionMessage(authData.message, false);
             return;
         }

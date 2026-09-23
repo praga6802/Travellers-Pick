@@ -1,5 +1,7 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
+const packageContainer = document.getElementById("package-container");
 const displayCurrentAdmin = async () => {
     try {
         const response = await fetch(`${url}/admin/current-admin`, {
@@ -9,6 +11,7 @@ const displayCurrentAdmin = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
+            packageContainer.style.display = "none";
             showSessionMessage(responseData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
@@ -43,8 +46,6 @@ const displayPackages = async () => {
             showSessionMessage("No packages found!", false);
             return;
         }
-
-        const packageContainer = document.getElementById("package-container");
 
         packageContainer.innerHTML = `
             <h1 class="h1">VIEW PACKAGE</h1>

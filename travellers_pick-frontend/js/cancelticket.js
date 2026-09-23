@@ -1,40 +1,58 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
-document.addEventListener("DOMContentLoaded", () => {
-    const cancelContainer = document.getElementById("cancel-container");
-    if (!cancelContainer) return;
 
-    cancelContainer.innerHTML = `
-        <form id="cancelform" method="post">
-            <legend id="cancel-legend">Booking Cancellation</legend>
+const cancelContainer = document.getElementById("cancel-container");
+const adminHeader = document.getElementById("adminHeader");
+const userLinks = document.querySelector(".user-links");
 
-            <div id="input">
-                <label for="pnr">PNR Number</label>
-                <input
-                    type="text"
-                    name="PNR"
-                    id="pnr"
-                    placeholder="Enter PNR Number"
-                    minlength="6"
-                    class="input"
-                    required
-                >
-            </div>
+const displayCancelForm = async () => {
+    try {
+        const authResponse = await fetch(`${url}/user/current-user`, {
+            method: "GET",
+            credentials: "include",
+        });
 
-            <div class="button-group">
-                <button type="submit" id="submit" class="button">SUBMIT</button>
-                <button type="reset" id="reset" class="button">RESET</button>
-            </div>
-        </form>
-    `;
+        const authData = await authResponse.json();
 
-    const cancelForm = document.getElementById("cancelform");
-    cancelForm.addEventListener("submit", handleCancel);
-    cancelForm.addEventListener("reset", () => {
-        showFormMessage("", true);
-        showFormMessage("", true);
-    });
-});
+        if (!authResponse.ok) {
+            cancelContainer.style.display = "none";
+            adminHeader.style.display = "none";
+            userLinks.style.display = "none";
+            showSessionMessage(authData.message, false);
+            return;
+        }
+
+        cancelContainer.innerHTML = `
+            <form id="cancelform" method="post">
+                <legend id="cancel-legend">Booking Cancellation</legend>
+
+                <div id="input">
+                    <label for="pnr">PNR Number</label>
+                    <input
+                        type="text"
+                        name="PNR"
+                        id="pnr"
+                        placeholder="Enter PNR Number"
+                        minlength="6"
+                        class="input"
+                        required
+                    >
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" id="submit" class="button">SUBMIT</button>
+                    <button type="reset" id="reset" class="button">RESET</button>
+                </div>
+            </form>
+        `;
+
+        const cancelForm = document.getElementById("cancelform");
+        cancelForm.addEventListener("submit", handleCancel);
+    } catch (err) {
+        showSessionMessage("Network error..Please try again!");
+        console.error(err);
+    }
+};
 
 async function handleCancel(event) {
     event.preventDefault();
@@ -78,3 +96,5 @@ async function handleCancel(event) {
         showSessionMessage("Network Error. Please try again.", false);
     }
 }
+
+document.addEventListener("DOMContentLoaded", displayCancelForm);

@@ -1,5 +1,7 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
+const adminContainer = document.getElementById("admin-container");
 const displayCurrentAdmin = async () => {
     try {
         const authResponse = await fetch(`${url}/admin/current-admin`, {
@@ -9,15 +11,13 @@ const displayCurrentAdmin = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
+            adminContainer.style.display = "none";
             showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/loginform.html";
             }, 1500);
             return;
         }
-
-        //if current admin logged in create update package form
-        const adminContainer = document.getElementById("admin-container");
         adminContainer.innerHTML = `
             <form id="updateAdmin">
                 <legend>UPDATE ADMIN</legend>
@@ -49,7 +49,6 @@ const displayCurrentAdmin = async () => {
 
         const updateform = document.getElementById("updateAdmin");
         updateform.addEventListener("submit", handleUpdate);
-
     } catch (err) {
         showSessionMessage("Network error..Please try again");
         console.error(err);

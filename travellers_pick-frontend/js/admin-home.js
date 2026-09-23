@@ -9,6 +9,9 @@ const total_bookings = document.getElementById("total-bookings");
 const total_confirm = document.getElementById("confirmed");
 const total_cancel = document.getElementById("cancelled");
 
+const webpreview = document.getElementById("webpreview");
+const adminContainer = document.querySelector("admin-home");
+const adminHeader = document.getElementById("admin-homeheader");
 async function displayUserName() {
     try {
         const response = await fetch(`${url}/admin/current-admin`, {
@@ -18,6 +21,10 @@ async function displayUserName() {
         const responseData = await response.json();
 
         if (!response.ok) {
+            adminHeader.style.display = "none";
+            webpreview.style.display = "none";
+            adminHome.style.display = "none";
+
             showSessionMessage(responseData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
@@ -44,8 +51,6 @@ async function displayUserName() {
         adminSelect.addEventListener("change", () => {
             handleLogout(adminSelect);
         });
-
-        const adminContainer = document.getElementById("webpreview");
         adminContainer.appendChild(adminSelect);
     } catch (err) {
         showSessionMessage("Network error..Please try again!", false);

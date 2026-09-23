@@ -2,17 +2,6 @@ import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const displayPackage = async () => {
     try {
-        // const authResponse = await fetch(`${url}/user/current-user`, {
-        //     method: "GET",
-        // });
-
-        // const authData = await authResponse.json();
-
-        // if (!authResponse.ok) {
-        //     showMessage(authData.message, false);
-        //     return;
-        // }
-
         const response = await fetch(`${url}/admin/allPackages`, {
             method: "GET",
             credentials: "include",

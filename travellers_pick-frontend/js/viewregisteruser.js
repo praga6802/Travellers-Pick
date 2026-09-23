@@ -1,5 +1,7 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
+const userContainer = document.getElementById("user-container");
 const displayCurrentAdmin = async () => {
     try {
         const response = await fetch(`${url}/admin/current-admin`, {
@@ -9,10 +11,8 @@ const displayCurrentAdmin = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showSessionMessage(
-                responseData.message || "Session expired. Please login again.",
-                false,
-            );
+            userContainer.style.display = "none";
+            showSessionMessage(responseData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
             }, 1500);
@@ -39,7 +39,7 @@ const displayBookedUsers = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showSessionMessage("Failed to fetch booked users.",false);
+            showSessionMessage("Failed to fetch booked users.", false);
             console.error(response);
             return;
         }
@@ -81,8 +81,6 @@ const displayBookedUsers = async () => {
                 </tbody>
             </table>
         `;
-
-        const userContainer = document.getElementById("user-container");
 
         usersList.forEach((user) => {
             const row = document.createElement("tr");

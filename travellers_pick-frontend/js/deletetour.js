@@ -1,5 +1,7 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+const container = document.getElementById("tourContainer");
+
 const initDeleteTourForm = async () => {
     try {
         const authResponse = await fetch(`${url}/admin/current-admin`, {
@@ -10,6 +12,7 @@ const initDeleteTourForm = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
+            container.style.display = "none";
             showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/loginform.html";
@@ -17,7 +20,6 @@ const initDeleteTourForm = async () => {
             return;
         }
 
-        const container = document.getElementById("tourContainer");
         container.innerHTML = `
             <form id="deletecategoryform">
                 <legend>DELETE TOUR</legend>
@@ -72,7 +74,10 @@ const loadPackages = async () => {
 
         const data = await response.json();
         if (!response.ok) {
-            showSessionMessage(data.message || "Failed to load packages", false);
+            showSessionMessage(
+                data.message || "Failed to load packages",
+                false,
+            );
             return;
         }
 

@@ -1,5 +1,5 @@
 body {
-
+    margin: 0;
     background-image: url('../img/admin-back.jpg');
     background-repeat: no-repeat;
     background-size: cover;
@@ -12,8 +12,7 @@ body {
     background-color: rgba(0, 0, 0, 0.815);
     width: 12%;
     margin: 0%;
-    height: 100vh;
-    ;
+    height: 100vh;;
 }
 
 
@@ -30,7 +29,6 @@ body {
 }
 
 .link-row th {
-
     color: rgb(12, 94, 142);
     font-size: 1.5rem;
     font-weight: 700;

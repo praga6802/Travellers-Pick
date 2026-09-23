@@ -1,11 +1,8 @@
-import {showSessionMessage } from "./error.js";
+import { showSessionMessage } from "./error.js";
 import { url } from "./config.js";
-document.addEventListener("DOMContentLoaded", handleViewBooking);
 
+const cardContainer = document.getElementById("booking-card");
 async function handleViewBooking() {
-    const cardContainer = document.getElementById("booking-card");
-    if (!cardContainer) return;
-
     try {
         const response = await fetch(`${url}/user/bookedTours`, {
             method: "GET",
@@ -15,6 +12,7 @@ async function handleViewBooking() {
         const responseData = await response.json();
 
         if (response.status === 401) {
+            cardContainer.style.display = "none";
             showSessionMessage(responseData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
@@ -23,6 +21,7 @@ async function handleViewBooking() {
         }
 
         if (!response.ok) {
+            cardContainer.style.display = "none";
             showSessionMessage("Failed to load bookings!", false);
             return;
         }
@@ -85,3 +84,5 @@ async function handleViewBooking() {
         console.error(err);
     }
 }
+
+document.addEventListener("DOMContentLoaded", handleViewBooking);

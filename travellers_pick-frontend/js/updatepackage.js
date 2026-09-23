@@ -1,5 +1,8 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
+//if current admin logged in create update package form
+const packageContainer = document.getElementById("package-container");
 const displayCurrentAdmin = async () => {
     try {
         const authResponse = await fetch(`${url}/admin/current-admin`, {
@@ -9,6 +12,7 @@ const displayCurrentAdmin = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
+            packageContainer.style.display = "none";
             showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/loginform.html";
@@ -16,8 +20,6 @@ const displayCurrentAdmin = async () => {
             return;
         }
 
-        //if current admin logged in create update package form
-        const packageContainer = document.getElementById("package-container");
         packageContainer.innerHTML = `
             <form id="packageform" enctype="multipart/form-data">
 		    <legend>UPDATE PACKAGE</legend>

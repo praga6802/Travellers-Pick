@@ -1,7 +1,7 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 
-
+const tourContainer = document.getElementById("tour-container");
 const displayAddTourForm = async () => {
     try {
         const authResponse = await fetch(`${url}/admin/current-admin`, {
@@ -12,6 +12,8 @@ const displayAddTourForm = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
+            tourContainer.style.display = "none";
+
             showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
@@ -19,7 +21,6 @@ const displayAddTourForm = async () => {
             return;
         }
 
-        const tourContainer = document.getElementById("tour-container");
         tourContainer.innerHTML = `
         	<form id="addcategoryform" enctype="multipart/form-data">
                 <legend>ADD TOUR</legend>

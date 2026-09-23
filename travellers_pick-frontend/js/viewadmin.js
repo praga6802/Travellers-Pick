@@ -1,5 +1,7 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
+const adminContainer = document.getElementById("admin-container");
 const displayCurrentAdmin = async () => {
     try {
         const response = await fetch(`${url}/admin/current-admin`, {
@@ -9,6 +11,7 @@ const displayCurrentAdmin = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
+            adminContainer.style.display = "none";
             showSessionMessage(
                 responseData.message || "Session expired. Please login again.",
                 false,
@@ -50,7 +53,6 @@ const displayAdmins = async () => {
             return;
         }
 
-        const adminContainer = document.getElementById("admin-container");
         if (!adminContainer) return;
 
         adminContainer.innerHTML = `

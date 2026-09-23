@@ -1,5 +1,7 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
+const userContainer = document.getElementById("user-container");
 const displayCurrentAdmin = async () => {
     try {
         const response = await fetch(`${url}/admin/current-admin`, {
@@ -9,6 +11,7 @@ const displayCurrentAdmin = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
+            userContainer.style.display = "none";
             showSessionMessage(responseData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
@@ -43,7 +46,6 @@ const displayUsers = async () => {
             return;
         }
 
-        const userContainer = document.getElementById("user-container");
         if (!userContainer) return;
 
         userContainer.innerHTML = `

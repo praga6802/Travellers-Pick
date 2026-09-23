@@ -1,6 +1,6 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
-
+const tourContainer = document.getElementById("packageTourContainer");
 const displayTour = async () => {
     try {
         const authResponse = await fetch(`${url}/user/current-user`, {
@@ -10,6 +10,7 @@ const displayTour = async () => {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
+            tourContainer.style.display = "none";
             showSessionMessage(authData.message, false);
             return;
         }
@@ -32,8 +33,6 @@ const displayTour = async () => {
         const packageTours = tourData.filter(
             (tour) => tour.packageId === packageId,
         );
-
-        const tourContainer = document.getElementById("packageTourContainer");
 
         if (packageTours.length === 0) {
             showSessionMessage("No tours found for this package!", false);
