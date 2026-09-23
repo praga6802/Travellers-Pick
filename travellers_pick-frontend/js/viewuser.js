@@ -16,8 +16,9 @@ const displayCurrentAdmin = async () => {
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
             }, 1500);
-            return;
+            return false;
         }
+        return true;
     } catch (err) {
         showSessionMessage("Network error..Please try again", false);
         console.error(err);
@@ -30,7 +31,6 @@ const displayUsers = async () => {
         const response = await fetch(`${url}/admin/allusers`, {
             method: "GET",
             credentials: "include",
-            headers: { "Content-Type": "application/json" },
         });
 
         const responseData = await response.json();
@@ -45,8 +45,6 @@ const displayUsers = async () => {
             showSessionMessage("No users found.", false);
             return;
         }
-
-        if (!userContainer) return;
 
         userContainer.innerHTML = `
             <h1 class="h1">USER INFO</h1>
@@ -66,13 +64,13 @@ const displayUsers = async () => {
 
         const userBody = document.getElementById("user-body");
 
-        usersList.forEach((user) => {
+        responseData.forEach((user) => {
             const userRow = document.createElement("tr");
             userRow.innerHTML = `
-                <td>${user.id || user.userId || "N/A"}</td>
-                <td>${user.username || user.userName || user.name || "N/A"}</td>
-                <td>${user.email || "N/A"}</td>
-                <td>${user.contact || user.phone || "N/A"}</td>
+                <td>${user.id}</td>
+                <td>${user.username}</td>
+                <td>${user.email}</td>
+                <td>${user.contact}</td>
             `;
             userBody.appendChild(userRow);
         });

@@ -16,12 +16,13 @@ const displayCurrentAdmin = async () => {
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
             }, 1500);
-            return;
+            return false;
         }
+        return true;
     } catch (err) {
         showSessionMessage("Network error..Please try again", false);
         console.error(err);
-        return;
+        return false;
     }
 };
 
