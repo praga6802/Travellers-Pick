@@ -10,7 +10,7 @@ async function handleViewBooking() {
             method: "GET",
             credentials: "include",
         });
-        const authData = await response.json();
+        const authData = await authResponse.json();
 
         if (!authResponse.ok) {
             user_links.style.display = "none";
