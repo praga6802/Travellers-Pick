@@ -24,10 +24,10 @@ const displayAdminForm = async () => {
             <form id="delAdmin">
                 <legend>DELETE ADMIN</legend>
                 
-                <label for="adminId">Admin ID</label>
+                <label for="adminId">Admin ID</label><br><br>
                 <input type="text" name="adminId" id="adminId" placeholder="Admin ID" readonly required><br><br>
 
-                <label for="password">Password</label>
+                <label for="password">Password</label><br><br>
                 <input type="password" name="password" id="password" placeholder="Enter Password to Confirm" required><br><br>
 
                 <div class="button-group">

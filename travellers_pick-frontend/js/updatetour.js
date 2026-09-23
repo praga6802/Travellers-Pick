@@ -74,6 +74,7 @@ const displayCurrentAdmin = async () => {
         }
 
         if (packageData.length === 0) {
+            tourContainer.style.display = "none";
             showSessionMessage("No Packages found", false);
             return;
         }

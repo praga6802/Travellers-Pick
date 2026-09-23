@@ -1,6 +1,8 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const packageContainer = document.getElementById("package-container");
+
+
 const displayUpdatePackageForm = async () => {
     try {
         const authResponse = await fetch(`${url}/admin/current-admin`, {
@@ -18,8 +20,6 @@ const displayUpdatePackageForm = async () => {
             }, 1500);
             return;
         }
-
-        // if admin logged, then create delete container
 
         packageContainer.innerHTML = `
             <form id="deletepackageform">
@@ -48,11 +48,13 @@ const displayUpdatePackageForm = async () => {
 
         const responseData = await response.json();
         if (!response.ok) {
+            packageContainer.style.display = "none";
             showSessionMessage(responseData.message, false);
             return;
         }
 
-        if (!responseData) {
+        if (!responseData || responseData.length==0) {
+            packageContainer.style.display = "none";
             showSessionMessage("No packages found!", false);
             return;
         }

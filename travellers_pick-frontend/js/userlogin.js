@@ -21,7 +21,7 @@ async function handleLogin(event) {
         console.log(responseData);
         if (response.ok) {
             showFormMessage(responseData.message, true);
-            setTimeout(() => (window.location.href = `/index.html`), 2000);
+            setTimeout(() => (window.location.href = `../index.html`), 2000);
         } else {
             showFormMessage(responseData.message, false);
             console.log("Back end error:", responseData);

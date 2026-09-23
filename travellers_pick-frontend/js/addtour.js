@@ -66,12 +66,14 @@ const displayAddTourForm = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
+            tourContainer.style.display = "none";
             showSessionMessage("Failed to load packages", false);
             return;
         }
 
-        if (Array.isArray(responseData) && responseData.length === 0) {
-            showSessionMessage("No packages available", false);
+        if (responseData.length === 0) {
+            tourContainer.style.display = "none";
+            showSessionMessage("No packages available",false);
             return;
         }
 

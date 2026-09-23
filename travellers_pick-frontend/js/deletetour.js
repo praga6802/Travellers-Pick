@@ -74,10 +74,17 @@ const loadPackages = async () => {
 
         const data = await response.json();
         if (!response.ok) {
+            container.style.display = "none";
             showSessionMessage(
                 data.message || "Failed to load packages",
                 false,
             );
+            return;
+        }
+
+        if (data.length === 0) {
+            container.style.display = "none";
+            showSessionMessage("No Tours found for this package!",false);
             return;
         }
 

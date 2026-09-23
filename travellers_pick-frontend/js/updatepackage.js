@@ -67,12 +67,14 @@ const displayCurrentAdmin = async () => {
         const packageData = await pkgResponse.json();
 
         if (!pkgResponse.ok) {
+            packageContainer.style.display = "none";
             showFormMessage(packageData.message, false);
             return;
         }
 
         if (packageData.length === 0) {
-            showFormMessage("No Packages found", false);
+            packageContainer.style.display = "none";
+            showSessionMessage("No packages found!", false);
             return;
         }
 
