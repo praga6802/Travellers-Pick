@@ -29,8 +29,8 @@ const displayUpdateForm = async () => {
         }
 
         updateContainer.innerHTML = `
-        <h1 id="update-legend">UPDATE USER INFO</h1>
         <form id="update-form">
+            <legend id="update-legend">UPDATE USER INFO</legend>
             <div>
                 <label for="username">User Name</label>
                 <input
