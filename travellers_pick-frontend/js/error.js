@@ -5,12 +5,6 @@ export function showFormMessage(message, isSuccess) {
         return;
     }
 
-    if (!message) {
-        formError.style.display = "none";
-        formError.textContent = "";
-        return;
-    }
-
     formError.textContent = message;
 
     if (isSuccess) {
@@ -26,12 +20,6 @@ export function showSessionMessage(message, isSuccess) {
     const sessionError = document.getElementById("session-error");
 
     if (!sessionError) {
-        return;
-    }
-
-    if (!message) {
-        sessionError.style.display = "none";
-        sessionError.textContent = "";
         return;
     }
 

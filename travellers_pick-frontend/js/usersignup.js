@@ -1,4 +1,4 @@
-import {showFormMessage, showSessionMessage } from "./error.js";
+import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const form = document.getElementById("signup-form");
 form.addEventListener("submit", handleSignUp);
@@ -22,7 +22,7 @@ async function handleSignUp(event) {
 
         const responseData = await response.json();
         if (response.ok) {
-            showSessionMessage(responseData.message, true);
+            showFormMessage(responseData.message, true);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
             }, 2000);
