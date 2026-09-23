@@ -43,10 +43,7 @@ const displayCurrentAdmin = async () => {
                 <input type="text" name="packageSlogan" id="packageSlogan" maxlength="50"
                     placeholder="Package Slogan" /><br><br>
             </div>
-            <div class="input-box">
-                <label for="code">Package Code</label><br>
-                <input type="text" name="packageCode" id="packageCode" maxlength="3" placeholder="Package Code" /><br><br>
-            </div>
+
             <div class="input-box">
                 <label for="imageFile">Package Image</label><br>
                 <input type="file" name="imageFile" id="imageFile" accept="image/*"><br><br>

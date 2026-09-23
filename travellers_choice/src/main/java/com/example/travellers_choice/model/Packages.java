@@ -24,9 +24,7 @@ public class Packages {
 
     @Column(name="imgUrl", nullable = false)
     private String imgUrl;
-
-    @Column(name="packageCode",nullable = false)
-    private String packageCode;
+    
 
     @OneToMany(mappedBy = "packageName", orphanRemoval = true, cascade =CascadeType.ALL)
     @JsonManagedReference

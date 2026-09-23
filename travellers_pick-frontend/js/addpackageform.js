@@ -35,11 +35,6 @@ const displayForm = async () => {
                         placeholder="Package Slogan" /><br><br>
                 </div>
                 <div class="input-box">
-                    <label for="code">Package Code</label><br>
-                    <input type="text" name="packageCode" id="packageCode" maxlength="3"
-                        placeholder="Package Code" /><br><br>
-                </div>
-                <div class="input-box">
                     <label for="imageFile">Package Image</label><br>
                     <input type="file" name="imageFile" id="imageFile" accept="image/*"><br><br>
                 </div>
@@ -63,7 +58,6 @@ const handlePackage = async (e) => {
     const packageName = document.getElementById("packageName").value.trim();
     const packageSlogan = document.getElementById("packageSlogan").value.trim();
     const imageFile = document.getElementById("imageFile");
-    const packageCode = document.getElementById("packageCode").value.trim();
 
     if (!packageName) {
         showFormMessage("Package name is required!", false);
@@ -73,10 +67,7 @@ const handlePackage = async (e) => {
         showFormMessage("Package Slogan is required!", false);
         return;
     }
-    if (!packageCode) {
-        showFormMessage("Package Code is required!", false);
-        return;
-    }
+
     if (!imageFile.files || imageFile.files.length === 0) {
         showFormMessage("Image is required!", false);
         return;
@@ -85,7 +76,6 @@ const handlePackage = async (e) => {
     const formData = new FormData();
     formData.append("packageName", packageName);
     formData.append("packageSlogan", packageSlogan);
-    formData.append("packageCode", packageCode);
     formData.append("imageFile", imageFile.files[0]);
 
     try {
