@@ -75,8 +75,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
         }
-        System.out.println(userDetails.getUsername());
-        System.out.println(userDetails.getAuthorities());
         return userService.updateUser(user,userDetails.getUsername());
     }
 

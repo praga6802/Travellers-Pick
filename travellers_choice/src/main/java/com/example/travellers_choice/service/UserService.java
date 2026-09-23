@@ -226,32 +226,41 @@ public class UserService {
     //update user profile
     public ResponseEntity<?> updateUser(UserDTO userDTO, String email) {
         Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email", email));
-        String message="";
-        boolean isUpdated=true;
-        //update user name
-        if(userDTO.getUsername() != null && !userDTO.getUsername().isBlank() && !userDTO.getUsername().equals(user.getUsername())) {
+
+        boolean isUpdated = false;
+
+        // Update username
+        if (userDTO.getUsername() != null && !userDTO.getUsername().isBlank() && !userDTO.getUsername().equals(user.getUsername())) {
             user.setUsername(userDTO.getUsername());
-            isUpdated=true;
-            return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","User Name has been successfully changed to "+userDTO.getUsername()));
+            isUpdated = true;
         }
 
-        //update contact
-        if(userDTO.getContact() != null && !userDTO.getContact().isBlank() && !userDTO.getContact().equals(user.getContact())) {
+        // Update contact
+        if (userDTO.getContact() != null && !userDTO.getContact().isBlank() && !userDTO.getContact().equals(user.getContact())) {
             user.setContact(userDTO.getContact());
-            isUpdated=true;
-            return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Mobile Number has been successfully changed to "+userDTO.getContact()));
+            isUpdated = true;
         }
 
-        //update email via otp
-        if(userDTO.getEmail() != null && !userDTO.getEmail().isBlank() && !userDTO.getEmail().equals(user.getEmail())){
+        // Update email
+        if (userDTO.getEmail() != null && !userDTO.getEmail().isBlank() && !userDTO.getEmail().equals(user.getEmail())) {
 
-            if(userRepo.existsByEmail(userDTO.getEmail())) //if the entered email is already exists in repo
-                return ResponseEntity.status(HttpStatus.FOUND).
-                        body(new AResponse(LocalDateTime.now(),"Failure","Can't Update! Email already taken"));
-            else
-                return verificationEmail(userDTO.getEmail(),user);
+            if (userRepo.existsByEmail(userDTO.getEmail())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(new AResponse(LocalDateTime.now(), "Failure", "Can't Update! Email already taken"));
+            }
+            return verificationEmail(userDTO.getEmail(), user);
         }
-        return ResponseEntity.status(HttpStatus.FOUND).body(new AResponse(LocalDateTime.now(), "Failure", "No fields were updated!"));
+
+        if (!isUpdated) {
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED)
+                    .body(new AResponse(
+                            LocalDateTime.now(),
+                            "Failure",
+                            "No fields were updated!"
+                    ));
+        }
+
+        userRepo.save(user);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "User details updated successfully"));
     }
 
     //verification of email
