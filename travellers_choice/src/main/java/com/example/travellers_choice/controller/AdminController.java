@@ -41,7 +41,7 @@ public class AdminController {
                                             // --- ADMIN ---
     //sign up admin
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody Admin admin){
+    public ResponseEntity<?> signUp(@RequestBody UserRegisterDTO admin){
         return adminService.signUp(admin);
     }
 

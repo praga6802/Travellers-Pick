@@ -67,18 +67,24 @@ public class UserService {
     private MyUserDetailsService userDetailsService;
 
     //user sign up
-    public ResponseEntity<?> customerSignUp(Customer customer) {
-        if (userRepo.existsByContact(customer.getContact())) {
+    public ResponseEntity<?> customerSignUp(UserRegisterDTO user) {
+        if (userRepo.existsByContact(user.getContact())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new AlreadyExistsException("Mobile Number", customer.getContact()));
+                    .body(new AlreadyExistsException("Mobile Number", user.getContact()));
         }
-        if (userRepo.existsByEmail(customer.getEmail())) {
+        if (userRepo.existsByEmail(user.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new AlreadyExistsException("Email ID", customer.getEmail()));
+                    .body(new AlreadyExistsException("Email ID", user.getEmail()));
         }
-        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+
+        Customer customer = new Customer();
+        customer.setUsername(user.getUsername());
+        customer.setEmail(user.getEmail());
+        customer.setPassword(passwordEncoder.encode(user.getPassword()));
+        customer.setContact(user.getContact());
         customer.setRole("ROLE_USER");
         userRepo.save(customer);
+
         String sub="Welcome to Traveller’s Pick – Your Account is Ready!";
         String message = "Hi " + customer.getUsername() + ",\n\n"
                 + "Thank you for signing up with Traveller’s Choice!\n"

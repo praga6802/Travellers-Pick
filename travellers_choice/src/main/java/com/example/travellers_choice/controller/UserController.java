@@ -46,8 +46,8 @@ public class UserController {
 
     //user signup
     @PostMapping("/signup")
-    public ResponseEntity<?> customerSignUp(@RequestBody Customer customer) {
-        return userService.customerSignUp(customer);
+    public ResponseEntity<?> customerSignUp(@RequestBody UserRegisterDTO user) {
+        return userService.customerSignUp(user);
     }
 
     //user login

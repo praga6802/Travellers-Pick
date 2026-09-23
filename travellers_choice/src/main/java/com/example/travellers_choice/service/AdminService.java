@@ -3,6 +3,7 @@ package com.example.travellers_choice.service;
 
 import com.example.travellers_choice.dto.AdminDTO;
 import com.example.travellers_choice.dto.BookedUserDTO;
+import com.example.travellers_choice.dto.UserRegisterDTO;
 import com.example.travellers_choice.exception.AlreadyExistsException;
 import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.UnAuthorizedException;
@@ -62,21 +63,26 @@ public class AdminService {
     PasswordEncoder passwordEncoder;
 
     //ADMIN SIGN UP
-    public ResponseEntity<?> signUp(Admin admin) {
-        if(adminRepo.existsByEmail(admin.getEmail())){
+    public ResponseEntity<?> signUp(UserRegisterDTO user) {
+        if(adminRepo.existsByEmail(user.getEmail())){
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new AResponse(LocalDateTime.now(),
                             "Already Exists",
-                            "Email ID " + admin.getEmail() + " already exists"));
+                            "Email ID " + user.getEmail() + " already exists"));
         }
-        if(adminRepo.existsByContact(admin.getContact())){
+        if(adminRepo.existsByContact(user.getContact())){
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new AResponse(LocalDateTime.now(),
                             "Already Exists",
-                            "Mobile Number " + admin.getContact() + " already exists"));
+                            "Mobile Number " + user.getContact() + " already exists"));
         }
+
+        Admin admin = new Admin();
+        admin.setUsername(user.getUsername());
+        admin.setEmail(user.getEmail());
+        admin.setPassword(passwordEncoder.encode(user.getPassword()));
+        admin.setContact(user.getContact());
         admin.setRole("ROLE_ADMIN");
-        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         adminRepo.save(admin);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Sign Up Successfully"));
     }
