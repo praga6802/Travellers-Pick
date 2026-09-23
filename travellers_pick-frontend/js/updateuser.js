@@ -1,6 +1,6 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
-const updateContainer = document.getElementById("update-form");
+const updateContainer = document.getElementById("updateform");
 const userHeader = document.getElementById("userHeader");
 const userLinks = document.querySelector(".user-links");
 
