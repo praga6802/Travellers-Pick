@@ -3,6 +3,7 @@ import { url } from "./config.js";
 
 const bookingList = document.getElementById("booking-list");
 const user_links = document.querySelector(".user-links");
+const userHeader = document.getElementById("user-header");
 
 async function handleViewBooking() {
     try {
@@ -13,6 +14,7 @@ async function handleViewBooking() {
         const authData = await authResponse.json();
 
         if (!authResponse.ok) {
+            userHeader.style.display = "none";
             user_links.style.display = "none";
             bookingList.style.display = "none";
             showSessionMessage(authData.message, false);
