@@ -139,13 +139,6 @@ const displayCurrentAdmin = async () => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
             option.innerText = pkg.packageName;
-            packageId.appendChild(option);
-        });
-
-        responseData.forEach((pkg) => {
-            const option = document.createElement("option");
-            option.value = pkg.packageId;
-            option.innerText = pkg.packageName;
             packageNameSelect.appendChild(option);
         });
 
