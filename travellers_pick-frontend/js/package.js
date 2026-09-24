@@ -30,9 +30,14 @@ const displayPackage = async () => {
                 <img src='${url}${pkg.imgUrl}' alt='${pkg.packageName}'>
                 <h2 class="package-title">${pkg.packageName}</h2>
                 <h6 class="package-slogan"> -${pkg.packageSlogan}- </h6>
-                <button class='explore-button' onclick="bookPackage('${pkg.fileName}','${pkg.packageId}')">EXPLORE</button>
+                <button class='explore-button'>EXPLORE</button>
             `;
             packageContainer.appendChild(card);
+
+            const exploreButton = document.querySelector(".explore-button");
+            exploreButton.addEventListener("click", () => {
+                bookPackage(pkg.fileName, pkg.packageId);
+            });
         });
     } catch (e) {
         showMessage(e.message, false);
