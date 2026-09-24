@@ -24,22 +24,18 @@ const initDeleteTourForm = async () => {
             <form id="deletecategoryform">
                 <legend>DELETE TOUR</legend>
 
-                <div class="input-box">
+                <div class="input">
                     <label for="packageId">Package Name</label>
-                    <span>
                         <select name="packageId" id="packageId" required>
                             <option value="" hidden selected disabled>Select Package</option>
                         </select>
-                    </span>
                 </div><br>
 
-                <div class="input-box">
+                <div class="input">
                     <label for="tourId">Tour Name</label>
-                    <span>
                         <select name="tourId" id="tourId" disabled required>
                             <option value="" hidden selected disabled>Select Tour</option>
                         </select>
-                    </span>
                 </div><br>
 
                 <div class="button-group">

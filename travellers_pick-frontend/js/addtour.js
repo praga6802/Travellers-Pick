@@ -25,33 +25,96 @@ const displayAddTourForm = async () => {
         	<form id="addcategoryform" enctype="multipart/form-data">
                 <legend>ADD TOUR</legend>
 
-                <label for="packageName">Package Name</label>
-                <select name="packageName" id="packageName" required>
-                    <option disabled selected hidden value="">Select Package</option>
-                </select><br><br>
+                <div class="input-list">
+                    <div class="input">
+                        <label for="packageName">Package Name</label>
+                            <select name="packageName" id="packageName" required>
+                                <option disabled selected hidden value="">Select Package</option>
+                            </select>
+                    </div>
 
-                <label for="tourName">Tour Name</label>
-                <input type="text" name="tourName" id="tourName" placeholder="Enter the tour name" required><br><br>
-                <label for="tourslogan">Tour Slogan</label>
-                <input type="text" name="tourSlogan" id="tourSlogan" maxlength="50"
-                    placeholder="Enter the tour slogan" /><br><br>
-                <label for="places">Places</label>
-                <input type="text" name="places" id="places" placeholder="Enter the list of places seperated by comma"
-                    required><br><br>
-                <label for="days">Days</label>
-                <input type="number" name="days" id="days" max="10" min="1" required>
-                <label for="days">Nights</label>
-                <input type="number" name="nights" id="nights" max="10" min="1" required><br><br>
-                <label for="price">Price</label>
-                <input type="text" name="price" id="price" placeholder="Enter amount" required><br><br>
+                    <div class="input">
+                        <label for="tourName">Tour Name</label>
+                        <input
+                            type="text"
+                            name="tourName"
+                            id="tourName"
+                            placeholder="Enter the tour name"
+                            required>
+                    </div>
 
-                <label for="imageFile">Tour Image</label><br>
-                <input type="file" name="imageFile" id="imageFile" accept="images/*">
+                    <div class="input">
+                        <label for="tourSlogan">Tour Slogan</label>
+                        <input
+                            type="text"
+                            name="tourSlogan"
+                            id="tourSlogan"
+                            maxlength="50"
+                            placeholder="Enter the tour slogan">
+                    </div>
 
-                <div class="button-group">
-                    <input type="submit" value="ADD" name="submit" class="button" />
-                    <input type="reset" value="RESET" name="reset" class="button" />
+                    <div class="input">
+                        <label for="places">Places</label>
+                        <input
+                            type="text"
+                            name="places"
+                            id="places"
+                            placeholder="Enter the list of places separated by comma"
+                            required>
+                    </div>
+
+
+                    <div id="duration">
+                        <div class="input">
+                            <label for="days">Days</label>
+                            <input
+                                type="number"
+                                name="days"
+                                id="days"
+                                placeholder="0"
+                                max="10"
+                                min="1"
+                                required>
+                        </div>
+
+                        <div class="input">
+                            <label for="nights">Nights</label>
+                            <input
+                                type="number"
+                                name="nights"
+                                id="nights"
+                                placeholder="0"
+                                max="10"
+                                min="1"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="input">
+                        <label for="price">Price</label>
+                        <input
+                            type="text"
+                            name="price"
+                            id="price"
+                            placeholder="Enter amount"
+                            required>
+                    </div>
+
+                    <div class="input">
+                        <label for="imageFile">Tour Image</label>
+                        <input
+                            type="file"
+                            name="imageFile"
+                            id="imageFile"
+                            accept="image/*">
+                    </div>
+
+                    <div class="button-group">
+                        <input type="submit" value="ADD" name="submit" class="button" />
+                        <input type="reset" value="RESET" name="reset" class="button" />
+                    </div>
                 </div>
+                <p id="form-error"></p>
         </form>
         `;
 
@@ -73,7 +136,7 @@ const displayAddTourForm = async () => {
 
         if (responseData.length === 0) {
             tourContainer.style.display = "none";
-            showSessionMessage("No packages available",false);
+            showSessionMessage("No packages available", false);
             return;
         }
 
