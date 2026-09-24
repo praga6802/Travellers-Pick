@@ -46,10 +46,10 @@ async function handleSignUp(event) {
 
         if (response.ok) {
             showFormMessage(responseData.message, true);
-            username.value = "";
-            email.value = "";
-            password.value = "";
-            contact.value = "";
+            document.getElementById("username").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("contact").value = "";
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
             }, 2000);

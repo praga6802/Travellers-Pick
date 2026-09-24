@@ -21,8 +21,8 @@ async function handleLogin(event) {
         console.log(responseData);
         if (response.ok) {
             showFormMessage(responseData.message, true);
-            email.value = "";
-            password.value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
             setTimeout(() => (window.location.href = `../index.html`), 2000);
         } else {
             showFormMessage(responseData.message, false);
