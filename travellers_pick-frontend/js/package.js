@@ -3,6 +3,21 @@ import { url } from "./config.js";
 const packageContainer = document.getElementById("packageContainer");
 const displayPackage = async () => {
     try {
+        const authResponse = await fetch(`${url}/admin/current-user`, {
+            method: "GET",
+            credentials: "include",
+        });
+        const authData = await authResponse.json();
+
+        if (!authResponse.ok) {
+            packageContainer.style.display = "none";
+            showSessionMessage(authData.message, false);
+            setTimeout(() => {
+                window.location.href = "../html/loginform.html";
+            }, 1500);
+            return;
+        }
+
         const response = await fetch(`${url}/admin/allPackages`, {
             method: "GET",
             credentials: "include",
@@ -17,6 +32,7 @@ const displayPackage = async () => {
         }
 
         if (responseData.length === 0) {
+            packageContainer.style.display = "none";
             showSessionMessage("No Packages found!", false);
         }
 
