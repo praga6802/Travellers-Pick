@@ -162,7 +162,7 @@ public class AdminController {
     }
 
 
-    //GET PACKAGE BY ID
+    //GET PACKAGE Details BY ID
     @GetMapping("/getPackage/{package_id}")
     public ResponseEntity<?> getPackageById(@PathVariable Integer package_id){
         return packageService.getPackageById(package_id);

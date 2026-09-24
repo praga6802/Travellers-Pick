@@ -35,7 +35,7 @@ const displayCurrentAdmin = async () => {
 
             <div class="input-box">
                 <label for="package_name">Package Name</label><br>
-                <input type="text" name="packageName" id="packageName" required maxlength="30"
+                <input type="text" name="packageName" id="packageName" maxlength="30"
                     placeholder="Package Name" /><br><br>
             </div>
             <div class="input-box">
@@ -56,6 +56,7 @@ const displayCurrentAdmin = async () => {
         `;
 
         const packageSelect = document.getElementById("packageId");
+
         const pkgResponse = await fetch(`${url}/admin/packageNames`, {
             method: "GET",
             credentials: "include",
@@ -82,6 +83,31 @@ const displayCurrentAdmin = async () => {
             packageSelect.appendChild(option);
         });
 
+        const packageDetailResponse = await fetch(
+            `${url}/admin/getPackage/${option.value}`,
+            { method: "GET" },
+        );
+
+        const packageDetailsData = await packageDetailResponse.json();
+        const { packageName, packageSlogan, imgFile } = packageDetailsData;
+
+        if (!packageDetailResponse.ok) {
+            packageContainer.style.display = "none";
+            showFormMessage("No Details Found!", false);
+            return;
+        }
+
+        if (!packageDetailsData) {
+            packageContainer.style.display = "none";
+            showFormMessage("No Details Found!", false);
+            return;
+        }
+
+        document.getElementById("packageName").value = packageName;
+        document.getElementById("packageSlogan").value = packageSlogan;
+        document.getElementById("imgFile").value = imgFile;
+        
+
         const updateform = document.getElementById("packageform");
         updateform.addEventListener("submit", handleUpdate);
     } catch (err) {
@@ -90,6 +116,7 @@ const displayCurrentAdmin = async () => {
     }
 };
 
+// new package details
 const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -126,6 +153,7 @@ const handleUpdate = async (e) => {
             showFormMessage(responseData.message, false);
             return;
         }
+        
         showFormMessage(responseData.message, true);
         setTimeout(() => {
             updatePackageForm.reset();

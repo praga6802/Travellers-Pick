@@ -143,9 +143,10 @@ public class PackageService {
     public ResponseEntity<?> getPackageById(Integer pkgId){
         Packages pkgid=packageRepo.findById(pkgId).orElseThrow(()-> new IDNotFoundException("Package Id",pkgId));
         Map<String, Object> response= new LinkedHashMap<>();
-        response.put("Package ID",pkgid.getPackageId());
-        response.put("Package Name",pkgid.getPackageName());
-        response.put("Package Slogan",pkgid.getPackageSlogan());
+        response.put("packageId",pkgid.getPackageId());
+        response.put("packageName",pkgid.getPackageName());
+        response.put("packageSlogan",pkgid.getPackageSlogan());
+        response.put("imgFile",pkgid.getImgUrl());
         return ResponseEntity.ok(response);
     }
 
