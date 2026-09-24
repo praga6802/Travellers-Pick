@@ -125,6 +125,10 @@ const handleUpdate = async (e) => {
         }
 
         showFormMessage(responseData.message, true);
+
+        if (response.ok) {
+            e.target.reset();
+        }
     } catch (err) {
         showFormMessage("Network error..Please try again");
         console.error(err);

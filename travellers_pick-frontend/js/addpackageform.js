@@ -12,7 +12,6 @@ const displayForm = async () => {
         const authData = await authResponse.json();
         if (!authResponse.ok) {
             packageContainer.style.display = "none";
-
             showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
@@ -92,7 +91,9 @@ const handlePackage = async (e) => {
         }
 
         showFormMessage(responseData.message, true);
-        document.getElementById("packageform").reset();
+        if(response.ok){
+            e.target.reset();
+        }
     } catch (err) {
         showFormMessage("Network error..Please try again!");
         console.log(err);
