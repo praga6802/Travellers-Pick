@@ -48,8 +48,9 @@ const displayTour = async () => {
         }
 
         packageTours.forEach((tour) => {
-            tourContainer.innerHTML = `
-            <div class='card'>
+            const tourCard = document.createElement("div");
+            tourCard.className = "card";
+            tourCard.innerHTML = `
                 <img src="${url}${tour.imgUrl}" alt="${tour.tourName}">
                 <h4>${tour.tourName}</h4>
                 <h6>${tour.tourSlogan}</h6>
@@ -58,15 +59,14 @@ const displayTour = async () => {
                 <span class="package-name"> <i style="font-size:24px" class="fa">&#xf017;</i> Days: ${tour.days} - Nights: ${tour.nights}</span>
                 <p id='price'>Price: Rs.${tour.price}</p>
 			    <button class="book-button">BOOK NOW</button>
-		    </div>
             `;
-            const cards = tourContainer.querySelectorAll(".card");
-            const currentCard = cards[cards.length - 1];
 
-            const bookButton = currentCard.querySelector(".book-button");
+            const bookButton = tourCard.querySelector(".book-button");
             bookButton.addEventListener("click", () => {
                 bookTour(tour.fileName);
             });
+
+            tourContainer.appendChild(tourCard);
         });
     } catch (error) {
         showSessionMessage("Network error..Please try again");
