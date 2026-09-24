@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -71,7 +72,7 @@ public class PackageService {
         }
         catch (Exception e){
             System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AResponse(LocalDateTime.now(),"Failure","Failed to Upload Image!"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AResponse(LocalDateTime.now(),"Failure","Failed to Upload Package Image!"));
         }
 
         Packages newPackage = new Packages();
@@ -107,6 +108,14 @@ public class PackageService {
             File file = new File(folder, fileName);
             if (updatePackageDTO.getImageFile() != null && !updatePackageDTO.getImageFile().isEmpty()) {
                 existingPackage.setImgUrl("/uploads/packages/" + fileName);
+            }
+
+            try{
+                image.transferTo(file);
+            }
+            catch (IOException e){
+                System.out.println(e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AResponse(LocalDateTime.now(),"Failure","Failed to Update Package Image!"));
             }
         }
         packageRepo.save(existingPackage);

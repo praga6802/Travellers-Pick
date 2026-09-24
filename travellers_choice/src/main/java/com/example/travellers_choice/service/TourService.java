@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -35,15 +36,14 @@ public class TourService {
     CustomerRegister customerRepo;
 
     //add tour by all admin credentials
-    public ResponseEntity<?> addCategory(UploadCategoryDTO categoryDTO, String email) {
-        Admin exisitingAdmin= adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
+    public ResponseEntity<?> addTour(UploadCategoryDTO tourDTO, String email) {
 
-        Packages pkg = packageRepo.findById(categoryDTO.getPackageId())
-                .orElseThrow(() -> new IDNotFoundException("Package ID",categoryDTO.getPackageId()));
+        Packages pkg = packageRepo.findById(tourDTO.getPackageId()).orElseThrow(() -> new IDNotFoundException("Package ID",tourDTO.getPackageId()));
 
-        MultipartFile image = categoryDTO.getImageFile();
-        String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers-choice/travellers_pick-frontend/img";
-        File dir= new File(path);
+        MultipartFile image = tourDTO.getImageFile();
+
+        String dirPath = "/app/uploads/tours";
+        File dir= new File(dirPath);
         if(!dir.exists())dir.mkdirs();
 
         String fileName=image.getOriginalFilename();
@@ -53,24 +53,24 @@ public class TourService {
         }
         catch (Exception e){
             System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AResponse(LocalDateTime.now(),"Failure","Failed to Upload Image!"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AResponse(LocalDateTime.now(),"Failure","Failed to Upload Tour Image!"));
         }
 
         Tour tour = new Tour();
         tour.setPackageName(pkg);
-        tour.setTourName(categoryDTO.getTourName());
-        tour.setTourSlogan(categoryDTO.getTourSlogan());
-        tour.setPlaces(categoryDTO.getPlaces());
-        tour.setDays(categoryDTO.getDays());
-        tour.setNights(categoryDTO.getNights());
-        tour.setPrice(categoryDTO.getPrice());
-        tour.setImgUrl("img/"+fileName);
+        tour.setTourName(tourDTO.getTourName());
+        tour.setTourSlogan(tourDTO.getTourSlogan());
+        tour.setPlaces(tourDTO.getPlaces());
+        tour.setDays(tourDTO.getDays());
+        tour.setNights(tourDTO.getNights());
+        tour.setPrice(tourDTO.getPrice());
+        tour.setImgUrl("/uploads/tours/"+fileName);
         tourRepo.save(tour);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Added Successfully"));
     }
 
     //update tour by all admin credentials
-    public ResponseEntity<?> updateCategory(UploadCategoryDTO categoryDTO, String email) {
+    public ResponseEntity<?> updateTour(UploadCategoryDTO categoryDTO, String email) {
         Admin exisitingAdmin = adminRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Admin Email", email));
 
         Packages pkg=packageRepo.findById(categoryDTO.getPackageId()).orElseThrow(()->new IDNotFoundException("Package ID",categoryDTO.getPackageId()));
@@ -103,14 +103,21 @@ public class TourService {
 
         if(categoryDTO.getImageFile()!=null && !categoryDTO.getImageFile().isEmpty()){
             MultipartFile image = categoryDTO.getImageFile();
-            String path = "C:/Users/praga/OneDrive/Documents/Java Projects/travellers-choice/travellers_pick-frontend/img";
+            String path = "/app/uploads/tours";
             File folder = new File(path);
             if (!folder.exists()) folder.mkdirs();
 
             String fileName = image.getOriginalFilename();
             File file = new File(folder, fileName);
             if (categoryDTO.getImageFile() != null && !categoryDTO.getImageFile().isEmpty()) {
-                tourEntity.setImgUrl("img/" + fileName);
+                tourEntity.setImgUrl("/uploads/tours/" + fileName);
+            }
+            try{
+                image.transferTo(file);
+            }
+            catch (IOException e){
+                System.out.println(e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AResponse(LocalDateTime.now(),"Failure","Failed to Update Tour Image!"));
             }
         }
 
@@ -119,7 +126,7 @@ public class TourService {
     }
 
     //delete tour by admin
-    public ResponseEntity<?> deleteCategory(DeleteTourDTO dto, String email) {
+    public ResponseEntity<?> deleteTour(DeleteTourDTO dto, String email) {
         Admin exisitingAdmin = adminRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Admin Email", email));
         Tour tourEntity = tourRepo.findById(dto.getTourId()).orElseThrow(() -> new IDNotFoundException("Tour ID", dto.getTourId()));
 

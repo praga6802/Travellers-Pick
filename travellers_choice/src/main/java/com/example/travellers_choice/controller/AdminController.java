@@ -171,21 +171,21 @@ public class AdminController {
 
                                                         //  --- TOUR ---
     //ADD TOUR
-    @PostMapping(value = "/addCategory",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> addCategory(@ModelAttribute UploadCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
-        return tourService.addCategory(categoryDTO,userDetails.getUsername());
+    @PostMapping(value = "/addTour",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> addTour(@ModelAttribute UploadCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return tourService.addTour(categoryDTO,userDetails.getUsername());
     }
 
     // UPDATE TOUR
-    @PutMapping(value = "/updateCategory", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updateCategory(@ModelAttribute UploadCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
-        return tourService.updateCategory(categoryDTO,userDetails.getUsername());
+    @PutMapping(value = "/updateTour", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateTour(@ModelAttribute UploadCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return tourService.updateTour(categoryDTO,userDetails.getUsername());
     }
 
     // DELETE TOUR
-    @DeleteMapping("/deleteCategory")
-    public ResponseEntity<?> deleteCategory(@RequestBody DeleteTourDTO dto, @AuthenticationPrincipal UserDetails userDetails){
-        return tourService.deleteCategory(dto, userDetails.getUsername());
+    @DeleteMapping("/deleteTour")
+    public ResponseEntity<?> deleteTour(@RequestBody DeleteTourDTO dto, @AuthenticationPrincipal UserDetails userDetails){
+        return tourService.deleteTour(dto, userDetails.getUsername());
     }
 
     //GET ALL TOURS
