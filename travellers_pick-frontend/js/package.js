@@ -50,14 +50,14 @@ const displayPackage = async () => {
                 <button class='explore-button'>EXPLORE</button>
             `;
 
-            const exploreButton = document.querySelector(".explore-button");
+            const exploreButton = card.querySelector(".explore-button");
             exploreButton.addEventListener("click", () => {
                 bookPackage(pkg.fileName, pkg.packageId);
             });
             packageContainer.appendChild(card);
         });
     } catch (e) {
-        showMessage(e.message, false);
+        showSessionMessage(e.message, false);
         console.error(e);
     }
 };
