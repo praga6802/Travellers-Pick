@@ -13,6 +13,10 @@ const displayTour = async () => {
         if (!authResponse.ok) {
             tourContainer.style.display = "none";
             showSessionMessage(authData.message, false);
+            setTimeout(() => {
+                window.location.href = "../html/user-login.html";
+            }, 1500);
+            return;
             return;
         }
 

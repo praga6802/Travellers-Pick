@@ -1,5 +1,7 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("otp-form");
     const otpinp = document.querySelectorAll(".otp");
@@ -46,13 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const responseData = await response.json();
 
             if (!response.ok) {
-                showSessionMessage(
-                    responseData.message || "User not logged in",
-                    false,
-                );
-                if (form) form.style.display = "none";
+                form.style.display = "none";
+                showSessionMessage(responseData.message, false);
                 setTimeout(() => {
-                    window.location.href = "../html/user-login.html";
+                    window.location.href = "../html/admin-login.html";
                 }, 1500);
                 return;
             }

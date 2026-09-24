@@ -19,6 +19,10 @@ const displayCancelForm = async () => {
             adminHeader.style.display = "none";
             userLinks.style.display = "none";
             showSessionMessage(authData.message, false);
+
+            setTimeout(() => {
+                window.location.href = "../html/user-login.html";
+            }, 1500);
             return;
         }
 

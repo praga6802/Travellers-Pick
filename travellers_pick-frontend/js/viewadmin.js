@@ -12,12 +12,9 @@ const displayCurrentAdmin = async () => {
 
         if (!response.ok) {
             adminContainer.style.display = "none";
-            showSessionMessage(
-                responseData.message || "Session expired. Please login again.",
-                false,
-            );
+            showSessionMessage(responseData.message, false);
             setTimeout(() => {
-                window.location.href = "../html/loginform.html";
+                window.location.href = "../html/admin-login.html";
             }, 1500);
             return false;
         }
@@ -40,16 +37,13 @@ const displayAdmins = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showFormMessage(
-                responseData.message || "Failed to fetch admins",
-                false,
-            );
+            showFormMessage("Failed to fetch admins", false);
             console.error(response);
             return;
         }
 
-        if (Array.isArray(responseData) && responseData.length === 0) {
-            showFormMessage("No admins found.", false);
+        if (responseData.length === 0) {
+            showFormMessage("No admins found!", false);
             return;
         }
 

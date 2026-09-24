@@ -14,7 +14,7 @@ const displayCurrentAdmin = async () => {
             adminContainer.style.display = "none";
             showSessionMessage(authData.message, false);
             setTimeout(() => {
-                window.location.href = "../html/loginform.html";
+                window.location.href = "../html/admin-login.html";
             }, 1500);
             return;
         }
