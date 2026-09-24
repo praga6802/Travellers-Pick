@@ -3,7 +3,7 @@ import { url } from "./config.js";
 const packageContainer = document.getElementById("packageContainer");
 const displayPackage = async () => {
     try {
-        const authResponse = await fetch(`${url}/admin/current-user`, {
+        const authResponse = await fetch(`${url}/user/current-user`, {
             method: "GET",
             credentials: "include",
         });
