@@ -25,7 +25,7 @@ body {
 
 .link-row:hover {
     color: white;
-    background-color: rgb(30, 29, 29);
+    background-color: rgb(65, 64, 64);
 }
 
 .link-row th {
@@ -167,6 +167,7 @@ body {
     text-align: center;
     margin-left: 100px;
     margin-top: 50px;
+    border-radius: 10px;
 }
 
 .head {
