@@ -83,30 +83,44 @@ const displayCurrentAdmin = async () => {
             packageSelect.appendChild(option);
         });
 
-        const packageDetailResponse = await fetch(
-            `${url}/admin/getPackage/${option.value}`,
-            { method: "GET" },
-        );
+        packageSelect.addEventListener("change", async () => {
+            const packageId = packageSelect.value;
+            if (!packageId) {
+                return;
+            }
 
-        const packageDetailsData = await packageDetailResponse.json();
-        const { packageName, packageSlogan, imgFile } = packageDetailsData;
+            try {
+                const packageDetailResponse = await fetch(
+                    `${url}/admin/getPackage/${packageId}`,
+                    { method: "GET" },
+                );
 
-        if (!packageDetailResponse.ok) {
-            packageContainer.style.display = "none";
-            showFormMessage("No Details Found!", false);
-            return;
-        }
+                if (!packageDetailResponse.ok) {
+                    packageContainer.style.display = "none";
+                    showSessionMessage("No Details Found!", false);
+                    return;
+                }
 
-        if (!packageDetailsData) {
-            packageContainer.style.display = "none";
-            showFormMessage("No Details Found!", false);
-            return;
-        }
+                const packageDetailsData = await packageDetailResponse.json();
 
-        document.getElementById("packageName").value = packageName;
-        document.getElementById("packageSlogan").value = packageSlogan;
-        document.getElementById("imgFile").value = imgFile;
-        
+                if (!packageDetailsData) {
+                    packageContainer.style.display = "none";
+                    showSessionMessage("No Details Found!", false);
+                    return;
+                }
+
+                const { packageName, packageSlogan, imgFile } =
+                    packageDetailsData;
+                packageContainer.style.display = "block";
+
+                document.getElementById("packageName").value = packageName;
+                document.getElementById("packageSlogan").value = packageSlogan;
+            } catch (err) {
+                packageContainer.style.display = "none";
+                showSessionMessage("Error fetching package details", false);
+                console.log(err);
+            }
+        });
 
         const updateform = document.getElementById("packageform");
         updateform.addEventListener("submit", handleUpdate);
@@ -153,7 +167,7 @@ const handleUpdate = async (e) => {
             showFormMessage(responseData.message, false);
             return;
         }
-        
+
         showFormMessage(responseData.message, true);
         setTimeout(() => {
             updatePackageForm.reset();
