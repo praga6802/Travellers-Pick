@@ -28,7 +28,7 @@ const displayCurrentAdmin = async () => {
 
 const displayTours = async () => {
     try {
-        const response = await fetch(`${url}/admin/allCategories`, {
+        const response = await fetch(`${url}/admin/allTours`, {
             method: "GET",
             credentials: "include",
         });
