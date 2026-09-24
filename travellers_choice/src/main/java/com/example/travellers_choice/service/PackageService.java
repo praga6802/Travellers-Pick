@@ -48,11 +48,22 @@ public class PackageService {
                     body(new AResponse(LocalDateTime.now(),"Failure","Package Already Added"));
         }
         MultipartFile image=packageDTO.getImageFile();
-        String uploadDir = "/app/uploads/packages";
-        File dir=new File(uploadDir);
-        if(!dir.exists())dir.mkdirs();
+
+        String dirPath = "/app/uploads/packages";
+        File dir=new File(dirPath);
+
+        if (!dir.exists() && !dir.mkdirs()) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new AResponse(
+                            LocalDateTime.now(),
+                            "Failure",
+                            "Failed to create upload directory"
+                    ));
+        }
 
         String fileName=image.getOriginalFilename();
+
+
         File destination=new File(dir,fileName);
 
         try{

@@ -14,7 +14,7 @@ body {
 #packageform {
     float: right;
     margin: 100px;
-    height: 600px;
+    height: 550px;
     width: 500px;
     background-color: white;
     box-shadow: 2px;
@@ -68,8 +68,8 @@ body {
 
 .button-group {
     display: flex;
-    justify-content: start;
-    gap: 50px;
+    justify-content: center;
+    gap: 40px;
 }
 
 .button {
@@ -80,8 +80,6 @@ body {
     width: auto;
     border-radius: 5px;
     cursor: pointer;
-    float: left;
-    margin-left: 70px;
     margin-top: 20px;
     border: none;
     transition: color 0.5s ease;
