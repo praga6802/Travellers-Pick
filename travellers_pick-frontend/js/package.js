@@ -1,5 +1,5 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
-import { url } from "./config.js";
+import { url, uiUrl} from "./config.js";
 const packageContainer = document.getElementById("packageContainer");
 const displayPackage = async () => {
     try {
@@ -63,7 +63,7 @@ const displayPackage = async () => {
 };
 
 function bookPackage(fileName, packageId) {
-    window.location.href = `${url}/html/${fileName}?packageId=${packageId}`;
+    window.location.href = `${uiUrl}/html/${fileName}?packageId=${packageId}`;
 }
 
 document.addEventListener("DOMContentLoaded", displayPackage);
