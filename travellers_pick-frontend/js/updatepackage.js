@@ -124,10 +124,11 @@ const handleUpdate = async (e) => {
             showFormMessage(responseData.message, false);
             return;
         }
-
         showFormMessage(responseData.message, true);
-
-        setTimeout(() => updatePackageForm.reset(), 1500);
+        setTimeout(() => {
+            updatePackageForm.reset();
+            showFormMessage.style.display = "none";
+        }, 2000);
     } catch (err) {
         showFormMessage("Network error..Please try again");
         console.error(err);

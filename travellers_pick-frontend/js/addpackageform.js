@@ -60,7 +60,7 @@ const handlePackage = async (e) => {
 
     console.log(addPackageForm);
     console.log(addPackageForm.tagName);
-    
+
     const packageName = document.getElementById("packageName").value.trim();
     const packageSlogan = document.getElementById("packageSlogan").value.trim();
     const imageFile = document.getElementById("imageFile");
@@ -97,7 +97,10 @@ const handlePackage = async (e) => {
         }
 
         showFormMessage(responseData.message, true);
-        setTimeout(() => addPackageForm.reset(), 1500);
+        setTimeout(() => {
+            addPackageForm.reset();
+            showFormMessage.style.display = "none";
+        }, 2000);
     } catch (err) {
         showFormMessage("Network error..Please try again!");
         console.log(err);
