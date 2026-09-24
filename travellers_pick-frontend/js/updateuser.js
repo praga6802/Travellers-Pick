@@ -159,7 +159,7 @@ async function handleUpdate(event) {
 
         setTimeout(() => {
             form_error.classList.add("hide");
-        }, 1500);
+        }, 2000);
     } catch (e) {
         console.error("Update Error:", e);
         showFormMessage("Network Error. Please try again.", false);

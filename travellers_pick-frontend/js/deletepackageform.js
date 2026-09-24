@@ -100,9 +100,6 @@ const deletePackage = async (e) => {
             showFormMessage(responseData.message, false);
             return;
         }
-
-        showFormMessage(responseData.message, true);
-
         const selectedOption = packageSelect.querySelector(
             `option[value="${packageId}"]`,
         );
@@ -110,10 +107,12 @@ const deletePackage = async (e) => {
             selectedOption.remove();
         }
 
+        showFormMessage(responseData.message, true);
+
         setTimeout(() => {
             deletepackageform.reset();
             formMessage.classList.add("hide");
-        });
+        }, 2000);
     } catch (err) {
         showSessionMessage("Network error..Please try again!");
         console.error(err);

@@ -39,6 +39,8 @@ async function handleLogin(event) {
 
         if (response.ok) {
             showFormMessage(responseData.message, true);
+            email.value = "";
+            password.value = "";
             setTimeout(() => {
                 window.location.href = "../html/admin-home.html";
             }, 2000);

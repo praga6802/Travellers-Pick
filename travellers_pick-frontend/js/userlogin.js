@@ -21,13 +21,15 @@ async function handleLogin(event) {
         console.log(responseData);
         if (response.ok) {
             showFormMessage(responseData.message, true);
+            email.value = "";
+            password.value = "";
             setTimeout(() => (window.location.href = `../index.html`), 2000);
         } else {
             showFormMessage(responseData.message, false);
             console.log("Back end error:", responseData);
         }
     } catch (err) {
-        showFormMessage("Network error..Please try again!");
+        showFormMessage("Network error..Please try again!", false);
         console.error(err);
     }
 }

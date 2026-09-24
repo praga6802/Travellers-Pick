@@ -98,7 +98,7 @@ const handleUpdate = async (e) => {
         setTimeout(() => {
             formMessage.classList.add("hide");
             password.value = "";
-        }, 1500);
+        }, 2000);
     } catch (err) {
         showFormMessage("Network error..Please try again!");
         console.error(err);

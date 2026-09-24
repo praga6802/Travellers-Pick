@@ -45,19 +45,17 @@ async function handleSignUp(event) {
         const responseData = await response.json();
 
         if (response.ok) {
-            showFormMessage(
-                responseData.message || "Registration successful!",
-                true,
-            );
+            showFormMessage(responseData.message, true);
+            username.value = "";
+            email.value = "";
+            password.value = "";
+            contact.value = "";
             setTimeout(() => {
                 window.location.href = "../html/admin-login.html";
             }, 2000);
             return;
         } else {
-            showFormMessage(
-                responseData.message || "Registration failed",
-                false,
-            );
+            showFormMessage(responseData.message || "Registration failed",false);
             return;
         }
     } catch (err) {

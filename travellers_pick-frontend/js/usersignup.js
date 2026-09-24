@@ -23,6 +23,11 @@ async function handleSignUp(event) {
         const responseData = await response.json();
         if (response.ok) {
             showFormMessage(responseData.message, true);
+
+            username.value = "";
+            email.value = "";
+            password.value = "";
+            contact.value = "";
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
             }, 2000);
@@ -33,7 +38,7 @@ async function handleSignUp(event) {
             return;
         }
     } catch (err) {
-        showSessionMessage("Network error..Please try again!");
+        showSessionMessage("Network error..Please try again!", false);
         console.error(err);
     }
 }
