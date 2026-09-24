@@ -1,5 +1,6 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
+const packageContainer = document.getElementById("packageContainer");
 const displayPackage = async () => {
     try {
         const response = await fetch(`${url}/admin/allPackages`, {
@@ -10,6 +11,7 @@ const displayPackage = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
+            packageContainer.style.display = "none";
             showSessionMessage("Unable to load packages", false);
             return;
         }
@@ -18,7 +20,6 @@ const displayPackage = async () => {
             showSessionMessage("No Packages found!", false);
         }
 
-        const packageContainer = document.getElementById("packageContainer");
         packageContainer.innerHTML = `
         	<h1 class="heading">POPULAR PACKAGES</h1>
         `;
