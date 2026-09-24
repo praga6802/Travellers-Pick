@@ -41,7 +41,7 @@ const displayPackage = async () => {
 };
 
 function bookPackage(fileName, packageId) {
-    window.location.href = `../html/${fileName}?packageId=${packageId}`;
+    window.location.href = `${url}/html/${fileName}?packageId=${packageId}`;
 }
 
 document.addEventListener("DOMContentLoaded", displayPackage);

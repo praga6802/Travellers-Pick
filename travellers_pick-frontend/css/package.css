@@ -17,6 +17,10 @@ body {
     height: max-content;
 }
 
+.heading:hover{
+    color:rgba(194, 224, 58, 0.868);
+}
+
 .card {
     display: inline-block;
     margin: 85px;
