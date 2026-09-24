@@ -93,7 +93,9 @@ const displayCurrentAdmin = async () => {
 const handleUpdate = async (e) => {
     e.preventDefault();
 
-    const updatePackageForm = e.currentTarget;
+    const updatePackageForm = document.getElementById("packageform");
+    const formMessage = document.getElementById("form-error");
+
     const packageName = document.getElementById("packageName").value.trim();
     const packageSlogan = document.getElementById("packageSlogan").value.trim();
     const packageId = document.getElementById("packageId").value.trim();
@@ -127,7 +129,7 @@ const handleUpdate = async (e) => {
         showFormMessage(responseData.message, true);
         setTimeout(() => {
             updatePackageForm.reset();
-            showFormMessage.style.display = "none";
+            formMessage.style.display = "none";
         }, 2000);
     } catch (err) {
         showFormMessage("Network error..Please try again");

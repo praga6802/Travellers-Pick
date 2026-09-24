@@ -56,10 +56,8 @@ const displayForm = async () => {
 const handlePackage = async (e) => {
     e.preventDefault();
 
-    const addPackageForm = e.currentTarget;
-
-    console.log(addPackageForm);
-    console.log(addPackageForm.tagName);
+    const addPackageForm = document.getElementById("packageform");
+    const formMessage = document.getElementById("form-error");
 
     const packageName = document.getElementById("packageName").value.trim();
     const packageSlogan = document.getElementById("packageSlogan").value.trim();
@@ -97,9 +95,10 @@ const handlePackage = async (e) => {
         }
 
         showFormMessage(responseData.message, true);
+        
         setTimeout(() => {
             addPackageForm.reset();
-            showFormMessage.style.display = "none";
+            formMessage.style.display = "none";
         }, 2000);
     } catch (err) {
         showFormMessage("Network error..Please try again!");
