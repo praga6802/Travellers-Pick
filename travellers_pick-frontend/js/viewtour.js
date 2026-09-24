@@ -68,7 +68,7 @@ const displayTours = async () => {
 
         const tourBody = document.getElementById("tour-body");
 
-        toursList.forEach((tour) => {
+        responseData.forEach((tour) => {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${tour.tourId || tour.id || "N/A"}</td>
