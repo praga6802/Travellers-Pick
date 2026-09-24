@@ -2,7 +2,6 @@ import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 const packageContainer = document.getElementById("package-container");
 
-
 const displayUpdatePackageForm = async () => {
     try {
         const authResponse = await fetch(`${url}/admin/current-admin`, {
@@ -34,9 +33,10 @@ const displayUpdatePackageForm = async () => {
                     </span>
                 </div>
                 <div class="button-group">
-                    <input type="submit" value="DELETE" name="submit" class="button" />
-                    <input type="reset" value="RESET" name="reset" class="button" />
+                    <input type="submit" value="DELETE" class="button" />
+                    <input type="reset" value="RESET" class="button" />
                 </div>
+                <p id="form-error"></p>
             </form>
         `;
 
@@ -53,7 +53,7 @@ const displayUpdatePackageForm = async () => {
             return;
         }
 
-        if (!responseData || responseData.length==0) {
+        if (!responseData || responseData.length == 0) {
             packageContainer.style.display = "none";
             showSessionMessage("No packages found!", false);
             return;
@@ -75,6 +75,8 @@ const displayUpdatePackageForm = async () => {
 };
 
 const deletePackage = async (e) => {
+    const deletepackageform = document.getElementById("deletepackageform");
+    const formMessage = document.getElementById("form-error");
     e.preventDefault();
 
     const packageSelect = document.getElementById("packageId");
@@ -108,7 +110,10 @@ const deletePackage = async (e) => {
             selectedOption.remove();
         }
 
-        document.getElementById("deletepackageform").reset();
+        setTimeout(() => {
+            deletepackageform.reset();
+            formMessage.classList.add("hide");
+        });
     } catch (err) {
         showSessionMessage("Network error..Please try again!");
         console.error(err);

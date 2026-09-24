@@ -52,6 +52,7 @@ const displayCurrentAdmin = async () => {
                 <input type="submit" value="UPDATE" class="button" />
                 <input type="reset" value="RESET" class="button" />
             </div>
+            <p id="form-error"></p>
         </form>
         `;
 

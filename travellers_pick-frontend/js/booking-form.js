@@ -115,6 +115,8 @@ const displayBookingForm = async () => {
             <input type="text" id="country" placeholder="Country" name="country" required><br><br>
 
             <input type="submit" value="Submit">
+
+            <p id="form-error"></p>
         </form>`;
 
         const today = new Date().toISOString().split("T")[0];
@@ -135,6 +137,9 @@ const displayBookingForm = async () => {
 
 async function submitForm(event) {
     event.preventDefault();
+
+    const tourform = e.target;
+    const form_error = document.getElementById("form-error");
 
     const userId = parseInt(document.getElementById("userId").value.trim(), 10);
     const tourId = parseInt(document.getElementById("tourId").value.trim(), 10);
@@ -195,10 +200,15 @@ async function submitForm(event) {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showSessionMessage(responseData.message || "Booking failed", false);
+            showFormMessage(responseData.message || "Booking failed", false);
             return;
         }
-        showSessionMessage(responseData.message || "Booking successful!", true);
+        showFormMessage(responseData.message || "Booking successful!", true);
+
+        setTimeout(() => {
+            form_error.classList.add("hide");
+            tourform.reset();
+        }, 2000);
     } catch (err) {
         console.error(err);
         showSessionMessage("Network error..Please try again", false);

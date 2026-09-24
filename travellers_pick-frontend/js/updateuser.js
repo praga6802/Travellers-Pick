@@ -110,6 +110,8 @@ const displayUpdateForm = async () => {
 async function handleUpdate(event) {
     event.preventDefault();
 
+    const updateUserform = e.target;
+    const form_error = document.getElementById("form-error");
     const username = document.getElementById("username");
     const email = document.getElementById("email");
     const contact = document.getElementById("contact");
@@ -154,6 +156,10 @@ async function handleUpdate(event) {
         oldEmail = newEmail;
         oldUsername = newUserName;
         oldContact = newContact;
+
+        setTimeout(() => {
+            form_error.classList.add("hide");
+        }, 1500);
     } catch (e) {
         console.error("Update Error:", e);
         showFormMessage("Network Error. Please try again.", false);

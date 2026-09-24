@@ -39,6 +39,8 @@ const displayCurrentAdmin = async () => {
 
                 <input type="submit" value="UPDATE" name="submit" class="button" />
                 <input type="reset" value="RESET" name="reset" class="button" />
+
+                <p id="form-error"></p>
             </form>
         `;
 
@@ -57,6 +59,8 @@ const displayCurrentAdmin = async () => {
 
 const handleUpdate = async (e) => {
     e.preventDefault();
+    const updateAdminform = e.target;
+    const formMessage = document.getElementById("form-error");
 
     const username = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -90,7 +94,11 @@ const handleUpdate = async (e) => {
             return;
         }
         showFormMessage(responseData.message, true);
-        document.getElementById("password").value = "";
+
+        setTimeout(() => {
+            formMessage.classList.add("hide");
+            updateAdminform.reset();
+        }, 1500);
     } catch (err) {
         showFormMessage("Network error..Please try again!");
         console.error(err);

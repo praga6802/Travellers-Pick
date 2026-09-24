@@ -34,6 +34,7 @@ const displayAdminForm = async () => {
                     <input type="submit" value="DELETE" name="submit" class="button" />
                     <input type="reset" value="RESET" name="reset" class="button" />
                 </div>
+                <p id="form-error"></p>
             </form>
         `;
 
@@ -49,7 +50,7 @@ const displayAdminForm = async () => {
 
 const handleDelete = async (e) => {
     e.preventDefault();
-
+    const formMessage = document.getElementById("form-error");
     const form = e.target;
     const adminId = document.getElementById("adminId").value.trim();
     const password = document.getElementById("password").value.trim();
@@ -86,6 +87,7 @@ const handleDelete = async (e) => {
 
         setTimeout(() => {
             form.reset();
+            formMessage.classList.add("hide");
             window.location.href = "../html/admin-login.html";
         }, 1500);
     } catch (err) {

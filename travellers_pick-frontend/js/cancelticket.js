@@ -44,7 +44,7 @@ const displayCancelForm = async () => {
                     <button type="reset" id="reset" class="button">RESET</button>
                 </div>
 
-                <p id="error"></p>
+                <p id="form-error"></p>
             </form>
         `;
 
@@ -58,6 +58,10 @@ const displayCancelForm = async () => {
 
 async function handleCancel(event) {
     event.preventDefault();
+
+    const cancelTicketForm = e.target;
+    const form_error = document.getElementById("form-error");
+
     const pnrInp = document.getElementById("pnr");
     const PNR_NUMBER = pnrInp.value.trim();
 
@@ -93,6 +97,11 @@ async function handleCancel(event) {
                 false,
             );
         }
+
+        setTimeout(() => {
+            form_error.classList.add("hide");
+            cancelTicketForm.reset();
+        }, 2000);
     } catch (e) {
         console.error("Cancellation Error:", e);
         showSessionMessage("Network Error. Please try again.", false);
