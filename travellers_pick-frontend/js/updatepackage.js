@@ -92,7 +92,7 @@ const displayCurrentAdmin = async () => {
             try {
                 const packageDetailResponse = await fetch(
                     `${url}/admin/getPackage/${packageId}`,
-                    { method: "GET" },
+                    { method: "GET", credentials: "include" },
                 );
 
                 if (!packageDetailResponse.ok) {
