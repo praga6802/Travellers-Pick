@@ -55,7 +55,7 @@ const displayTours = async () => {
                         <th class="data">Package ID</th>
                         <th>Tour Name</th>
                         <th>Tour Slogan</th>
-                        <th>Places</th>
+                        <th class="data">Places</th>
                         <th class="data">Price</th>
                         <th class="data">Days</th>
                         <th class="data">Nights</th>

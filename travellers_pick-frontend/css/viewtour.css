@@ -1,5 +1,5 @@
 body {
-     background-image: url('../img/viewback.jpg');
+     background-image: url('../img/adminback.jpg');
      background-repeat: no-repeat;
      background-size: cover;
      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -20,12 +20,11 @@ body {
 #regtable,
 #packagetable {
      margin-top: 2%;
-     margin-left: 2%;
+     margin-left: 10%;
      margin-right: 2%;
-     justify-content: center;
      margin-bottom: 20%;
-     align-content: center;
      border-collapse: collapse;
+     border-radius: 10px;
 }
 
 #head-data {

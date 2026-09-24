@@ -1,5 +1,5 @@
 body {
-     background-image: url('../img/viewback.jpg');
+     background-image: url('../img/adminback.jpg');
      background-repeat: no-repeat;
      background-size: cover;
      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,6 +21,7 @@ body {
      width: auto;
      padding: 30px;
      border-collapse: collapse;
+     border-radius: 10px;
 }
 
 th {
