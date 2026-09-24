@@ -219,7 +219,7 @@ async function handleAddCategory(event) {
         showFormMessage(responseData.message, true);
         setTimeout(() => {
             addTourForm.reset();
-            form_error.classList.add(".hide");
+            form_error.classList.add("hide");
         }, 2000);
     } catch (err) {
         showSessionMessage("Network error..Unable to with the server!", false);

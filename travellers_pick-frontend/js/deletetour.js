@@ -181,7 +181,7 @@ const deleteTour = async (e) => {
         showFormMessage(data.message, true);
         setTimeout(() => {
             deletePackageForm.reset();
-            form_error.classList.add(".hide");
+            form_error.classList.add("hide");
         }, 2000);
     } catch (err) {
         showSessionMessage("Network error.. Please try again!", false);
