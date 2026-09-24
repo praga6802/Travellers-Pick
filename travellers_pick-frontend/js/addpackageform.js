@@ -38,8 +38,8 @@ const displayForm = async () => {
                     <input type="file" name="imageFile" id="imageFile" accept="image/*"><br><br>
                 </div>
                 <div class="button-group">
-                    <input type="submit" value="ADD" name="submit" class="button" />
-                    <input type="reset" value="RESET" name="reset" class="button" />
+                    <input type="submit" value="ADD" class="button" />
+                    <input type="reset" value="RESET" class="button" />
                 </div>
                 <p id="form-error"></p>
 		</form>
@@ -91,9 +91,7 @@ const handlePackage = async (e) => {
         }
 
         showFormMessage(responseData.message, true);
-        if(response.ok){
-            e.target.reset();
-        }
+        setTimeout(() => document.getElementById("packageform").reset(), 1500);
     } catch (err) {
         showFormMessage("Network error..Please try again!");
         console.log(err);
