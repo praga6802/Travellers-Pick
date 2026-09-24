@@ -1,5 +1,6 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
-import { url } from "./config.js";
+import { url, uiUrl } from "./config.js";
+
 const tourContainer = document.getElementById("packageTourContainer");
 const displayTour = async () => {
     try {
@@ -23,6 +24,7 @@ const displayTour = async () => {
         const tourData = await tourResponse.json();
 
         if (!tourResponse.ok) {
+            tourContainer.style.display = "none";
             showSessionMessage("Unable to load tours!", false);
             return;
         }
@@ -35,6 +37,7 @@ const displayTour = async () => {
         );
 
         if (packageTours.length === 0) {
+            tourContainer.style.display = "none";
             showSessionMessage("No tours found for this package!", false);
             return;
         }
@@ -49,9 +52,12 @@ const displayTour = async () => {
                 <p>${t.places}</p>
                 <span class="package-name"> <i style="font-size:24px" class="fa">&#xf017;</i> Days: ${t.days} - Nights: ${t.nights}</span>
                 <p id='price'>Price: Rs.${t.price}</p>
-			    <button class="book-button" onclick="bookTour('${t.fileName}')">BOOK NOW</button>
+			    <button class="book-button">BOOK NOW</button>
 		    </div>
             `;
+
+            const bookButton = document.querySelector(".book-button");
+            bookButton.addEventListener("click",bookTour(t.fileName));
         });
     } catch (error) {
         showSessionMessage("Network error..Please try again");
@@ -59,8 +65,8 @@ const displayTour = async () => {
     }
 };
 
-function bookTour(value) {
-    window.location.href = `../html/${value}`;
+function bookTour(fileName) {
+    window.location.href = `${uiUrl}/html/${fileName}`;
 }
 
 document.addEventListener("DOMContentLoaded", displayTour);

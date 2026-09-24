@@ -130,9 +130,9 @@ public class TourService {
 
     //get list of tours
     public List<UpdateCategoryDTO> getAllTours(){
-        List<Tour> tours=tourRepo.findAll();
-        return tours.stream().map(tour->{
-            String fileName="form.html?tourId="+tour.getTourId();
+        return tourRepo.findAll().stream().map(tour->{
+            String fileName="booking-form.html?tourId="+tour.getTourId();
+
             return new UpdateCategoryDTO(
                     tour.getPackageName().getPackageId(),
                     tour.getTourId(),
