@@ -15,7 +15,7 @@ const displayAdminForm = async () => {
 
             showSessionMessage(authData.message, false);
             setTimeout(() => {
-                window.location.href = "../html/loginform.html";
+                window.location.href = "../html/admin-login.html";
             }, 1500);
             return;
         }
@@ -86,7 +86,7 @@ const handleDelete = async (e) => {
 
         setTimeout(() => {
             form.reset();
-            window.location.href = "../html/loginform.html";
+            window.location.href = "../html/admin-login.html";
         }, 1500);
     } catch (err) {
         showSessionMessage("Network error..Please try again..", false);

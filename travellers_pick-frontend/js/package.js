@@ -13,7 +13,7 @@ const displayPackage = async () => {
             packageContainer.style.display = "none";
             showSessionMessage(authData.message, false);
             setTimeout(() => {
-                window.location.href = "../html/loginform.html";
+                window.location.href = "../html/user-login.html";
             }, 1500);
             return;
         }
