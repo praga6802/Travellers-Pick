@@ -29,8 +29,8 @@ const displayTour = async () => {
             return;
         }
 
-        const url = new URLSearchParams(window.location.search);
-        const packageId = parseInt(url.get("packageId"));
+        const params = new URLSearchParams(window.location.search);
+        const packageId = parseInt(params.get("packageId"));
 
         const packageTours = tourData.filter(
             (tour) => tour.packageId === packageId,
@@ -42,22 +42,24 @@ const displayTour = async () => {
             return;
         }
 
-        packageTours.forEach((t) => {
+        packageTours.forEach((tour) => {
             tourContainer.innerHTML = `
             <div class='card'>
-                <img src="../${t.imgUrl}" alt="${t.tourName}">
-                <h4>${t.tourName}</h4>
-                <h6>${t.tourSlogan}</h6>
+                <img src="${url}${tour.imgUrl}" alt="${tour.tourName}">
+                <h4>${tour.tourName}</h4>
+                <h6>${tour.tourSlogan}</h6>
                 <i style="font-size:24px" class="fa">&#xf041;</i>
-                <p>${t.places}</p>
-                <span class="package-name"> <i style="font-size:24px" class="fa">&#xf017;</i> Days: ${t.days} - Nights: ${t.nights}</span>
-                <p id='price'>Price: Rs.${t.price}</p>
+                <p>${tour.places}</p>
+                <span class="package-name"> <i style="font-size:24px" class="fa">&#xf017;</i> Days: ${tour.days} - Nights: ${tour.nights}</span>
+                <p id='price'>Price: Rs.${tour.price}</p>
 			    <button class="book-button">BOOK NOW</button>
 		    </div>
             `;
 
-            const bookButton = document.querySelector(".book-button");
-            bookButton.addEventListener("click",bookTour(t.fileName));
+            const bookButton = tourContainer.querySelector(".book-button");
+            bookButton.addEventListener("click", () => {
+                bookTour(tour.fileName);
+            });
         });
     } catch (error) {
         showSessionMessage("Network error..Please try again");
