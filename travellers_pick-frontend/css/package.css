@@ -3,22 +3,23 @@ body {
     background-image: url('../img/package-wall.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-#packageContainer{
+#packageContainer {
     position: relative;
     margin-top: 2%;
 }
 
-.heading{
+.heading {
     position: absolute;
     color: rgba(255, 255, 255, 0.627);
     text-align: center;
     height: max-content;
 }
 
-.heading:hover{
-    color:rgba(194, 224, 58, 0.868);
+.heading:hover {
+    color: rgba(194, 224, 58, 0.868);
 }
 
 .card {
@@ -32,7 +33,7 @@ body {
     transition: transform 0.5s ease;
 }
 
-.card:hover{
+.card:hover {
     transform: scaleY(1.05);
 }
 

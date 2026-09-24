@@ -2,6 +2,8 @@ body{
     background-image: url('../images/user-back.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 /* side bar*/

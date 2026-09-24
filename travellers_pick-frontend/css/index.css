@@ -10,6 +10,7 @@ html {
 
 body {
   background-color: black;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 nav {
@@ -211,9 +212,9 @@ section h1 {
   border-radius: 10px;
   background-color: white;
 
-  position:absolute;
-  top:55%;
-  right:30%;
+  position: absolute;
+  top: 55%;
+  right: 30%;
 }
 
 #form-error.success {
@@ -229,7 +230,7 @@ section h1 {
   border: 2px solid rgb(209, 31, 31);
 }
 
-#form-error.hide{
+#form-error.hide {
   display: none;
 }
 

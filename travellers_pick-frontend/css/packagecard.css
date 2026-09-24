@@ -1,7 +1,7 @@
 /* styles for package cards */
 body {
     background-color: white;
-
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .card {
@@ -75,7 +75,7 @@ body {
     font-weight: 600;
 }
 
-.book-button:hover{
+.book-button:hover {
     background-color: white;
     color: black;
 }
@@ -85,14 +85,16 @@ body {
     margin-top: 5px;
     font-size: 16px;
     background-color: rgba(129, 20, 8, 0.645);
-    padding:4px;
+    padding: 4px;
     color: white;
     text-transform: uppercase;
 }
-.card h6{
-    font-family:Verdana, Geneva, Tahoma, sans-serif
+
+.card h6 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif
 }
-#price{
+
+#price {
     color: white;
     text-transform: uppercase;
     font-size: 15px;

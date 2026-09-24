@@ -6,6 +6,7 @@ body {
   background-size: 100% 100%;
   background-color: rgb(5, 4, 4);
   background: radial-gradient(circle, rgba(194, 192, 230, 1) 0%, rgba(195, 184, 184, 1) 50%, rgba(194, 192, 230, 1) 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .container {
@@ -143,8 +144,3 @@ body {
     max-width: 100%;
   }
 }
-
-
-
-
-

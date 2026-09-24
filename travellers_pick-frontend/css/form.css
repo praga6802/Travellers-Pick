@@ -1,13 +1,14 @@
-body{
+body {
   background-image: url('../img/form-back.jpg');
   background-size: cover;
   background-repeat: no-repeat;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 
 form {
   width: 40%;
-  margin:  auto;
+  margin: auto;
   font-family: Arial, sans-serif;
   background-color: #140808b9;
   color: white;
@@ -15,7 +16,8 @@ form {
   border-radius: 10px;
   margin-bottom: 15%;
 }
-form:hover{
+
+form:hover {
   background-color: rgba(0, 0, 0, 0.74);
   border-radius: 20px;
 }
@@ -24,15 +26,15 @@ form:hover{
 label {
   display: inline-block;
   width: 220px;
-  margin-top:20px;
+  margin-top: 20px;
   font-weight: bold;
   font-size: 1rem;
-  font-family:Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: left;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator{
-  filter:invert(1);
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
   cursor: pointer;
 }
 
@@ -48,8 +50,8 @@ input[type="date"] {
   display: inline-block;
   width: 50%;
   padding: 10px;
-  margin-left:20px;
-  margin-top:0;
+  margin-left: 20px;
+  margin-top: 0;
   background-color: transparent;
   color: white;
   border: 1.7px solid rgb(247, 242, 242);
@@ -62,7 +64,7 @@ input[type="submit"] {
   color: white;
   padding: 3px 20px;
   text-transform: uppercase;
-  margin-top:3%;
+  margin-top: 3%;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -77,34 +79,34 @@ input[type="submit"]:hover {
 
 /* table css */
 .table {
-  text-align:center;
+  text-align: center;
   border-collapse: collapse;
   width: 1800px;
-  height:400px;
+  height: 400px;
   margin: auto;
-  margin-top:2%;
+  margin-top: 2%;
   border-radius: 5px;
   overflow: hidden;
-  border:3px solid black;
-  outline:2px solid grey;
+  border: 3px solid black;
+  outline: 2px solid grey;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
-.thead{
-  color:white;
+.thead {
+  color: white;
   font-size: 20px;
   background-color: rgb(136, 8, 8);
   text-align: center;
 }
 
-.data{
-  color:black;
+.data {
+  color: black;
   font-size: 16px;
   font-weight: 500;
-  border:2px solid black;
+  border: 2px solid black;
 }
 
-.h1{
+.h1 {
   color: rgba(0, 0, 0, 0.415);
   font-size: 2.6rem;
   text-align: center;

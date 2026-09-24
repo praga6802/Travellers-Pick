@@ -97,7 +97,7 @@ const handleUpdate = async (e) => {
 
         setTimeout(() => {
             formMessage.classList.add("hide");
-            updateAdminform.reset();
+            password.value = "";
         }, 1500);
     } catch (err) {
         showFormMessage("Network error..Please try again!");
