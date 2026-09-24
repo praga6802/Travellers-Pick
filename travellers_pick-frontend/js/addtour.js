@@ -201,7 +201,7 @@ async function handleAddCategory(event) {
     data.append("imageFile", imageFileInput.files[0]);
 
     try {
-        const response = await fetch(`${url}/admin/addCategory`, {
+        const response = await fetch(`${url}/admin/addTour`, {
             method: "POST",
             credentials: "include",
             body: data,

@@ -188,7 +188,7 @@ const handleUpdate = async (event) => {
         data.append("imageFile", imageFile.files[0]);
 
     try {
-        const response = await fetch(`${url}/admin/updateCategory`, {
+        const response = await fetch(`${url}/admin/updateTour`, {
             method: "PUT",
             body: data,
             credentials: "include",
