@@ -5,16 +5,22 @@ body {
     background-size: cover;
 }
 
+#packageContainer{
+    position: relative;
+    margin-top: 2%;
+}
+
 .heading{
+    position: absolute;
     color: rgba(255, 255, 255, 0.627);
     text-align: center;
+    height: max-content;
 }
 
 .card {
     display: inline-block;
     margin: 85px;
     width: 400px;
-    margin-top: 40px;
     height: 500px;
     border: none;
     margin-right: 50px;
