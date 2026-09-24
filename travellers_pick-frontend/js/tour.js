@@ -60,13 +60,13 @@ const displayTour = async () => {
 			    <button class="book-button">BOOK NOW</button>
 		    </div>
             `;
+            const cards = tourContainer.querySelectorAll(".card");
+            const currentCard = cards[cards.length - 1];
 
-            const bookButton = tourContainer.querySelector(".book-button");
+            const bookButton = currentCard.querySelector(".book-button");
             bookButton.addEventListener("click", () => {
                 bookTour(tour.fileName);
             });
-
-            tourContainer.appendChild(card);
         });
     } catch (error) {
         showSessionMessage("Network error..Please try again");
