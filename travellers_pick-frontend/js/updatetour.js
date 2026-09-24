@@ -109,8 +109,8 @@ const displayCurrentAdmin = async () => {
                     </div>
 
                     <div class="button-group">
-                        <input type="submit" value="ADD" name="submit" class="button" />
-                        <input type="reset" value="RESET" name="reset" class="button" />
+                        <input type="submit" value="ADD" class="button" />
+                        <input type="reset" value="RESET" class="button" />
                     </div>
                 </div>
                 <p id="form-error"></p>
@@ -159,6 +159,8 @@ const displayCurrentAdmin = async () => {
 
 const handleUpdate = async (event) => {
     event.preventDefault();
+    const updatePackageForm = document.getElementById("updatecategoryform");
+    const error = document.getElementById("form-error");
     const packageId = document.getElementById("packageName").value.trim();
     const tourIdVal = document.getElementById("tourId").value.trim();
 
@@ -199,9 +201,6 @@ const handleUpdate = async (event) => {
             showFormMessage(responseData.message, false);
             return;
         }
-
-        const updatePackageForm = document.getElementById("updatecategoryform");
-        const error = document.getElementById("form-error");
 
         showFormMessage(responseData.message, true);
         setTimeout(() => {

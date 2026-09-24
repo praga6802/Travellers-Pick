@@ -39,8 +39,8 @@ const initDeleteTourForm = async () => {
                 </div><br>
 
                 <div class="button-group">
-                    <input type="submit" value="DELETE" name="submit" class="button" />
-                    <input type="reset" value="RESET" name="reset" class="button" />
+                    <input type="submit" value="DELETE" class="button" />
+                    <input type="reset" value="RESET" class="button" />
                 </div>
                 <p id="form-error"></p>
             </form>
@@ -143,6 +143,8 @@ const handlePackageChange = async (e) => {
 
 const deleteTour = async (e) => {
     e.preventDefault();
+    const deletePackageForm = document.getElementById("deletecategoryform");
+    const error = document.getElementById("form-error");
 
     const tourId = document.getElementById("tourId").value;
     const packageId = document.getElementById("packageId").value;
@@ -177,15 +179,11 @@ const deleteTour = async (e) => {
         if (selectedOption) selectedOption.remove();
         tourSelect.value = "";
 
-
-        const deletePackageForm = document.getElementById("deletecategoryform");
-        const error = document.getElementById("form-error");
         showFormMessage(data.message, true);
         setTimeout(() => {
             deletePackageForm.reset();
             error.classList.add(".hide");
         }, 2000);
-
     } catch (err) {
         showSessionMessage("Network error.. Please try again!", false);
         console.error(err);

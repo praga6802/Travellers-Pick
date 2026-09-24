@@ -110,8 +110,8 @@ const displayAddTourForm = async () => {
                     </div>
 
                     <div class="button-group">
-                        <input type="submit" value="ADD" name="submit" class="button" />
-                        <input type="reset" value="RESET" name="reset" class="button" />
+                        <input type="submit" value="ADD" class="button" />
+                        <input type="reset" value="RESET" class="button" />
                     </div>
                 </div>
                 <p id="form-error"></p>
@@ -158,7 +158,7 @@ const displayAddTourForm = async () => {
 
 async function handleAddCategory(event) {
     event.preventDefault();
-    const addPackageForm = document.getElementById("addcategoryform");
+    const addTourForm = document.getElementById("addcategoryform");
     const error = document.getElementById("form-error");
 
     const packageIdInput = document.getElementById("packageName").value.trim();
@@ -218,7 +218,7 @@ async function handleAddCategory(event) {
 
         showFormMessage(responseData.message, true);
         setTimeout(() => {
-            addPackageForm.reset();
+            addTourForm.reset();
             error.classList.add(".hide");
         }, 2000);
     } catch (err) {
