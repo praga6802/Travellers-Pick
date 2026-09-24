@@ -229,6 +229,10 @@ section h1 {
   border: 2px solid rgb(209, 31, 31);
 }
 
+#form-error.hide{
+  display: none;
+}
+
 /* show form error message*/
 #session-error {
   font-weight: 600;

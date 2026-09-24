@@ -129,7 +129,7 @@ const handleUpdate = async (e) => {
         showFormMessage(responseData.message, true);
         setTimeout(() => {
             updatePackageForm.reset();
-            formMessage.style.display = "none";
+            formMessage.classList.add("hide");
         }, 2000);
     } catch (err) {
         showFormMessage("Network error..Please try again");

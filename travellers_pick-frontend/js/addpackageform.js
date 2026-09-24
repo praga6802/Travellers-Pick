@@ -95,10 +95,10 @@ const handlePackage = async (e) => {
         }
 
         showFormMessage(responseData.message, true);
-        
+
         setTimeout(() => {
             addPackageForm.reset();
-            formMessage.style.display = "none";
+            formMessage.classList.add("hide");
         }, 2000);
     } catch (err) {
         showFormMessage("Network error..Please try again!");

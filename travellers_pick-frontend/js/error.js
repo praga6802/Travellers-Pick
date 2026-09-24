@@ -6,7 +6,7 @@ export function showFormMessage(message, isSuccess) {
     }
 
     formError.textContent = message;
-    formError.classList.remove("success", "failure");
+    formError.classList.remove("success", "failure", "hide");
 
     if (isSuccess) {
         formError.classList.add("success");
