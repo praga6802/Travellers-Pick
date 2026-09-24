@@ -200,12 +200,12 @@ const handleUpdate = async (event) => {
             return;
         }
 
-        const form = document.getElementById("updatecategoryform");
+        const updatePackageForm = document.getElementById("updatecategoryform");
         const error = document.getElementById("form-error");
 
         showFormMessage(responseData.message, true);
         setTimeout(() => {
-            form.reset();
+            updatePackageForm.reset();
             error.classList.add(".hide");
         }, 2000);
     } catch (err) {

@@ -178,11 +178,11 @@ const deleteTour = async (e) => {
         tourSelect.value = "";
 
 
-        const form = document.getElementById("updatecategoryform");
+        const deletePackageForm = document.getElementById("deletecategoryform");
         const error = document.getElementById("form-error");
         showFormMessage(data.message, true);
         setTimeout(() => {
-            form.reset();
+            deletePackageForm.reset();
             error.classList.add(".hide");
         }, 2000);
 
