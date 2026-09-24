@@ -1,5 +1,5 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
-import { url, uiUrl} from "./config.js";
+import { url, uiUrl } from "./config.js";
 const packageContainer = document.getElementById("packageContainer");
 const displayPackage = async () => {
     try {
@@ -49,12 +49,12 @@ const displayPackage = async () => {
                 <h6 class="package-slogan"> -${pkg.packageSlogan}- </h6>
                 <button class='explore-button'>EXPLORE</button>
             `;
-            packageContainer.appendChild(card);
 
             const exploreButton = document.querySelector(".explore-button");
             exploreButton.addEventListener("click", () => {
                 bookPackage(pkg.fileName, pkg.packageId);
             });
+            packageContainer.appendChild(card);
         });
     } catch (e) {
         showMessage(e.message, false);
