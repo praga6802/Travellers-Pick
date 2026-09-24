@@ -27,7 +27,7 @@ const displayPackage = async () => {
             const card = document.createElement("div");
             card.className = "card";
             card.innerHTML = `
-                <img src='../${pkg.imgUrl}' alt='${pkg.packageName}'>
+                <img src='${url}${pkg.imgUrl}' alt='${pkg.packageName}'>
                 <h2 class="package-title">${pkg.packageName}</h2>
                 <h6 class="package-slogan"> -${pkg.packageSlogan}- </h6>
                 <button class='explore-button' onclick="bookPackage('${pkg.fileName}','${pkg.packageId}')">EXPLORE</button>
