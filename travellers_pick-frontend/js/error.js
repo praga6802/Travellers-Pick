@@ -6,12 +6,11 @@ export function showFormMessage(message, isSuccess) {
     }
 
     formError.textContent = message;
+    formError.classList.remove("success", "failure");
 
     if (isSuccess) {
-        formError.classList.remove("failure");
         formError.classList.add("success");
     } else {
-        formError.classList.remove("success");
         formError.classList.add("failure");
     }
 }
@@ -24,12 +23,11 @@ export function showSessionMessage(message, isSuccess) {
     }
 
     sessionError.textContent = message;
+    sessionError.classList.remove("success", "failure");
 
     if (isSuccess) {
-        sessionError.classList.remove("failure");
         sessionError.classList.add("success");
     } else {
-        sessionError.classList.remove("success");
         sessionError.classList.add("failure");
     }
 }
