@@ -7,7 +7,7 @@ const displayTour = async () => {
     try {
         const authResponse = await fetch(`${url}/user/current-user`, {
             method: "GET",
-            credentials:"include"
+            credentials: "include",
         });
 
         const authData = await authResponse.json();
@@ -65,6 +65,8 @@ const displayTour = async () => {
             bookButton.addEventListener("click", () => {
                 bookTour(tour.fileName);
             });
+
+            tourContainer.appendChild(card);
         });
     } catch (error) {
         showSessionMessage("Network error..Please try again");
