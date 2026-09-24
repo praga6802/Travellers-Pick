@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers("/",
-                                "/admin/login", "/admin/signup", "/admin/logout","/admin/allPackages","/admin/allCategories","/admin/allIternaries","/admin/current-admin",
+                                "/admin/login", "/admin/signup", "/admin/logout","/admin/allPackages","/admin/Tours","/admin/allIternaries","/admin/current-admin",
                                 "/user/signup", "/user/login", "/user/logout","/user/allIternaries","/user/current-user", "/user/userData").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH,"/user/updateUser").hasRole("USER")
