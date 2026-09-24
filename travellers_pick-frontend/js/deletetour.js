@@ -42,6 +42,7 @@ const initDeleteTourForm = async () => {
                     <input type="submit" value="DELETE" name="submit" class="button" />
                     <input type="reset" value="RESET" name="reset" class="button" />
                 </div>
+                <p id="form-error"></p>
             </form>
         `;
 
@@ -80,7 +81,7 @@ const loadPackages = async () => {
 
         if (data.length === 0) {
             container.style.display = "none";
-            showSessionMessage("No Tours found for this package!",false);
+            showSessionMessage("No Tours found for this package!", false);
             return;
         }
 
@@ -168,23 +169,27 @@ const deleteTour = async (e) => {
 
         showFormMessage(data.message, true);
 
+        //resetting the tour from packages
         const tourSelect = document.getElementById("tourId");
         const selectedOption = tourSelect.querySelector(
             `option[value="${tourId}"]`,
         );
         if (selectedOption) selectedOption.remove();
-
         tourSelect.value = "";
+
+
+        const form = document.getElementById("updatecategoryform");
+        const error = document.getElementById("form-error");
+        showFormMessage(data.message, true);
+        setTimeout(() => {
+            form.reset();
+            error.classList.add(".hide");
+        }, 2000);
+
     } catch (err) {
         showSessionMessage("Network error.. Please try again!", false);
         console.error(err);
     }
-};
-
-const handleReset = () => {
-    const tourSelect = document.getElementById("tourId");
-    tourSelect.innerHTML = `<option value="" hidden selected disabled>Select Tour</option>`;
-    tourSelect.disabled = true;
 };
 
 document.addEventListener("DOMContentLoaded", initDeleteTourForm);

@@ -213,9 +213,14 @@ async function handleAddCategory(event) {
             showFormMessage("Failed to add tour", false);
             return;
         }
+        const form = document.getElementById("addcategoryform");
+        const error = document.getElementById("form-error");
 
         showFormMessage(responseData.message, true);
-        document.getElementById("addcategoryform").reset();
+        setTimeout(() => {
+            form.reset();
+            error.classList.add(".hide");
+        }, 2000);
     } catch (err) {
         showSessionMessage("Network error..Unable to with the server!", false);
         console.error(err);

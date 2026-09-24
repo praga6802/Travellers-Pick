@@ -114,9 +114,7 @@ const displayCurrentAdmin = async () => {
                     </div>
                 </div>
                 <p id="form-error"></p>
-        </form>`
-
-
+        </form>`;
 
         const packageNameSelect = document.getElementById("packageName");
 
@@ -202,8 +200,14 @@ const handleUpdate = async (event) => {
             return;
         }
 
+        const form = document.getElementById("updatecategoryform");
+        const error = document.getElementById("form-error");
+
         showFormMessage(responseData.message, true);
-        document.getElementById("updatecategoryform").reset();
+        setTimeout(() => {
+            form.reset();
+            error.classList.add(".hide");
+        }, 2000);
     } catch (err) {
         showFormMessage("Network error..Please try again");
         console.error(err);

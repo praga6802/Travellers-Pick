@@ -12,7 +12,7 @@ body {
   background-repeat: no-repeat;
 }
 
-#container{
+#container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -74,37 +74,43 @@ body {
   color: white;
   padding: 10px;
   height: auto;
+  font-weight: 600;
   border: none;
   border-radius: 5px;
   width: 80px;
   background-color: rgb(21, 112, 232);
 }
 
-.already{
+.button:hover {
+  background-color: rgb(22, 74, 143);
+}
+
+.already {
   text-align: center;
   margin: 15px;
   font-weight: 600;
 }
 
-.already a{
+.already a {
   text-decoration: none;
 }
 
-.already a:hover{
+.already a:hover {
   text-decoration: underline;
   cursor: pointer;
 }
 
 
-.content{
+.content {
   margin-left: 100px;
   color: white;
 }
-.content h1{
+
+.content h1 {
   font-size: 80px;
 }
 
-.content h4{
-  font-size:40px;
+.content h4 {
+  font-size: 40px;
   width: 460px;
 }
