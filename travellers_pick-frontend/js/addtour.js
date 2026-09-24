@@ -158,6 +158,8 @@ const displayAddTourForm = async () => {
 
 async function handleAddCategory(event) {
     event.preventDefault();
+    const addPackageForm = document.getElementById("addcategoryform");
+    const error = document.getElementById("form-error");
 
     const packageIdInput = document.getElementById("packageName").value.trim();
     const packageId = parseInt(packageIdInput, 10);
@@ -213,8 +215,6 @@ async function handleAddCategory(event) {
             showFormMessage("Failed to add tour", false);
             return;
         }
-        const addPackageForm = document.getElementById("addcategoryform");
-        const error = document.getElementById("form-error");
 
         showFormMessage(responseData.message, true);
         setTimeout(() => {
