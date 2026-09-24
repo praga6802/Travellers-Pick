@@ -159,7 +159,7 @@ const displayAddTourForm = async () => {
 async function handleAddCategory(event) {
     event.preventDefault();
     const addTourForm = document.getElementById("addcategoryform");
-    const error = document.getElementById("form-error");
+    const form_error = document.getElementById("form-error");
 
     const packageIdInput = document.getElementById("packageName").value.trim();
     const packageId = parseInt(packageIdInput, 10);
@@ -219,7 +219,7 @@ async function handleAddCategory(event) {
         showFormMessage(responseData.message, true);
         setTimeout(() => {
             addTourForm.reset();
-            error.classList.add(".hide");
+            form_error.classList.add(".hide");
         }, 2000);
     } catch (err) {
         showSessionMessage("Network error..Unable to with the server!", false);

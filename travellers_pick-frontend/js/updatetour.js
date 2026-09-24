@@ -160,7 +160,8 @@ const displayCurrentAdmin = async () => {
 const handleUpdate = async (event) => {
     event.preventDefault();
     const updatePackageForm = document.getElementById("updatecategoryform");
-    const error = document.getElementById("form-error");
+    const form_error = document.getElementById("form-error");
+
     const packageId = document.getElementById("packageName").value.trim();
     const tourIdVal = document.getElementById("tourId").value.trim();
 
@@ -205,7 +206,7 @@ const handleUpdate = async (event) => {
         showFormMessage(responseData.message, true);
         setTimeout(() => {
             updatePackageForm.reset();
-            error.classList.add(".hide");
+            form_error.classList.add(".hide");
         }, 2000);
     } catch (err) {
         showFormMessage("Network error..Please try again");

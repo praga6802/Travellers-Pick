@@ -53,7 +53,6 @@ const initDeleteTourForm = async () => {
 
         packageSelect.addEventListener("change", handlePackageChange);
         form.addEventListener("submit", deleteTour);
-        form.addEventListener("reset", handleReset);
     } catch (err) {
         showSessionMessage("Network error.. Please try again!", false);
         console.error(err);
@@ -144,7 +143,7 @@ const handlePackageChange = async (e) => {
 const deleteTour = async (e) => {
     e.preventDefault();
     const deletePackageForm = document.getElementById("deletecategoryform");
-    const error = document.getElementById("form-error");
+    const form_error = document.getElementById("form-error");
 
     const tourId = document.getElementById("tourId").value;
     const packageId = document.getElementById("packageId").value;
@@ -182,7 +181,7 @@ const deleteTour = async (e) => {
         showFormMessage(data.message, true);
         setTimeout(() => {
             deletePackageForm.reset();
-            error.classList.add(".hide");
+            form_error.classList.add(".hide");
         }, 2000);
     } catch (err) {
         showSessionMessage("Network error.. Please try again!", false);
