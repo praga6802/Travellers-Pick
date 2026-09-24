@@ -2,10 +2,12 @@ import { showFormMessage, showSessionMessage } from "./error.js";
 import { url, uiUrl } from "./config.js";
 
 const tourContainer = document.getElementById("packageTourContainer");
+
 const displayTour = async () => {
     try {
         const authResponse = await fetch(`${url}/user/current-user`, {
             method: "GET",
+            credentials:"include"
         });
 
         const authData = await authResponse.json();
@@ -15,8 +17,7 @@ const displayTour = async () => {
             showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
-            }, 1500);
-            return;
+            }, 2000);
             return;
         }
 
