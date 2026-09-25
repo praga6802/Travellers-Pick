@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class IternaryService {
@@ -89,9 +90,11 @@ public class IternaryService {
 
         Tour tour = tourRepo.findById(tourId) .orElseThrow(() -> new RuntimeException("Tour not found"));
 
-        if (tour.getPackages().getPackageId() !=(packages.getPackageId())) {
+        if (tour.getPackages() == null || !Objects.equals(tour.getPackages().getPackageId(), packages.getPackageId())) {
+
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new AResponse(LocalDateTime.now(),"Failed","Tour does not belong to the selected package"));
+                    .body(new AResponse(
+                            LocalDateTime.now(),"Failed", "Tour does not belong to the selected package"));
         }
 
         List<DayDTO> day = itineraryRepository.findByTour_TourIdAndPackages_PackageId(tour.getTourId(),packages.getPackageId());
