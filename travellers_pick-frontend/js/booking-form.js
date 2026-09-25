@@ -58,8 +58,7 @@ const displayBookingForm = async () => {
                         <th>Activities</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr id="table-row"></tr>
+                <tbody id="table-row">
                 </tbody>
             </table>
         `;
@@ -74,6 +73,23 @@ const displayBookingForm = async () => {
             </tr>`;
         });
 
+        const tourResponse = await fetch(`${url}/user/tour/${tourId}`, {
+            method: "GET",
+            credentials: "include",
+        });
+
+        const selectedTour = await tourResponse.json();
+
+        if (!tourResponse.ok) {
+            showSessionMessage("Failed to fetch tour details", false);
+            return;
+        }
+
+        if (!selectedTour) {
+            showSessionMessage("Failed to fetch tour details", false);
+            return;
+        }
+
         formContainer.innerHTML = `
         <h1 class="h1">BOOKING FORM</h1>
         <form id="tourForm">
@@ -86,10 +102,12 @@ const displayBookingForm = async () => {
             <label for="phone">Phone</label>
             <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{10}" maxlength="10"><br><br>
 
-            <input type="hidden" id="userId" name="userId" value="${userId}" required>
+            <input type="hidden" id="userId" name="userId" value="${authData.userId}" required>
             <input type="hidden" id="tourId" name="tourId" value="${selectedTour.tourId}" required>
+
             <input type="hidden" id="packageName" name="packageName" value="${selectedTour.packageName}" required>
             <input type="hidden" id="region" name="region" value="${selectedTour.tourName}">
+            
             <input type="hidden" id="bdate" name="bdate" required>
         
             <label for="tdate">Travel Date</label>
@@ -134,7 +152,7 @@ const displayBookingForm = async () => {
 async function submitForm(event) {
     event.preventDefault();
 
-    const tourform = e.target;
+    const tourform = event.target;
     const form_error = document.getElementById("form-error");
 
     const userId = parseInt(document.getElementById("userId").value.trim(), 10);

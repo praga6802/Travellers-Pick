@@ -377,4 +377,12 @@ public class UserService {
         UserDTO dto= new UserDTO(user);
         return ResponseEntity.ok(dto);
     }
+
+    public ResponseEntity<?> getTour(Integer tourId) {
+        Tour tour = tourRepo.findById(tourId).orElseThrow(()-> new IDNotFoundException("Tour ID",tourId));
+
+        TourBookingDTO tourBookingDTO = new TourBookingDTO(tour.getPackages().getPackageName(),tour.getTourId(),tour.getTourName());
+
+        return ResponseEntity.ok(tourBookingDTO);
+    }
 }

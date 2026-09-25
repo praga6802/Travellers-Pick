@@ -136,5 +136,10 @@ public class UserController {
         }
         return userService.verifyOTP(userDetails.getUsername(),otp.getOtp());
     }
+
+    @GetMapping("/tour/{tourId}")
+    public ResponseEntity<?> getTour(@PathVariable Integer tourId) {
+        return userService.getTour(tourId);
+    }
 }
 
