@@ -1,6 +1,7 @@
 package com.example.travellers_choice.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 

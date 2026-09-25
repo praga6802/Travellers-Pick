@@ -2,6 +2,7 @@ package com.example.travellers_choice.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,7 +28,4 @@ public class Tour {
     private Integer nights;
     private Double price;
     private String imgUrl;
-
-    @OneToMany(mappedBy = "tour",cascade = CascadeType.ALL)
-    private List<Itinerary> iternaryList;
 }
