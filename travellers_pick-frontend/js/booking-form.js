@@ -50,7 +50,7 @@ const displayBookingForm = async () => {
         iternaries.forEach((it) => {
             tableRows += `
             <tr class='tbody'>
-                <td class='data'>${it.dayNumber || ""}</td>
+                <td class='data'>${it.day || ""}</td>
                 <td class='data'>${it.destination || ""}</td>
                 <td class='data'>${it.description || ""}</td>
             </tr>`;

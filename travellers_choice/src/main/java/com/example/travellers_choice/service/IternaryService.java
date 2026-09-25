@@ -76,8 +76,10 @@ public class IternaryService {
     // to display in admin view itineraries
     public List<SendIternaryDTO> allItineraries() {
         return itineraryRepository.findAll().stream()
-                .map(it-> new SendIternaryDTO(it.getTour().getTourId(),it.getDay(),it.getDestination(),
-                        it.getDescription(),it.getPackages().getPackageName(),it.getTour().getTourName())).toList();
+                .map(it-> new SendIternaryDTO(it.getTour().getTourId(),
+                        it.getDay(),it.getDestination(), it.getDescription(),
+                        it.getPackages().getPackageName(),
+                        it.getTour().getTourName())).toList();
     }
 
 
