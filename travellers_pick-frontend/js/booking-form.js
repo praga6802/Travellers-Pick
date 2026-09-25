@@ -104,7 +104,7 @@ const displayBookingForm = async () => {
             <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{10}" maxlength="10"><br><br>
 
             <input type="hidden" id="userId" name="userId" value="${authData.userId}" required>
-            <input type="hidden" id="tourId" name="tourId" value="${selectedTour.tourId}" required>
+            <input type="hidden" id="tourId" name="tourId" value="${tourId}" required>
 
             <input type="hidden" id="packageName" name="packageName" value="${selectedTour.packageName}" required>
             <input type="hidden" id="region" name="region" value="${selectedTour.tourName}">
@@ -154,13 +154,14 @@ async function submitForm(event) {
     event.preventDefault();
 
     console.log("submitted form");
-    
 
     const tourform = event.target;
     const form_error = document.getElementById("form-error");
 
     const userId = parseInt(document.getElementById("userId").value.trim(), 10);
     const tourId = parseInt(document.getElementById("tourId").value.trim(), 10);
+
+    console.log(userId, tourId);
 
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -194,7 +195,7 @@ async function submitForm(event) {
         noOfChildren,
         city,
         state,
-        country
+        country,
     };
 
     try {
