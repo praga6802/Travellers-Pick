@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateItineraryDTO {
-
     private Integer itineraryId;
     private Integer packageId;
     private Integer tourId;

@@ -2,6 +2,7 @@ import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 
 const itineraryContainer = document.getElementById("itinerary-container");
+let itineraryId = null;
 
 const displayItineraryForm = async () => {
     try {
@@ -186,7 +187,7 @@ const displayItineraryForm = async () => {
             document.getElementById("description").value = "";
 
             try {
-                const dayResponse = await fetch(
+                const itineraryResponse = await fetch(
                     `${url}/admin/getDay/${packageId}/${tourId}`,
                     {
                         method: "GET",
@@ -194,27 +195,28 @@ const displayItineraryForm = async () => {
                     },
                 );
 
-                const dayResponseData = await dayResponse.json();
+                const itineraryResponseData = await itineraryResponse.json();
 
-                console.log(dayResponse);
-                console.log(dayResponseData);
+                console.log(itineraryResponse);
+                console.log(itineraryResponseData);
 
-                if (!dayResponse.ok) {
-                    showFormMessage("Failed to load days!", false);
+                if (!itineraryResponse.ok) {
+                    showFormMessage("Failed to load itineraries!", false);
                     return;
                 }
 
-                if (!dayResponseData || dayResponseData.length === 0) {
+                if (
+                    !itineraryResponseData ||
+                    itineraryResponseData.length === 0
+                ) {
                     showFormMessage("No Days found!", false);
                     return;
                 }
 
-                dayResponseData.forEach((day) => {
+                itineraryResponseData.forEach((itinerary) => {
                     const option = document.createElement("option");
-
-                    option.value = day.day;
-                    option.textContent = `Day ${day.day}`;
-
+                    option.value = itinerary.day;
+                    option.textContent = `Day ${itinerary.day}`;
                     daySelect.appendChild(option);
                 });
             } catch (err) {
@@ -243,7 +245,7 @@ const displayItineraryForm = async () => {
                     showFormMessage("Failed to load itinerary!", false);
                     return;
                 }
-
+                itineraryId = itineraryResponseData.itineraryId;
                 document.getElementById("destination").value =
                     itineraryResponseData.destination;
 
@@ -291,6 +293,7 @@ const updateItinerary = async (e) => {
     }
 
     const data = {};
+    data.itineraryId = itineraryId;
     if (packageId) data.packageId = packageId;
     if (tourId) data.tourId = tourId;
     if (day) data.day = day;

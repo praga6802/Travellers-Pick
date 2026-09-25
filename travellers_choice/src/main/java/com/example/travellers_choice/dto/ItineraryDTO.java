@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItineraryDTO {
+    private Integer itineraryId;
     private Integer day;
     private String destination;
     private String description;

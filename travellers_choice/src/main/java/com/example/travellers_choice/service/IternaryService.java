@@ -1,6 +1,7 @@
 package com.example.travellers_choice.service;
 
 import com.example.travellers_choice.dto.*;
+import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.model.Itinerary;
 import com.example.travellers_choice.model.Packages;
 import com.example.travellers_choice.model.Tour;
@@ -55,7 +56,7 @@ public class IternaryService {
     public ResponseEntity<?> updateItinerary(UpdateItineraryDTO updateItineraryDTO){
 
         Itinerary itinerary = itineraryRepository.findById(updateItineraryDTO.getItineraryId())
-                .orElseThrow(() -> new RuntimeException("Itinerary not found"));
+                .orElseThrow(()-> new IDNotFoundException("Itinerary ID not found",updateItineraryDTO.getItineraryId()));
 
         Tour tour = tourRepo.findById(updateItineraryDTO.getTourId())
                 .orElseThrow(() -> new RuntimeException("Tour not found"));
@@ -63,6 +64,7 @@ public class IternaryService {
         Packages pkg = packagesRepo.findById(updateItineraryDTO.getPackageId())
                 .orElseThrow(() -> new RuntimeException("Package not found"));
 
+        
         itinerary.setTour(tour);
         itinerary.setPackages(pkg);
         itinerary.setDay(updateItineraryDTO.getDay());
@@ -108,8 +110,8 @@ public class IternaryService {
                     ));
         }
 
-        List<DayDTO> days = itineraries.stream().map(it-> new DayDTO(it.getDay())).toList();
-        return ResponseEntity.ok(days);
+//        List<DayDTO> days = itineraries.stream().map(it-> new DayDTO(it.getDay())).toList();
+        return ResponseEntity.ok(itineraries);
 
     }
 
@@ -120,6 +122,7 @@ public class IternaryService {
                 .orElseThrow(() -> new RuntimeException("Itinerary not found"));
 
         ItineraryDTO dto = new ItineraryDTO();
+        dto.setItineraryId(itinerary.getId());
         dto.setDay(itinerary.getDay());
         dto.setDestination(itinerary.getDestination());
         dto.setDescription(itinerary.getDescription());
