@@ -110,8 +110,8 @@ public class IternaryService {
                     ));
         }
 
-//        List<DayDTO> days = itineraries.stream().map(it-> new DayDTO(it.getDay())).toList();
-        return ResponseEntity.ok(itineraries);
+        List<DayDTO> days = itineraries.stream().map(it-> new DayDTO(it.getDay())).toList();
+        return ResponseEntity.ok(days);
 
     }
 
