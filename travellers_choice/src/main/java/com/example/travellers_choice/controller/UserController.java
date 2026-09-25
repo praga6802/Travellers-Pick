@@ -79,18 +79,9 @@ public class UserController {
     }
 
     // book tour
-    @PostMapping("/{packageName}/book")
-    public ResponseEntity<?> bookCategory(@RequestBody BookTourDTO bookTourDTO, @PathVariable String packageName, @AuthenticationPrincipal UserDetails userDetails) {
-        bookTourDTO.setPackageName(packageName);
-        System.out.println("userDetails = " + userDetails);
-        System.out.println("username = " + userDetails.getUsername());
-        System.out.println("packageName = " + packageName);
-        System.out.println("DTO = " + bookTourDTO);
-
-        System.out.println("BEFORE SERVICE");
-        System.out.println("booking form...");
-        System.out.println("Saved email: "+userDetails.getUsername());
-        return userService.bookCategory(bookTourDTO, userDetails.getUsername());
+    @PostMapping("/bookTour")
+    public ResponseEntity<?> bookTour(@RequestBody BookTourDTO bookTourDTO, @PathVariable String packageName) {
+        return userService.bookTour(bookTourDTO);
     }
     
     //get all tour bookings

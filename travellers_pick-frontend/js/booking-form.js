@@ -27,7 +27,6 @@ const displayBookingForm = async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const tourId = parseInt(urlParams.get("tourId"), 10);
         console.log(tourId);
-        
 
         // get itineraries by tourID
         const iternaryResponse = await fetch(
@@ -195,18 +194,13 @@ async function submitForm(event) {
         country,
     };
 
-    if (
-        Object.values(data).some(
-            (value) => value === "" || value === null || value === undefined,
-        )
-    ) {
+    if (Object.values(data).some((value) => value === "" || value === null || value === undefined)) {
         showFormMessage("Please fill all customer details correctly", false);
         return;
     }
 
-    const pkgName = encodeURIComponent(packageName);
     try {
-        const response = await fetch(`${url}/user/${pkgName}/book`, {
+        const response = await fetch(`${url}/user/bookTour`, {
             method: "POST",
             body: JSON.stringify(data),
             credentials: "include",
@@ -216,10 +210,12 @@ async function submitForm(event) {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showFormMessage(responseData.message || "Booking failed", false);
+            showFormMessage(responseData.message, false);
             return;
         }
-        showFormMessage(responseData.message || "Booking successful!", true);
+
+
+        showFormMessage(responseData.message, true);
 
         setTimeout(() => {
             form_error.classList.add("hide");
