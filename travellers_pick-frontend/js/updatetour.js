@@ -116,7 +116,7 @@ const displayCurrentAdmin = async () => {
                     </div>
 
                     <div class="button-group">
-                        <input type="submit" value="ADD" class="button" />
+                        <input type="submit" value="UPDATE" class="button" />
                         <input type="reset" value="RESET" class="button" />
                     </div>
                 </div>
@@ -212,9 +212,9 @@ const displayCurrentAdmin = async () => {
                 document.getElementById("places").value =
                     tourDetailsResponseData.places;
                 document.getElementById("days").value =
-                    tourDetailsResponseData.days;
+                    tourDetailsResponseData.day;
                 document.getElementById("nights").value =
-                    tourDetailsResponseData.nights;
+                    tourDetailsResponseData.night;
                 document.getElementById("price").value =
                     tourDetailsResponseData.price;
             } catch (err) {

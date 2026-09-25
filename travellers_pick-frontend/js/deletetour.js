@@ -25,15 +25,15 @@ const initDeleteTourForm = async () => {
                 <legend>DELETE TOUR</legend>
 
                 <div class="input">
-                    <label for="packageId">Package Name</label>
-                        <select name="packageId" id="packageId" required>
+                    <label for="package-select">Package Name</label>
+                        <select name="packageId" id="package-select" required>
                             <option value="" hidden selected disabled>Select Package</option>
                         </select>
                 </div><br>
 
                 <div class="input">
-                    <label for="tourId">Tour Name</label>
-                        <select name="tourId" id="tourId" disabled required>
+                    <label for="tour-select">Tour Name</label>
+                        <select name="tourId" id="tour-select" disabled required>
                             <option value="" hidden selected disabled>Select Tour</option>
                         </select>
                 </div><br>
@@ -46,100 +46,73 @@ const initDeleteTourForm = async () => {
             </form>
         `;
 
-        await loadPackages();
+        const packageNameSelect = document.getElementById("package-select");
+        const tourSelect = document.getElementById("tour-select");
 
-        const packageSelect = document.getElementById("packageId");
-        const form = document.getElementById("deletecategoryform");
+        const pkgResponse = await fetch(`${url}/admin/packageNames`, {
+            method: "GET",
+            credentials: "include",
+        });
 
-        packageSelect.addEventListener("change", handlePackageChange);
-        form.addEventListener("submit", deleteTour);
+        const packageData = await pkgResponse.json();
+        if (!pkgResponse.ok) {
+            showSessionMessage(packageData.message, false);
+            return;
+        }
+
+        if (packageData.length === 0) {
+            tourContainer.style.display = "none";
+            showSessionMessage("No Packages found", false);
+            return;
+        }
+
+        packageData.forEach((pkg) => {
+            const option = document.createElement("option");
+            option.value = pkg.packageId;
+            option.innerText = pkg.packageName;
+            packageNameSelect.appendChild(option);
+        });
+
+        packageNameSelect.addEventListener("change", async () => {
+            const packageId = packageNameSelect.value;
+
+            try {
+                const tourResponse = await fetch(
+                    `${url}/admin/tourNames/${packageId}`,
+                    { method: "GET", credentials: "include" },
+                );
+
+                const tourResponseData = await tourResponse.json();
+
+                if (!tourResponse.ok) {
+                    showFormMessage("Fetch to load tours!", false);
+                    return;
+                }
+
+                if (!tourResponseData || tourResponseData.length === 0) {
+                    showFormMessage("No tours found!");
+                    return;
+                }
+
+                tourResponseData.forEach((tour) => {
+                    const option = document.createElement("option");
+                    option.textContent = tour.tourName;
+                    option.value = tour.tourId;
+
+                    tourSelect.appendChild(option);
+                });
+            } catch (err) {
+                console.error(err);
+                showFormMessage("Failed to load tours!", false);
+            }
+        });
     } catch (err) {
         showSessionMessage("Network error.. Please try again!", false);
         console.error(err);
     }
 };
 
-// Fetch Packages
-const loadPackages = async () => {
-    const packageSelect = document.getElementById("packageId");
-    try {
-        const response = await fetch(`${url}/admin/packageNames`, {
-            method: "GET",
-            credentials: "include",
-        });
-
-        const data = await response.json();
-        if (!response.ok) {
-            container.style.display = "none";
-            showSessionMessage(
-                data.message || "Failed to load packages",
-                false,
-            );
-            return;
-        }
-
-        if (data.length === 0) {
-            container.style.display = "none";
-            showSessionMessage("No Tours found for this package!", false);
-            return;
-        }
-
-        data.forEach((pkg) => {
-            const option = document.createElement("option");
-            option.value = pkg.packageId;
-            option.innerText = pkg.packageName;
-            packageSelect.appendChild(option);
-        });
-    } catch (err) {
-        showSessionMessage("Network error..Please try again!", false);
-        console.error(err);
-    }
-};
-
-const handlePackageChange = async (e) => {
-    const packageId = e.target.value;
-    const tourSelect = document.getElementById("tourId");
-
-    tourSelect.innerHTML = `<option value="" hidden selected disabled>Select Tour</option>`;
-    tourSelect.disabled = true;
-
-    if (!packageId) return;
-
-    try {
-        const response = await fetch(
-            `${url}/admin/toursByPackage?packageId=${packageId}`,
-            {
-                method: "GET",
-                credentials: "include",
-            },
-        );
-
-        const tours = await response.json();
-
-        if (!response.ok) {
-            showSessionMessage("Failed to load tours", false);
-            return;
-        }
-
-        if (tours.length === 0) {
-            showSessionMessage("No tours found for this package", false);
-            return;
-        }
-
-        tours.forEach((tour) => {
-            const option = document.createElement("option");
-            option.value = tour.tourId;
-            option.innerText = tour.tourName;
-            tourSelect.appendChild(option);
-        });
-
-        tourSelect.disabled = false;
-    } catch (err) {
-        showSessionMessage("Network error..Please try again!", false);
-        console.error(err);
-    }
-};
-
+// delete tour
 const deleteTour = async (e) => {
     e.preventDefault();
     const deletePackageForm = document.getElementById("deletecategoryform");
@@ -168,17 +141,17 @@ const deleteTour = async (e) => {
             return;
         }
 
-        showFormMessage(data.message, true);
-
         //resetting the tour from packages
-        const tourSelect = document.getElementById("tourId");
+        const tourSelect = document.getElementById("tour-select");
         const selectedOption = tourSelect.querySelector(
             `option[value="${tourId}"]`,
         );
+
         if (selectedOption) selectedOption.remove();
         tourSelect.value = "";
 
         showFormMessage(data.message, true);
+        
         setTimeout(() => {
             deletePackageForm.reset();
             form_error.classList.add("hide");
