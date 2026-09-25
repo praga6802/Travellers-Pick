@@ -92,6 +92,36 @@ const displayItineraryForm = async () => {
             "updateItineraryForm",
         );
 
+        if (!packageNameSelect) return;
+
+        //get packages
+        const packageResponse = await fetch(`${url}/admin/packageNames`, {
+            method: "GET",
+            credentials: "include",
+        });
+
+        const packageResponseData = await packageResponse.json();
+
+        if (!packageResponse.ok) {
+            itineraryContainer.style.display = "none";
+            showSessionMessage("Failed to load packages", false);
+            return;
+        }
+
+        if (packageResponseData.length === 0) {
+            itineraryContainer.style.display = "none";
+            showSessionMessage("No packages available", false);
+            return;
+        }
+
+        packageResponseData.forEach((pkg) => {
+            const option = document.createElement("option");
+            option.value = pkg.packageId;
+            option.textContent = pkg.packageName;
+            packageNameSelect.appendChild(option);
+        });
+
+        //dynamic tour name from package select
         packageNameSelect.addEventListener("change", async () => {
             const packageId = packageNameSelect.value;
             tourSelect.innerHTML = `
