@@ -26,7 +26,7 @@ public class Packages {
     private String imgUrl;
     
 
-    @OneToMany(mappedBy = "packageName", orphanRemoval = true, cascade =CascadeType.ALL)
+    @OneToMany(mappedBy = "packages", orphanRemoval = true, cascade =CascadeType.ALL)
     @JsonManagedReference
     List<Tour> tours;
 
