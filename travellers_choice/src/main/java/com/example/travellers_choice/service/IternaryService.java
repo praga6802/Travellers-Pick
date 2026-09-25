@@ -109,7 +109,7 @@ public class IternaryService {
     public ResponseEntity<?> getItinerary(Integer packageId, Integer tourId, Integer day) {
 
         Itinerary itinerary = itineraryRepository
-                .findByPackagesPackageIdAndTourTourIdAndDay(packageId, tourId, day)
+                .findByPackages_PackageIdAndTour_TourIdAndDay(packageId, tourId, day)
                 .orElseThrow(() -> new RuntimeException("Itinerary not found"));
 
         ItineraryDTO dto = new ItineraryDTO();
