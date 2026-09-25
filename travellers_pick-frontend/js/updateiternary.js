@@ -213,7 +213,7 @@ const displayItineraryForm = async () => {
                     return;
                 }
 
-                itineraryResponseData.forEach((itinerary) => {
+                itineraryResponseData.data.forEach((itinerary) => {
                     const option = document.createElement("option");
                     option.value = itinerary.day;
                     option.textContent = `Day ${itinerary.day}`;

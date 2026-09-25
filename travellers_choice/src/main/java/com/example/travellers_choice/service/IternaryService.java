@@ -73,7 +73,7 @@ public class IternaryService {
 
         itineraryRepository.save(itinerary);
 
-        return ResponseEntity.ok("Itinerary updated successfully");
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Itinerary updated successfully"));
     }
 
     // to display in admin view itineraries
@@ -111,7 +111,7 @@ public class IternaryService {
         }
 
         List<DayDTO> days = itineraries.stream().map(it-> new DayDTO(it.getDay())).toList();
-        return ResponseEntity.ok(days);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",days));
 
     }
 
