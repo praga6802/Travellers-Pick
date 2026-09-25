@@ -131,10 +131,10 @@ public class IternaryService {
 
     public ResponseEntity<?> getIternarieByTourId(Integer tourId) {
 
-        Tour tour = tourRepo.findById(tourId).orElseThrow(()-> new IDNotFoundException("Tour Id not found!",tourId));
-
-        List<Itinerary> itineraryList = itineraryRepository.findByTour_TourId(tourId);
-
+        tourRepo.findById(tourId).orElseThrow(()-> new IDNotFoundException("Tour Id not found!",tourId));
+        List<ItineraryDTO> itineraryList = itineraryRepository.findByTour_TourId(tourId)
+                .stream().map(itinerary -> new ItineraryDTO(itinerary.getId(),itinerary.getDay(),itinerary.getDestination(),itinerary.getDescription())).toList();
+        
         if(itineraryList.isEmpty()){
             return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AResponse(LocalDateTime.now(),"Failure","No Itineraries found!"));
         }
