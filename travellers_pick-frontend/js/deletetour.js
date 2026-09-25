@@ -61,7 +61,7 @@ const initDeleteTourForm = async () => {
         }
 
         if (packageData.length === 0) {
-            tourContainer.style.display = "none";
+            container.style.display = "none";
             showSessionMessage("No Packages found", false);
             return;
         }
@@ -75,6 +75,10 @@ const initDeleteTourForm = async () => {
 
         packageNameSelect.addEventListener("change", async () => {
             const packageId = packageNameSelect.value;
+
+            tourSelect.innerHTML = `
+                <option value="" selected disabled hide>Select Tour</option>
+            `;
 
             try {
                 const tourResponse = await fetch(
