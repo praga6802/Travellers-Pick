@@ -170,10 +170,15 @@ public class UserService {
 
     //book tour
     public ResponseEntity<?> bookTour(BookTourDTO bookTourDTO) {
+        System.out.println("USER ID: " + bookTourDTO.getUserId());
+        System.out.println("TOUR ID: " + bookTourDTO.getTourId());
 
         Customer user = userRepo.findById(bookTourDTO.getUserId()).orElseThrow(() ->new IDNotFoundException("User ID", bookTourDTO.getUserId()));
+        System.out.println("user found");
 
         Tour tour=tourRepo.findById(bookTourDTO.getTourId()).orElseThrow(()-> new IDNotFoundException("Tour ID",bookTourDTO.getTourId()));
+        System.out.println("tour found");
+
 
         CustomerRegistry book = new CustomerRegistry();
         book.setUser(user);
@@ -200,7 +205,12 @@ public class UserService {
         System.out.println("before pnr");
         book.setPNR(pnr);
         System.out.println("after pnr");
+
+        System.out.println("Before save");
         registerRepo.save(book);
+
+        System.out.println("after save");
+        System.out.println("booking completed");
 
 //        if(bookTourDTO.getEmail()!=null && !bookTourDTO.getEmail().isBlank()){
 //            String subject="Confirmation of Tour Booking!";
