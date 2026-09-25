@@ -87,7 +87,12 @@ public class IternaryService {
 
         Tour tour = tourRepo.findById(tourId) .orElseThrow(() -> new RuntimeException("Tour not found"));
 
-        List<DayDTO> day = itineraryRepository.findByTourIdAndPackagesId(packages.getPackageId(),tour.getTourId());
+        if (tour.getPackages().getPackageId() !=(packages.getPackageId())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new AResponse(LocalDateTime.now(),"Failed","Tour does not belong to the selected package"));
+        }
+
+        List<DayDTO> day = itineraryRepository.findByTourIdAndPackagesId(tour.getTourId(),packages.getPackageId());
 
         if(day.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

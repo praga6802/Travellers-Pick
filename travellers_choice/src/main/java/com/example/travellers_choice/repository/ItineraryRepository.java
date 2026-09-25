@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ItineraryRepository extends JpaRepository<Itinerary,Integer> {
-    List<DayDTO> findByTourIdAndPackagesId(int packageId, int tourId);
+    List<DayDTO> findByTourIdAndPackagesId(int tourId, int packageId);
 
     Optional<Itinerary> findByPackagesPackageIdAndTourTourIdAndDay(Integer packageId, Integer tourId, Integer day);
 }
