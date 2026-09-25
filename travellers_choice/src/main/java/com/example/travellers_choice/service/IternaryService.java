@@ -92,7 +92,7 @@ public class IternaryService {
                     .body(new AResponse(LocalDateTime.now(),"Failed","Tour does not belong to the selected package"));
         }
 
-        List<DayDTO> day = itineraryRepository.findByTourIdAndPackagesId(tour.getTourId(),packages.getPackageId());
+        List<DayDTO> day = itineraryRepository.findByTour_TourIdAndPackages_PackageId(tour.getTourId(),packages.getPackageId());
 
         if(day.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
