@@ -210,5 +210,4 @@ async function submitForm(event) {
         showSessionMessage("Network error..Please try again", false);
     }
 }
-
 document.addEventListener("DOMContentLoaded", displayBookingForm);
