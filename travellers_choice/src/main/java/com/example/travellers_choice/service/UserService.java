@@ -169,27 +169,29 @@ public class UserService {
     }
 
     //book tour
-    public ResponseEntity<?> bookCategory(BookTourDTO bookTourDTO, String email) {
-        Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Email ID", email));
-        System.out.println(user);
+    public ResponseEntity<?> bookTour(BookTourDTO bookTourDTO) {
+
+        Customer user = userRepo.findById(bookTourDTO.getUserId()).orElseThrow(() ->new IDNotFoundException("User ID", bookTourDTO.getUserId()));
+
         Tour tour=tourRepo.findById(bookTourDTO.getTourId()).orElseThrow(()-> new IDNotFoundException("Tour ID",bookTourDTO.getTourId()));
 
         CustomerRegistry book = new CustomerRegistry();
         book.setUser(user);
         book.setTour(tour);
-        book.setName(bookTourDTO.getName() != null ? bookTourDTO.getName() : "No Name");
-        book.setEmail(bookTourDTO.getEmail() != null ? bookTourDTO.getEmail() : "No Email");
-        book.setPhone(bookTourDTO.getPhone() != null ? bookTourDTO.getPhone() : "No Mobile Number");
-        book.setPackageName(bookTourDTO.getPackageName() != null ? bookTourDTO.getPackageName() : "No Package Name");
-        book.setRegion(bookTourDTO.getRegion() != null ? bookTourDTO.getRegion() : "No Region");
-        book.setBdate(bookTourDTO.getBdate() != null ? bookTourDTO.getBdate() : "No date");
-        book.setTdate(bookTourDTO.getTdate() != null ? bookTourDTO.getTdate() : "No date");
-        book.setNoOfSeats(bookTourDTO.getNoOfSeats() != null ? bookTourDTO.getNoOfSeats() : 0);
-        book.setNoOfAdults(bookTourDTO.getNoOfAdults() != null ? bookTourDTO.getNoOfAdults() : 0);
-        book.setNoOfChildren(bookTourDTO.getNoOfChildren() != null ? bookTourDTO.getNoOfChildren() : 0);
-        book.setCity(bookTourDTO.getCity() != null ? bookTourDTO.getCity() : "No city");
-        book.setState(bookTourDTO.getState() != null ? bookTourDTO.getState() : "No state");
-        book.setCountry(bookTourDTO.getCountry() != null ? bookTourDTO.getCountry() : "No country");
+
+        book.setName(bookTourDTO.getName());
+        book.setEmail(bookTourDTO.getEmail());
+        book.setPhone(bookTourDTO.getPhone());
+        book.setPackageName(bookTourDTO.getPackageName());
+        book.setRegion(bookTourDTO.getRegion());
+        book.setBdate(bookTourDTO.getBdate());
+        book.setTdate(bookTourDTO.getTdate());
+        book.setNoOfSeats(bookTourDTO.getNoOfSeats());
+        book.setNoOfAdults(bookTourDTO.getNoOfAdults());
+        book.setNoOfChildren(bookTourDTO.getNoOfChildren());
+        book.setCity(bookTourDTO.getCity());
+        book.setState(bookTourDTO.getState());
+        book.setCountry(bookTourDTO.getCountry());
         book.setPrice(tour.getPrice());
         book.setStatus("CONFIRMED");
 
@@ -199,10 +201,8 @@ public class UserService {
         book.setPNR(pnr);
         System.out.println("after pnr");
         registerRepo.save(book);
-
-
-        if(bookTourDTO.getEmail()!=null && !bookTourDTO.getEmail().isEmpty()){
-            System.out.println("before email");
+        
+        if(bookTourDTO.getEmail()!=null && !bookTourDTO.getEmail().isBlank()){
             String subject="Confirmation of Tour Booking!";
             String body = "Hi " + user.getUsername() + ",\n\n"
                     + "Your tour has been booked successfully for the package: " + bookTourDTO.getRegion() + ".\n\n"
@@ -222,6 +222,8 @@ public class UserService {
         }
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Tour Booked Successfully"));
     }
+
+
 
     //update user profile
     public ResponseEntity<?> updateUser(UserDTO userDTO, String email) {

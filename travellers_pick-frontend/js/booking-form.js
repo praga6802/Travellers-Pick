@@ -191,13 +191,8 @@ async function submitForm(event) {
         noOfChildren,
         city,
         state,
-        country,
+        country
     };
-
-    if (Object.values(data).some((value) => value === "" || value === null || value === undefined)) {
-        showFormMessage("Please fill all customer details correctly", false);
-        return;
-    }
 
     try {
         const response = await fetch(`${url}/user/bookTour`, {
@@ -213,7 +208,6 @@ async function submitForm(event) {
             showFormMessage(responseData.message, false);
             return;
         }
-
 
         showFormMessage(responseData.message, true);
 

@@ -80,7 +80,7 @@ public class UserController {
 
     // book tour
     @PostMapping("/bookTour")
-    public ResponseEntity<?> bookTour(@RequestBody BookTourDTO bookTourDTO, @PathVariable String packageName) {
+    public ResponseEntity<?> bookTour(@RequestBody BookTourDTO bookTourDTO) {
         return userService.bookTour(bookTourDTO);
     }
     
