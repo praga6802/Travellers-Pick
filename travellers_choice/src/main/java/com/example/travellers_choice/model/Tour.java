@@ -2,8 +2,6 @@ package com.example.travellers_choice.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,7 +18,7 @@ public class Tour {
     @ManyToOne
     @JoinColumn(name = "packageId", nullable = false)
     @JsonBackReference
-    private Packages packageName;
+    private Packages packages;
 
     private String tourName;
     private String tourSlogan;
@@ -31,12 +29,5 @@ public class Tour {
     private String imgUrl;
 
     @OneToMany(mappedBy = "tour",cascade = CascadeType.ALL)
-    private List<Iternary> iternaryList;
-
-
-    @JsonProperty("packageId")
-    public int getPackageId() {
-        return packageName != null ?packageName.getPackageId():0;
-
-    }
+    private List<Itinerary> iternaryList;
 }

@@ -1,0 +1,91 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('../img/package-back.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#addIternaryContainer {
+    float: right;
+    margin-top: 5%;
+    margin-right: 4%;
+    background-color: white;
+    height: 550px;
+    border-radius: 10px;
+    width: 550px;
+    padding: 20px;
+    transition: transform 0.5s ease;
+}
+
+#addIternaryContainer:hover {
+    transform: translateY(-10px) scale(1.02);
+    border: 2px solid goldenrod;
+}
+
+legend {
+    text-align: center;
+    font-weight: 600;
+    font-size: 30px;
+    padding: 10px;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    padding: 17px;
+}
+
+.input label {
+    width: 130px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.input input,
+select {
+    width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid grey;
+}
+
+
+.input input:focus,
+select:focus {
+    outline: none;
+    border: 2px solid rgb(9, 39, 169);
+}
+
+
+
+
+#button-group {
+    margin-top: 2%;
+    display: flex;
+    gap: 80px;
+    justify-content: center;
+    padding: 10px;
+}
+
+.button {
+    color: white;
+    padding: 10px;
+    height: auto;
+    border: none;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 15px;
+    width: 80px;
+    background-color: rgb(21, 112, 232);
+}
+
+.button:hover {
+    background-color: rgb(10, 57, 118);
+}

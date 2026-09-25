@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Iternary{
+public class Itinerary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +17,11 @@ public class Iternary{
     private Tour tour;
 
     @ManyToOne
-    @JoinColumn(name="packageId")
-    private Packages pkg;
+    @JoinColumn(name="package_id")
+    private Packages packages;
 
-    @Column(name="dayNumber",nullable = false)
-    private Integer dayNumber;
+    @Column(name="day",nullable = false)
+    private Integer day;
 
     @Column(name="destination",nullable = false)
     private String destination;
@@ -29,8 +29,6 @@ public class Iternary{
     @Lob
     @Column(name="description",nullable = false, columnDefinition = "TEXT")
     private String description;
-
-
 
 
 }

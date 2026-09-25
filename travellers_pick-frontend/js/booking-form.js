@@ -24,8 +24,6 @@ const displayBookingForm = async () => {
             return;
         }
 
-        const userId = authData.userId || authData.id;
-
         const iternaryResponse = await fetch(`${url}/user/allIternaries`, {
             method: "GET",
             credentials: "include",
@@ -37,23 +35,16 @@ const displayBookingForm = async () => {
             return;
         }
 
-        if (!Array.isArray(iternaryData) || iternaryData.length === 0) {
-            showSessionMessage("No Itineraries found!", false);
-            return;
-        }
-
         const urlParams = new URLSearchParams(window.location.search);
         const tourId = parseInt(urlParams.get("tourId"), 10);
 
         const iternaries = iternaryData.filter(
             (tour) => tour.tourId === tourId,
         );
-        if (!iternaries || iternaries.length === 0) {
+        if (iternaries.length === 0) {
             showSessionMessage("No Itineraries found for this tour!", false);
             return;
         }
-
-        const selectedTour = iternaries[0];
 
         let tableRows = "";
         iternaries.forEach((it) => {

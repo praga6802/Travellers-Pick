@@ -12,13 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
@@ -155,9 +153,9 @@ public class AdminController {
         return ResponseEntity.ok(packageNames);
     }
 
-    @GetMapping("/tourNames")
-    public ResponseEntity<?> getTourInfo(){
-        List<TourInfoDTO> tours = tourService.getTourInfo();
+    @GetMapping("/tourNames/{packageId}")
+    public ResponseEntity<?> getTourInfo(@PathVariable Integer packageId){
+        List<TourInfoDTO> tours = tourService.getTourInfo(packageId);
         return ResponseEntity.ok(tours);
     }
 
@@ -203,60 +201,75 @@ public class AdminController {
     }
 
 
-    // ITERNARY
-    //add iternary
-    @PostMapping("/addIternary")
-    public ResponseEntity<?> addIternary(@RequestBody AddIternaryDTO addIternaryDTO, @AuthenticationPrincipal UserDetails userDetails){
-        if(userDetails==null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","Network Error or Session Expired! Please try again"));
-        }
-        return iternaryService.addIternary(addIternaryDTO,userDetails.getUsername());
+    // ----- ITINERARY service -----
+    //add itinerary
+    @PostMapping("/addItinerary")
+    public ResponseEntity<?> addItinerary(@RequestBody AddItineraryDTO addItineraryDTO){
+        return iternaryService.addItinerary(addItineraryDTO);
     }
 
+    @PatchMapping("/updateItinerary")
+    public ResponseEntity<?> updateItinerary(@RequestBody UpdateItineraryDTO updateItineraryDTO){
+        return iternaryService.updateItinerary(updateItineraryDTO);
+    }
 
-    @GetMapping("/allIternaries")
-    public ResponseEntity<List<SendIternaryDTO>> allIternaries(){
-        List<SendIternaryDTO> iternaryList= iternaryService.allIternaries();
+    @GetMapping("/allItineraries")
+    public ResponseEntity<List<SendIternaryDTO>> allItineraries(){
+        List<SendIternaryDTO> iternaryList= iternaryService.allItineraries();
         return ResponseEntity.ok(iternaryList);
     }
 
-    // count admins
+    @GetMapping("/getDay/{packageId}/{tourId}")
+    public ResponseEntity<?> getDayInformation(@PathVariable Integer packageId, @PathVariable Integer tourId){
+        return iternaryService.getDayInformation(packageId,tourId);
+    }
+
+    @GetMapping("/getItinerary/{packageId}/{tourId}/{day}")
+    public ResponseEntity<?> getItinerary(@PathVariable Integer packageId, @PathVariable Integer tourId, @PathVariable Integer day){
+        return iternaryService.getItinerary(packageId,tourId,day);
+    }
+
+
+
+    // -------- ADMIN DASHBOARD -------
+
+    // Get the total number of cancelled admins
     @GetMapping("/getAdmins")
     public ResponseEntity<AResponse> getAdmins(@AuthenticationPrincipal UserDetails userDetails){
         return adminService.getAdmins(userDetails.getUsername());
     }
 
-    // couht users
+    // Get the total number of cancelled users
     @GetMapping("/getUsers")
     public ResponseEntity<AResponse> getUsers(@AuthenticationPrincipal UserDetails userDetails){
         return adminService.getUsers(userDetails.getUsername());
     }
 
-    // count packages
+    // Get the total number of packages
     @GetMapping("/getPackages")
     public ResponseEntity<AResponse> getPackages(@AuthenticationPrincipal UserDetails userDetails){
         return adminService.getPackages(userDetails.getUsername());
     }
 
-    // count tours
+    // Get the total number of tours
     @GetMapping("/getTours")
     public ResponseEntity<AResponse> getTours(@AuthenticationPrincipal UserDetails userDetails){
         return adminService.getTours(userDetails.getUsername());
     }
 
-    // count bookings
+    // Get the total number of bookings
     @GetMapping("/getBookings")
     public ResponseEntity<AResponse> getBookings(@AuthenticationPrincipal UserDetails userDetails){
         return adminService.getBookings(userDetails.getUsername());
     }
 
-    // count confirmed
+    // Get the total number of confirmed bookings
     @GetMapping("/getConfirmed")
     public ResponseEntity<AResponse> getConfirmed(@AuthenticationPrincipal UserDetails userDetails){
         return adminService.getConfirmed(userDetails.getUsername());
     }
 
-    // count cancelled
+    // Get the total number of cancelled bookings
     @GetMapping("/getCancelled")
     public ResponseEntity<AResponse> getCancelled(@AuthenticationPrincipal UserDetails userDetails){
         return adminService.getCancelled(userDetails.getUsername());

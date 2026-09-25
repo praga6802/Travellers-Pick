@@ -123,9 +123,9 @@ public class UserController {
         return userService.userData(userDetails.getUsername());
     }
 
-    @GetMapping("/allIternaries")
-    public ResponseEntity<List<SendIternaryDTO>> allIternaries(){
-        List<SendIternaryDTO> iternaryList= iternaryService.allIternaries();
+    @GetMapping("/allItineraries")
+    public ResponseEntity<List<SendIternaryDTO>> allItineraries(){
+        List<SendIternaryDTO> iternaryList= iternaryService.allItineraries();
         return ResponseEntity.ok(iternaryList);
     }
 

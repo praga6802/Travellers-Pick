@@ -57,7 +57,7 @@ public class TourService {
         }
 
         Tour tour = new Tour();
-        tour.setPackageName(pkg);
+        tour.setPackages(pkg);
         tour.setTourName(tourDTO.getTourName());
         tour.setTourSlogan(tourDTO.getTourSlogan());
         tour.setPlaces(tourDTO.getPlaces());
@@ -78,7 +78,7 @@ public class TourService {
         Tour tourEntity = tourRepo.findById(categoryDTO.getTourId())
                 .orElseThrow(() -> new IDNotFoundException("Tour ID", categoryDTO.getTourId()));
 
-        if(tourEntity.getPackageId()!=pkg.getPackageId() || categoryDTO.getTourId()!=tourEntity.getTourId()) {
+        if(tourEntity.getPackages().getPackageId()!=pkg.getPackageId() || categoryDTO.getTourId()!=tourEntity.getTourId()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).
                     body(new AResponse(LocalDateTime.now(),"Failure","Tour ID not belongs to Package ID"));
         }
@@ -135,13 +135,13 @@ public class TourService {
     }
 
 
-    //get list of tours
+    //get list of tours in page
     public List<UpdateCategoryDTO> getAllTours(){
         return tourRepo.findAll().stream().map(tour->{
             String fileName="booking-form.html?tourId="+tour.getTourId();
 
             return new UpdateCategoryDTO(
-                    tour.getPackageName().getPackageId(),
+                    tour.getPackages().getPackageId(),
                     tour.getTourId(),
                     tour.getTourName(),
                     tour.getTourSlogan(),
@@ -179,7 +179,16 @@ public class TourService {
     }
 
 
-    public List<TourInfoDTO> getTourInfo() {
-        return tourRepo.findAll().stream().map(tour-> new TourInfoDTO(tour.getTourId(),tour.getTourName())).toList();
+    public List<TourInfoDTO> getTourInfo(Integer packageId) {
+
+            List<Tour> tours = tourRepo.findByPackages_PackageId(packageId);
+
+            return tours.stream()
+                    .map(tour -> new TourInfoDTO(
+                            tour.getTourId(),
+                            tour.getTourName()
+                    ))
+                    .toList();
     }
+
 }

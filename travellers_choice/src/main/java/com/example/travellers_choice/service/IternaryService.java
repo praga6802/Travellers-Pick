@@ -1,16 +1,11 @@
 package com.example.travellers_choice.service;
 
-import com.example.travellers_choice.dto.AResponse;
-import com.example.travellers_choice.dto.AddIternaryDTO;
-import com.example.travellers_choice.dto.SendIternaryDTO;
-import com.example.travellers_choice.exception.IDNotFoundException;
-import com.example.travellers_choice.exception.UnAuthorizedException;
-import com.example.travellers_choice.model.Admin;
-import com.example.travellers_choice.model.Iternary;
+import com.example.travellers_choice.dto.*;
+import com.example.travellers_choice.model.Itinerary;
 import com.example.travellers_choice.model.Packages;
 import com.example.travellers_choice.model.Tour;
 import com.example.travellers_choice.repository.AdminRepo;
-import com.example.travellers_choice.repository.IternaryRepo;
+import com.example.travellers_choice.repository.ItineraryRepository;
 import com.example.travellers_choice.repository.PackageRepo;
 import com.example.travellers_choice.repository.TourRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,36 +20,97 @@ import java.util.List;
 public class IternaryService {
 
     @Autowired
-    AdminRepo adminRepo;
-
-    @Autowired
-    PackageRepo packageRepo;
+    PackageRepo packagesRepo;
 
     @Autowired
     TourRepo tourRepo;
 
     @Autowired
-    IternaryRepo iternaryRepo;
+    ItineraryRepository itineraryRepository;
 
-    //add Iternary
-    public ResponseEntity<?> addIternary(AddIternaryDTO addIternaryDTO, String email) {
 
-        Admin admin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
-        Tour tour=tourRepo.findById(addIternaryDTO.getTourId()).orElseThrow(()-> new IDNotFoundException("Tour ID",addIternaryDTO.getTourId()));
+    // add itinerary
+    public ResponseEntity<?> addItinerary(AddItineraryDTO addItineraryDTO) {
+        Tour tour = tourRepo.findById(addItineraryDTO.getTourId())
+                .orElseThrow(() -> new RuntimeException("Tour not found"));
 
-        Iternary it= new Iternary();
-        it.setDayNumber(addIternaryDTO.getDayNumber());
-        it.setDescription(addIternaryDTO.getDescription());
-        it.setDestination(addIternaryDTO.getDestination());
-        it.setTour(tour);
+        Packages pkg = packagesRepo.findById(addItineraryDTO.getPackageId())
+                .orElseThrow(() -> new RuntimeException("Package not found"));
 
-        iternaryRepo.save(it);
-        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Iternary added successfully"));
+        Itinerary itinerary = new Itinerary();
+        itinerary.setDay(addItineraryDTO.getDay());
+        itinerary.setDescription(addItineraryDTO.getDescription());
+        itinerary.setDestination(addItineraryDTO.getDestination());
+        itinerary.setTour(tour);
+        itinerary.setPackages(pkg);
+
+        itineraryRepository.save(itinerary);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Itinerary added successfully"));
+
     }
 
-    public List<SendIternaryDTO> allIternaries() {
-        return iternaryRepo.findAll().stream()
-                .map(it-> new SendIternaryDTO(it.getTour().getTourId(),it.getDayNumber(),it.getDestination(),
-                        it.getDescription(),it.getPkg().getPackageName(),it.getTour().getTourName())).toList();
+
+    // update itinerary
+    public ResponseEntity<?> updateItinerary(UpdateItineraryDTO updateItineraryDTO){
+
+        Itinerary itinerary = itineraryRepository.findById(updateItineraryDTO.getItineraryId())
+                .orElseThrow(() -> new RuntimeException("Itinerary not found"));
+
+        Tour tour = tourRepo.findById(updateItineraryDTO.getTourId())
+                .orElseThrow(() -> new RuntimeException("Tour not found"));
+
+        Packages pkg = packagesRepo.findById(updateItineraryDTO.getPackageId())
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+
+        itinerary.setTour(tour);
+        itinerary.setPackages(pkg);
+        itinerary.setDay(updateItineraryDTO.getDay());
+        itinerary.setDestination(updateItineraryDTO.getDestination());
+        itinerary.setDescription(updateItineraryDTO.getDescription());
+
+        itineraryRepository.save(itinerary);
+
+        return ResponseEntity.ok("Itinerary updated successfully");
+    }
+
+    // to display in admin view itineraries
+    public List<SendIternaryDTO> allItineraries() {
+        return itineraryRepository.findAll().stream()
+                .map(it-> new SendIternaryDTO(it.getTour().getTourId(),it.getDay(),it.getDestination(),
+                        it.getDescription(),it.getPackages().getPackageName(),it.getTour().getTourName())).toList();
+    }
+
+
+    // get day list by package id and tour id
+    public ResponseEntity<?> getDayInformation(Integer packageId, Integer tourId) {
+        Packages packages = packagesRepo.findById(packageId).orElseThrow(() -> new RuntimeException("Package not found"));
+
+        Tour tour = tourRepo.findById(tourId) .orElseThrow(() -> new RuntimeException("Tour not found"));
+
+        List<DayDTO> day = itineraryRepository.findByTourIdAndPackagesId(packages.getPackageId(),tour.getTourId());
+
+        if(day.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new AResponse(
+                            LocalDateTime.now(),
+                            "Failed",
+                            "No days found"
+                    ));
+        }
+        return ResponseEntity.ok(day);
+
+    }
+
+    public ResponseEntity<?> getItinerary(Integer packageId, Integer tourId, Integer day) {
+
+        Itinerary itinerary = itineraryRepository
+                .findByPackagesPackageIdAndTourTourIdAndDay(packageId, tourId, day)
+                .orElseThrow(() -> new RuntimeException("Itinerary not found"));
+
+        ItineraryDTO dto = new ItineraryDTO();
+        dto.setDay(itinerary.getDay());
+        dto.setDestination(itinerary.getDestination());
+        dto.setDescription(itinerary.getDescription());
+        return ResponseEntity.ok(dto);
     }
 }
