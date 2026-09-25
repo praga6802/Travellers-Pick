@@ -5,31 +5,26 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
 form {
   width: 40%;
   margin: auto;
+  margin-top: 2%;
   font-family: Arial, sans-serif;
-  background-color: #140808b9;
-  color: white;
+  background-color: white;
+  color: color;
   padding: 40px 20px;
   border-radius: 10px;
-  margin-bottom: 15%;
+  margin-top: 5%;
 }
 
-form:hover {
-  background-color: rgba(0, 0, 0, 0.74);
-  border-radius: 20px;
-}
 
 /* Style the form fields */
 label {
   display: inline-block;
   width: 220px;
   margin-top: 20px;
-  font-weight: bold;
-  font-size: 1rem;
-  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 18px;
   text-align: left;
 }
 
@@ -52,10 +47,10 @@ input[type="date"] {
   padding: 10px;
   margin-left: 20px;
   margin-top: 0;
-  background-color: transparent;
-  color: white;
-  border: 1.7px solid rgb(247, 242, 242);
-  border-radius: 7px;
+  background-color: white;
+  color: black;
+  border: 1.7px solid rgb(104, 103, 103);
+  border-radius: 10px;
   font-size: 1rem;
 }
 
@@ -65,6 +60,7 @@ input[type="submit"] {
   padding: 3px 20px;
   text-transform: uppercase;
   margin-top: 3%;
+  font-weight: 600;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -72,9 +68,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-  background-color: green;
-  font-weight: normal;
-  color: white;
+  background-color: rgb(12, 61, 136);
 }
 
 /* table css */
@@ -95,8 +89,9 @@ input[type="submit"]:hover {
 .thead {
   color: white;
   font-size: 20px;
-  background-color: rgb(136, 8, 8);
+  background-color: rgb(10, 49, 122);
   text-align: center;
+  font-weight: 600;
 }
 
 .data {
@@ -110,6 +105,4 @@ input[type="submit"]:hover {
   color: rgba(0, 0, 0, 0.415);
   font-size: 2.6rem;
   text-align: center;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-
 }
