@@ -26,6 +26,8 @@ const displayBookingForm = async () => {
 
         const urlParams = new URLSearchParams(window.location.search);
         const tourId = parseInt(urlParams.get("tourId"), 10);
+        console.log(tourId);
+        
 
         // get itineraries by tourID
         const iternaryResponse = await fetch(
