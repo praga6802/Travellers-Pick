@@ -194,6 +194,9 @@ const displayItineraryForm = async () => {
                     },
                 );
 
+                console.log(dayResponse);
+                console.log(dayResponseData);
+
                 const dayResponseData = await dayResponse.json();
 
                 if (!dayResponse.ok) {
