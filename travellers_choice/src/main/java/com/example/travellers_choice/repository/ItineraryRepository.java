@@ -11,4 +11,6 @@ public interface ItineraryRepository extends JpaRepository<Itinerary,Integer> {
     List<Itinerary> findByTour_TourIdAndPackages_PackageId(int tourId, int packageId);
 
     Optional<Itinerary> findByPackages_PackageIdAndTour_TourIdAndDay(Integer packageId, Integer tourId, Integer day);
+
+    List<Itinerary> findByTour_TourId(Integer tourId);
 }

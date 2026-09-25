@@ -24,37 +24,29 @@ const displayBookingForm = async () => {
             return;
         }
 
-        const iternaryResponse = await fetch(`${url}/user/allIternaries`, {
-            method: "GET",
-            credentials: "include",
-        });
-        const iternaryData = await iternaryResponse.json();
+        const urlParams = new URLSearchParams(window.location.search);
+        const tourId = parseInt(urlParams.get("tourId"), 10);
+
+        // get itineraries by tourID
+        const iternaryResponse = await fetch(
+            `${url}/user/itineraries/${tourId}`,
+            {
+                method: "GET",
+                credentials: "include",
+            },
+        );
+
+        const iternaryResponseData = await iternaryResponse.json();
 
         if (!iternaryResponse.ok) {
             showSessionMessage("Failed to fetch itineraries", false);
             return;
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const tourId = parseInt(urlParams.get("tourId"), 10);
-
-        const iternaries = iternaryData.filter(
-            (tour) => tour.tourId === tourId,
-        );
-        if (iternaries.length === 0) {
+        if (iternaryResponseData.length === 0) {
             showSessionMessage("No Itineraries found for this tour!", false);
             return;
         }
-
-        let tableRows = "";
-        iternaries.forEach((it) => {
-            tableRows += `
-            <tr class='tbody'>
-                <td class='data'>${it.day || ""}</td>
-                <td class='data'>${it.destination || ""}</td>
-                <td class='data'>${it.description || ""}</td>
-            </tr>`;
-        });
 
         iternaryContainer.innerHTML = `
             <h1 class="h1">ITINERARY</h1>
@@ -67,10 +59,20 @@ const displayBookingForm = async () => {
                     </tr>
                 </thead>
                 <tbody>
-                    ${tableRows}
+                    <tr id="table-row"></tr>
                 </tbody>
             </table>
         `;
+
+        const tableRows = document.getElementById("table-row");
+        iternaryResponseData.forEach((it) => {
+            tableRows.innerHTML += `
+            <tr class='tbody'>
+                <td class='data'>${it.day || ""}</td>
+                <td class='data'>${it.destination || ""}</td>
+                <td class='data'>${it.description || ""}</td>
+            </tr>`;
+        });
 
         formContainer.innerHTML = `
         <h1 class="h1">BOOKING FORM</h1>

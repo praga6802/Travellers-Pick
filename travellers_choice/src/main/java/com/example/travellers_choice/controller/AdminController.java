@@ -213,10 +213,9 @@ public class AdminController {
         return iternaryService.updateItinerary(updateItineraryDTO);
     }
 
-    @GetMapping("/allItineraries")
-    public ResponseEntity<List<SendIternaryDTO>> allItineraries(){
-        List<SendIternaryDTO> iternaryList= iternaryService.allItineraries();
-        return ResponseEntity.ok(iternaryList);
+    @GetMapping("/itineraries/{tourId}")
+    public ResponseEntity<?> getIternarieByTourId(@PathVariable Integer tourId){
+        return iternaryService.getIternarieByTourId(tourId);
     }
 
     @GetMapping("/getDay/{packageId}/{tourId}")
