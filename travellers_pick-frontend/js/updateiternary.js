@@ -77,7 +77,7 @@ const displayItineraryForm = async () => {
                 </div>
 
                 <div id="button-group">
-                    <button class="button" type="submit">ADD</button>
+                    <button class="button" type="submit">UPDATE</button>
                     <button class="button" type="reset">RESET</button>
                 </div>
 
