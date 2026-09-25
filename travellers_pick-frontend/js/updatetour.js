@@ -189,7 +189,7 @@ const displayCurrentAdmin = async () => {
             const tourId = tourSelect.value;
             try {
                 const tourDetailsResponse = await fetch(
-                    `${url}/admin/${packageId}/${tourId}`,
+                    `${url}/admin/getTour/${packageId}/${tourId}`,
                     { method: "GET", credentials: "include" },
                 );
                 const tourDetailsResponseData =
