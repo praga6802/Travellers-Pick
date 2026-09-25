@@ -159,23 +159,24 @@ public class TourService {
     //get tour by ID
     public ResponseEntity<?> getTourByID(Integer packageID,Integer tourID){
 
-        Packages existingID=packageRepo.findById(packageID).orElseThrow(()-> new IDNotFoundException("Package ID",packageID));
-        Tour tour=existingID.getTours().stream().
-                filter(t->t.getTourId()==(tourID)).findFirst().
-                orElseThrow(()->new IDNotFoundException("Tour ID '",tourID));
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("Package ID",packageID);
-        response.put("Tour ID",tourID);
-        response.put("Tour Name",tour.getTourName());
-        response.put("Tour Slogan",tour.getTourSlogan());
-        response.put("Price",tour.getPrice());
-        response.put("Name",tour.getTourName());
-        response.put("Places",tour.getPlaces());
-        response.put("Days",tour.getDays());
-        response.put("Nights",tour.getNights());
-        return ResponseEntity.ok(response);
+        Packages existingPackage=packageRepo.findById(packageID).orElseThrow(()-> new IDNotFoundException("Package ID",packageID));
 
+        Tour tour=tourRepo.findById(tourID).orElseThrow(()-> new IDNotFoundException("Tour ID",tourID));
 
+        if (tour.getPackages() == null ||
+                !Objects.equals(
+                        tour.getPackages().getPackageId(),
+                        existingPackage.getPackageId())) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new AResponse(
+                            LocalDateTime.now(),
+                            "Failed",
+                            "Tour does not belong to the selected package"
+                    ));
+        }
+        TourDetailDTO tourDetails = new TourDetailDTO(tour.getTourName(),tour.getTourSlogan(),tour.getPlaces(),tour.getDays(),tour.getNights(),tour.getPrice());
+        return ResponseEntity.ok(tourDetails);
     }
 
 
