@@ -141,5 +141,10 @@ public class UserController {
     public ResponseEntity<?> getTour(@PathVariable Integer tourId) {
         return userService.getTour(tourId);
     }
+
+    @GetMapping("/itineraries/{tourId}")
+    public ResponseEntity<?> getIternariesByTourId(@PathVariable Integer tourId){
+        return iternaryService.getIternariesByTourId(tourId);
+    }
 }
 

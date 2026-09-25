@@ -129,12 +129,9 @@ public class IternaryService {
         return ResponseEntity.ok(dto);
     }
 
-    public ResponseEntity<?> getIternarieByTourId(Integer tourId) {
-        System.out.println(tourId);
+    public ResponseEntity<?> getIternariesByTourId(Integer tourId) {
 
         tourRepo.findById(tourId).orElseThrow(()-> new IDNotFoundException("Tour Id not found!",tourId));
-
-        System.out.println("2. Tour found");
         List<Itinerary> itineraries =
                 itineraryRepository.findByTour_TourId(tourId);
 
@@ -144,7 +141,6 @@ public class IternaryService {
         if(itineraryList.isEmpty()){
             return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AResponse(LocalDateTime.now(),"Failure","No Itineraries found!"));
         }
-        System.out.println("done");
         return ResponseEntity.ok(itineraryList);
     }
 }
