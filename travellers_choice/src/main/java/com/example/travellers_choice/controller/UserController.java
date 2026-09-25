@@ -79,10 +79,10 @@ public class UserController {
     }
 
     // book tour
-    @PostMapping("/bookTour")
-    public ResponseEntity<?> bookTour(@RequestBody BookTourDTO bookTourDTO) {
-        return userService.bookTour(bookTourDTO);
-    }
+        @PostMapping("/bookTour")
+        public ResponseEntity<?> bookTour(@RequestBody BookTourDTO bookTourDTO) {
+            return userService.bookTour(bookTourDTO);
+        }
     
     //get all tour bookings
     @GetMapping("/bookedTours")

@@ -153,6 +153,9 @@ const displayBookingForm = async () => {
 async function submitForm(event) {
     event.preventDefault();
 
+    console.log("submitted form");
+    
+
     const tourform = event.target;
     const form_error = document.getElementById("form-error");
 
