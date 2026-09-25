@@ -26,14 +26,14 @@ const initDeleteTourForm = async () => {
 
                 <div class="input">
                     <label for="package-select">Package Name</label>
-                        <select name="packageId" id="package-select" required>
+                        <select name="packageId" id="package-select"required>
                             <option value="" hidden selected disabled>Select Package</option>
                         </select>
                 </div><br>
 
                 <div class="input">
                     <label for="tour-select">Tour Name</label>
-                        <select name="tourId" id="tour-select" disabled required>
+                        <select name="tourId" id="tour-select" required>
                             <option value="" hidden selected disabled>Select Tour</option>
                         </select>
                 </div><br>
@@ -151,7 +151,7 @@ const deleteTour = async (e) => {
         tourSelect.value = "";
 
         showFormMessage(data.message, true);
-        
+
         setTimeout(() => {
             deletePackageForm.reset();
             form_error.classList.add("hide");
