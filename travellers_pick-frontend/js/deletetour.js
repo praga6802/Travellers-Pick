@@ -77,7 +77,7 @@ const initDeleteTourForm = async () => {
             const packageId = packageNameSelect.value;
 
             tourSelect.innerHTML = `
-                <option value="" selected disabled hide>Select Tour</option>
+                <option value="" selected disabled hidden>Select Tour</option>
             `;
 
             try {
