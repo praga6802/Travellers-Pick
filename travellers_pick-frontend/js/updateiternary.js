@@ -252,13 +252,7 @@ const updateItinerary = async (e) => {
 
     const description = document.getElementById("description").value.trim();
 
-    if (
-        !packageId ||
-        !tourId ||
-        !day ||
-        !destination ||
-        !description
-    ) {
+    if (!packageId || !tourId || !day || !destination || !description) {
         showFormMessage("Please fill all fields", false);
         return;
     }

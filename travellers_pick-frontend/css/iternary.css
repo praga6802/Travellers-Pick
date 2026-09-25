@@ -11,7 +11,8 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-#addIternaryContainer {
+#addItineraryForm,
+#updateItineraryForm {
     float: right;
     margin-top: 5%;
     margin-right: 4%;
@@ -23,7 +24,8 @@ body {
     transition: transform 0.5s ease;
 }
 
-#addIternaryContainer:hover {
+#addItineraryForm:hover,
+#updateItineraryForm:hover {
     transform: translateY(-10px) scale(1.02);
     border: 2px solid goldenrod;
 }

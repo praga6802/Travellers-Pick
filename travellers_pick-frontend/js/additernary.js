@@ -211,17 +211,14 @@ const addItinerary = async (e) => {
     };
 
     try {
-        const addItineraryResponse = await fetch(
-            `${url}/admin/addItinerary`,
-            {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
+        const addItineraryResponse = await fetch(`${url}/admin/addItinerary`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
             },
-        );
+            body: JSON.stringify(data),
+        });
 
         const addItineraryResponseData = await addItineraryResponse.json();
 
