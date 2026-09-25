@@ -97,9 +97,9 @@ public class IternaryService {
                             LocalDateTime.now(),"Failed", "Tour does not belong to the selected package"));
         }
 
-        List<DayDTO> day = itineraryRepository.findByTour_TourIdAndPackages_PackageId(tour.getTourId(),packages.getPackageId());
+        List<Itinerary> itineraries = itineraryRepository.findByTour_TourIdAndPackages_PackageId(tour.getTourId(),packages.getPackageId());
 
-        if(day.isEmpty()){
+        if(itineraries.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new AResponse(
                             LocalDateTime.now(),
@@ -107,7 +107,9 @@ public class IternaryService {
                             "No days found"
                     ));
         }
-        return ResponseEntity.ok(day);
+
+        List<DayDTO> days = itineraries.stream().map(it-> new DayDTO(it.getDay())).toList();
+        return ResponseEntity.ok(days);
 
     }
 

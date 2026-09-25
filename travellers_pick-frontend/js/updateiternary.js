@@ -194,10 +194,10 @@ const displayItineraryForm = async () => {
                     },
                 );
 
+                const dayResponseData = await dayResponse.json();
+
                 console.log(dayResponse);
                 console.log(dayResponseData);
-
-                const dayResponseData = await dayResponse.json();
 
                 if (!dayResponse.ok) {
                     showFormMessage("Failed to load days!", false);
