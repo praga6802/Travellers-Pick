@@ -105,7 +105,7 @@ const displayBookingForm = async () => {
             <label for="phone">Phone</label>
             <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{10}" maxlength="10"><br><br>
 
-            <input type="hidden" id="userId" name="userId" value="${authData.userId}" required>
+            <input type="hidden" id="userId" name="userId" value="${authData.data.userId}" required>
             <input type="hidden" id="tourId" name="tourId" value="${tourId}" required>
 
             <input type="hidden" id="packageName" name="packageName" value="${selectedTour.packageName}" required>
