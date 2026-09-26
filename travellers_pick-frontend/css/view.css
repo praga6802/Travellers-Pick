@@ -16,7 +16,9 @@ body {
 
 #admintable,
 #usertable,
-#regtable {
+#regtable,
+#packagetable,
+#viewcategory {
      width: 600px;
      margin-left: 35%;
      padding: 20px;
@@ -35,7 +37,7 @@ th {
      padding: 10px;
      font-weight: 500;
      border: 1px solid rgb(43, 43, 43);
-     border-radius: 10px;
+     border-radius: 3px;
 }
 
 td {
@@ -46,7 +48,13 @@ td {
      text-align: center;
      padding: 15px;
      border: 1px solid rgb(43, 43, 43);
-     border-radius: 10px;
+     border-radius: 3px;
+     transition: background-color 0.5 ease;
+}
+
+td:hover {
+     background-color: rgb(182, 177, 177);
+     color: black;
 }
 
 .data {

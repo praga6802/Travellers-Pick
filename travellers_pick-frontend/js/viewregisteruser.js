@@ -1,7 +1,7 @@
 import { showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 
-const userContainer = document.getElementById("booked-user-container");
+const userContainer = document.getElementById("booked-users-container");
 
 const displayCurrentAdmin = async () => {
     try {
