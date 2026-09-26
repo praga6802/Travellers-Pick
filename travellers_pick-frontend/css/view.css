@@ -9,7 +9,8 @@ body {
 #user-container,
 #package-container,
 #tour-container,
-#booked-users-container {
+#booked-users-container,
+#itinerary-container {
      display: flex;
      align-items: center;
      flex-direction: column;
@@ -76,6 +77,7 @@ tbody tr:hover td {
 
 #itinerary-description {
      text-align: left;
+     width: 450px;
 }
 
 .itinerary {
