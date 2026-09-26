@@ -1,7 +1,8 @@
-import { showFormMessage, showSessionMessage } from "./error.js";
+import { showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 
-const userContainer = document.getElementById("user-container");
+const userContainer = document.getElementById("booked-user-container");
+
 const displayCurrentAdmin = async () => {
     try {
         const response = await fetch(`${url}/admin/current-admin`, {
@@ -30,9 +31,6 @@ const displayBookedUsers = async () => {
     try {
         const response = await fetch(`${url}/admin/allregusers`, {
             method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
             credentials: "include",
         });
 
@@ -49,12 +47,9 @@ const displayBookedUsers = async () => {
             return;
         }
 
-        const bookedUsersContainer = document.getElementById(
-            "booked-users-container",
-        );
-        if (!bookedUsersContainer) return;
+        if (!userContainer) return;
 
-        bookedUsersContainer.innerHTML = `
+        userContainer.innerHTML = `
             <h1 class="h1">TOUR BOOKED USERS</h1>
             <table id="regtable">
                 <thead>
@@ -77,11 +72,11 @@ const displayBookedUsers = async () => {
                         <th class="data">Status</th>
                     </tr>
                 </thead>
-                <tbody id="user-container">
+                <tbody id="booked-users-body">
                 </tbody>
             </table>
         `;
-
+        const userBody = document.getElementById("booked-users-body");
         responseData.forEach((user) => {
             const row = document.createElement("tr");
 
@@ -116,11 +111,11 @@ const displayBookedUsers = async () => {
             if (user.status && user.status.toUpperCase() === "CANCELLED") {
                 row.querySelectorAll("td").forEach((td) => {
                     td.style.color = "red";
-                    td.style.fontWeight = "bold";
+                    td.style.fontWeight = "500";
                 });
             }
 
-            userContainer.appendChild(row);
+            userBody.appendChild(row);
         });
     } catch (err) {
         showSessionMessage("Network error..Please try again", false);
