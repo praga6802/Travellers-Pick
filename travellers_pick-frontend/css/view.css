@@ -13,6 +13,7 @@ body {
      display: flex;
      align-items: center;
      flex-direction: column;
+     margin-top: 10%;
 }
 
 h1 {
@@ -27,7 +28,7 @@ h1 {
 #packagetable,
 #viewcategory {
      margin-top: 10px;
-     width: 600px;
+     width: max-content;
      padding: 20px;
      margin-bottom: 20%;
      border-collapse: collapse;
