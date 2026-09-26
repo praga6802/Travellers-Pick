@@ -15,7 +15,8 @@ body {
 
 
 #admintable,
-#usertable {
+#usertable,
+#regtable {
      width: 600px;
      margin-left: 35%;
      padding: 20px;
@@ -33,15 +34,21 @@ th {
      text-align: center;
      padding: 10px;
      font-weight: 500;
-     outline: 1px solid rgb(43, 43, 43);
+     border: 1px solid rgb(43, 43, 43);
+     border-radius: 10px;
 }
 
 td {
      font-size: 17px;
      margin: 6%;
-     background-color: rgba(242, 237, 237, 0.712);
+     background-color: white;
      color: black;
      text-align: center;
      padding: 15px;
-     outline: 1px solid rgb(43, 43, 43);
+     border: 1px solid rgb(43, 43, 43);
+     border-radius: 10px;
+}
+
+.data {
+     width: max-content;
 }
