@@ -11,19 +11,22 @@ body {
 #tour-container,
 #booked-users-container {
      display: flex;
-     justify-content: center;
+     align-items: center;
      flex-direction: column;
 }
 
-
-
+h1 {
+     color: rgb(167, 126, 50);
+     font-size: 30px;
+     font-weight: 600;
+}
 
 #admintable,
 #usertable,
 #regtable,
 #packagetable,
 #viewcategory {
-     margin-top: 10%;
+     margin-top: 10px;
      width: 600px;
      padding: 20px;
      margin-bottom: 20%;
