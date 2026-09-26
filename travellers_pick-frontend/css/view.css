@@ -5,14 +5,6 @@ body {
      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.h1 {
-     color: rgb(208, 150, 91);
-     font-size: 40px;
-     text-align: center;
-     margin-top: 2.5%;
-     font-weight: 600;
-}
-
 #admin-container,
 #user-container,
 #package-container,
@@ -34,6 +26,10 @@ body {
      margin-bottom: 20%;
      border-collapse: collapse;
      border-radius: 10px;
+}
+
+tr {
+     width: max-content;
 }
 
 
@@ -64,8 +60,4 @@ td {
 tr:hover {
      background-color: rgb(182, 177, 177);
      color: black;
-}
-
-.data {
-     width: max-content;
 }
