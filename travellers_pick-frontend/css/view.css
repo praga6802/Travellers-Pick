@@ -77,8 +77,7 @@ tbody tr:hover td {
 
 #itinerary-description {
      text-align: left;
-     width: max-content;
-     max-width: 60%;
+     width: 800px;
 }
 
 .itinerary {
