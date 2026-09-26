@@ -71,10 +71,10 @@ const displayTours = async () => {
         responseData.forEach((itinerary) => {
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td>${itinerary.packages.packageId}</td>
-                <td>${itinerary.tour.tourId}</td>
-                <td>${itinerary.day}</td>
-                <td>${itinerary.destination}</td>
+                <td class='itinerary'>${itinerary.packages.packageId}</td>
+                <td class='itinerary'>${itinerary.tour.tourId}</td>
+                <td class='itinerary'>${itinerary.day}</td>
+                <td class='itinerary'>${itinerary.destination}</td>
                 <td id="itinerary-description">${itinerary.description}</td>
             `;
             itineraryBody.appendChild(row);
