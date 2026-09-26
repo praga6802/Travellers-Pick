@@ -26,6 +26,9 @@ body {
 }
 
 #login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   margin: 100px;
   float: right;
@@ -77,12 +80,12 @@ body {
   border: none;
   border-radius: 5px;
   width: 80px;
-  font-weight:600;
+  font-weight: 600;
   background-color: rgb(21, 112, 232);
 }
 
-.button:hover{
-  background-color:rgb(22, 74, 143);
+.button:hover {
+  background-color: rgb(22, 74, 143);
 }
 
 .already {

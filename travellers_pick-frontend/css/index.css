@@ -202,19 +202,15 @@ section h1 {
 /* show form error message*/
 #form-error {
   width: max-content;
+  max-width: 90%;
+  margin: 10px 0 0;
+  padding: 11px;
+  font-size: 15px;
   font-weight: 600;
   text-align: center;
-  margin-left: 200px;
-  margin-top: 170px;
-  padding: 11px;
-  display: none;
-  font-size: 15px;
   border-radius: 10px;
   background-color: white;
-
-  position: absolute;
-  top: 55%;
-  right: 30%;
+  display: none;
 }
 
 #form-error.success {

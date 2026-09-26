@@ -65,7 +65,7 @@ td {
 }
 
 tbody tr:hover td {
-     background-color: rgb(32, 32, 32);
+     background-color: rgb(66, 65, 65);
      color: white;
 }
 
