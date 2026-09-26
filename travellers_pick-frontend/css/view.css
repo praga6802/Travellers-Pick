@@ -65,7 +65,7 @@ td {
      transition: background-color 0.5 ease;
 }
 
-tr:hover {
+tbody tr:hover td {
      background-color: rgb(182, 177, 177);
      color: black;
 }
