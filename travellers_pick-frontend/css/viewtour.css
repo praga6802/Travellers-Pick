@@ -39,18 +39,19 @@ th {
      text-align: center;
      width: 400px;
      padding: 6px;
-     outline: 1px solid rgb(95, 95, 95);
+     border: 1px solid black;
 }
 
 td {
      font-size: 15px;
-     background-color: rgb(235, 231, 231);
-     color: black;
+     background-color: white;
      text-align: center;
+     width: max-content;
+     font-weight: 600;
      padding: 5px;
-     outline: 1px solid rgb(114, 114, 114);
+     border: 1px solid black;
 }
 
-.data{
+.data {
      width: max-content;
 }
