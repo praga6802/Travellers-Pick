@@ -13,14 +13,23 @@ body {
      font-weight: 600;
 }
 
+#admin-container,
+#user-container,
+#package-container,
+#tour-container,
+#booked-users-container {
+     display: flex;
+     justify-content: center;
+}
+
 
 #admintable,
 #usertable,
 #regtable,
 #packagetable,
 #viewcategory {
+     margin-top: 10%;
      width: 600px;
-     margin-left: 20%;
      padding: 20px;
      margin-bottom: 20%;
      border-collapse: collapse;
@@ -30,7 +39,6 @@ body {
 
 th {
      font-size: 18px;
-     margin: 6%;
      background-color: rgba(12, 64, 153, 0.801);
      color: white;
      text-align: center;
