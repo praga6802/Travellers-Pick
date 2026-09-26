@@ -26,7 +26,8 @@ h1 {
 #admintable,
 #usertable,
 #packagetable,
-#viewcategory {
+#viewcategory,
+#viewitinerary {
      margin-top: 10px;
      width: max-content;
      padding: 20px;

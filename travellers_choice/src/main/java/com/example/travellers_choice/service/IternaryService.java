@@ -143,4 +143,13 @@ public class IternaryService {
         }
         return ResponseEntity.ok(itineraryList);
     }
+
+    public ResponseEntity<?> getAllItineraries() {
+        List<Itinerary> itineraries= itineraryRepository.findAll();
+
+        if(itineraries.isEmpty()){
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AResponse(LocalDateTime.now(),"Failure","No Itineraries found!"));
+        }
+        return ResponseEntity.ok(itineraries);
+    }
 }

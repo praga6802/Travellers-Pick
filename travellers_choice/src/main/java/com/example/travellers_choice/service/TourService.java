@@ -32,8 +32,6 @@ public class TourService {
     @Autowired
     AdminRepo adminRepo;
 
-    @Autowired
-    CustomerRegister customerRepo;
 
     //add tour by all admin credentials
     public ResponseEntity<?> addTour(UploadCategoryDTO tourDTO, String email) {

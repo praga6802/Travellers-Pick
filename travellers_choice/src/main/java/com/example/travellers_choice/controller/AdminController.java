@@ -213,6 +213,11 @@ public class AdminController {
         return iternaryService.updateItinerary(updateItineraryDTO);
     }
 
+    @GetMapping("/allItineraries")
+    public ResponseEntity<?> getAllItineraries(){
+        return iternaryService.getAllItineraries();
+    }
+
 
 
     @GetMapping("/getDay/{packageId}/{tourId}")
