@@ -46,6 +46,9 @@ const displayTours = async () => {
             return;
         }
 
+        console.log(response);
+        console.log(responseData);
+
         tourContainer.innerHTML = `
             <h1 class="h1">VIEW ITINERARIES</h1>
             <table id="viewitinerary">
