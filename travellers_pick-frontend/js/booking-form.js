@@ -12,6 +12,8 @@ const displayBookingForm = async () => {
         });
 
         const authData = await authResponse.json();
+        console.log(authData,authData.userId);
+        
 
         if (!authResponse.ok) {
             formContainer.style.display = "none";
