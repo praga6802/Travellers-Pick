@@ -212,24 +212,24 @@ public class UserService {
         System.out.println("after save");
         System.out.println("booking completed");
 
-//        if(bookTourDTO.getEmail()!=null && !bookTourDTO.getEmail().isBlank()){
-//            String subject="Confirmation of Tour Booking!";
-//            String body = "Hi " + user.getUsername() + ",\n\n"
-//                    + "Your tour has been booked successfully for the package: " + bookTourDTO.getRegion() + ".\n\n"
-//                    +"Booking Details:\n"
-//                    +"Booking ID: "+book.getBookingId()+"\n"
-//                    +"Passenger Name: "+bookTourDTO.getName()+"\n"
-//                    +"Email: "+bookTourDTO.getEmail()+"\n"
-//                    +"Contact: "+bookTourDTO.getPhone()+"\n"
-//                    +"Booked Date: " + bookTourDTO.getBdate() + "\n"
-//                    +"Travel Date: " + bookTourDTO.getTdate() + "\n"
-//                    +"Number of Seats: " + bookTourDTO.getNoOfSeats() + "\n"
-//                    +"Price: "+tour.getPrice()+"\n"
-//                    +"From: "+bookTourDTO.getCity()+", "+bookTourDTO.getState()+"\n\n"
-//                    +"Your PNR number is: " + pnr + ". Kindly use this PNR for any future ticket cancellation or support requests.\n\n"
-//                    +"Thank you for choosing Traveller's Pick!\n";
-//            emailService.sendSimpleEMail(bookTourDTO.getEmail(),subject,body);
-//        }
+        if(bookTourDTO.getEmail()!=null && !bookTourDTO.getEmail().isBlank()){
+            String subject="Confirmation of Tour Booking!";
+            String body = "Hi " + user.getUsername() + ",\n\n"
+                    + "Your tour has been booked successfully for the package: " + bookTourDTO.getRegion() + ".\n\n"
+                    +"Booking Details:\n"
+                    +"Booking ID: "+book.getBookingId()+"\n"
+                    +"Passenger Name: "+bookTourDTO.getName()+"\n"
+                    +"Email: "+bookTourDTO.getEmail()+"\n"
+                    +"Contact: "+bookTourDTO.getPhone()+"\n"
+                    +"Booked Date: " + bookTourDTO.getBdate() + "\n"
+                    +"Travel Date: " + bookTourDTO.getTdate() + "\n"
+                    +"Number of Seats: " + bookTourDTO.getNoOfSeats() + "\n"
+                    +"Price: "+tour.getPrice()+"\n"
+                    +"From: "+bookTourDTO.getCity()+", "+bookTourDTO.getState()+"\n\n"
+                    +"Your PNR number is: " + pnr + ". Kindly use this PNR for any future ticket cancellation or support requests.\n\n"
+                    +"Thank you for choosing Traveller's Pick!\n";
+            emailService.sendSimpleEMail(bookTourDTO.getEmail(),subject,body);
+        }
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Tour Booked Successfully"));
     }
 

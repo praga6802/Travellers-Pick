@@ -82,7 +82,7 @@ const displayBookedUsers = async () => {
             </table>
         `;
 
-        usersList.forEach((user) => {
+        responseData.forEach((user) => {
             const row = document.createElement("tr");
 
             const formattedBdate =
