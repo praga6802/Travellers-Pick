@@ -213,7 +213,6 @@ async function submitForm(event) {
     const city = document.getElementById("city").value.trim();
     const state = document.getElementById("state").value.trim();
     const country = document.getElementById("country").value.trim();
-
     const noOfSeats = noOfAdults + noOfChildren;
 
     const data = {
@@ -248,13 +247,14 @@ async function submitForm(event) {
             showFormMessage(responseData.message, false);
             return;
         }
-
+        console.log(responseData.message);
         showFormMessage(responseData.message, true);
 
-        setTimeout(() => {
-            form_error.classList.add("hide");
-            tourform.reset();
-        }, 2000);
+        // setTimeout(() => {
+        //     form_error.classList.remove("success");
+        //     form_error.classList.add("hide");
+        //     tourform.reset();
+        // }, 4000);
     } catch (err) {
         console.error(err);
         showSessionMessage("Network error..Please try again", false);

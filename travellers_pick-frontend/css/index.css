@@ -214,14 +214,14 @@ section h1 {
 }
 
 #form-error.success {
-  display: inline;
+  display: inline-block;
   color: green;
   border: 2px solid green;
 
 }
 
 #form-error.failure {
-  display: inline;
+  display: inline-block;
   color: red;
   border: 2px solid rgb(209, 31, 31);
 }
