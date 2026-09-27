@@ -130,7 +130,7 @@ const displayBookingForm = async () => {
 
             <div class="input-field">
                 <label for="bdate">Booking Date</label>
-                <input type="date" id="bdate" name="bdate" min="${today}" max="2030-12-31" required>
+                <input type="date" id="bdate" name="bdate" min="${today}" max="${today}" required>
             </div>
 
             <div class="input-field">
