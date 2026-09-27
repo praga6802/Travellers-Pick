@@ -28,15 +28,17 @@ async function handleViewBooking() {
             method: "GET",
             credentials: "include",
         });
+        //console.log(response);
 
         const responseData = await response.json();
-
+        
+        console.log(response);
+        console.log(responseData);
         if (!response.ok) {
             bookingListContainer.style.display = "none";
             showSessionMessage("Failed to load bookings!", false);
             return;
         }
-        console.log(response);
         
 
         if (responseData.length === 0) {
@@ -45,8 +47,6 @@ async function handleViewBooking() {
             return;
         }
 
-        console.log(response);
-        console.log(responseData);
 
         bookingListContainer.innerHTML = `
             <h1 class="h1">VIEW BOOKINGS</h1>
