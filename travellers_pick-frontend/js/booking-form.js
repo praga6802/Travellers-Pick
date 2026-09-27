@@ -12,8 +12,7 @@ const displayBookingForm = async () => {
         });
 
         const authData = await authResponse.json();
-        console.log(authData,authData.userId);
-        
+        console.log(authData, authData.userId);
 
         if (!authResponse.ok) {
             formContainer.style.display = "none";
@@ -93,50 +92,85 @@ const displayBookingForm = async () => {
             return;
         }
 
+        const today = new Date().toISOString().split("T")[0];
         formContainer.innerHTML = `
         <h1 class="h1">BOOKING FORM</h1>
         <form id="tourForm">
-            <label for="name">Name</label>
-            <input type="text" id="name" placeholder="Enter your Name" name="name" required><br><br>
 
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="Enter your Email" name="email" required><br><br>
+    <div class="input-field">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Enter your Name" name="name" required>
+    </div>
 
-            <label for="phone">Phone</label>
-            <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{10}" maxlength="10"><br><br>
+    <div class="input-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your Email" name="email" required>
+    </div>
 
-            <input type="hidden" id="userId" name="userId" value="${authData.data.userId}" required>
-            <input type="hidden" id="tourId" name="tourId" value="${tourId}" required>
+    <div class="input-field">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required pattern="[0-9]{10}" maxlength="10">
+    </div>
 
-            <input type="hidden" id="packageName" name="packageName" value="${selectedTour.packageName}" required>
-            <input type="hidden" id="region" name="region" value="${selectedTour.tourName}">
-            
-            <input type="hidden" id="bdate" name="bdate" required>
-        
-            <label for="tdate">Travel Date</label>
-            <input type="date" id="tdate" name="tdate" min="" max="2030-12-31" required><br><br>
-          
-            <label for="noOfAdults">Adults</label>
-            <input type="number" id="noOfAdults" placeholder="No of Adults" name="noOfAdults" min="1" max="30" required><br><br>
+    <div class="input-field">
+        <input type="hidden" id="userId" name="userId" value="${authData.data.userId}">
+    </div>
 
-            <label for="noOfChildren">Children</label>
-            <input type="number" id="noOfChildren" placeholder="No of Children" name="noOfChildren" min="0" max="30"><br><br>
+    <div class="input-field">
+        <input type="hidden" id="tourId" name="tourId" value="${tourId}">
+    </div>
 
-            <label for="city">City</label>
-            <input type="text" id="city" placeholder="City" name="city" required><br><br>
+    <div class="input-field">
+        <input type="hidden" id="packageName" name="packageName" value="${selectedTour.packageName}">
+    </div>
 
-            <label for="state">State</label>
-            <input type="text" id="state" placeholder="State" name="state" required><br><br>
+    <div class="input-field">
+        <input type="hidden" id="region" name="region" value="${selectedTour.tourName}">
+    </div>
 
-            <label for="country">Country</label>
-            <input type="text" id="country" placeholder="Country" name="country" required><br><br>
+    <div class="input-field">
+        <label for="bdate">Booking Date</label>
+        <input type="date" id="bdate" name="bdate" min="${today}" max="2030-12-31" required>
+    </div>
 
-            <input type="submit" value="Submit">
+    <div class="input-field">
+        <label for="tdate">Travel Date</label>
+        <input type="date" id="tdate" name="tdate" max="2030-12-31" required>
+    </div>
 
-            <p id="form-error"></p>
-        </form>`;
+    <div class="input-field">
+        <label for="noOfAdults">Adults</label>
+        <input type="number" id="noOfAdults" placeholder="No of Adults" name="noOfAdults" min="1" max="30" required>
+    </div>
 
-        const today = new Date().toISOString().split("T")[0];
+    <div class="input-field">
+        <label for="noOfChildren">Children</label>
+        <input type="number" id="noOfChildren" placeholder="No of Children" name="noOfChildren" min="0" max="30">
+    </div>
+
+    <div class="input-field">
+        <label for="city">City</label>
+        <input type="text" id="city" placeholder="City" name="city" required>
+    </div>
+
+    <div class="input-field">
+        <label for="state">State</label>
+        <input type="text" id="state" placeholder="State" name="state" required>
+    </div>
+
+    <div class="input-field">
+        <label for="country">Country</label>
+        <input type="text" id="country" placeholder="Country" name="country" required>
+    </div>
+
+    <div class="input-field">
+        <input type="submit" value="Submit">
+    </div>
+
+    <p id="form-error"></p>
+
+</form>`;
+
         const bdate = document.getElementById("bdate");
         const tdate = document.getElementById("tdate");
 
