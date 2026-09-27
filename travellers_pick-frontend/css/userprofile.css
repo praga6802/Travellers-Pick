@@ -14,7 +14,7 @@ body {
 #user-container {
     display: grid;
     grid-template-columns: 220px 1fr;
-    min-height: 500px;
+    min-height: 100vh;
 }
 
 #user-links {
@@ -31,9 +31,17 @@ body {
     list-style-type: none;
 }
 
-#user-links .link a{
+#user-links .link a {
     display: block;
     text-decoration: none;
+    background-color: black;
+    color: white;
+    transition: background-color 0.5s ease;
+}
+
+#user-links .link a:hover {
+    background-color: rgb(49, 48, 48);
+    color: white;
 }
 
 #loginSelect {
@@ -41,21 +49,26 @@ body {
     font-weight: 600;
 }
 
-#user-section{
+#user-section {
     display: grid;
     grid-template-rows: auto 1fr;
 }
 
-#error-section{
+#error-section {
     min-height: 60px;
     padding: 15px;
-    border:2px solid #ccc;
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
 
-#section-error{
-    margin:0;
+#section-error {
+    margin: 0;
+    color: red;
+    border: 2px solid red;
+    width: max-content;
 }
 
-#booking-list-container{
-    padding:20px;
+#booking-list-container {
+    padding: 20px;
 }
