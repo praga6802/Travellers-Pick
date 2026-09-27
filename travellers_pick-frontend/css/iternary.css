@@ -24,8 +24,21 @@ body {
     transition: transform 0.5s ease;
 }
 
+#deleteItineraryForm {
+    float: right;
+    margin-top: 5%;
+    margin-right: 4%;
+    background-color: white;
+    height: 400px;
+    border-radius: 10px;
+    width: 550px;
+    padding: 20px;
+    transition: transform 0.5s ease;
+}
+
 #addItineraryForm:hover,
-#updateItineraryForm:hover {
+#updateItineraryForm:hover,
+#deleteItineraryForm:hover {
     transform: translateY(-10px) scale(1.02);
     border: 2px solid goldenrod;
 }

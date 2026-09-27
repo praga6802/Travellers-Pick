@@ -1,6 +1,5 @@
 package com.example.travellers_choice.repository;
 
-import com.example.travellers_choice.dto.DayDTO;
 import com.example.travellers_choice.model.Itinerary;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,4 +12,5 @@ public interface ItineraryRepository extends JpaRepository<Itinerary,Integer> {
     Optional<Itinerary> findByPackages_PackageIdAndTour_TourIdAndDay(Integer packageId, Integer tourId, Integer day);
 
     List<Itinerary> findByTour_TourId(Integer tourId);
+
 }

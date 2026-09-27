@@ -152,4 +152,12 @@ public class IternaryService {
         }
         return ResponseEntity.ok(itineraries);
     }
+
+    public ResponseEntity<?> deleteItinerary(DeleteItineraryDTO dto) {
+
+        Itinerary itinerary = itineraryRepository.findById(dto.getItineraryId()).orElseThrow(() -> new IDNotFoundException("Itinerary not found", dto.getItineraryId()));
+
+        itineraryRepository.delete(itinerary);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Itinerary deleted successfully"));
+    }
 }

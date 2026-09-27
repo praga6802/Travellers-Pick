@@ -213,12 +213,15 @@ public class AdminController {
         return iternaryService.updateItinerary(updateItineraryDTO);
     }
 
+    @DeleteMapping("/deleteItinerary")
+    public ResponseEntity<?> deleteItinerary(@RequestBody DeleteItineraryDTO deleteItineraryDTO){
+        return iternaryService.deleteItinerary(deleteItineraryDTO);
+    }
+
     @GetMapping("/allItineraries")
     public ResponseEntity<?> getAllItineraries(){
         return iternaryService.getAllItineraries();
     }
-
-
 
     @GetMapping("/getDay/{packageId}/{tourId}")
     public ResponseEntity<?> getDayInformation(@PathVariable Integer packageId, @PathVariable Integer tourId){
