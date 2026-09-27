@@ -1,7 +1,7 @@
 import { showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 
-const bookingList = document.getElementById("booking-list");
+const bookingListContainer = document.getElementById("booking-list-container");
 const user_links = document.querySelector(".user-links");
 const userHeader = document.getElementById("user-header");
 
@@ -43,16 +43,14 @@ async function handleViewBooking() {
             return;
         }
 
-        bookingList.innerHTML = `
+        bookingListContainer.innerHTML = `
             <h1 class="h1">VIEW BOOKINGS</h1>
             <div id="booking-card"></div>
         `;
 
-        const cardContainer = document.getElementById("booking-card");
+        const bookingCard = document.getElementById("booking-card");
 
         responseData.forEach((booking) => {
-            const card = document.createElement("div");
-            card.classList.add("booking-card");
 
             let statusClass = "";
             const statusUpper = (booking.status || "").toUpperCase();
@@ -65,7 +63,7 @@ async function handleViewBooking() {
                 statusClass = "status-pending";
             }
 
-            card.innerHTML = `
+            bookingCard.innerHTML = `
                 <div class="booking-header">
                     ${booking.packageName || "Package"} - ${booking.region || ""}
                     <h4 class="status ${statusClass}">
@@ -94,7 +92,7 @@ async function handleViewBooking() {
                 </div>
             `;
 
-            cardContainer.appendChild(card);
+            bookingListContainer.appendChild(bookingCard);
         });
     } catch (err) {
         showSessionMessage("Network error..Please try again", false);

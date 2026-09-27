@@ -32,11 +32,11 @@ body {
     color: rgb(161, 12, 12);
 }
 
-#booking-list {
+#booking-list-container {
     width: 100%;
 }
 
-#booking-list .h1 {
+#booking-list-container .h1 {
     font-size: 50px;
     color: goldenrod;
     text-align: center;
