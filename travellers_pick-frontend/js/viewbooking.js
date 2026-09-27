@@ -16,7 +16,7 @@ async function handleViewBooking() {
         if (!authResponse.ok) {
             userHeader.style.display = "none";
             user_links.style.display = "none";
-            bookingList.style.display = "none";
+            bookingListContainer.style.display = "none";
             showSessionMessage(authData.message, false);
             setTimeout(() => {
                 window.location.href = "../html/user-login.html";
@@ -32,13 +32,13 @@ async function handleViewBooking() {
         const responseData = await response.json();
 
         if (!response.ok) {
-            bookingList.style.display = "none";
+            bookingListContainer.style.display = "none";
             showSessionMessage("Failed to load bookings!", false);
             return;
         }
 
         if (responseData.length === 0) {
-            bookingList.style.display = "none";
+            bookingListContainer.style.display = "none";
             showSessionMessage("No bookings found!", false);
             return;
         }

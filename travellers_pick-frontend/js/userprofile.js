@@ -1,4 +1,4 @@
-import { showFormMessage, showSessionMessage } from "./error.js";
+import { showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 
 const userHeader = document.getElementById("user-header");

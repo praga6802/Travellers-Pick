@@ -11,6 +11,11 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.user-profile{
+    display: flex;
+    justify-content: space-between;
+}
+
 .user-links {
     margin: 0;
     background-color: black;
@@ -59,30 +64,4 @@ ol .link {
     font-weight: 600;
 }
 
-#profile-error {
-    display: inline-block;
-    width: max-content;
-    height: auto;
-    margin-right: 1000px;
-    font-size: 18px;
-    position: absolute;
-    top: 200px;
-    left: 900px;
-    display: none;
 
-    padding: 10px 15px;
-    border-radius: 6px;
-    font-weight: bold;
-    z-index: 1000;
-}
-
-#profile-error.success {
-    color: green;
-    border: 2px solid green;
-
-}
-
-#profile-error.failure {
-    color: rgb(187, 44, 44);
-    border: 2px solid rgb(204, 55, 55);
-}

@@ -233,11 +233,13 @@ section h1 {
 /* show form error message*/
 #session-error {
   font-weight: 600;
-  width: 90%;
+  width: max-content;
   background-color: white;
   display: none;
   text-align: center;
+
   padding: 10px;
+  height: max-content;
   font-size: 20px;
   border-radius: 10px;
   margin: 4%;
@@ -319,4 +321,11 @@ footer p {
   background-color: #244a9b;
   width: 100%;
   margin: 0;
+}
+
+
+.error-section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
 }
