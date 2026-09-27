@@ -252,12 +252,6 @@ async function submitForm(event) {
         }
         console.log(responseData.message);
         showFormMessage(responseData.message, true);
-
-        // setTimeout(() => {
-        //     form_error.classList.remove("success");
-        //     form_error.classList.add("hide");
-        //     tourform.reset();
-        // }, 4000);
     } catch (err) {
         console.error(err);
         showSessionMessage("Network error..Please try again", false);
