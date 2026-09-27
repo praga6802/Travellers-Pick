@@ -36,14 +36,7 @@ async function handleViewBooking() {
             console.log(responseData);
             if (!response.ok) {
                 bookingListContainer.style.display = "none";
-                showSessionMessage("Failed to load bookings!", false);
-                return;
-            }
-            
-
-            if (responseData.length === 0) {
-                bookingListContainer.style.display = "none";
-                showSessionMessage("No bookings found!", false);
+                showSessionMessage(response.message, false);
                 return;
             }
 

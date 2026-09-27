@@ -340,7 +340,7 @@ public class UserService {
 
         if(!registerRepo.existsByUser_Id(user.getId())){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).
-                    body(new AResponse(LocalDateTime.now(),"Failure","No Tours Found!"));
+                    body(new AResponse(LocalDateTime.now(),"Failure","No bookings Found!"));
         }
 
         List<CustomerRegistry> userBookings=registerRepo.findByUser_Id(user.getId());
