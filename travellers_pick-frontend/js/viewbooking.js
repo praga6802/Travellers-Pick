@@ -43,6 +43,9 @@ async function handleViewBooking() {
             return;
         }
 
+        console.log(response);
+        console.log(responseData);
+
         bookingListContainer.innerHTML = `
             <h1 class="h1">VIEW BOOKINGS</h1>
             <div id="booking-card"></div>
@@ -51,7 +54,6 @@ async function handleViewBooking() {
         const bookingCard = document.getElementById("booking-card");
 
         responseData.forEach((booking) => {
-
             let statusClass = "";
             const statusUpper = (booking.status || "").toUpperCase();
 
