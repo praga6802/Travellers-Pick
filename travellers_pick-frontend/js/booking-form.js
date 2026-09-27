@@ -135,7 +135,7 @@ const displayBookingForm = async () => {
 
             <div class="input-field">
                 <label for="tdate">Travel Date</label>
-                <input type="date" id="tdate" name="tdate" max="2030-12-31" required>
+                <input type="date" id="tdate" name="tdate" min="${today}" max="2030-12-31" required>
             </div>
 
             <div class="input-field">
@@ -174,9 +174,12 @@ const displayBookingForm = async () => {
         const bdate = document.getElementById("bdate");
         const tdate = document.getElementById("tdate");
 
-        bdate.value = today;
-        tdate.value = today;
-        tdate.min = today;
+        bdate.addEventListener("change", () => {
+            tdate.min = bdate.value;
+            if (tdate.value < bdate.value) {
+                tdate.value = "";
+            }
+        });
 
         const form = document.getElementById("tourForm");
         form.addEventListener("submit", submitForm);
