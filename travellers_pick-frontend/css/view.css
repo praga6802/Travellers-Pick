@@ -36,8 +36,6 @@ h1 {
      border-collapse: collapse;
 }
 
-
-
 th {
      font-size: 18px;
      background-color: rgba(12, 64, 153, 0.801);
@@ -66,7 +64,7 @@ tbody tr:hover td {
 }
 
 #regtable {
-     width: 600px;
+     width: 500px;
 }
 
 #itinerary-description {
