@@ -233,18 +233,14 @@ section h1 {
 /* show form error message*/
 #session-error {
   font-weight: 600;
-  width: max-content;
+  width: 100%;
   background-color: white;
   display: none;
   text-align: center;
   padding: 10px;
   font-size: 20px;
   border-radius: 10px;
-
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-bottom: 4%;
 }
 
 #session-error.success {

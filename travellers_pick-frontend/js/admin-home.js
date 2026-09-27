@@ -13,7 +13,6 @@ const webpreview = document.getElementById("webpreview");
 const adminContainer = document.querySelector(".admin-home");
 const adminHeader = document.getElementById("admin-homeheader");
 
-
 async function displayUserName() {
     try {
         const response = await fetch(`${url}/admin/current-admin`, {
