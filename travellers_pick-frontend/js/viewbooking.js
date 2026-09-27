@@ -36,7 +36,7 @@ async function handleViewBooking() {
             console.log(responseData);
             if (!response.ok) {
                 bookingListContainer.style.display = "none";
-                showSessionMessage(response.message, false);
+                showSessionMessage(responseData.message, false);
                 return;
             }
 
