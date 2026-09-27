@@ -14,10 +14,13 @@ body {
   margin-top: 2%;
 }
 
-form {
+#tourForm {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 40%;
   margin: auto;
-  font-family: Arial, sans-serif;
   background-color: whitesmoke;
   color: color;
   padding: 40px 20px;
