@@ -338,12 +338,12 @@ public class UserService {
     public ResponseEntity<?> getAllBookedTours(String email) {
         Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email", email));
 
-        if(!registerRepo.existsByUserId(user.getId())){
+        if(!registerRepo.existsByUser_Id(user.getId())){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).
                     body(new AResponse(LocalDateTime.now(),"Failure","No Tours Found!"));
         }
 
-        List<CustomerRegistry> userBookings=registerRepo.findByUserId(user.getId());
+        List<CustomerRegistry> userBookings=registerRepo.findByUser_Id(user.getId());
         List<TourDetailsDTO> bookedTourList=userBookings.stream()
                 .map(t->new TourDetailsDTO(t.getBookingId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
                         t.getNoOfAdults(),t.getNoOfChildren(),t.getBdate(),t.getTdate(),t.getStatus(),t.getPrice())).toList();

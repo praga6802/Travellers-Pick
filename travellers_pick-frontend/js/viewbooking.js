@@ -24,28 +24,28 @@ async function handleViewBooking() {
             return;
         }
 
-        const response = await fetch(`${url}/user/bookedTours`, {
-            method: "GET",
-            credentials: "include",
-        });
-        //console.log(response);
+            const response = await fetch(`${url}/user/bookedTours`, {
+                method: "GET",
+                credentials: "include",
+            });
+            //console.log(response);
 
-        const responseData = await response.json();
-        
-        console.log(response);
-        console.log(responseData);
-        if (!response.ok) {
-            bookingListContainer.style.display = "none";
-            showSessionMessage("Failed to load bookings!", false);
-            return;
-        }
-        
+            const responseData = await response.json();
+            
+            console.log(response);
+            console.log(responseData);
+            if (!response.ok) {
+                bookingListContainer.style.display = "none";
+                showSessionMessage("Failed to load bookings!", false);
+                return;
+            }
+            
 
-        if (responseData.length === 0) {
-            bookingListContainer.style.display = "none";
-            showSessionMessage("No bookings found!", false);
-            return;
-        }
+            if (responseData.length === 0) {
+                bookingListContainer.style.display = "none";
+                showSessionMessage("No bookings found!", false);
+                return;
+            }
 
 
         bookingListContainer.innerHTML = `

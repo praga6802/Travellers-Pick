@@ -10,11 +10,12 @@ import java.util.Optional;
 @Repository
 public interface CustomerRegister extends JpaRepository<CustomerRegistry, Integer> {
 
-    List<CustomerRegistry> findByUserId(Integer userId);
-    boolean existsByUserId(Integer userId);
-
     Optional<CustomerRegistry> findByPNR(String pnr);
 
 
     Long countByStatus(String confirmed);
+
+    boolean existsByUser_Id(Integer id);
+
+    List<CustomerRegistry> findByUser_Id(Integer id);
 }
