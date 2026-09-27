@@ -90,22 +90,15 @@ public class AdminService {
 
     //ADMIN  LOGIN
     public ResponseEntity<?> adminLogin(String email, String password, HttpSession session) {
-        Admin admin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(email, password)
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        try{
+            Authentication auth=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
+            SecurityContextHolder.getContext().setAuthentication(auth);
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,SecurityContextHolder.getContext());
-            return ResponseEntity.ok(new AResponse(
-                    LocalDateTime.now(),
-                    "Success",
-                    "Login Successful"
-            ));
+            return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Login Successful"));
         }
         catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AResponse(LocalDateTime.now(), "Failure", "Invalid Email or Password"));
+                    .body(new AResponse(LocalDateTime.now(), "Failure", "Invalid Credentials"));
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
