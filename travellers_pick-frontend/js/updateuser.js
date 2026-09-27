@@ -110,7 +110,7 @@ const displayUpdateForm = async () => {
 async function handleUpdate(event) {
     event.preventDefault();
 
-    const updateUserform = e.target;
+    const updateUserform = event.target;
     const form_error = document.getElementById("form-error");
     const username = document.getElementById("username");
     const email = document.getElementById("email");
