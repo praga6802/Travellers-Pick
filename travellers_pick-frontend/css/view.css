@@ -64,7 +64,8 @@ tbody tr:hover td {
 }
 
 #regtable {
-     width: 500px;
+     width: 300px;
+     border-collapse: collapse;
 }
 
 #itinerary-description {
