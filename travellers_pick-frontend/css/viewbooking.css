@@ -32,17 +32,18 @@ body {
     color: rgb(161, 12, 12);
 }
 
-.booking-list {
+#booking-list {
     width: 100%;
 }
 
-.booking-list h1 {
+#booking-list .h1 {
     font-size: 50px;
     color: goldenrod;
     text-align: center;
+    margin-top: 2%;
 }
 
-.booking-card {
+#booking-card {
     background-color: white;
     color: black;
     padding: 10px;
@@ -54,7 +55,7 @@ body {
     transition: transform 0.5s ease;
 }
 
-.booking-card:hover {
+#booking-card:hover {
     transform: translateY(-10px) scale(1.02);
     cursor: pointer;
     box-shadow: 5px 5px 10px gray;
