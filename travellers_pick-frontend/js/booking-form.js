@@ -252,6 +252,8 @@ async function submitForm(event) {
         }
         console.log(responseData.message);
         showFormMessage(responseData.message, true);
+
+        
     } catch (err) {
         console.error(err);
         showSessionMessage("Network error..Please try again", false);
