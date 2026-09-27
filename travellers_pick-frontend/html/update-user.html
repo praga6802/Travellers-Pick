@@ -59,18 +59,21 @@
         </nav>
     </header>
 
-    <main class="update-container">
-        <aside class="user-links">
+    <main id="user-container">
+        <aside id="user-links">
+            <h1>USER LINKS</h1>
             <ol>
                 <li class="link"><a href="../html/update-user.html">UPDATE INFO</a></li>
                 <li class="link"><a href="./view-bookings.html">VIEW BOOKINGS</a></li>
                 <li class="link"><a href="./cancel-booking.html">CANCEL BOOKINGS</a></li>
             </ol>
         </aside>
-        <div class="error-section">
-            <h2 id="session-error"></h2>
-        </div>
-        <div id="updateform"></div>
+        <section id="user-section">
+            <div id="error-section">
+                <h2 id="session-error"></h2>
+            </div>
+            <div id="update-container"></div>
+        </section>
     </main>
 
     <script type="module" src="../js/config.js"></script>

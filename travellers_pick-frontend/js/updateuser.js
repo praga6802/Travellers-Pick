@@ -1,8 +1,8 @@
 import { showFormMessage, showSessionMessage } from "./error.js";
 import { url } from "./config.js";
-const updateContainer = document.getElementById("updateform");
+const updateContainer = document.getElementById("update-container");
 const userHeader = document.getElementById("userHeader");
-const userLinks = document.querySelector(".user-links");
+const userLinks = document.getElementById("user-links");
 
 let oldEmail = "";
 let oldUsername = "";
@@ -19,7 +19,7 @@ const displayUpdateForm = async () => {
         if (!response.ok) {
             userHeader.style.display = "none";
             userLinks.style.display = "none";
-            updateContainer.style.display = "none";
+            userContainer.style.display = "none";
 
             showSessionMessage(responseData.message, false);
             setTimeout(() => {
@@ -29,8 +29,8 @@ const displayUpdateForm = async () => {
         }
 
         updateContainer.innerHTML = `
+        <h1 id="update-legend">UPDATE USER INFO</h1>
         <form id="update-form">
-            <legend id="update-legend">UPDATE USER INFO</legend>
             <div>
                 <label for="username">User Name</label>
                 <input

@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url("../img/user-back.jpg");
+    background-image: url("../img/userprofile.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,13 +13,21 @@ body {
 
 #user-container {
     display: grid;
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 200px 1fr;
     min-height: 100vh;
 }
 
 #user-links {
-    border: 2px solid goldenrod;
-    padding: 20px;
+    padding: 20px 12px;
+    background-color: black;
+    text-align: center;
+    font-weight: 600;
+}
+
+#user-links h1 {
+    font-size: 28px;
+    color: rgb(24, 138, 138);
+    font-weight: 600;
 }
 
 #user-links ol {
@@ -31,17 +39,26 @@ body {
     list-style-type: none;
 }
 
+#user-links .link {
+    padding: 4px;
+    margin: 0;
+}
+
 #user-links .link a {
+    font-size: 15px;
+    padding: 15px;
     display: block;
+    width: 100%;
     text-decoration: none;
     background-color: black;
     color: white;
     transition: background-color 0.5s ease;
+    border-radius: 10px;
 }
 
 #user-links .link a:hover {
     background-color: rgb(49, 48, 48);
-    color: white;
+    color: goldenrod;
 }
 
 #loginSelect {
@@ -67,8 +84,4 @@ body {
     color: red;
     border: 2px solid red;
     width: max-content;
-}
-
-#booking-list-container {
-    padding: 20px;
 }

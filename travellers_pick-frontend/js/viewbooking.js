@@ -24,22 +24,21 @@ async function handleViewBooking() {
             return;
         }
 
-            const response = await fetch(`${url}/user/bookedTours`, {
-                method: "GET",
-                credentials: "include",
-            });
-            //console.log(response);
+        const response = await fetch(`${url}/user/bookedTours`, {
+            method: "GET",
+            credentials: "include",
+        });
+        //console.log(response);
 
-            const responseData = await response.json();
-            
-            console.log(response);
-            console.log(responseData);
-            if (!response.ok) {
-                bookingListContainer.style.display = "none";
-                showSessionMessage(responseData.message, false);
-                return;
-            }
+        const responseData = await response.json();
 
+        console.log(response);
+        console.log(responseData);
+        if (!response.ok) {
+            bookingListContainer.style.display = "none";
+            showSessionMessage(responseData.message, false);
+            return;
+        }
 
         bookingListContainer.innerHTML = `
             <h1 class="h1">VIEW BOOKINGS</h1>
@@ -62,30 +61,32 @@ async function handleViewBooking() {
 
             bookingCard.innerHTML = `
                 <div class="booking-header">
-                    ${booking.packageName || "Package"} - ${booking.region || ""}
+                    ${booking.packageName}
                     <h4 class="status ${statusClass}">
-                        <span>${booking.status || "UNKNOWN"}</span>
+                        <span>${booking.status}</span>
                     </h4>
                 </div>
                 
                 <div class="date-info">
                     <span class="date">
-                        <strong>Booked Date:</strong> ${booking.bookedAt || booking.bdate || "N/A"}
+                        <strong>Booked Date:</strong> ${booking.bookedAt}
                     </span>
                     <span class="date">
-                        <strong>Travel Date:</strong> ${booking.travelAt || booking.tdate || "N/A"}
+                        <strong>Travel Date:</strong> ${booking.travelAt}
                     </span>
                 </div>
 
                 <div class="booking-body">
-                    <p><strong>Booking ID:</strong> ${booking.bookingId || booking.id || "N/A"}</p>
-                    <p><strong>Name:</strong> ${booking.userName || booking.name || "N/A"}</p>
-                    <p><strong>Email:</strong> ${booking.email || "N/A"}</p>
-                    <p><strong>Contact:</strong> ${booking.contact || booking.phone || "N/A"}</p>
-                    <p><strong>Seats:</strong> ${booking.noOfSeats || 0}</p>
-                    <p><strong>Adults:</strong> ${booking.noOfAdults || 0}</p>
-                    <p><strong>Children:</strong> ${booking.noOfChildren || 0}</p>
-                    <p><strong>Price:</strong> ${booking.price || "N/A"}</p>
+                    <p><strong>Booking ID:</strong> ${booking.bookingId}</p>
+
+                    <p><strong>Name:</strong> ${booking.userName}</p>
+                    <p><strong>Email:</strong> ${booking.email}</p>
+                    <p><strong>Contact:</strong> ${booking.contact}</p>
+                    <p><strong>Seats:</strong> ${booking.noOfSeats}</p>
+                    <p><strong>Adults:</strong> ${booking.noOfAdults}</p>
+                    <p><strong>Children:</strong> ${booking.noOfChildren}</p>
+                    <p><strong>Price:</strong> ${booking.price}</p>
+
                 </div>
             `;
 

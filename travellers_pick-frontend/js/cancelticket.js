@@ -27,9 +27,8 @@ const displayCancelForm = async () => {
         }
 
         cancelContainer.innerHTML = `
+            <h1 id="cancel-legend">Booking Cancellation</h1>
             <form id="cancelform" method="post">
-                <legend id="cancel-legend">Booking Cancellation</legend>
-
                 <div id="input">
                     <label for="pnr">PNR Number</label>
                     <input

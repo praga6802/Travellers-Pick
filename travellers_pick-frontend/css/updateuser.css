@@ -1,57 +1,45 @@
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.update-container {
-    position: relative;
+#update-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #update-form {
-    position: absolute;
-    left: 40%;
-    top: 10%;
-    background-color: aliceblue;
-    height: 500px;
-    width: 600px;
+    background-color: white;
     border-radius: 10px;
+    padding: 10px;
+    height: 400px;
 }
 
 #update-legend {
     text-align: center;
-    font-size: 30px;
+    font-size: 40px;
     font-weight: 600;
-    padding: 10px;
+    padding: 20px;
     color: rgb(214, 39, 39);
 }
 
 #update-form div {
-    padding: 40px;
+    padding: 10px;
     margin: 0;
-    position: relative;
 }
 
 #update-form div label {
-    position: absolute;
     font-size: 17px;
+    color: black;
     font-weight: 500;
-    left: 10%;
     padding: 20px;
+    width: 200px;
 }
 
 .input {
-    position: absolute;
     width: 300px;
-    left: 40%;
     padding: 15px;
+    font-size: 17px;
     border: 1px solid rgb(217, 214, 214);
     border-radius: 5px;
 }
+
 
 .input:focus {
     border: 2px solid rgb(10, 90, 155);
@@ -60,21 +48,21 @@ body {
 
 #button-group {
     display: flex;
-    gap: 40px;
+    height: 150px;
     justify-content: center;
-    padding: 10px;
+    align-items: center;
+    width: 100%;
+    gap: 60px;
 }
 
 .button {
+    background-color: rgb(9, 75, 150);
     color: white;
-    padding: 10px;
-    height: auto;
-    border: none;
-    border-radius: 5px;
+    padding: 8px;
     font-weight: 600;
-    margin-left: 100px;
-    width: 80px;
-    background-color: rgb(21, 112, 232);
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
 }
 
 .button:hover {
