@@ -198,9 +198,9 @@ async function submitForm(event) {
     const packageName = document.getElementById("packageName").value.trim();
     const region = document.getElementById("region").value.trim();
     const bdate = document.getElementById("bdate").value.trim();
+    const tdate = document.getElementById("tdate").value.trim();
     console.log(bdate, tdate);
 
-    const tdate = document.getElementById("tdate").value.trim();
     const noOfAdults =
         parseInt(document.getElementById("noOfAdults").value.trim(), 10) || 0;
     const noOfChildren =
