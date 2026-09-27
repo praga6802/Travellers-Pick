@@ -11,21 +11,27 @@ public class EmailService {
     @Autowired
     JavaMailSender javaMailSender;
 
-    public void sendSimpleEMail(String to, String subject, String message){
+    public void sendSimpleEMail(String to, String subject, String message) {
 
+        try {
+            System.out.println("Starting email...");
+            System.out.println("To: " + to);
 
-            try {
-                SimpleMailMessage smm = new SimpleMailMessage();
-                smm.setTo(to);
-                smm.setSubject(subject);
-                smm.setText(message);
-                smm.setFrom("picktravellers@gmail.com");
+            SimpleMailMessage smm = new SimpleMailMessage();
+            smm.setTo(to);
+            smm.setSubject(subject);
+            smm.setText(message);
+            smm.setFrom("picktravellers@gmail.com");
 
-                javaMailSender.send(smm);
-            } catch (Exception e) {
-                System.out.println("Mail sending failed!");
-                e.printStackTrace();
-            }
+            System.out.println("Before javaMailSender.send()");
+
+            javaMailSender.send(smm);
+
+            System.out.println("Email sent successfully!");
+
+        } catch (Exception e) {
+            System.out.println("Mail sending failed!");
+            e.printStackTrace();
         }
-
+    }
 }
