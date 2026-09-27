@@ -1,83 +1,144 @@
-🌍 Traveller’s Pick – Tour & Travel Management System
+# 🌍 Traveller’s Pick – Tour & Travel Management System
 
-Traveller’s Pick is a full-stack travel management application designed to help users discover, book, and manage tour packages across India.
-It provides an easy-to-use interface for users and a powerful admin dashboard for managing bookings and travel packages.
+Traveller’s Pick is a full-stack tour and travel management application designed to help users discover, explore, and book tour packages across India. The system also provides an admin dashboard for managing packages, itineraries, users, and bookings.
 
-✨ Features
-👤 User Features
+## ✨ Features
 
-1. Browse and explore all available travel packages
+### 👤 User Features
 
-2. View detailed itineraries, images, destinations, and prices
+* User registration and secure login
+* Browse available tour packages
+* View package details, destinations, images, prices, and itineraries
+* Book tour packages
+* Generate a unique PNR for every booking
+* View booking details
+* Cancel bookings
+* Receive automated email notifications
 
-3. Secure signup and login system
+### 🛠️ Admin Features
 
-4. Book a tour package online
+* Secure admin authentication
+* View user and booking information
+* Add, update, and delete tour packages
+* Upload package images
+* Add and manage tour itineraries
+* Manage booking information
 
-5. Receive email notifications for:
+## 📧 Email Notification System
 
- - Successful signup
-  
- - Booking confirmation
-  
- - Ticket cancellation
+Traveller’s Pick uses **Spring Boot `JavaMailSender`** for automated email communication.
 
-6. Get a unique PNR number for every booking
+### Signup Email
 
-7. Check booking status using PNR (future enhancement)
+Sent after successful registration to confirm account creation and welcome the user.
 
-🛠️ Admin Features
+### Booking Confirmation Email
 
-1. Secure admin login
+Sent after a successful booking with:
 
-2. View all user booking requests
+* Package name
+* Travel date
+* Number of seats
+* Booking amount
+* Contact information
+* PNR number
 
-3. Approve, reject, or cancel bookings
+### Cancellation Email
 
-3. Add new tour packages
+Sent after a booking is cancelled with:
 
-4. Update existing packages
+* Package name
+* PNR number
+* Cancellation confirmation
 
-5. Delete packages
+> *“We look forward to helping you book your next tour with Traveller’s Pick.”*
 
-6. Manage itineraries and package content
+## 🔄 Application Flow
 
-📬 Email Notification System
+```text
+User
+ ↓
+Signup / Login
+ ↓
+Browse Packages
+ ↓
+View Tour & Itinerary
+ ↓
+Book Tour
+ ↓
+PNR Generated
+ ↓
+Booking Confirmation Email
+ ↓
+View / Cancel Booking
+```
 
-Traveller’s Pick includes a full email communication module using Spring Boot (JavaMailSender).
+```text
+Admin
+ ↓
+Admin Login
+ ↓
+Manage Packages
+ ↓
+Manage Itineraries
+ ↓
+View Bookings
+ ↓
+Manage Booking Information
+```
 
-✔️ Signup Email
+## 🛠️ Technology Stack
 
-1. Sent immediately when the user registers:
+| Category        | Technologies          |
+| --------------- | --------------------- |
+| Backend         | Java, Spring Boot     |
+| Security        | Spring Security       |
+| API             | REST APIs             |
+| Database        | MySQL                 |
+| ORM             | JPA / Hibernate       |
+| Email           | JavaMailSender        |
+| Frontend        | HTML, CSS, JavaScript |
+| API Testing     | Postman               |
+| Build Tool      | Maven                 |
+| Version Control | Git, GitHub           |
+| Deployment      | Railway               |
 
-2. Confirms account creation
+## 🔐 Security
 
-3. Includes welcome message
+* Session-based authentication
+* Protected user and admin endpoints
+* Role-based access control
+* Secure login and logout
+* Authenticated API requests
 
-✔️ Booking Confirmation Email
+## 🧪 API Testing
 
-1. Sent after successful booking:
+REST APIs were tested using **Postman**, including:
 
- - Package name
+* User authentication
+* Admin authentication
+* Package management
+* Itinerary management
+* Booking operations
+* Cancellation operations
 
- -Travel dates
-  
- - Number of seats
-  
- - Amount
+## 🚀 Deployment
 
-- Contact info
+The Spring Boot backend and MySQL database are deployed using **Railway**.
 
-- Auto-generated PNR number
+**Backend:** `https://travellers-pick-production.up.railway.app`
 
+## 🔮 Future Enhancements
 
-✔️ Ticket Cancellation Email
+* Online payment integration
+* Ratings and reviews
+* Improved mobile responsiveness
+* React-based frontend
 
-1. Sent when user cancels a booking:
+## 👨‍💻 Developer
 
-2. Confirms cancellation
+**Pragadeeswaran Sekar**
 
-3. Shows package name + PNR
+Java Full Stack Developer | Java | Spring Boot | REST APIs | MySQL
 
-Provides message:
-“We look forward to helping you book your next tour with Traveller’s Pick.”
+**GitHub:** `https://github.com/praga6802/Travellers-Pick`
