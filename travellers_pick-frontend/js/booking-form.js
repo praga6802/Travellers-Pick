@@ -130,7 +130,7 @@ const displayBookingForm = async () => {
 
             <div class="input-field">
                 <label for="bdate">Booking Date</label>
-                <input type="hidden" id="bdate" name="bdate" min="${today}" max="${today}" required>
+                <input type="hidden" id="bdate" name="bdate" value="${today}" required>
             </div>
 
             <div class="input-field">
@@ -171,16 +171,6 @@ const displayBookingForm = async () => {
 
         </form>`;
 
-        const bdate = document.getElementById("bdate");
-        const tdate = document.getElementById("tdate");
-
-        bdate.addEventListener("change", () => {
-            tdate.min = bdate.value;
-            if (tdate.value < bdate.value) {
-                tdate.value = "";
-            }
-        });
-
         const form = document.getElementById("tourForm");
         form.addEventListener("submit", submitForm);
     } catch (e) {
@@ -208,6 +198,8 @@ async function submitForm(event) {
     const packageName = document.getElementById("packageName").value.trim();
     const region = document.getElementById("region").value.trim();
     const bdate = document.getElementById("bdate").value.trim();
+    console.log(bdate, tdate);
+
     const tdate = document.getElementById("tdate").value.trim();
     const noOfAdults =
         parseInt(document.getElementById("noOfAdults").value.trim(), 10) || 0;
@@ -252,8 +244,6 @@ async function submitForm(event) {
         }
         console.log(responseData.message);
         showFormMessage(responseData.message, true);
-
-        
     } catch (err) {
         console.error(err);
         showSessionMessage("Network error..Please try again", false);
