@@ -50,20 +50,26 @@ const displayTours = async () => {
         console.log(responseData);
 
         tourContainer.innerHTML = `
-            <h1 class="h1">VIEW ITINERARIES</h1>
-            <table id="viewitinerary">
-                <thead>
-                    <tr id="head-data">
-                        <th class="data">Package ID</th>
-                        <th class="data">Tour ID</th>
-                        <th>Day</th>
-                        <th>Destination</th>
-                        <th class="data">Description</th>
-                    </tr>
-                </thead>
-                <tbody id="itinerary-body">
-                </tbody>
-            </table>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <h1 class="h1">VIEW ITINERARIES</h1>
+                    <table id="viewitinerary">
+                        <thead>
+                            <tr id="head-data">
+                                <th class="data">Package ID</th>
+                                <th class="data">Tour ID</th>
+                                <th>Day</th>
+                                <th>Destination</th>
+                                <th class="data">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itinerary-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         `;
 
         const itineraryBody = document.getElementById("itinerary-body");

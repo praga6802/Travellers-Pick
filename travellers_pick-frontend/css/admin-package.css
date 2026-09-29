@@ -9,20 +9,19 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 #packageform {
-    float: right;
-    margin: 100px;
-    height: 550px;
-    width: 500px;
+    width: 100%;
     background-color: white;
     box-shadow: 2px;
     border: 1px solid white;
     border-radius: 10px;
     transition: background-color 0.5s ease, color 0.5s ease;
-
-    position:relative;
+    margin: 10% auto;
+    padding: 20px;
 }
 
 #packageform legend,
@@ -57,7 +56,7 @@ body {
 .input-box input {
     padding: 8px;
     margin: 5px;
-    width: 400px;
+    width: 90%;
     border: 1px solid rgb(194, 193, 193);
     border-radius: 5px;
 }
@@ -93,21 +92,31 @@ body {
 }
 
 #packageId {
-    width: 200px;
-    margin-left: 100px;
+    width: 100%;
     padding: 10px;
+    margin-top: 3%;
     border: 1px solid grey;
+    border-radius: 10px;
 }
 
 
 #deletepackageform {
-    float: right;
-    margin: 100px;
-    height: 250px;
-    width: 500px;
+    margin: 10% auto;
+    height: auto;
+    width: 100%;
     background-color: white;
     box-shadow: 2px;
     border: 1px solid white;
     border-radius: 10px;
     transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+@media screen and (max-width:767px) {
+    #deletepackageform {
+        width: 90%;
+    }
+
+    #packageId{
+        width: 100%;
+    }
 }

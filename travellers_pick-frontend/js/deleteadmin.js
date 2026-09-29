@@ -21,21 +21,28 @@ const displayAdminForm = async () => {
         }
 
         adminContainer.innerHTML = `
-            <form id="delAdmin">
-                <legend>DELETE ADMIN</legend>
-                
-                <label for="adminId">Admin ID</label><br><br>
-                <input type="text" name="adminId" id="adminId" placeholder="Admin ID" readonly required><br><br>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12 col-md-8 col-lg-6">
+					<form id="delAdmin">
+						<legend>DELETE ADMIN</legend>
 
-                <label for="password">Password</label><br><br>
-                <input type="password" name="password" id="password" placeholder="Enter Password to Confirm" required><br><br>
+						<label for="adminId">Admin ID</label><br><br>
+						<input type="text" name="adminId" id="adminId" placeholder="Admin ID" readonly required><br><br>
 
-                <div class="button-group">
-                    <input type="submit" value="DELETE" name="submit" class="button" />
-                    <input type="reset" value="RESET" name="reset" class="button" />
-                </div>
-                <p id="form-error"></p>
-            </form>
+						<label for="password">Password</label><br><br>
+						<input type="password" name="password" id="password" placeholder="Enter Password to Confirm"
+							required><br><br>
+
+						<div class="button-group">
+							<input type="submit" value="DELETE" name="submit" class="button" />
+							<input type="reset" value="RESET" name="reset" class="button" />
+						</div>
+						<p id="form-error"></p>
+					</form>
+				</div>
+			</div>
+		</div>
         `;
 
         document.getElementById("adminId").value = authData.adminId;

@@ -21,23 +21,30 @@ const displayUpdatePackageForm = async () => {
         }
 
         packageContainer.innerHTML = `
-            <form id="deletepackageform">
-                <legend>DELETE PACKAGE</legend>
+        <div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12 col-md-8 col-lg-6">
 
-                <div class="input-box">
-                    <label>Choose Package ID</label>
-                    <span>
-                        <select name="packageId" id="packageId">
-                            <option value="" hidden selected disabled>Select Package</option>
-                        </select>
-                    </span>
-                </div>
-                <div class="button-group">
-                    <input type="submit" value="DELETE" class="button" />
-                    <input type="reset" value="RESET" class="button" />
-                </div>
-                <p id="form-error"></p>
-            </form>
+					<form id="deletepackageform">
+						<legend>DELETE PACKAGE</legend>
+
+						<div class="input-box">
+							<label>Choose Package ID</label>
+							<span>
+								<select name="packageId" id="packageId">
+									<option value="" hidden selected disabled>Select Package</option>
+								</select>
+							</span>
+						</div>
+						<div class="button-group">
+							<input type="submit" value="DELETE" class="button" />
+							<input type="reset" value="RESET" class="button" />
+						</div>
+						<p id="form-error"></p>
+					</form>
+				</div>
+			</div>
+		</div>
         `;
 
         const packageSelect = document.getElementById("packageId");

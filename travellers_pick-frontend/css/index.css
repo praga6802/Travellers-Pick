@@ -358,7 +358,7 @@ footer p {
 @media screen and (max-width:767px) {
   .our-serv {
     width: 90%;
-    height: 40%;
+    height: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -376,5 +376,20 @@ footer p {
     padding: 0;
     width: 75%;
     height: 50%;
+  }
+
+  .our-serv p{
+    font-size: 18px;
+    font-weight: 600;
+    height: 150px;
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #footerend p{
+    font-size: 15px;
   }
 }

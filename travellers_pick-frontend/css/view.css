@@ -2,6 +2,8 @@ body {
      background-image: url('../img/adminback.jpg');
      background-repeat: no-repeat;
      background-size: cover;
+     background-position: center;
+     background-attachment: fixed;
      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -18,10 +20,11 @@ body {
      margin-bottom: 2%;
 }
 
-h1 {
+.h1 {
      color: rgb(167, 126, 50);
-     font-size: 30px;
+     font-size: 40px;
      font-weight: 600;
+     text-align: center;
 }
 
 #admintable,
@@ -29,10 +32,9 @@ h1 {
 #packagetable,
 #viewcategory,
 #viewitinerary {
-     margin-top: 10px;
-     width: max-content;
+     width: 100%;
+     margin: 2% auto;
      padding: 20px;
-     margin-bottom: 20%;
      border-collapse: collapse;
 }
 
@@ -64,12 +66,14 @@ tbody tr:hover td {
 }
 
 #regtable {
-     width: 100px;
+     width: 100%;
      border-collapse: collapse;
 }
-#regtable .data{
+
+#regtable .data {
      width: 50px;
 }
+
 #itinerary-description {
      text-align: left;
      width: 800px;

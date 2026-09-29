@@ -20,29 +20,35 @@ const displayForm = async () => {
         }
 
         packageContainer.innerHTML = `
-        		<form id="packageform" enctype="multipart/form-data">
-                <legend>ADD PACKAGE</legend>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12 col-md-8 col-lg-6">
+					<form id="packageform" enctype="multipart/form-data">
+						<legend>ADD PACKAGE</legend>
 
-                <div class="input-box">
-                    <label for="package_name">Package Name</label><br>
-                    <input type="text" name="packageName" id="packageName" required maxlength="30"
-                        placeholder="Package Name" /><br><br>
-                </div>
-                <div class="input-box">
-                    <label for="slogan">Package Slogan</label><br>
-                    <input type="text" name="packageSlogan" id="packageSlogan" maxlength="50"
-                        placeholder="Package Slogan" /><br><br>
-                </div>
-                <div class="input-box">
-                    <label for="imageFile">Package Image</label><br>
-                    <input type="file" name="imageFile" id="imageFile" accept="image/*"><br><br>
-                </div>
-                <div class="button-group">
-                    <input type="submit" value="ADD" class="button" />
-                    <input type="reset" value="RESET" class="button" />
-                </div>
-                <p id="form-error"></p>
-		</form>
+						<div class="input-box">
+							<label for="package_name">Package Name</label><br>
+							<input type="text" name="packageName" id="packageName" required maxlength="30"
+								placeholder="Package Name" /><br><br>
+						</div>
+						<div class="input-box">
+							<label for="slogan">Package Slogan</label><br>
+							<input type="text" name="packageSlogan" id="packageSlogan" maxlength="50"
+								placeholder="Package Slogan" /><br><br>
+						</div>
+						<div class="input-box">
+							<label for="imageFile">Package Image</label><br>
+							<input type="file" name="imageFile" id="imageFile" accept="image/*"><br><br>
+						</div>
+						<div class="button-group">
+							<input type="submit" value="ADD" class="button" />
+							<input type="reset" value="RESET" class="button" />
+						</div>
+						<p id="form-error"></p>
+					</form>
+				</div>
+			</div>
+		</div>
         `;
 
         const addpackageform = document.getElementById("packageform");

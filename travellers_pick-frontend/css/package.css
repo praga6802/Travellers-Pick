@@ -88,3 +88,28 @@ body {
     color: black;
     border: 2px solid goldenrod;
 }
+
+
+@media screen and (max-width:767px) {
+
+    #addcategoryform,
+    #updatecategoryform {
+        width: 90%;
+        margin: 20px auto;
+        height: auto;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+
+    #addcategoryform .input,
+    #updatecategoryform .input {
+        padding: 5px;
+        margin: 10px;
+    }
+
+    #deletecategoryform {
+        width: 90%;
+        margin: 20px auto;
+    }
+}

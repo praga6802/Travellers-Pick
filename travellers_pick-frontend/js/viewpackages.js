@@ -48,18 +48,24 @@ const displayPackages = async () => {
         }
 
         packageContainer.innerHTML = `
-            <h1 class="h1">VIEW PACKAGE</h1>
-            <table id="packagetable">
-                <thead id="head-data">
-                    <tr>
-                        <th id="pkgid">Package ID</th>
-                        <th>Package Name</th>
-                        <th>Package Slogan</th>
-                    </tr>
-                </thead>
-                <tbody id="package-body">
-                </tbody>
-            </table>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12 col-md-8 col-lg-6">
+					<h1 class="h1">VIEW PACKAGE</h1>
+					<table id="packagetable">
+						<thead id="head-data">
+							<tr>
+								<th id="pkgid">Package ID</th>
+								<th>Package Name</th>
+								<th>Package Slogan</th>
+							</tr>
+						</thead>
+						<tbody id="package-body">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
         `;
 
         const packageBody = document.getElementById("package-body");

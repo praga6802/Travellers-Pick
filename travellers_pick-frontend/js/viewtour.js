@@ -47,23 +47,29 @@ const displayTours = async () => {
         }
 
         tourContainer.innerHTML = `
-            <h1 class="h1">VIEW TOURS</h1>
-            <table id="viewcategory">
-                <thead>
-                    <tr id="head-data">
-                        <th class="data">Tour ID</th>
-                        <th class="data">Package ID</th>
-                        <th>Tour Name</th>
-                        <th>Tour Slogan</th>
-                        <th class="data">Places</th>
-                        <th class="data">Price</th>
-                        <th class="data">Days</th>
-                        <th class="data">Nights</th>
-                    </tr>
-                </thead>
-                <tbody id="tour-body">
-                </tbody>
-            </table>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12 col-md-8 col-lg-6">
+					<h1 class="h1">VIEW TOURS</h1>
+					<table id="viewcategory">
+						<thead>
+							<tr id="head-data">
+								<th class="data">Tour ID</th>
+								<th class="data">Package ID</th>
+								<th>Tour Name</th>
+								<th>Tour Slogan</th>
+								<th class="data">Places</th>
+								<th class="data">Price</th>
+								<th class="data">Days</th>
+								<th class="data">Nights</th>
+							</tr>
+						</thead>
+						<tbody id="tour-body">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
         `;
 
         const tourBody = document.getElementById("tour-body");

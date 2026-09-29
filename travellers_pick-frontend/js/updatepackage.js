@@ -21,6 +21,9 @@ const displayCurrentAdmin = async () => {
         }
 
         packageContainer.innerHTML = `
+               <div class ="container">
+        <div class ="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
             <form id="packageform" enctype="multipart/form-data">
 		    <legend>UPDATE PACKAGE</legend>
 
@@ -54,6 +57,9 @@ const displayCurrentAdmin = async () => {
             </div>
             <p id="form-error"></p>
         </form>
+        </div>
+</div>
+</div>
         `;
 
         const packageSelect = document.getElementById("packageId");

@@ -19,29 +19,35 @@ const displayCurrentAdmin = async () => {
             return;
         }
         adminContainer.innerHTML = `
-            <form id="updateAdmin">
-                <legend>UPDATE ADMIN</legend>
-                <label for="adminId">Admin ID</label>
-                <input type="text" name="adminId" id="adminId" placeholder="Admin ID" disabled><br><br>
-                <label for="username">User Name</label>
-                <input type="text" name="username" id="username" placeholder="Full Name" /><br><br>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12 col-md-8 col-lg-6">
+					<form id="updateAdmin">
+						<legend>UPDATE ADMIN</legend>
+						<label for="adminId">Admin ID</label>
+						<input type="text" name="adminId" id="adminId" placeholder="Admin ID" disabled><br><br>
+						<label for="username">User Name</label>
+						<input type="text" name="username" id="username" placeholder="Full Name" /><br><br>
 
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" pattern="[A-Za-z0-9!@#$%^&*\(\)]{6,16}"
-                    placeholder="Password" required><br><br>
+						<label for="password">Password</label>
+						<input type="password" name="password" id="password" pattern="[A-Za-z0-9!@#$%^&*\(\)]{6,16}"
+							placeholder="Password" required><br><br>
 
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" placeholder="Email ID"><br><br>
+						<label for="email">Email</label><br>
+						<input type="email" name="email" id="email" placeholder="Email ID"><br><br>
 
-                <label for="contact">Mobile Number</label>
-                <input type="tel" name="contact" id="contact" pattern="[0-9]{1,10}" maxlength="10"
-                    placeholder="10- digit Number"><br><br>
+						<label for="contact">Mobile Number</label>
+						<input type="tel" name="contact" id="contact" pattern="[0-9]{1,10}" maxlength="10"
+							placeholder="10- digit Number"><br><br>
 
-                <input type="submit" value="UPDATE" name="submit" class="button" />
-                <input type="reset" value="RESET" name="reset" class="button" />
+						<input type="submit" value="UPDATE" name="submit" class="button" />
+						<input type="reset" value="RESET" name="reset" class="button" />
 
-                <p id="form-error"></p>
-            </form>
+						<p id="form-error"></p>
+					</form>
+				</div>
+			</div>
+		</div>
         `;
 
         document.getElementById("adminId").value = authData.adminId || "";

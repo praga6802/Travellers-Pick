@@ -47,19 +47,25 @@ const displayUsers = async () => {
         }
 
         userContainer.innerHTML = `
-            <h1 class="h1">USER INFO</h1>
-            <table id="usertable">
-                <thead>
-                    <tr>
-                        <th id="pkgid">ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Mobile Number</th>
-                    </tr>
-                </thead>
-                <tbody id="user-body">
-                </tbody>
-            </table>
+     		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12 col-md-8 col-lg-6">
+					<h1 class="h1">USER INFO</h1>
+					<table id="usertable">
+						<thead>
+							<tr>
+								<th id="pkgid">ID</th>
+								<th>Name</th>
+								<th>Email</th>
+								<th>Mobile Number</th>
+							</tr>
+						</thead>
+						<tbody id="user-body">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
         `;
 
         const userBody = document.getElementById("user-body");

@@ -50,19 +50,25 @@ const displayAdmins = async () => {
         if (!adminContainer) return;
 
         adminContainer.innerHTML = `
-            <h1 class="h1">ADMIN INFO</h1>
-            <table id="admintable">
-                <thead>
-                    <tr>
-                        <th id="pkgid">ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Mobile Number</th>
-                    </tr>
-                </thead>
-                <tbody id="admin-body">
-                </tbody>
-            </table>
+  		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12 col-md-8 col-lg-6">
+					<h1 class="h1">ADMIN INFO</h1>
+					<table id="admintable">
+						<thead>
+							<tr>
+								<th id="pkgid">ID</th>
+								<th>Name</th>
+								<th>Email</th>
+								<th>Mobile Number</th>
+							</tr>
+						</thead>
+						<tbody id="admin-body">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
         `;
 
         const adminBody = document.getElementById("admin-body");

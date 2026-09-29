@@ -24,67 +24,73 @@ const displayItineraryForm = async () => {
         }
 
         itineraryContainer.innerHTML = `
-            <form id="addItineraryForm">
-                <legend>ADD ITINERARY</legend>
+            <div class="container">
+                 <div class="row justify-content-center">
+                    <div class="col-12 col-md-8 col-lg-6">
+                        <form id="addItineraryForm">
+                            <legend>ADD ITINERARY</legend>
 
-                <div class="input">
-                    <label for="package-select">Package Name</label>
-                    <select name="package-name" id="package-select">
-                        <option selected disabled hidden value="">
-                            Select Package
-                        </option>
-                    </select>
+                            <div class="input">
+                                <label for="package-select">Package Name</label>
+                                <select name="package-name" id="package-select">
+                                    <option selected disabled hidden value="">
+                                        Select Package
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="input">
+                                <label for="tour-select">Tour Name</label>
+                                <select name="tour-name" id="tour-select">
+                                    <option selected disabled hidden value="">
+                                        Select Tour
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="input">
+                                <label for="day">Day</label>
+                                <input
+                                    type="number"
+                                    name="day"
+                                    id="day"
+                                    min="1"
+                                    class="input-box"
+                                >
+                            </div>
+
+                            <div class="input">
+                                <label for="destination">Destination</label>
+                                <input
+                                    type="text"
+                                    name="destination"
+                                    id="destination"
+                                    class="input-box"
+                                    placeholder="Destination"
+                                >
+                            </div>
+
+                            <div class="input">
+                                <label for="description">Description</label>
+                                <input
+                                    type="text"
+                                    name="description"
+                                    id="description"
+                                    class="input-box"
+                                    placeholder="Add your Description"
+                                >
+                            </div>
+
+                            <div id="button-group">
+                                <button class="button" type="submit">ADD</button>
+                                <button class="button" type="reset">RESET</button>
+                            </div>
+
+                            <p id="form-error"></p>
+                        </form>
+                    </div>
                 </div>
-
-                <div class="input">
-                    <label for="tour-select">Tour Name</label>
-                    <select name="tour-name" id="tour-select">
-                        <option selected disabled hidden value="">
-                            Select Tour
-                        </option>
-                    </select>
-                </div>
-
-                <div class="input">
-                    <label for="day">Day</label>
-                    <input
-                        type="number"
-                        name="day"
-                        id="day"
-                        min="1"
-                        class="input-box"
-                    >
-                </div>
-
-                <div class="input">
-                    <label for="destination">Destination</label>
-                    <input
-                        type="text"
-                        name="destination"
-                        id="destination"
-                        class="input-box"
-                        placeholder="Destination"
-                    >
-                </div>
-
-                <div class="input">
-                    <label for="description">Description</label>
-                    <input
-                        type="text"
-                        name="description"
-                        id="description"
-                        class="input-box"
-                        placeholder="Add your Description"
-                    >
-                </div>
-
-                <div id="button-group">
-                    <button class="button" type="submit">ADD</button>
-                    <button class="button" type="reset">RESET</button>
-                </div>
-
-                <p id="form-error"></p>
-            </form>
+            </div>
         `;
 
         const packageNameSelect = document.getElementById("package-select");

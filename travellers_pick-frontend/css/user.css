@@ -2,6 +2,8 @@ body {
   background-image: url('../img/adminback.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -50,9 +52,9 @@ input[type="tel"] {
   background-color: #f8f6f6d3;
 }
 
-input:focus{
-  outline:none;
-  border:2px solid blue;
+input:focus {
+  outline: none;
+  border: 2px solid blue;
 }
 
 .button {
@@ -69,29 +71,27 @@ input:focus{
   transition: color 0.5s ease;
 }
 
-.button:hover{
+.button:hover {
   background-color: rgb(61, 61, 203);
   color: white;
 }
 
 
-#delAdmin{
+#delAdmin {
   background-color: white;
-  float: right;
-  width: 25%;
+  width: 100%;
   border-radius: 10px;
   padding: 20px;
-  margin-top: 100px;
-  margin-right: 80px;
+  height: 80%;
+  margin: 10% auto;
 }
 
 
 #updateAdmin {
   background-color: white;
-  float: right;
-  width: 25%;
+  width: 100%;
   border-radius: 10px;
+  height: 80%;
   padding: 20px;
-  margin-top: 100px;
-  margin-right: 80px;
+  margin: 10% auto;
 }

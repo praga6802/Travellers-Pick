@@ -21,6 +21,9 @@ const displayCurrentAdmin = async () => {
         }
 
         tourContainer.innerHTML = `
+              <div class ="container">
+                <div class ="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
           	<form id="updatecategoryform" enctype="multipart/form-data">
                 <legend>UPDATE TOUR</legend>
 
@@ -121,7 +124,10 @@ const displayCurrentAdmin = async () => {
                     </div>
                 </div>
                 <p id="form-error"></p>
-        </form>`;
+            </form>
+        </div>
+        </div>
+        </div>`;
 
         const packageNameSelect = document.getElementById("package-select");
         const tourSelect = document.getElementById("tour-select");

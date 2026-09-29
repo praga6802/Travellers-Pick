@@ -50,31 +50,37 @@ const displayBookedUsers = async () => {
         if (!userContainer) return;
 
         userContainer.innerHTML = `
-            <h1 class="h1">TOUR BOOKED USERS</h1>
-            <table id="regtable">
-                <thead>
-                    <tr id="head-data">
-                        <th class="data">Customer ID</th>
-                        <th>Customer Name</th>
-                        <th class="data">Email</th>
-                        <th class="data">Phone</th>
-                        <th class="data">Price</th>
-                        <th>Package Name</th>
-                        <th>Region</th>
-                        <th class="data">Booking Date</th>
-                        <th class="data">Travel Date</th>
-                        <th class="data">No Of Seats</th>
-                        <th class="data">No of Adults</th>
-                        <th class="data">No of Children</th>
-                        <th class="data">City</th>
-                        <th>State</th>
-                        <th class="data">Country</th>
-                        <th class="data">Status</th>
-                    </tr>
-                </thead>
-                <tbody id="booked-users-body">
-                </tbody>
-            </table>
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="col-12 col-md-8 col-lg-6">
+					<h1 class="h1">TOUR BOOKED USERS</h1>
+					<table id="regtable">
+						<thead>
+							<tr id="head-data">
+								<th class="data">Customer ID</th>
+								<th>Customer Name</th>
+								<th class="data">Email</th>
+								<th class="data">Phone</th>
+								<th class="data">Price</th>
+								<th>Package Name</th>
+								<th>Region</th>
+								<th class="data">Booking Date</th>
+								<th class="data">Travel Date</th>
+								<th class="data">No Of Seats</th>
+								<th class="data">No of Adults</th>
+								<th class="data">No of Children</th>
+								<th class="data">City</th>
+								<th>State</th>
+								<th class="data">Country</th>
+								<th class="data">Status</th>
+							</tr>
+						</thead>
+						<tbody id="booked-users-body">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
         `;
         const userBody = document.getElementById("booked-users-body");
         responseData.forEach((user) => {

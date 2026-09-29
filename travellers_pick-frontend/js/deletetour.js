@@ -21,29 +21,35 @@ const initDeleteTourForm = async () => {
         }
 
         container.innerHTML = `
-            <form id="deletecategoryform">
-                <legend>DELETE TOUR</legend>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12 col-md-8 col-lg-6">
+					<form id="deletecategoryform">
+						<legend>DELETE TOUR</legend>
 
-                <div class="input">
-                    <label for="package-select">Package Name</label>
-                        <select name="packageId" id="package-select"required>
-                            <option value="" hidden selected disabled>Select Package</option>
-                        </select>
-                </div><br>
+						<div class="input">
+							<label for="package-select">Package Name</label>
+							<select name="packageId" id="package-select" required>
+								<option value="" hidden selected disabled>Select Package</option>
+							</select>
+						</div><br>
 
-                <div class="input">
-                    <label for="tour-select">Tour Name</label>
-                        <select name="tourId" id="tour-select" required>
-                            <option value="" hidden selected disabled>Select Tour</option>
-                        </select>
-                </div><br>
+						<div class="input">
+							<label for="tour-select">Tour Name</label>
+							<select name="tourId" id="tour-select" required>
+								<option value="" hidden selected disabled>Select Tour</option>
+							</select>
+						</div><br>
 
-                <div class="button-group">
-                    <input type="submit" value="DELETE" class="button" />
-                    <input type="reset" value="RESET" class="button" />
-                </div>
-                <p id="form-error"></p>
-            </form>
+						<div class="button-group">
+							<input type="submit" value="DELETE" class="button" />
+							<input type="reset" value="RESET" class="button" />
+						</div>
+						<p id="form-error"></p>
+					</form>
+				</div>
+			</div>
+		</div>
         `;
 
         const packageNameSelect = document.getElementById("package-select");
