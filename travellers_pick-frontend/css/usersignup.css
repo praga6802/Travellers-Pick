@@ -12,11 +12,6 @@ body {
   background-repeat: no-repeat;
 }
 
-#container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .heading {
   text-align: center;
@@ -30,10 +25,13 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 100px;
-  float: right;
-  height: 650px;
-  width: 600px;
+
+  margin: 60px auto;
+  padding: 20px;
+  min-height: 600px;
+  width: 90%;
+  /* min-width: 600px; */
+
   background-color: rgba(255, 255, 255, 0.566);
   border-radius: 10px;
   transition: background-color 0.5s ease;
@@ -50,11 +48,13 @@ body {
 }
 
 .txt {
-  padding: 20px;
+  padding: 15px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .txt input {
-  width: 400px;
+  width: 100%;
   border: 1px solid rgb(225, 222, 222);
   padding: 10px;
   border-radius: 5px;
@@ -70,7 +70,7 @@ body {
   display: flex;
   gap: 40px;
   justify-content: center;
-  margin: 5px;
+  margin: 10px;
 }
 
 .button {
@@ -103,17 +103,96 @@ body {
   cursor: pointer;
 }
 
-
 .content {
-  margin-left: 100px;
   color: white;
+  padding-left: 15px;
 }
 
 .content h1 {
-  font-size: 80px;
+  font-size: 50px;
+  margin-top: 24%;
 }
 
 .content h4 {
-  font-size: 40px;
+  font-size: 30px;
   width: 460px;
 }
+
+@media (max-width: 991px) {
+
+  .content {
+    padding-left: 0;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .content h1 {
+    font-size: 50px;
+  }
+
+  .content h4 {
+    font-size: 30px;
+    text-align: center;
+    width: auto;
+    text-align: center;
+  }
+
+  #signup-form {
+    margin: 40px auto;
+  }
+}
+
+
+
+@media (max-width: 576px) {
+
+  .content {
+    margin-top: 30px;
+  }
+
+  .content h1 {
+    font-size: 30px;
+    margin: 0;
+    padding: 0 10px;
+    text-align: center;
+  }
+
+  /* text-align: center; */
+
+
+  .content h4 {
+    font-size: 20px;
+    margin: 0;
+    width: auto;
+    text-align: center;
+  }
+
+  #signup-form {
+    width: 90%;
+    min-width: 0;
+    margin: 30px auto;
+    min-height: auto;
+    padding: 5px;
+  }
+
+  .heading {
+    font-size: 32px;
+    margin: 15px;
+  }
+
+  .txt {
+    padding: 10px;
+  }
+
+  .button-group {
+    gap: 20px;
+  }
+}
+
+
+/* @media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 15px;
+  } */
+/* } */

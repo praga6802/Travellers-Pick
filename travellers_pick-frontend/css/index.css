@@ -9,8 +9,35 @@ html {
 }
 
 body {
+  width: 100%;
   background-color: black;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@media screen and (max-width:380px) {
+  nav .container-fluid {
+    width: 100%;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  #brand span {
+    font-size: 16px;
+  }
+
+  #brand-logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  #btn-group {
+    gap: 4px;
+  }
+
+  #btn-group .silo {
+    padding: 5px 8px;
+    font-size: 13px;
+  }
 }
 
 nav {
@@ -118,70 +145,73 @@ section h1 {
 }
 
 
-.title {
-  text-align: center;
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: rgba(49, 49, 49, 0.541);
-  border-radius: 8px;
-  outline: 4px solid rgb(109, 97, 25);
+.our-serv {
+  margin: 0;
+  width: 100%;
+  height: max-content;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
+  border: 3px solid rgb(245, 245, 244);
+  border-radius: 10px;
+  transition: border 0.5s ease, transform 0.5s ease;
 }
 
-
-.container {
-  display: flex;
-  justify-content: center;
-  gap: 130px;
+.our-serv .title {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  color: white;
+  font-size: 30px;
+  padding: 10px;
+  font-weight: 600;
+  background-color: rgb(21, 94, 184);
 }
 
 .our-serv p {
-  color: rgb(209, 206, 206);
-  font-size: 1.2rem;
-  margin-left: 15px;
-  font-weight: 00;
-  font-family: Arial, Helvetica, sans-serif
+  color: black;
+  background-color: white;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-top: 2%;
+  height: 200px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 15px;
+  border-radius: 10px;
 }
 
-.our-serv {
-  border: 2px solid rgb(227, 214, 214);
-  height: 570px;
-  width: 390px;
-  border-radius: 10px;
-  transition: border-color 0.8s ease, transform 0.8s ease;
-}
 
 .our-serv:hover {
-  border: 4px solid rgb(109, 97, 25);
-  transform: scaleY(1.05);
+  border: 3px solid rgb(109, 97, 25);
+  transform: scale(1.02);
+  box-shadow: 4px 4px 4px 4px rgb(224, 223, 223);
 }
 
-
-.btn {
-  text-align: center;
-  width: 200px;
-  white-space: nowrap;
-  height: 70px;
-  margin-top: 70px;
-  margin-bottom: 20px;
-  margin-left: 800px;
-  background-color: #101820ff;
-  transition: width 0.6s;
-  font-family: fantasy;
-  font-size: 30px;
-  color: rgb(231, 236, 241);
-  box-shadow: 6px 6px 10px rgb(52, 45, 1);
-  border: rgb(10, 11, 15);
+.explore-button {
+  display: flex;
+  justify-content: center;
 }
 
-.btn:hover {
-  background-color: #fee715ff;
-  width: 230px;
-  height: 80px;
-  color: rgb(40, 3, 3);
-
+.explore-button button {
+  padding: 10px;
+  border: none;
+  background-color: rgb(181, 181, 23);
+  color: black;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-radius: 10px;
 }
+
+.explore-button button:hover {
+  background-color: white;
+  color: black;
+}
+
 
 .startmsg {
   margin-top: 70px;
@@ -285,7 +315,7 @@ section h1 {
 
 /* footer styles */
 footer {
-  height: 300px;
+  height: auto;
   color: white;
   background-color: black;
   width: 100%;
@@ -299,21 +329,16 @@ footer p {
   padding: 4px;
 }
 
-.row {
-  height: 300px;
-  padding: 20px;
-}
-
-.col h3 {
+.footer-col h3 {
   color: goldenrod;
 }
 
-.col a {
+.footer-col a {
   color: white;
   text-decoration: none;
 }
 
-.col a:hover {
+.footer-col a:hover {
   color: yellow;
 }
 
@@ -328,4 +353,28 @@ footer p {
   display: flex;
   width: 100%;
   justify-content: center;
+}
+
+@media screen and (max-width:767px) {
+  .our-serv {
+    width: 90%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5%;
+    margin-left: 5%;
+    padding: 0;
+  }
+
+  .our-serv .title {
+    font-size: 1.5rem;
+  }
+
+  .our-serv .pic {
+    margin: 3% auto;
+    padding: 0;
+    width: 75%;
+    height: 50%;
+  }
 }

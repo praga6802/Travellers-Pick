@@ -5,56 +5,62 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
 body {
+  min-height: 100vh;
   background-image: url('../img/userlogin.jpg');
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
-#container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.heading {
-  text-align: center;
-  margin: 30px;
-  font-size: 40px;
-  color: rgb(51, 50, 50);
-}
+/* Login form */
 
 #login-form {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 100px;
-  float: right;
-  height: 450px;
-  width: 600px;
+
+  margin: 60px 90px;
+  padding: 20px;
+
+  width: 90%;
+  max-width: 600px;
+  min-height: 450px;
+
   background-color: rgba(255, 255, 255, 0.566);
   border-radius: 10px;
+
   transition: background-color 0.5s ease;
 }
 
 #login-form:hover {
   background-color: rgba(0, 0, 0, 0.264);
   border: none;
-  color: white
+  color: white;
+}
+
+.heading {
+  text-align: center;
+  margin: 20px;
+  font-size: 40px;
+  color: rgb(51, 50, 50);
 }
 
 #login-form:hover .heading {
   color: white;
 }
 
+/* Input fields */
+
 .txt {
-  padding: 20px;
+  padding: 15px;
+  width: 100%;
+  max-width: 440px;
 }
 
 .txt input {
-  width: 400px;
+  width: 100%;
   border: 1px solid rgb(225, 222, 222);
   padding: 10px;
   border-radius: 5px;
@@ -65,12 +71,13 @@ body {
   outline: none;
 }
 
-/* button group*/
+/* Buttons */
+
 .button-group {
   display: flex;
   gap: 40px;
   justify-content: center;
-  margin: 5px;
+  margin: 10px;
 }
 
 .button {
@@ -88,6 +95,8 @@ body {
   background-color: rgb(22, 74, 143);
 }
 
+/* Signup */
+
 .already {
   text-align: center;
   margin: 15px;
@@ -103,17 +112,80 @@ body {
   cursor: pointer;
 }
 
+/* Left content */
 
 .content {
-  margin-left: 100px;
+  padding-left: 50px;
   color: white;
+  margin-top: 9%;
 }
 
 .content h1 {
-  font-size: 80px;
+  font-size: 60px;
 }
 
 .content h4 {
-  font-size: 50px;
-  width: 460px;
+  font-size: 35px;
+  max-width: 460px;
+}
+
+
+@media (max-width: 991px) {
+
+  .content {
+    margin-left: 0;
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .content h1 {
+    font-size: 50px;
+  }
+
+  .content h4 {
+    font-size: 30px;
+    max-width: none;
+  }
+
+  #login-form {
+    margin: 40px auto;
+  }
+}
+
+
+
+@media (max-width: 576px) {
+
+  .content {
+    margin-top: 30px;
+    padding: 0 15px;
+  }
+
+  .content h1 {
+    font-size: 35px;
+  }
+
+  .content h4 {
+    font-size: 22px;
+  }
+
+  #login-form {
+    width: 95%;
+    margin: 30px auto;
+    min-height: auto;
+    padding: 15px;
+  }
+
+  .heading {
+    font-size: 32px;
+    margin: 15px;
+  }
+
+  .txt {
+    padding: 10px;
+  }
+
+  .button-group {
+    gap: 20px;
+  }
 }

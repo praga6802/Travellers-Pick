@@ -10,56 +10,23 @@ body {
     padding: 3px;
     color: rgb(239, 239, 176);
     font-size: 35px;
-    font-family: Arial, Helvetica, sans-serif;
     font-weight: 700;
-    margin-top: 40px;
+    margin-top: 10px;
     text-align: center;
 }
 
 
-#faq {
-    font-size: 50px;
-    margin: 10px;
-    color: white;
-    text-align: center;
-}
-
-/* contact row*/
-
-.contact-row {
-    display: flex;
-    justify-content: space-around;
-    align-items: stretch;
-    gap: 20px;
-    margin: 20px;
-}
-
-.map,
 .contact {
-    flex: 1;
-    border-radius: 10px;
-}
-
-.map iframe {
     width: 100%;
-    height: 100%;
-    min-height: 350px;
-    border: 0;
+    border: 3px solid white;
     border-radius: 10px;
-}
-
-.contact {
-    text-align: center;
-    font-weight: 600;
-    background-color: rgb(220, 218, 215);
-    margin: 10px;
-    border-radius: 10px;
-    padding: 20px;
-    transition: background-color 0.5s ease;
+    margin: 20px auto;
+    box-sizing: border-box;
 }
 
 .contact-heading {
-    margin: 10px;
+    text-align: center;
+    margin-top: 10px;
     font-style: normal;
     font-weight: 600;
     font-family: cursive;
@@ -69,25 +36,45 @@ body {
 
 .contact:hover {
     border: 3px solid rgb(178, 160, 63);
+    border-radius: 10px;
     background-color: rgb(48, 48, 48);
     color: white;
 }
 
 .contact ul {
     list-style: none;
-    text-align: left;
+    margin: 2% auto;
+    padding: 10px;
+    width: 100%;
 }
 
 .contact ul li {
-    padding: 10px;
     font-size: 18px;
+    color: white;
+    padding: 5px;
 }
 
+.map {
+    width: 100%;
+    margin: 20px;
+}
 
+.map iframe {
+    border-radius: 10px;
+    width: 95%;
+    display: block;
+    height: 380px;
+}
 
 
 
 /* faq styles*/
+#faq {
+    font-size: 50px;
+    margin: 20px;
+    color: white;
+    text-align: center;
+}
 
 .faq-question {
     text-align: left;
@@ -105,7 +92,7 @@ body {
     font-size: 20px;
     text-align: left;
     background-color: rgba(0, 0, 0, 0.719);
-    width: 1800px;
+    width: 98%;
     padding: 15px;
     border-radius: 10px;
     line-height: 1cm;
@@ -120,4 +107,36 @@ body {
     cursor: pointer;
     transform: translateY(-15px);
     border: none;
+}
+
+
+@media screen and (max-width:767px) {
+    .contact {
+        width: 100%;
+    }
+
+    .map {
+        width: 100%;
+        margin: 0;
+    }
+
+    #faq {
+        font-size: 25px;
+    }
+
+    .faq-question{
+        font-size: 20px;
+    }
+    .faq-answer{
+        font-size: 15px;
+        margin: 0;
+    }
+
+    .fq{
+        margin-top: 20px;
+    }
+
+    .fqa{
+        margin-bottom: 10%;
+    }
 }
