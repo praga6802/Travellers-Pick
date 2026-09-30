@@ -1,7 +1,7 @@
 import { showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 
-const userLinks = document.querySelector(".user-links");
+const userLinks = document.getElementById("user-links");
 const login = document.getElementById("login-btn");
 const signin = document.getElementById("signin-btn");
 
@@ -70,6 +70,7 @@ async function displayUserName() {
 async function goLogin(e) {
     const value = e.target.value;
     switch (value) {
+
         case "logout":
             try {
                 const response = await fetch(`${url}/user/logout`, {
