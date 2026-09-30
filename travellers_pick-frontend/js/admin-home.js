@@ -9,9 +9,9 @@ const total_bookings = document.getElementById("total-bookings");
 const total_confirm = document.getElementById("confirmed");
 const total_cancel = document.getElementById("cancelled");
 
-const webpreview = document.getElementById("webpreview");
-const adminContainer = document.querySelector(".admin-home");
-const adminHeader = document.getElementById("admin-homeheader");
+const adminMain = document.querySelector(".admin-main");
+const adminSidebar = document.getElementById("adminSidebar");
+const adminHeader = document.getElementById("adminHeader");
 
 async function displayUserName() {
     try {
@@ -22,9 +22,9 @@ async function displayUserName() {
         const responseData = await response.json();
 
         if (!response.ok) {
+            adminSidebar.style.display = "none";
             adminHeader.style.display = "none";
-            webpreview.style.display = "none";
-            adminContainer.style.display = "none";
+            adminMain.style.display = "none";
 
             showSessionMessage(responseData.message, false);
             setTimeout(() => {
