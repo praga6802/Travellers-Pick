@@ -5,6 +5,7 @@
 }
 
 body {
+    width: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -20,20 +21,18 @@ body {
     text-align: center;
 }
 
-#booking-card {
+.booking-card {
     background-color: white;
     color: black;
     padding: 5px;
-    margin-top: 10px;
+    margin: 3% auto;
     height: max-content;
-    width: 1300px;
-    margin-left: 160px;
+    width: 100%;
     border-radius: 10px;
-    margin-bottom: 20px;
     transition: transform 0.5s ease;
 }
 
-#booking-card:hover {
+.booking-card:hover {
     transform: translateY(-10px) scale(1.02);
     cursor: pointer;
     box-shadow: 5px 5px 10px gray;
@@ -98,11 +97,66 @@ body {
 
 .booking-body {
     display: grid;
-    grid-template-columns: repeat(2, 500px);
-    gap:5px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
     justify-content: center;
     font-size: 18px;
     padding: 10px;
-    margin: 5px 0px;
+    margin: 5px 0;
     background-color: rgb(238, 236, 233);
+}
+
+@media screen and (max-width: 767px) {
+
+    #user-container {
+        display: block;
+        width: 100%;
+    }
+
+    #user-links {
+        width: 100%;
+    }
+
+    #user-section {
+        width: 100%;
+    }
+
+    .booking-card {
+        width: 100%;
+        margin: 10px 0;
+        padding: 5px;
+    }
+
+    .booking-header {
+        font-size: 15px;
+        height: 10px;
+    }
+
+    .status {
+        width: auto;
+        font-size: 11px;
+        height: 15px;
+    }
+
+    .date-info {
+        flex-wrap: nowrap;
+        height: 35px;
+        gap: 5px;
+    }
+
+    .date {
+        font-size: 12px;
+    }
+
+    .booking-body {
+        grid-template-columns: repeat(2, 1fr);
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .booking-body p {
+        margin: 0;
+        padding: 4px;
+        font-size: 12px;
+    }
 }

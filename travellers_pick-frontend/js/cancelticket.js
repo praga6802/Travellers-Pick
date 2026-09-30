@@ -28,27 +28,26 @@ const displayCancelForm = async () => {
 
         cancelContainer.innerHTML = `
             <h1 id="cancel-legend">Booking Cancellation</h1>
-            <form id="cancelform" method="post">
-                <div id="input">
-                    <label for="pnr">PNR Number</label>
-                    <input
-                        type="text"
-                        name="PNR"
-                        id="pnr"
-                        placeholder="Enter PNR Number"
-                        minlength="6"
-                        class="input"
-                        required
-                    >
-                </div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <form id="cancelform" method="post">
+                            <div id="input">
+                                <label for="pnr">PNR Number</label>
+                                <input type="text" name="PNR" id="pnr" placeholder="Enter PNR Number" minlength="6"
+                                    class="input" required>
+                            </div>
 
-                <div class="button-group">
-                    <button type="submit" id="submit" class="button">SUBMIT</button>
-                    <button type="reset" id="reset" class="button">RESET</button>
-                </div>
+                            <div class="button-group">
+                                <button type="submit" id="submit" class="button">SUBMIT</button>
+                                <button type="reset" id="reset" class="button">RESET</button>
+                            </div>
 
-                <p id="form-error"></p>
-            </form>
+                            <p id="form-error"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
         `;
 
         const cancelForm = document.getElementById("cancelform");

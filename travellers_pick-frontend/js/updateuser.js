@@ -30,46 +30,37 @@ const displayUpdateForm = async () => {
 
         updateContainer.innerHTML = `
         <h1 id="update-legend">UPDATE USER INFO</h1>
-        <form id="update-form">
-            <div>
-                <label for="username">User Name</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="User Name"
-                    class="input">
+        <div class="container">
+            <div class="row justify-content-center">
+                    <div class="col-12">
+                        <form id="update-form">
+                            <div>
+                                <label for="username">User Name</label>
+                                <input type="text" id="username" name="username" placeholder="User Name" class="input">
+                            </div>
+
+                            <div>
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="Email" class="input">
+                            </div>
+
+                            <div>
+                                <label for="contact">Mobile Number</label>
+                                <input type="tel" id="contact" name="contact" placeholder="Enter 10-digit Number"
+                                    pattern="[0-9]{10}" class="input">
+                            </div>
+
+
+                            <div id="button-group">
+                                <button type="submit" id="submit" class="button">SUBMIT</button>
+                                <button type="reset" id="reset" class="button">RESET</button>
+                            </div>
+
+                            <p id="form-error"></p>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <div>
-                <label for="email">Email</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    class="input">
-            </div>
-
-            <div>
-                <label for="contact">Mobile Number</label>
-                <input
-                    type="tel"
-                    id="contact"
-                    name="contact"
-                    placeholder="Enter 10-digit Number"
-                    pattern="[0-9]{10}"
-                    class="input">
-            </div>
-
-
-            <div id="button-group">
-                <button type="submit" id="submit" class="button">SUBMIT</button>
-                <button type="reset" id="reset" class="button">RESET</button>
-            </div>
-
-            <p id="form-error"></p>
-        </form>
         `;
 
         const userResponse = await fetch(`${url}/user/userData`, {

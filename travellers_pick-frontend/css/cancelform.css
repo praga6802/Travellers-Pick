@@ -18,6 +18,7 @@ body {
     background-color: aliceblue;
     height: 200px;
     border-radius: 10px;
+    width: 100%;
 }
 
 #cancel-legend {
@@ -74,4 +75,33 @@ body {
 
 .button:hover {
     background-color: rgb(10, 57, 118);
+}
+
+@media screen and (max-width:767px) {
+    #cancelform {
+        width: 90%;
+    }
+
+    #cancelform label {
+        font-size: 20px !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    #cancelform input {
+        width: 90%;
+        margin: 2% auto;
+        padding: 10px;
+    }
+
+    #cancelform #input {
+        padding: 0px 0px 0px 50px;
+        margin: 0;
+    }
+
+    #cancelform button {
+        margin: 0;
+        padding: 1%;
+        font-size: 15px;
+    }
 }

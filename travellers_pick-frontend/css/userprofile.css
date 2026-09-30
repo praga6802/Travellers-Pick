@@ -9,6 +9,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-attachment: fixed;
 }
 
 #user-container {
@@ -84,4 +85,61 @@ body {
     color: red;
     border: 2px solid red;
     width: max-content;
+}
+
+
+@media (max-width: 767px) {
+
+    #user-container {
+        display: block;
+    }
+
+    #user-links {
+        height: 150px;
+        margin: 0;
+        padding: 0;
+    }
+
+    #user-links h1 {
+        font-size: 18px;
+    }
+
+    #user-links ol {
+        margin: 0;
+        padding: 0;
+    }
+
+    #user-links .link {
+        padding: 5px;
+        margin: 0;
+        border-bottom: 1px solid rgb(78, 77, 77);
+        font-weight: 200;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(20, 20, 20);
+    }
+
+    #user-links .link a {
+        padding: 0px;
+        margin: 0;
+        font-weight: 400;
+        width: max-content;
+        background-color: transparent;
+    }
+
+
+    .user-menu h2 {
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+
+    .user-link {
+        padding: 5px;
+        margin-bottom: 5px;
+    }
+
+    .user #user-section {
+        padding: 20px 15px;
+    }
 }
