@@ -9,7 +9,7 @@ body {
 .table {
   text-align: center;
   border-collapse: collapse;
-  width: 1800px;
+  width: 100%;
   height: 400px;
   margin: auto;
   margin-top: 2%;
@@ -60,7 +60,7 @@ body {
   align-items: center;
   flex-direction: column;
   background-color: white;
-  width: 35%;
+  width: 100%;
   padding: 2%;
   border: 3px solid transparent;
   height: max-content;
@@ -115,4 +115,24 @@ input[type="submit"]:hover {
 
 .input-field:has(input[type="hidden"]) {
   display: none;
+}
+
+@media screen and (max-width:767px) {
+
+  #tourForm {
+    width: 95%;
+    margin-left: 5%;
+    padding: 20px;
+  }
+
+  .input-field {
+    margin: 0;
+    padding: 10px;
+  }
+
+  input {
+    margin: 0 auto;
+    width: 20%;
+    padding: 10px;
+  }
 }
