@@ -135,7 +135,8 @@ body {
     .status {
         width: auto;
         font-size: 11px;
-        height: 15px;
+        padding: 4px 8px;
+        margin: 0;
     }
 
     .date-info {
