@@ -107,16 +107,23 @@ body {
 
 
 @media screen and (max-width:767px) {
+    .heading {
+        color: black;
+        margin: 5% auto;
+
+    }
 
     .card {
         margin: 6% 15%;
-        width: 70%;
+        width: 100%;
         height: auto;
         padding: 5%;
     }
 
     img {
         width: 100%;
+        height: auto;
+        background-size: contain;
     }
 
     .package-title {
