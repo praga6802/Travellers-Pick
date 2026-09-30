@@ -48,17 +48,24 @@ const displayTour = async () => {
         }
 
         packageTours.forEach((tour) => {
-            const tourCard = document.createElement("div");
-            tourCard.className = "card";
-            tourCard.innerHTML = `
-                <img src="${url}${tour.imgUrl}" alt="${tour.tourName}">
-                <h4>${tour.tourName}</h4>
-                <h6>${tour.tourSlogan}</h6>
-                <i style="font-size:24px" class="fa">&#xf041;</i>
-                <p>${tour.places}</p>
-                <span class="package-name"> <i style="font-size:24px" class="fa">&#xf017;</i> Days: ${tour.days} - Nights: ${tour.nights}</span>
-                <p id='price'>Price: Rs.${tour.price}</p>
-			    <button class="book-button">BOOK NOW</button>
+            tourContainer.innerHTML += `
+        		<div class="container">
+			        <div class="row">
+				    <div class="col-12 col-md-4">
+					    <div class="card">
+                            <img src="${url}${tour.imgUrl}" alt="${tour.tourName}">
+                            <h4>${tour.tourName}</h4>
+                            <h6>${tour.tourSlogan}</h6>
+                            <i style="font-size:24px" class="fa">&#xf041;</i>
+                            <p>${tour.places}</p>
+                            <span class="package-name"> <i style="font-size:24px" class="fa">&#xf017;</i> Days: ${tour.days}
+                                - Nights:
+                                ${tour.nights}</span>
+                            <p id='price'>Price: Rs.${tour.price}</p>
+                            <button class="book-button">BOOK NOW</button>
+					    </div>
+				    </div>
+			    </div>
             `;
 
             const bookButton = tourCard.querySelector(".book-button");

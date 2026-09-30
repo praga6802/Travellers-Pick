@@ -10,6 +10,7 @@ html {
 
 body {
   width: 100%;
+  min-height: 100vh;
   background-color: black;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -315,6 +316,7 @@ section h1 {
 
 /* footer styles */
 footer {
+  margin-top: auto;
   height: auto;
   color: white;
   background-color: black;
@@ -378,7 +380,7 @@ footer p {
     height: 50%;
   }
 
-  .our-serv p{
+  .our-serv p {
     font-size: 18px;
     font-weight: 600;
     height: 150px;
@@ -389,7 +391,7 @@ footer p {
     justify-content: center;
   }
 
-  #footerend p{
+  #footerend p {
     font-size: 15px;
   }
 }
