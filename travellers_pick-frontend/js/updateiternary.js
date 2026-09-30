@@ -26,7 +26,7 @@ const displayItineraryForm = async () => {
 
         itineraryContainer.innerHTML = `
         <div class ="container">
-        <div class ="row">
+        <div class ="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
             <form id="updateItineraryForm">
                 <legend>UPDATE ITINERARY</legend>
@@ -90,7 +90,6 @@ const displayItineraryForm = async () => {
             </div>
             </div>
             </div>
-            
         `;
 
         const packageNameSelect = document.getElementById("package-select");

@@ -15,15 +15,12 @@ body {
 
 #addItineraryForm,
 #updateItineraryForm {
-    float: right;
-    margin-top: 5%;
-    margin-right: 4%;
+    margin: 10% auto;
     background-color: white;
-    height: 550px;
+    height: auto;
     border-radius: 10px;
     width: 100%;
     padding: 20px;
-    transition: transform 0.5s ease;
 }
 
 #deleteItineraryForm {
@@ -54,24 +51,24 @@ legend {
 .input {
     display: flex;
     align-items: center;
-    gap: 80px;
-    padding: 17px;
+    gap: 20px;
+    padding: 12px 0;
 }
 
 .input label {
-    width: 100%;
+    width: 35%;
+    min-width: 100px;
     font-size: 17px;
     font-weight: 600;
 }
 
 .input input,
-select {
-    width: 100%;
+.input select {
+    width: 65%;
     padding: 10px;
     border-radius: 10px;
     border: 1px solid grey;
 }
-
 
 .input input:focus,
 select:focus {
@@ -79,13 +76,10 @@ select:focus {
     border: 2px solid rgb(9, 39, 169);
 }
 
-
-
-
 #button-group {
     margin-top: 2%;
     display: flex;
-    gap: 80px;
+    gap: 20px;
     justify-content: center;
     padding: 10px;
 }
@@ -98,7 +92,7 @@ select:focus {
     border-radius: 5px;
     font-weight: 700;
     font-size: 15px;
-    width: 100%;
+    width: max-content;
     background-color: rgb(21, 112, 232);
 }
 
@@ -107,56 +101,50 @@ select:focus {
 }
 
 
-@media screen and (max-width:767px) {
+@media screen and (max-width: 767px) {
 
     #addItineraryForm,
     #updateItineraryForm {
-        margin-top: 15%;
-        width: 90%;
+        width: 100%;
+        margin: 15% auto 5%;
+        padding: 15px;
     }
 
     #addItineraryForm legend,
     #updateItineraryForm legend {
-        margin-right: 5%;
-        font-size: 30px;
+        font-size: 22px;
+        padding: 5px;
     }
 
-    #addItineraryForm label,
-    #updateItineraryForm label {
+    #addItineraryForm .input,
+    #updateItineraryForm .input {
+        display: flex;
+        gap: 10px;
+        padding: 10px 0;
+    }
+
+    #addItineraryForm .input label,
+    #updateItineraryForm .input label {
+        width: 35%;
+        min-width: 85px;
         font-size: 13px;
-        width: 10%;
     }
 
-    #addItineraryForm input,
-    #updateItineraryForm input {
+    #addItineraryForm .input input,
+    #updateItineraryForm .input input,
+    #addItineraryForm .input select,
+    #updateItineraryForm .input select {
+        width: 65%;
         font-size: 13px;
-        height: auto;
-        width: 80%;
+        padding: 8px;
     }
 
-    #deleteItineraryForm {
-        width: 80%;
-        margin-right: 10%;
+    #button-group {
+        gap: 10px;
     }
 
-    #deleteItineraryForm label {
-        font-size: 12px;
-        width: 5%;
-    }
-
-    #deleteItineraryForm legend {
-        font-size: 20px;
-    }
-
-    #deleteItineraryForm input {
-        font-size: 15px;
-        width:100%;
-    }
-
-    #deleteItineraryForm button{
-        width: 20%;
-        padding: 3%;
-        text-align: center;
-        font-size: 12px;
+    .button {
+        font-size: 13px;
+        padding: 8px 12px;
     }
 }
