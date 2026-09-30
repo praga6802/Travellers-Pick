@@ -109,13 +109,15 @@ body {
 @media screen and (max-width:767px) {
     .heading {
         color: black;
-        margin: 5% auto;
-
+        margin: 5% 0;
+        text-align: center;
+        position: static;
     }
 
     .card {
-        margin: 6% 15%;
-        width: 100%;
+        display: block;
+        margin: 6% auto;
+        width: 90%;
         height: auto;
         padding: 5%;
     }
@@ -123,7 +125,7 @@ body {
     img {
         width: 100%;
         height: auto;
-        background-size: contain;
+        background-size: cover;
     }
 
     .package-title {
