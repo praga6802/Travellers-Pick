@@ -23,7 +23,6 @@ public class AResponse {
     public AResponse(LocalDateTime timeStamp, String status,Object data) {
         this.timeStamp = timeStamp;
         this.status = status;
-        this.message = message;
         this.data = data;
     }
 

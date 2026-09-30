@@ -120,19 +120,24 @@ input[type="submit"]:hover {
 @media screen and (max-width:767px) {
 
   #tourForm {
-    width: 95%;
-    margin-left: 5%;
-    padding: 20px;
+    width: 100%;
+    margin: 0;
+    padding: 15px;
   }
 
   .input-field {
-    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
     padding: 10px;
   }
 
-  input {
-    margin: 0 auto;
-    width: 20%;
-    padding: 10px;
+  .input-field input {
+    width: 100%;
+  }
+
+  .input-field label {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
   }
 }

@@ -100,79 +100,79 @@ const displayBookingForm = async () => {
                 <div class="col-12">
                 <form id="tourForm">
 
-            <div class="input-field">
-              <label for="name">Name</label>
-              <input type="text" id="name" placeholder="Enter your Name" name="name" required>
-            </div>
+                <div class="input-field">
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Enter your Name" name="name" required>
+                </div>
 
-            <div class="input-field">
-              <label for="email">Email</label>
-              <input type="email" id="email" placeholder="Enter your Email" name="email" required>
-            </div>
+                <div class="input-field">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your Email" name="email" required>
+                </div>
 
-            <div class="input-field">
-              <label for="phone">Phone</label>
-              <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required
-                pattern="[0-9]{10}" maxlength="10">
-            </div>
+                <div class="input-field">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" placeholder="10-digit Mobile Number" name="phone" required
+                    pattern="[0-9]{10}" maxlength="10">
+                </div>
 
-            <div class="input-field">
-              <input type="hidden" id="userId" name="userId" value="${authData.data.userId}">
-            </div>
+                <div class="input-field">
+                <input type="hidden" id="userId" name="userId" value="${authData.data.userId}">
+                </div>
 
-            <div class="input-field">
-              <input type="hidden" id="tourId" name="tourId" value="${tourId}">
-            </div>
+                <div class="input-field">
+                <input type="hidden" id="tourId" name="tourId" value="${tourId}">
+                </div>
 
-            <div class="input-field">
-              <input type="hidden" id="packageName" name="packageName" value="${selectedTour.packageName}">
-            </div>
+                <div class="input-field">
+                <input type="hidden" id="packageName" name="packageName" value="${selectedTour.packageName}">
+                </div>
 
-            <div class="input-field">
-              <input type="hidden" id="region" name="region" value="${selectedTour.tourName}">
-            </div>
+                <div class="input-field">
+                <input type="hidden" id="region" name="region" value="${selectedTour.tourName}">
+                </div>
 
-            <div class="input-field">
-              <label for="bdate">Booking Date</label>
-              <input type="hidden" id="bdate" name="bdate" value="${today}" required>
-            </div>
+                <div class="input-field">
+                <label for="bdate">Booking Date</label>
+                <input type="hidden" id="bdate" name="bdate" value="${today}" required>
+                </div>
 
-            <div class="input-field">
-              <label for="tdate">Travel Date</label>
-              <input type="date" id="tdate" name="tdate" min="${today}" max="2030-12-31" required>
-            </div>
+                <div class="input-field">
+                <label for="tdate">Travel Date</label>
+                <input type="date" id="tdate" name="tdate" min="${today}" max="2030-12-31" required>
+                </div>
 
-            <div class="input-field">
-              <label for="noOfAdults">Adults</label>
-              <input type="number" id="noOfAdults" placeholder="No of Adults" name="noOfAdults" min="1" max="30"
-                required>
-            </div>
+                <div class="input-field">
+                <label for="noOfAdults">Adults</label>
+                <input type="number" id="noOfAdults" placeholder="No of Adults" name="noOfAdults" min="1" max="30"
+                    required>
+                </div>
 
-            <div class="input-field">
-              <label for="noOfChildren">Children</label>
-              <input type="number" id="noOfChildren" placeholder="No of Children" name="noOfChildren" min="0" max="30">
-            </div>
+                <div class="input-field">
+                <label for="noOfChildren">Children</label>
+                <input type="number" id="noOfChildren" placeholder="No of Children" name="noOfChildren" min="0" max="30">
+                </div>
 
-            <div class="input-field">
-              <label for="city">City</label>
-              <input type="text" id="city" placeholder="City" name="city" required>
-            </div>
+                <div class="input-field">
+                <label for="city">City</label>
+                <input type="text" id="city" placeholder="City" name="city" required>
+                </div>
 
-            <div class="input-field">
-              <label for="state">State</label>
-              <input type="text" id="state" placeholder="State" name="state" required>
-            </div>
+                <div class="input-field">
+                <label for="state">State</label>
+                <input type="text" id="state" placeholder="State" name="state" required>
+                </div>
 
-            <div class="input-field">
-              <label for="country">Country</label>
-              <input type="text" id="country" placeholder="Country" name="country" required>
-            </div>
+                <div class="input-field">
+                <label for="country">Country</label>
+                <input type="text" id="country" placeholder="Country" name="country" required>
+                </div>
 
-            <div class="input-field">
-              <input type="submit" value="Submit">
-            </div>
+                <div class="input-field">
+                <input type="submit" value="Submit">
+                </div>
 
-            <p id="form-error"></p>
+                <p id="form-error"></p>
 
           </form>
         </div>
