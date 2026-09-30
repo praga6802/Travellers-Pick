@@ -1,9 +1,7 @@
 import { showSessionMessage } from "./error.js";
 import { url } from "./config.js";
 
-const userHeader = document.getElementById("user-header");
 const userLinks = document.querySelector(".user-links");
-
 const login = document.getElementById("login-btn");
 const signin = document.getElementById("signin-btn");
 
@@ -27,7 +25,6 @@ async function displayUserName() {
 
         const authData = await authResponse.json();
         if (!authResponse.ok) {
-            userHeader.style.display = "none";
             userLinks.style.display = "none";
             showSessionMessage(authData.message, false);
             setTimeout(() => {
@@ -73,10 +70,6 @@ async function displayUserName() {
 async function goLogin(e) {
     const value = e.target.value;
     switch (value) {
-        case "login":
-            window.location.href = "../html/user-login.html";
-            break;
-
         case "logout":
             try {
                 const response = await fetch(`${url}/user/logout`, {
