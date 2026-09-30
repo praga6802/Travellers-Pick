@@ -41,20 +41,22 @@ const displayPackage = async () => {
         `;
 
         responseData.forEach((pkg) => {
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerHTML = `
-                <img src='${url}${pkg.imgUrl}' alt='${pkg.packageName}'>
-                <h2 class="package-title">${pkg.packageName}</h2>
-                <h6 class="package-slogan"> -${pkg.packageSlogan}- </h6>
-                <button class='explore-button'>EXPLORE</button>
+            const col = document.createElement("div");
+            col.className = "col-12 col-md-4";
+            col.innerHTML = `
+                <div class="card">
+                    <img src='${url}${pkg.imgUrl}' alt='${pkg.packageName}'>
+                    <h2 class="package-title">${pkg.packageName}</h2>
+                    <h6 class="package-slogan"> -${pkg.packageSlogan}- </h6>
+                    <button class='explore-button'>EXPLORE</button>
+                </div>
             `;
 
-            const exploreButton = card.querySelector(".explore-button");
+            const exploreButton = col.querySelector(".explore-button");
             exploreButton.addEventListener("click", () => {
                 bookPackage(pkg.fileName, pkg.packageId);
             });
-            packageContainer.appendChild(card);
+            packageContainer.appendChild(col);
         });
     } catch (e) {
         showSessionMessage(e.message, false);
