@@ -12,16 +12,16 @@ const displayItineraryForm = async () => {
 
         const authResponseData = await authResponse.json();
 
-        // if (!authResponse.ok) {
-        //     itineraryContainer.style.display = "none";
-        //     showSessionMessage(authResponseData.message, false);
+        if (!authResponse.ok) {
+            itineraryContainer.style.display = "none";
+            showSessionMessage(authResponseData.message, false);
 
-        //     setTimeout(() => {
-        //         window.location.href = "../html/admin-login.html";
-        //     }, 2000);
+            setTimeout(() => {
+                window.location.href = "../html/admin-login.html";
+            }, 2000);
 
-        //     return;
-        // }
+            return;
+        }
 
         itineraryContainer.innerHTML = `
             <div class="container">
