@@ -52,7 +52,6 @@ async function displayUserName() {
         adminSelect.appendChild(greetingOption);
         adminSelect.appendChild(logoutOption);
 
-        adminHeader.appendChild(adminSelect);
 
         if (login) {
             login.replaceWith(adminSelect);
@@ -74,8 +73,8 @@ async function displayUserName() {
     }
 }
 
-async function handleLogout(select) {
-    if (select.value === "logout") {
+async function handleLogout(e) {
+    if (e.target.value === "logout") {
         try {
             const response = await fetch(`${url}/admin/logout`, {
                 method: "POST",
@@ -95,9 +94,10 @@ async function handleLogout(select) {
         } catch (err) {
             showSessionMessage("Network error..Please try again!");
             console.log(err);
+            e.target.selectedIndex=0;
         }
     } else {
-        select.selectedIndex = 0;
+        e.target.selectedIndex = 0;
     }
 }
 
