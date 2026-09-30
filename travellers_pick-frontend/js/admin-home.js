@@ -52,13 +52,13 @@ async function displayUserName() {
         adminSelect.addEventListener("change", () => {
             handleLogout(adminSelect);
         });
-        adminContainer.appendChild(adminSelect);
+        adminHeader.appendChild(adminSelect);
     } catch (err) {
         showSessionMessage("Network error..Please try again!", false);
         console.error(err);
-        setTimeout(() => {
-            window.location.href = "../html/admin-login.html";
-        }, 2000);
+        // setTimeout(() => {
+        //     window.location.href = "../html/admin-login.html";
+        // }, 2000);
     }
 }
 
