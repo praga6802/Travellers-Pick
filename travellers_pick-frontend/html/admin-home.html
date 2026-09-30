@@ -13,125 +13,249 @@
 </head>
 
 <body>
+
+    <!-- HEADER -->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-dark bg-dark">
+
             <div class="container-fluid">
 
                 <a class="navbar-brand d-flex align-items-center gap-2" id="brand" href="/index.html">
+
                     <img src="../img/destination.png" alt="logo" id="brand-logo">
+
                     <span>Traveller's Pick</span>
+
                 </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+                <!-- Mobile sidebar toggle -->
+                <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#adminSidebar" aria-controls="adminSidebar">
+
                     <span class="navbar-toggler-icon"></span>
+
                 </button>
 
-                <!-- 2. Nav Links -->
-                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">ADMIN LINKS</li>
-                        <li class="nav-item"><a href="./update-admin.html" class="nav-link active"
-                                aria-current="page">UPDATE ADMIN</a></li>
-                        <li class="nav-item"><a href="./delete-admin.html" class="nav-link">DELETE ADMIN</a></li>
-                        <li class="nav-item"><a href="./view-admin.html" class="nav-link">VIEW ADMINS</a></li>
-                        <li class="nav-item"><a href="./view-users.html" class="nav-link">VIEW USERS</a></li>
-                        <li class="nav-item"><a href="./view-booked-users.html" class="nav-link">BOOKED USERS</a></li>
-                        <li class="nav-item"><a href="./add-package.html" class="nav-link">ADD PACKAGE</a></li>
-                        <li class="nav-item"><a href="./update-package.html" class="nav-link">UPDATE PACKAGE</a></li>
-                        <li class="nav-item"><a href="./delete-package.html" class="nav-link">DELETE PACKAGE</a></li>
-                        <li class="nav-item"><a href="./view-packages.html" class="nav-link">VIEW PACKAGES</a></li>
-                        <li class="nav-item"><a href="./add-tour.html" class="nav-link">ADD TOUR</a></li>
-                        <li class="nav-item"><a href="./update-tour.html" class="nav-link">UPDATE TOUR</a></li>
-                        <li class="nav-item"><a href="./delete-tour.html" class="nav-link">DELETE TOUR</a></li>
-                        <li class="nav-item"><a href="./view-tour.html" class="nav-link">VIEW TOURS</a></li>
-                        <li class="nav-item"><a href="./add-itinerary.html" class="nav-link">ADD ITINERARY</a></li>
-                        <li class="nav-item"><a href="./update-itinerary.html" class="nav-link">UPDATE ITINERARY</a>
-                        </li>
-                        <li class="nav-item"><a href="./delete-itinerary.html" class="nav-link">DELETE ITINERARY</a>
-                        </li>
-                        <li class="nav-item"><a href="./view-itinerary.html" class="nav-link">VIEW ITINERARIES</a></li>
-                    </ul>
+
+                <div id="btn-group">
+
+                    <button value="signin" id="signin-btn" class="silo">
+                        SignUp
+                    </button>
+
+                    <button value="login" id="login-btn" class="silo">
+                        Login
+                    </button>
+
                 </div>
 
             </div>
-            <div id="btn-group">
-                <button value="signin" id="signin-btn" class="silo">SignUp</button>
-                <button value="login" id="login-btn" class="silo">Login</button>
-            </div>
+
         </nav>
     </header>
 
 
-    <main>
-        <h1 class="mt-3 p-2 text-dark d-flex justify-content-center">ADMIN DASHBOARDS</h1>
+    <!-- SIDEBAR -->
+    <div class="offcanvas offcanvas-start admin-sidebar" tabindex="-1" id="adminSidebar">
 
-        <div class="container">
-            <div class="row admin-dashboards">
+        <div class="offcanvas-header bg-dark">
 
-                <div class="col-12 col-md-2">
-                    <div class="dashboard-card">
-                        <h3>Users</h3>
-                        <p id="total-users">0</p>
-                    </div>
-                </div>
+            <h5 class="offcanvas-title">
+                ADMIN LINKS
+            </h5>
 
-                <div class="col-12 col-md-2">
-                    <div class="dashboard-card">
-                        <h3>Admins</h3>
-                        <p id="total-admins">0</p>
-                    </div>
-                </div>
+            <button type="button" class="btn-close btn-close-white d-md-none" data-bs-dismiss="offcanvas">
+            </button>
+
+        </div>
 
 
-                <div class="col-12 col-md-2">
-                    <div class="dashboard-card">
-                        <h3>Bookings</h3>
-                        <p id="total-bookings">0</p>
-                    </div>
-                </div>
+        <div class="offcanvas-body bg-dark">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="./update-admin.html" class="nav-link">
+                        UPDATE ADMIN
+                    </a>
+                </li>
 
-                <div class="col-12 col-md-3">
-                    <div class="dashboard-card">
-                        <h3>Tours</h3>
-                        <p id="total-tours">0</p>
-                    </div>
-                </div>
+                <li class="nav-item">
+                    <a href="./delete-admin.html" class="nav-link">
+                        DELETE ADMIN
+                    </a>
+                </li>
 
-                <div class="col-12 col-md-3">
-                    <div class="dashboard-card">
-                        <h3>Packages</h3>
-                        <p id="total-packages">0</p>
-                    </div>
+                <li class="nav-item">
+                    <a href="./view-admin.html" class="nav-link">
+                        VIEW ADMINS
+                    </a>
+                </li>
 
-                </div>
+                <li class="nav-item">
+                    <a href="./view-users.html" class="nav-link">
+                        VIEW USERS
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./view-booked-users.html" class="nav-link">
+                        BOOKED USERS
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./add-package.html" class="nav-link">
+                        ADD PACKAGE
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./update-package.html" class="nav-link">
+                        UPDATE PACKAGE
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./delete-package.html" class="nav-link">
+                        DELETE PACKAGE
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./view-packages.html" class="nav-link">
+                        VIEW PACKAGES
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./add-tour.html" class="nav-link">
+                        ADD TOUR
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./update-tour.html" class="nav-link">
+                        UPDATE TOUR
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./delete-tour.html" class="nav-link">
+                        DELETE TOUR
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./view-tour.html" class="nav-link">
+                        VIEW TOURS
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./add-itinerary.html" class="nav-link">
+                        ADD ITINERARY
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./update-itinerary.html" class="nav-link">
+                        UPDATE ITINERARY
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./delete-itinerary.html" class="nav-link">
+                        DELETE ITINERARY
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="./view-itinerary.html" class="nav-link">
+                        VIEW ITINERARIES
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+        <h1 class="text-white">ADMIN DASHBOARD</h1>
+
+        <!-- DASHBOARD CARDS -->
+        <div class="dashboard-grid">
+
+            <div class="dashboard-card">
+                <h3>Users</h3>
+                <p id="total-users">0</p>
             </div>
+
+            <div class="dashboard-card">
+                <h3>Admins</h3>
+                <p id="total-admins">0</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Bookings</h3>
+                <p id="total-bookings">0</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Tours</h3>
+                <p id="total-tours">0</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Packages</h3>
+                <p id="total-packages">0</p>
+            </div>
+
         </div>
 
-        <div class="row">
-            <table id="status-table">
-                <div class="col-12 col-md-6">
-                    <th class="head">Booked</th>
-                    <th class="head">Cancelled</th>
-                </div>
 
-                <div class="col-12 col-md-6">
-                    <td class="data" id="confirmed">0</td>
-                    <td class="data" id="cancelled">0</td>
-                </div>
-            </table>
+        <!-- BOOKING STATUS -->
+        <section class="booking-status">
 
-        </div>
+            <h2 class="text-white">BOOKING STATUS</h2>
+
+            <div class="status-table-container">
+
+                <table id="status-table">
+
+                    <thead>
+                        <tr>
+                            <th>Booked</th>
+                            <th>Cancelled</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td id="confirmed">0</td>
+                            <td id="cancelled">0</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
     </main>
 
 
-    <!-- 
     <script type="module" src="../js/config.js"></script>
     <script type="module" src="../js/admin-home.js"></script>
-    <script type="module" src="../js/error.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+    <script type="module" src="../js/error.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

@@ -1,251 +1,262 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-
 body {
-    margin: 0;
-    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-image: url('../img/admin-back.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    margin: 0px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-attachment: fixed;
+    min-height: 100vh;
 }
 
-.container {
-    color: beige;
-    background-color: rgba(0, 0, 0, 0.815);
+
+header {
     width: 100%;
-    margin: 0%;
-    height: 100vh;
 }
 
-
-.link-row {
-    padding: 60%;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    height: auto;
-    font-size: 0.8rem;
+.navbar {
+    min-height: 70px;
 }
 
-.link-row:hover {
-    color: white;
-    background-color: rgb(65, 64, 64);
+#brand-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
 }
 
-.link-row th {
-    color: rgb(12, 94, 142);
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.link-row td {
-    padding: 9%;
-    color: white;
-    border-bottom: 0.5px solid rgb(56, 55, 55);
-}
-
-.link-row a {
-    color: white;
-    text-decoration: none;
-}
-
-.nav {
-    background-color: rgba(0, 0, 0, 0.778);
-    margin: 0;
-    height: 90px;
-}
-
-#img,
-#logo {
-    display: inline-block;
-    vertical-align: middle;
-}
-
-
-#img {
-    margin: 1%;
-}
-
-#logo {
-    color: white;
-    font-size: 20px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.admin-home {
+#btn-group {
     display: flex;
+    gap: 8px;
 }
 
-#adminSelect {
-    float: right;
-    position: absolute;
-    top: 3%;
-    right: 2%;
-    padding: 6px;
-    background-color: rgb(13, 8, 4);
-    border: 2px solid rgb(125, 108, 10);
-    border-radius: 10px;
-    font-size: 18px;
+.silo {
+    padding: 6px 12px;
+}
+
+.admin-sidebar {
+    width: 250px;
+    background-color: #212529;
     color: white;
 }
 
-
-.admin-dashboard {
-    padding: 50px;
-    width: 100%;
+.admin-sidebar .offcanvas-header {
+    border-bottom: 1px solid #444;
 }
 
-.admin-dashboard h1 {
-    margin-bottom: 30px;
+.admin-sidebar .offcanvas-title {
     color: goldenrod;
-    text-align: center;
-    font-size: 40px;
+    font-weight: 600;
 }
 
-.dashboard-cards {
-    display: flex;
-    gap: 50px;
-    background-color: #f7f5f5;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 300px;
+.admin-sidebar .nav-link {
+    color: white;
+    padding: 10px 15px;
+}
+
+.admin-sidebar .nav-link:hover {
+    color: goldenrod;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.admin-sidebar .nav-link.active {
+    color: goldenrod;
+}
+
+
+@media (min-width: 768px) {
+    .admin-sidebar {
+        position: fixed !important;
+        top: 70px !important;
+        left: 0 !important;
+        width: 250px !important;
+        height: calc(100vh - 70px) !important;
+        visibility: visible !important;
+        transform: none !important;
+        display: block !important;
+        overflow-y: auto;
+        border-right: 1px solid #444;
+        z-index: 1020;
+    }
+
+    .admin-sidebar .offcanvas-header {
+        display: block;
+    }
+
+    .admin-sidebar .offcanvas-body {
+        display: block !important;
+        padding: 10px 0;
+    }
+
+    .admin-main {
+        margin-left: 250px;
+        background-image: url(../img/adminback.jpg);
+    }
+}
+
+
+.admin-main {
+    min-height: calc(100vh - 70px);
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.88);
+}
+
+.admin-main h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 32px;
+}
+
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
     border-radius: 10px;
 }
 
 .dashboard-card {
-    width: 200px;
-    height: 160px;
-    padding: 10px;
     background-color: white;
+    min-height: 150px;
+    padding: 20px;
     border-radius: 10px;
-    border: 2px solid transparent;
     text-align: center;
-    font-size: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    transition: background-color 0.5s ease, border-color 0.2s ease;
+    border: 2px solid rgb(71, 58, 58);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    transition: 0.3s;
 }
 
 .dashboard-card:hover {
-    background-color: rgb(249, 248, 247);
-    color: white;
-    border: 2px solid goldenrod;
+    border-color: goldenrod;
+    transform: translateY(-3px);
 }
 
 .dashboard-card h3 {
-    margin-bottom: 10px;
     color: orange;
+    font-size: 20px;
+    margin-bottom: 20px;
 }
 
 .dashboard-card p {
+    color: black;
     font-size: 40px;
     font-weight: bold;
-    color: black;
 }
 
-.dashboard-section {
-    margin-top: 40px;
+
+.booking-status {
+    max-width: 900px;
+    margin: 45px auto 0;
 }
 
-.dashboard-section table {
+.booking-status h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.status-table-container {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 2px solid rgb(2, 1, 1);
+}
+
+#status-table {
     width: 100%;
     border-collapse: collapse;
-}
-
-.dashboard-section th,
-.dashboard-section td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-.dashboard-section th {
-    background-color: #333;
-    color: white;
-}
-
-
-.statustable {
-    width: 1000px;
-    border-collapse: collapse;
-    text-align: center;
-    margin-left: 100px;
-    margin-top: 50px;
+    background-color: white;
+    border: 2px solid rgb(2, 1, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
 }
 
-.head {
-    color: white;
-    font-size: 16px;
-    padding: 10px;
+#status-table th {
     background-color: rgb(16, 75, 128);
-    border: 2px solid rgb(228, 225, 225);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    border: 2px solid rgb(2, 1, 1);
 }
 
-.status-row {
-    height: 50px;
-}
-
-.data {
-    height: 50px;
-    background-color: whitesmoke;
-    border: 2px solid rgb(226, 226, 226);
-    font-weight: 600;
+#status-table td {
+    padding: 20px;
+    text-align: center;
     font-size: 30px;
+    font-weight: 600;
+    border: 2px solid rgb(2, 1, 1);
 }
 
+#confirmed {
+    color: green;
+}
 
-@media screen and (max-width:767px) {
+#cancelled {
+    color: red;
+}
 
-    body{
-        background-color: white;
+@media (max-width: 767.98px) {
+
+    .admin-sidebar {
+        width: 280px;
     }
 
-    .container{
-        background-color: white;
+    #btn-group {
+        margin-left: auto;
     }
 
-    .admin-dashboards {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    .admin-main {
+        margin-left: 0;
+        padding: 20px 15px;
+        min-height: calc(100vh - 70px);
+    }
+
+    .admin-main h1 {
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     .dashboard-card {
-        width: 70%;
-        height: auto;
-        margin: 10% auto;
-        border: 2px solid rgb(136, 135, 135);
-        border: 3px solid gold;
-        transition: border 0.5s ease;
-    }
-
-    .dashboard-card:hover {
-        border: 3px solid rgb(131, 113, 13);
+        min-height: 120px;
+        padding: 15px;
     }
 
     .dashboard-card h3 {
-        font-size: 20px;
-        font-weight: 600;
+        font-size: 18px;
+        margin-bottom: 10px;
     }
 
     .dashboard-card p {
         font-size: 30px;
     }
 
-    #btn-group{
-        margin-top: 5%;
-        margin-left: 2%;
+    /* Booking table */
+
+    .booking-status {
+        margin-top: 30px;
     }
 
-    #status-table{
-        margin: 10px;
-        width: 30%;
+    #status-table th {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    #status-table td {
+        padding: 15px;
+        font-size: 25px;
     }
 }

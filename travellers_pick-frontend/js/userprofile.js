@@ -17,6 +17,7 @@ if (signin) {
 }
 
 async function displayUserName() {
+    console.log("displayUserName called");
     try {
         const authResponse = await fetch(`${url}/user/current-user`, {
             method: "GET",
@@ -70,7 +71,6 @@ async function displayUserName() {
 async function goLogin(e) {
     const value = e.target.value;
     switch (value) {
-
         case "logout":
             try {
                 const response = await fetch(`${url}/user/logout`, {
