@@ -9,6 +9,9 @@ const total_bookings = document.getElementById("total-bookings");
 const total_confirm = document.getElementById("confirmed");
 const total_cancel = document.getElementById("cancelled");
 
+const signin = document.getElementById("signin-btn");
+const login = document.getElementById("login-btn");
+
 const adminMain = document.querySelector(".admin-main");
 const adminSidebar = document.getElementById("adminSidebar");
 const adminHeader = document.getElementById("adminHeader");
@@ -49,21 +52,30 @@ async function displayUserName() {
         adminSelect.appendChild(greetingOption);
         adminSelect.appendChild(logoutOption);
 
-        adminSelect.addEventListener("change", () => {
-            handleLogout(adminSelect);
-        });
         adminHeader.appendChild(adminSelect);
+
+        if (login) {
+            login.replaceWith(adminSelect);
+        } else {
+            adminHeader.appendChild(adminSelect);
+        }
+
+        if (signin) {
+            signin.style.display = "none";
+        }
+
+        adminSelect.addEventListener("change", handleLogout);
     } catch (err) {
         showSessionMessage("Network error..Please try again!", false);
         console.error(err);
-        // setTimeout(() => {
-        //     window.location.href = "../html/admin-login.html";
-        // }, 2000);
+        setTimeout(() => {
+            window.location.href = "../html/admin-login.html";
+        }, 2000);
     }
 }
 
 async function handleLogout(select) {
-    if (select.value == "logout") {
+    if (select.value === "logout") {
         try {
             const response = await fetch(`${url}/admin/logout`, {
                 method: "POST",
