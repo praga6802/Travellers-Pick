@@ -50,7 +50,7 @@ const displayCurrentAdmin = async () => {
 		</div>
         `;
 
-        document.getElementById("adminId").value = authData.data.adminId || "";
+        document.getElementById("adminId").value = authData.data.userId || "";
         document.getElementById("username").value = authData.data.username || "";
         document.getElementById("email").value = authData.data.email || "";
         document.getElementById("contact").value = authData.data.contact || "";

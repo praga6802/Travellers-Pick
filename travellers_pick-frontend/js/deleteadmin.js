@@ -45,7 +45,7 @@ const displayAdminForm = async () => {
 		</div>
         `;
 
-        document.getElementById("adminId").value = authData.data.adminId;
+        document.getElementById("adminId").value = authData.data.userId;
 
         const adminForm = document.getElementById("delAdmin");
         adminForm.addEventListener("submit", handleDelete);
