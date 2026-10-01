@@ -28,7 +28,7 @@ const displayCurrentAdmin = async () => {
 
 const displayTours = async () => {
     try {
-        const response = await fetch(`${url}/admin/allTours`, {
+        const response = await fetch(`${url}/admin/tours`, {
             method: "GET",
             credentials: "include",
         });
@@ -40,9 +40,8 @@ const displayTours = async () => {
             console.error(response);
             return;
         }
-
-        if (responseData.length === 0) {
-            showSessionMessage("No tours found!", false);
+        if (!responseData || responseData.length == 0) {
+            showSessionMessage(responseData.message, false);
             return;
         }
 

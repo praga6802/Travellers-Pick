@@ -1,31 +1,20 @@
 package com.example.travellers_choice.controller;
 
 import com.example.travellers_choice.dto.*;
-import com.example.travellers_choice.model.Customer;
-import com.example.travellers_choice.model.CustomerRegistry;
-import com.example.travellers_choice.model.Packages;
-import com.example.travellers_choice.model.Tour;
 import com.example.travellers_choice.service.IternaryService;
 import com.example.travellers_choice.service.PackageService;
 import com.example.travellers_choice.service.TourService;
 import com.example.travellers_choice.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -46,82 +35,55 @@ public class UserController {
 
     //user signup
     @PostMapping("/signup")
-    public ResponseEntity<?> userSignUp(@RequestBody UserRegisterDTO user) {
+    public ResponseEntity<AResponse> userSignUp(@RequestBody UserRegisterDTO user) {
         return userService.userSignUp(user);
     }
 
     //user login
     @PostMapping("/login")
-    public ResponseEntity<?> userLogin(@RequestBody LoginDTO user, HttpSession session) {
+    public ResponseEntity<AResponse> userLogin(@RequestBody LoginDTO user, HttpSession session) {
         return userService.userLogin(user, session);
     }
 
     //get the current user
     @GetMapping("/current-user")
-    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<AResponse> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
         return userService.getCurrentUser(userDetails);
     }
 
     //logout user
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@AuthenticationPrincipal UserDetails userDetails, HttpSession session) {
-        return userService.logout(userDetails, session);
+    public ResponseEntity<AResponse> logout(HttpSession session) {
+        return userService.logout(session);
     }
 
     //update user
-    @PatchMapping("/updateUser")
-    public ResponseEntity<?> updateUser(@RequestBody UserDTO user,@AuthenticationPrincipal UserDetails userDetails){
-        if(userDetails == null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
-        }
-        return userService.updateUser(user,userDetails.getUsername());
+    @PatchMapping("/update")
+    public ResponseEntity<AResponse> updateUser(@RequestBody UserDTO userDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return userService.updateUser(userDTO, userDetails.getUsername());
     }
 
     // book tour
-    @PostMapping("/bookTour")
-    public ResponseEntity<?> bookTour(@RequestBody BookTourDTO bookTourDTO) {
+    @PostMapping("/book")
+    public ResponseEntity<AResponse> bookTour(@RequestBody BookTourDTO bookTourDTO) {
         return userService.bookTour(bookTourDTO);
     }
 
 
     //get all tour bookings
-    @GetMapping("/bookedTours")
-    public ResponseEntity<?> getAllBookedTours(@AuthenticationPrincipal UserDetails userDetails){
-        if(userDetails == null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
-        }
-        return userService.getAllBookedTours(userDetails.getUsername());
+    @GetMapping("/bookings")
+    public ResponseEntity<AResponse> getAllBookings(@AuthenticationPrincipal UserDetails userDetails){
+        return userService.getAllBookings(userDetails.getUsername());
     }
 
     //cancel tour
-    @DeleteMapping("/cancelTour")
-    public ResponseEntity<?> cancelTour(@RequestBody CancelTourDTO cancelTourDTO, @AuthenticationPrincipal UserDetails userDetails){
-        if(userDetails == null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
-        }
-        return userService.cancelTour(cancelTourDTO.getPnr(),userDetails.getUsername());
+    @DeleteMapping("/bookings/cancel")
+    public ResponseEntity<AResponse> cancelBooking(@RequestBody CancelTourDTO cancelTourDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return userService.cancelBooking(cancelTourDTO.getPnr(),userDetails.getUsername());
     }
 
-    //get the user data
-    @GetMapping("/userData")
-    public ResponseEntity<?> userData(@AuthenticationPrincipal UserDetails userDetails){
-        if(userDetails == null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AResponse(LocalDateTime.now(), "Failure", "Session Expired! Please login again"));
-        }
-        return userService.userData(userDetails.getUsername());
-    }
 
-    @GetMapping("/allItineraries")
-    public ResponseEntity<List<SendIternaryDTO>> allItineraries(){
-        List<SendIternaryDTO> iternaryList= iternaryService.allItineraries();
-        return ResponseEntity.ok(iternaryList);
-    }
-
-    @PostMapping("/verifyOTP")
+    @PostMapping("/verify-otp")
     public ResponseEntity<?> verifyOTP(@RequestBody RequestOTPDTO otp,@AuthenticationPrincipal UserDetails userDetails) throws JsonProcessingException {
         if(otp.getOtp()==null || otp.getOtp().isBlank()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AResponse(LocalDateTime.now(),"Failure","OTP is required! Before Updating the Email!"));
@@ -129,14 +91,16 @@ public class UserController {
         return userService.verifyOTP(userDetails.getUsername(),otp.getOtp());
     }
 
+    // get tour details for tour booking form
     @GetMapping("/tour/{tourId}")
     public ResponseEntity<?> getTour(@PathVariable Integer tourId) {
         return userService.getTour(tourId);
     }
 
+    //booking form up
     @GetMapping("/itineraries/{tourId}")
-    public ResponseEntity<?> getIternariesByTourId(@PathVariable Integer tourId){
-        return iternaryService.getIternariesByTourId(tourId);
+    public ResponseEntity<AResponse> getItinerariesByTourId(@PathVariable Integer tourId){
+        return iternaryService.getItinerariesByTourId(tourId);
     }
 }
 

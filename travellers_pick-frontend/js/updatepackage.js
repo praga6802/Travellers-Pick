@@ -64,7 +64,7 @@ const displayCurrentAdmin = async () => {
 
         const packageSelect = document.getElementById("packageId");
 
-        const pkgResponse = await fetch(`${url}/admin/packageNames`, {
+        const pkgResponse = await fetch(`${url}/admin/package-names`, {
             method: "GET",
             credentials: "include",
         });
@@ -77,13 +77,7 @@ const displayCurrentAdmin = async () => {
             return;
         }
 
-        if (packageData.length === 0) {
-            packageContainer.style.display = "none";
-            showSessionMessage("No packages found!", false);
-            return;
-        }
-
-        packageData.forEach((pkg) => {
+        packageData.data.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
             option.innerText = pkg.packageName;
@@ -98,7 +92,7 @@ const displayCurrentAdmin = async () => {
 
             try {
                 const packageDetailResponse = await fetch(
-                    `${url}/admin/getPackage/${packageId}`,
+                    `${url}/admin/packages/${packageId}`,
                     { method: "GET", credentials: "include" },
                 );
 
@@ -162,7 +156,7 @@ const handleUpdate = async (e) => {
         data.append("imageFile", imageFile.files[0]);
 
     try {
-        const response = await fetch(`${url}/admin/updatePackage`, {
+        const response = await fetch(`${url}/admin/packages/${packageId}`, {
             method: "PUT",
             body: data,
             credentials: "include",

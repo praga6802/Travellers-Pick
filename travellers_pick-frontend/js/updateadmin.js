@@ -85,7 +85,7 @@ const handleUpdate = async (e) => {
     if (contact) data.contact = contact;
 
     try {
-        const response = await fetch(`${url}/admin/updateAdmin`, {
+        const response = await fetch(`${url}/admin/update`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             credentials: "include",

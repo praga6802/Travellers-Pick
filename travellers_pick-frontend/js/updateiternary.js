@@ -59,6 +59,18 @@ const displayItineraryForm = async () => {
                 </div>
 
                 <div class="input">
+                 <input
+                        type="hidden"
+                        name="itineraryId"
+                        id="itineraryId"
+                        class="input-box"
+                        placeholder="itineraryId"
+                        required
+                    >
+                </div>
+
+
+                <div class="input">
                     <label for="destination">Destination</label>
                     <input
                         type="text"
@@ -66,6 +78,7 @@ const displayItineraryForm = async () => {
                         id="destination"
                         class="input-box"
                         placeholder="Destination"
+                        required
                     >
                 </div>
 
@@ -77,6 +90,7 @@ const displayItineraryForm = async () => {
                         id="description"
                         class="input-box"
                         placeholder="Add your Description"
+                        required
                     >
                 </div>
 
@@ -102,7 +116,7 @@ const displayItineraryForm = async () => {
         if (!packageNameSelect) return;
 
         //get packages
-        const packageResponse = await fetch(`${url}/admin/packageNames`, {
+        const packageResponse = await fetch(`${url}/admin/package-names`, {
             method: "GET",
             credentials: "include",
         });
@@ -115,22 +129,16 @@ const displayItineraryForm = async () => {
             return;
         }
 
-        if (packageResponseData.length === 0) {
-            itineraryContainer.style.display = "none";
-            showSessionMessage("No packages available", false);
-            return;
-        }
-
-        packageResponseData.forEach((pkg) => {
+        packageResponseData.data.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
             option.textContent = pkg.packageName;
             packageNameSelect.appendChild(option);
         });
 
-        //dynamic tour name from package select
         packageNameSelect.addEventListener("change", async () => {
             const packageId = packageNameSelect.value;
+
             tourSelect.innerHTML = `
                 <option selected disabled hidden value="">
                     Select Tour
@@ -147,7 +155,7 @@ const displayItineraryForm = async () => {
 
             try {
                 const tourResponse = await fetch(
-                    `${url}/admin/tourNames/${packageId}`,
+                    `${url}/admin/packages/${packageId}/tours`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -161,17 +169,10 @@ const displayItineraryForm = async () => {
                     return;
                 }
 
-                if (tourResponseData.length === 0) {
-                    showSessionMessage("No tours available!", false);
-                    return;
-                }
-
-                tourResponseData.forEach((tour) => {
+                tourResponseData.data.forEach((tour) => {
                     const option = document.createElement("option");
-
                     option.value = tour.tourId;
                     option.textContent = tour.tourName;
-
                     tourSelect.appendChild(option);
                 });
             } catch (err) {
@@ -193,8 +194,9 @@ const displayItineraryForm = async () => {
             document.getElementById("description").value = "";
 
             try {
+                //loading day
                 const itineraryResponse = await fetch(
-                    `${url}/admin/getDay/${packageId}/${tourId}`,
+                    `${url}/admin/packages/${packageId}/tours/${tourId}/days`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -203,19 +205,8 @@ const displayItineraryForm = async () => {
 
                 const itineraryResponseData = await itineraryResponse.json();
 
-                console.log(itineraryResponse);
-                console.log(itineraryResponseData);
-
                 if (!itineraryResponse.ok) {
-                    showFormMessage("Failed to load itineraries!", false);
-                    return;
-                }
-
-                if (
-                    !itineraryResponseData ||
-                    itineraryResponseData.length === 0
-                ) {
-                    showFormMessage("No Days found!", false);
+                    showFormMessage("Failed to load days!", false);
                     return;
                 }
 
@@ -238,7 +229,7 @@ const displayItineraryForm = async () => {
 
             try {
                 const itineraryResponse = await fetch(
-                    `${url}/admin/getItinerary/${packageId}/${tourId}/${day}`,
+                    `${url}/admin/packages/${packageId}/tours/${tourId}/itineraries/${day}`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -246,17 +237,16 @@ const displayItineraryForm = async () => {
                 );
 
                 const itineraryResponseData = await itineraryResponse.json();
-
                 if (!itineraryResponse.ok) {
                     showFormMessage("Failed to load itinerary!", false);
                     return;
                 }
-                itineraryId = itineraryResponseData.itineraryId;
-                document.getElementById("destination").value =
-                    itineraryResponseData.destination;
 
-                document.getElementById("description").value =
-                    itineraryResponseData.description;
+                const { itineraryId, day, destination, description } = itineraryResponseData.data;
+
+                document.getElementById("itineraryId").value = itineraryId;
+                document.getElementById("destination").value = destination;
+                document.getElementById("description").value = description;
             } catch (err) {
                 console.error(err);
                 showFormMessage("Network error..Please try again!", false);
@@ -277,17 +267,10 @@ const updateItinerary = async (e) => {
     const formError = document.getElementById("form-error");
     const updateItineraryForm = e.target;
 
-    const packageId = parseInt(
-        document.getElementById("package-select").value,
-        10,
-    );
-
+    const packageId = parseInt(document.getElementById("package-select").value,10);
     const tourId = parseInt(document.getElementById("tour-select").value, 10);
-
-    const day = parseInt(
-        document.getElementById("day-select").value.trim(),
-        10,
-    );
+    const itineraryId = document.getElementById("itineraryId").value.trim();
+    const day = parseInt(document.getElementById("day-select").value.trim(),10);
 
     const destination = document.getElementById("destination").value.trim();
 
@@ -308,7 +291,7 @@ const updateItinerary = async (e) => {
 
     try {
         const updateItineraryResponse = await fetch(
-            `${url}/admin/updateItinerary`,
+            `${url}/admin/packages/${packageId}/tours/${tourId}/itineraries/${itineraryId}`,
             {
                 method: "PATCH",
                 credentials: "include",

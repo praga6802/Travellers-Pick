@@ -18,7 +18,7 @@ const displayPackage = async () => {
             return;
         }
 
-        const response = await fetch(`${url}/admin/allPackages`, {
+        const response = await fetch(`${url}/admin/packages`, {
             method: "GET",
             credentials: "include",
         });
@@ -31,16 +31,11 @@ const displayPackage = async () => {
             return;
         }
 
-        if (responseData.length === 0) {
-            packageContainer.style.display = "none";
-            showSessionMessage("No Packages found!", false);
-        }
-
         packageContainer.innerHTML = `
         	<h1 class="heading">POPULAR PACKAGES</h1>
         `;
 
-        responseData.forEach((pkg) => {
+        responseData.data.forEach((pkg) => {
             const col = document.createElement("div");
             col.className = "col-12 col-md-4";
             col.innerHTML = `

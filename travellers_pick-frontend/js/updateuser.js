@@ -75,8 +75,8 @@ const displayUpdateForm = async () => {
             return;
         }
 
-        if (!userResponseData) {
-            showFormMessage("No user data found!", false);
+        if (!userResponseData || userResponseData.length == 0) {
+            showSessionMessage(userResponseData.message, false);
             return;
         }
 
@@ -117,7 +117,7 @@ async function handleUpdate(event) {
     if (newContact) payload.contact = newContact;
 
     try {
-        const response = await fetch(`${url}/user/updateUser`, {
+        const response = await fetch(`${url}/user/update`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

@@ -1,32 +1,20 @@
 package com.example.travellers_choice.service;
 
 import com.example.travellers_choice.dto.*;
-import com.example.travellers_choice.exception.AlreadyExistsException;
-import com.example.travellers_choice.exception.IDNotFoundException;
-import com.example.travellers_choice.exception.UnAuthorizedException;
+import com.example.travellers_choice.exception.*;
 import com.example.travellers_choice.model.*;
-import com.example.travellers_choice.repository.CustomerRegister;
-import com.example.travellers_choice.repository.OTPRepo;
-import com.example.travellers_choice.repository.TourRepo;
-import com.example.travellers_choice.repository.UserRepo;
+import com.example.travellers_choice.repository.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
@@ -35,7 +23,6 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -43,112 +30,98 @@ import java.util.stream.Collectors;
 public class UserService {
 
     @Autowired
-    UserRepo userRepo;
+    private UserRepo userRepo;
 
     @Autowired
-    CustomerRegister registerRepo;
+    private CustomerRegister registerRepo;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    EmailService emailService;
+    private EmailService emailService;
 
     @Autowired
-    TourRepo tourRepo;
+    private TourRepo tourRepo;
 
     @Autowired
-    OTPRepo otpRepo;
+    private OTPRepo otpRepo;
 
     @Autowired
     private MyUserDetailsService userDetailsService;
 
+    @Autowired
+    private ItineraryRepository itineraryRepository;
+
     //user sign up
-    public ResponseEntity<?> userSignUp(UserRegisterDTO user) {
-        try {
-            if (userRepo.existsByContact(user.getContact())) {
-                return ResponseEntity.status(HttpStatus.CONFLICT)
-                        .body(new AlreadyExistsException("Mobile Number", user.getContact()));
-            }
-            if (userRepo.existsByEmail(user.getEmail())) {
-                return ResponseEntity.status(HttpStatus.CONFLICT)
-                        .body(new AlreadyExistsException("Email ID", user.getEmail()));
-            }
-
-            Customer customer = new Customer();
-            customer.setUsername(user.getUsername());
-            customer.setEmail(user.getEmail());
-            customer.setPassword(passwordEncoder.encode(user.getPassword()));
-            customer.setContact(user.getContact());
-            customer.setRole("ROLE_USER");
-            userRepo.save(customer);
-
-            String sub = "Welcome to Traveller’s Pick – Your Account is Ready!";
-            String message = "Hi " + customer.getUsername() + ",\n\n"
-                    + "Thank you for signing up with Traveller’s Choice!\n"
-                    + "Your account has been created successfully, and you’re all set to explore the best travel experiences.\n\n"
-                    + "What you can do next:\n"
-                    + "- Browse and book your dream destinations.\n"
-                    + "- Manage your bookings easily.\n"
-                    + "If this wasn’t you, please ignore this email.\n\n"
-                    + "If you need any help, feel free to reply — we’re always here to assist you!\n\n"
-                    + "Best Regards,\n"
-                    + "Traveller’s Pick Team\n"
-                    + "© " + java.time.Year.now() + " Traveller’s Pick. All Rights Reserved.";
-
-            emailService.sendSimpleEMail(customer.getEmail(), sub, message);
-            return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Sign Up Successfully"));
+    public ResponseEntity<AResponse> userSignUp(UserRegisterDTO user) {
+        if (userRepo.existsByEmail(user.getEmail())) {
+            throw new AlreadyExistsException("Email",user.getEmail());
         }
-        catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
-                    body(new AResponse(LocalDateTime.now(), "Failure", "Network error..Please try again!"));
+
+        if (userRepo.existsByContact(user.getContact())) {
+           throw new AlreadyExistsException("Contact",user.getContact());
         }
+
+        Customer customer = new Customer();
+        customer.setUsername(user.getUsername());
+        customer.setEmail(user.getEmail());
+        customer.setPassword(passwordEncoder.encode(user.getPassword()));
+        customer.setContact(user.getContact());
+        customer.setRole("ROLE_USER");
+        userRepo.save(customer);
+
+//        String sub = "Welcome to Traveller’s Pick – Your Account is Ready!";
+//        String message = "Hi " + customer.getUsername() + ",\n\n"
+//                + "Thank you for signing up with Traveller’s Choice!\n"
+//                + "Your account has been created successfully, and you’re all set to explore the best travel experiences.\n\n"
+//                + "What you can do next:\n"
+//                + "- Browse and book your dream destinations.\n"
+//                + "- Manage your bookings easily.\n"
+//                + "If this wasn’t you, please ignore this email.\n\n"
+//                + "If you need any help, feel free to reply — we’re always here to assist you!\n\n"
+//                + "Best Regards,\n"
+//                + "Traveller’s Pick Team\n"
+//                + "© " + java.time.Year.now() + " Traveller’s Pick. All Rights Reserved.";
+//
+//        emailService.sendSimpleEMail(customer.getEmail(), sub, message);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Sign Up Successfully"));
     }
 
     //login
-    public ResponseEntity<?> userLogin(LoginDTO login, HttpSession session) {
-        try{
+    public ResponseEntity<AResponse> userLogin(LoginDTO login, HttpSession session) {
             Authentication auth=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(),login.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(auth);
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,SecurityContextHolder.getContext());
             return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Login Successful"));
-        }
-        catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
-                    body(new AResponse(LocalDateTime.now(), "Failure", "Invalid Credentials"));
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
-                    body(new AResponse(LocalDateTime.now(), "Failure", "Network error..Please try again!"));
-        }
     }
 
     //current login user
-    public ResponseEntity<?> getCurrentUser(UserDetails userDetails) {
-        if(userDetails==null)
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","Session Expired..Please login again!"));
+    public ResponseEntity<AResponse> getCurrentUser(UserDetails userDetails) {
+        if (userDetails == null){
+            throw new UnAuthorizedException("Session Expired! Please try again!");
+        }
 
         String email=userDetails.getUsername();
 
-        //from the email getting user details
-        Customer user=userRepo.findUserByEmail(email).orElseThrow(()-> new UnAuthorizedException("User Email",email));
+        Customer user=userRepo.findUserByEmail(email).orElseThrow(()-> new UnAuthorizedException("Email "+email+" not found"));
         Map<String,Object> response= new HashMap<>();
         response.put("userId",user.getId());
-        response.put("userName",user.getUsername());
-        response.put("userEmail",user.getEmail());
-        response.put("userContact",user.getContact());
+        response.put("name",user.getUsername());
+        response.put("email",user.getEmail());
+        response.put("contact",user.getContact());
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",response));
     }
 
     //logout user
-    public ResponseEntity<?> logout(UserDetails userDetails, HttpSession session) {
-        if(userDetails==null) {
-            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","Session expired..Please try again!"));
+    public ResponseEntity<AResponse> logout(HttpSession session) {
+        if(session!=null) {
+            session.invalidate();
         }
-        session.invalidate();
+        SecurityContextHolder.clearContext();
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Logout Successfully"));
     }
 
@@ -169,18 +142,14 @@ public class UserService {
     }
 
     //book tour
-    public ResponseEntity<?> bookTour(BookTourDTO bookTourDTO) {
-        System.out.println("USER ID: " + bookTourDTO.getUserId());
-        System.out.println("TOUR ID: " + bookTourDTO.getTourId());
-
+    public ResponseEntity<AResponse> bookTour(BookTourDTO bookTourDTO) {
         Customer user = userRepo.findById(bookTourDTO.getUserId()).orElseThrow(() ->new IDNotFoundException("User ID", bookTourDTO.getUserId()));
-        System.out.println("user found");
-
         Tour tour=tourRepo.findById(bookTourDTO.getTourId()).orElseThrow(()-> new IDNotFoundException("Tour ID",bookTourDTO.getTourId()));
-        System.out.println("tour found");
 
-
-        CustomerRegistry book = new CustomerRegistry();
+        if(bookTourDTO==null){
+            throw new BusinessException("Please enter details to book tour!");
+        }
+        BookingRegistry book = new BookingRegistry();
         book.setUser(user);
         book.setTour(tour);
 
@@ -201,15 +170,9 @@ public class UserService {
         book.setStatus("CONFIRMED");
 
         String pnr=generatePNR();
-        System.out.println("pnr"+pnr);
         book.setPNR(pnr);
-
-        //System.out.println("Before save");
         registerRepo.save(book);
-//
-//        System.out.println("after save");
-//        System.out.println("booking completed");
-//
+
 //        if(bookTourDTO.getEmail()!=null && !bookTourDTO.getEmail().isBlank()){
 //            String subject="Confirmation of Tour Booking!";
 //            String body = "Hi " + user.getUsername() + ",\n\n"
@@ -232,10 +195,9 @@ public class UserService {
     }
 
 
-
     //update user profile
-    public ResponseEntity<?> updateUser(UserDTO userDTO, String email) {
-        Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email", email));
+    public ResponseEntity<AResponse> updateUser(UserDTO userDTO, String email) {
+        Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Email "+email+" not found"));
 
         boolean isUpdated = false;
 
@@ -255,22 +217,17 @@ public class UserService {
         if (userDTO.getEmail() != null && !userDTO.getEmail().isBlank() && !userDTO.getEmail().equals(user.getEmail())) {
 
             if (userRepo.existsByEmail(userDTO.getEmail())) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(new AResponse(LocalDateTime.now(), "Failure", "Email already taken!"));
+                throw new AlreadyExistsException(userDTO.getEmail(),"Email already taken!");
             }
             return verificationEmail(userDTO.getEmail(), user);
         }
 
         if (!isUpdated) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new AResponse(
-                            LocalDateTime.now(),
-                            "Failure",
-                            "No fields were updated!"
-                    ));
+           throw new BusinessException("No fields were updated!");
         }
 
         userRepo.save(user);
-        return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "User details updated successfully"));
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "User Details Updated Successfully"));
     }
 
     //verification of email
@@ -289,16 +246,16 @@ public class UserService {
         otpRepo.save(otpTab);
 
         String sub="Email Updation, Verify OTP Code";
-        String message="Hi "+user.getUsername()+","+"\n"+
-                "We received a request to change the email address associated with your account.\n"+
-                "To confirm this change, please use the OTP code below:\n"+
-                "OTP: "+otp+"\n" +
-                "Do not share this code with anyone.\n\n" +
-                "If you did not request this change, please ignore this email or contact support immediately.\n" +
-                "Thanks & Regards,\n" +
-                "Traveller's Pick Team.\n";
-
-         emailService.sendSimpleEMail(newEmail,sub,message); //send email with otp
+//        String message="Hi "+user.getUsername()+","+"\n"+
+//                "We received a request to change the email address associated with your account.\n"+
+//                "To confirm this change, please use the OTP code below:\n"+
+//                "OTP: "+otp+"\n" +
+//                "Do not share this code with anyone.\n\n" +
+//                "If you did not request this change, please ignore this email or contact support immediately.\n" +
+//                "Thanks & Regards,\n" +
+//                "Traveller's Pick Team.\n";
+//
+//         emailService.sendSimpleEMail(newEmail,sub,message); //send email with otp
         System.out.println("SEND OTP :"+otp);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","OTP has been sent to the "+newEmail
                 +". Please enter the OTP to update your email"));
@@ -306,12 +263,12 @@ public class UserService {
 
     //verify otp
     public ResponseEntity<AResponse> verifyOTP(String email, String enteredOtp) throws JsonProcessingException {
-        Customer user= userRepo.findUserByEmail(email).orElseThrow(()->new UnAuthorizedException("User Email",email));
+        Customer user= userRepo.findUserByEmail(email).orElseThrow(()->new UnAuthorizedException("Email"+ email+" not found"));
 
 
         System.out.println("ENTERED OTP:"+enteredOtp);
         //check the user purpose for updating: email update
-        OTPVerification otp=otpRepo.findByUserAndPurpose(user,"EMAIL_UPDATE").orElseThrow(()-> new UnAuthorizedException("OTP not found for ",email));
+        OTPVerification otp=otpRepo.findByUserAndPurpose(user,"EMAIL_UPDATE").orElseThrow(()->new UnAuthorizedException("Email"+ email+" not found"));
 
         if(otp.getExpiryTime().isBefore(LocalDateTime.now())){
             otpRepo.delete(otp);
@@ -335,34 +292,36 @@ public class UserService {
     }
 
     //get all booked tours
-    public ResponseEntity<?> getAllBookedTours(String email) {
-        Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email", email));
+    public ResponseEntity<AResponse> getAllBookings(String email) {
+        Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email "+ email+" not found"));
 
-        if(!registerRepo.existsByUser_Id(user.getId())){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).
-                    body(new AResponse(LocalDateTime.now(),"Failure","No bookings Found!"));
+        List<BookingRegistry> userBookings=registerRepo.findByUser_Id(user.getId());
+        if(userBookings.isEmpty()){
+            throw new ResourceNotFoundException("Bookings");
         }
 
-        List<CustomerRegistry> userBookings=registerRepo.findByUser_Id(user.getId());
-        List<TourDetailsDTO> bookedTourList=userBookings.stream()
+        List<TourDetailsDTO> bookingList=userBookings.stream()
                 .map(t->new TourDetailsDTO(t.getBookingId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
                         t.getNoOfAdults(),t.getNoOfChildren(),t.getBdate(),t.getTdate(),t.getStatus(),t.getPrice())).toList();
-        return ResponseEntity.ok(bookedTourList);
+
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",bookingList));
     }
 
 
     //cancel tour
-    public ResponseEntity<?> cancelTour(String PNR, String email) {
-        Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email", email));
-        CustomerRegistry reg=registerRepo.findByPNR(PNR).orElseThrow(()->new UnAuthorizedException("PNR number",PNR));
+    public ResponseEntity<AResponse> cancelBooking(String pnr, String email) {
+        Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email"+ email+ " not found"));
+
+        if(pnr==null){
+            throw new BusinessException("Please enter PNR number to cancel booking!");
+        }
+        BookingRegistry reg=registerRepo.findByPNR(pnr).orElseThrow(()->new UnAuthorizedException("pnr number"+ pnr +" not found"));
 
         if (!reg.getUser().getId().equals(user.getId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).
-                    body(new AResponse(LocalDateTime.now(),"Failure","This PNR does not belong to your account"));
+            throw new BusinessException("Invalid pnr");
         }
         if(reg.getStatus().equals("CANCELLED")){
-            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).
-                    body(new AResponse(LocalDateTime.now(),"Failure","Already Cancelled!"));
+           throw new AlreadyExistsException(String.valueOf(reg.getBookingId()),"Already Cancelled");
         }
 
         reg.setStatus("CANCELLED");
@@ -381,18 +340,10 @@ public class UserService {
     }
 
 
-    //get the user data
-    public ResponseEntity<?> userData(String email) {
-        Customer user=userRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("User Email",email));
-        UserDTO dto= new UserDTO(user);
-        return ResponseEntity.ok(dto);
-    }
-
-    public ResponseEntity<?> getTour(Integer tourId) {
+    // get tour details submitting form
+    public ResponseEntity<AResponse> getTour(Integer tourId) {
         Tour tour = tourRepo.findById(tourId).orElseThrow(()-> new IDNotFoundException("Tour ID",tourId));
-
         TourBookingDTO tourBookingDTO = new TourBookingDTO(tour.getPackages().getPackageName(),tour.getTourId(),tour.getTourName());
-
-        return ResponseEntity.ok(tourBookingDTO);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",tourBookingDTO));
     }
 }

@@ -1,29 +1,16 @@
 package com.example.travellers_choice.service;
 
 
-import com.example.travellers_choice.dto.AdminDTO;
-import com.example.travellers_choice.dto.BookedUserDTO;
-import com.example.travellers_choice.dto.UserRegisterDTO;
-import com.example.travellers_choice.exception.AlreadyExistsException;
-import com.example.travellers_choice.exception.IDNotFoundException;
-import com.example.travellers_choice.exception.UnAuthorizedException;
+import com.example.travellers_choice.dto.*;
+import com.example.travellers_choice.exception.*;
 import com.example.travellers_choice.model.Admin;
-import com.example.travellers_choice.model.ApiResponse;
-import com.example.travellers_choice.dto.AResponse;
 import com.example.travellers_choice.model.Customer;
-import com.example.travellers_choice.model.CustomerRegistry;
-
+import com.example.travellers_choice.model.BookingRegistry;
 import com.example.travellers_choice.repository.*;
-
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -63,18 +50,12 @@ public class AdminService {
     PasswordEncoder passwordEncoder;
 
     //ADMIN SIGN UP
-    public ResponseEntity<?> signUp(UserRegisterDTO user) {
+    public ResponseEntity<AResponse> signUp(UserRegisterDTO user) {
         if(adminRepo.existsByEmail(user.getEmail())){
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new AResponse(LocalDateTime.now(),
-                            "Already Exists",
-                            "Email ID " + user.getEmail() + " already exists"));
+            throw new AlreadyExistsException("Email",user.getEmail());
         }
         if(adminRepo.existsByContact(user.getContact())){
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new AResponse(LocalDateTime.now(),
-                            "Already Exists",
-                            "Mobile Number " + user.getContact() + " already exists"));
+            throw new AlreadyExistsException("Mobile Number", user.getContact());
         }
 
         Admin admin = new Admin();
@@ -89,75 +70,50 @@ public class AdminService {
 
 
     //ADMIN  LOGIN
-    public ResponseEntity<?> adminLogin(String email, String password, HttpSession session) {
-        try{
-            Authentication auth=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,SecurityContextHolder.getContext());
-            return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Login Successful"));
-        }
-        catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AResponse(LocalDateTime.now(), "Failure", "Invalid Credentials"));
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new AResponse(LocalDateTime.now(), "Failure", "Server error, try again"));
-        }
+    public ResponseEntity<AResponse> adminLogin(String email, String password, HttpSession session) {
+        Authentication auth=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,SecurityContextHolder.getContext());
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Login Successful"));
     }
 
     //get current admin
-    public ResponseEntity<?> getCurrentAdmin(UserDetails userDetails) {
+    public ResponseEntity<AResponse> getCurrentAdmin(UserDetails userDetails) {
         if(userDetails==null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","Session Expired..Please try again!"));
+            throw new UnAuthorizedException("Session Expired.. Please try again!");
         }
+
         String email=userDetails.getUsername();
-        Admin admin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
+        Admin admin=adminRepo.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("Email ID"+" "+email));
 
         Map<String,Object> response=new HashMap<>();
         response.put("adminId",admin.getAdminId());
         response.put("username",admin.getUsername());
         response.put("email",admin.getEmail());
         response.put("contact",admin.getContact());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",response));
     }
 
     //logout admin
-    public ResponseEntity<?> logout(UserDetails userDetails, HttpSession session) {
-        if(userDetails==null) {
-            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AResponse(LocalDateTime.now(),"Failure","Session expired..Please try again!"));
+    public ResponseEntity<AResponse> logout(HttpSession session) {
+        if(session!=null){
+            session.invalidate();
         }
-        session.invalidate();
+        SecurityContextHolder.clearContext();
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "Logout Successfully"));
     }
 
 
-    //get admin by email
-    public Admin getAdminByEmail(String email){
-        return adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Email", email));
-    }
-
-    // DELETE ADMIN BY id and password
-    public ResponseEntity<?> deleteAdmin(Integer id, String password) {
-        Admin existingAdmin=adminRepo.findById(id).orElseThrow(()-> new IDNotFoundException("Admin ID", id));
-
-        if(passwordEncoder.matches(password,existingAdmin.getPassword())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new AResponse(LocalDateTime.now(), "Failure", "Admin cannot delete by own"));
-        }
-        adminRepo.delete(existingAdmin);
-        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Admin Deleted Successfully"));
-    }
-
-
-
     //UPDATE ADMIN
-    public ResponseEntity<?> updateAdmin(AdminDTO admin, String email) {
-        Admin existingAdmin=adminRepo.findByEmail(email)
-                .orElseThrow(()-> new UnAuthorizedException("Email ID", email));
+    public ResponseEntity<AResponse> updateAdmin(AdminDTO admin, String email) {
+        Admin existingAdmin=adminRepo.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("Email ID"+" "+email));
+
+        if(admin.getPassword()==null){
+            throw new BusinessException("Password cannot be empty!");
+        }
 
         if(!passwordEncoder.matches(admin.getPassword(),existingAdmin.getPassword())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).
-                    body(new AResponse(LocalDateTime.now(), "Failure", "Password do not matches"));
+           throw new BusinessException("Password do not matches");
         }
 
         if (admin.getUsername() != null && !admin.getUsername().isBlank()) {
@@ -182,98 +138,111 @@ public class AdminService {
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Admin Updated Successfully"));
     }
 
-    //VIEW ALL ADMINS
-    public List<Admin> getAllAdmins() {
-        return adminRepo.findAll();
+
+    // DELETE ADMIN BY id and password
+    public ResponseEntity<AResponse> deleteAdmin(Integer id, String password, String email) {
+        Admin targetAdmin = adminRepo.findById(id).orElseThrow(()-> new IDNotFoundException("Admin ID",id));
+        Admin currentAdmin=adminRepo.findByEmail(email).orElseThrow(()-> new IDNotFoundException("Admin ID", id));
+
+        if(currentAdmin.getAdminId()==(targetAdmin.getAdminId())){
+            throw new BusinessException("You cannot delete your own account!");
+        }
+
+        if(!passwordEncoder.matches(password,currentAdmin.getPassword())) {
+            throw new BusinessException("Password does not match!");
+        }
+
+        adminRepo.delete(targetAdmin);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Admin Deleted Successfully"));
     }
 
     //VIEW ADMIN BY ID
-    public ResponseEntity<?> getAdmin(Integer adminId) {
+    public ResponseEntity<AResponse> getAdmin(Integer adminId) {
         Admin admin= adminRepo.findById(adminId).orElseThrow(()-> new IDNotFoundException("Admin ID",adminId));
-        Map<String,Object> response= new LinkedHashMap<>();
-        response.put("Admin ID",admin.getAdminId());
-        response.put("User Name",admin.getUsername());
-        response.put("Email",admin.getEmail());
-        response.put("Mobile",admin.getContact());
-        return ResponseEntity.ok(response);
+
+        UserDetailsDTO ad = new UserDetailsDTO(admin.getAdminId(),admin.getUsername(),admin.getEmail(),admin.getContact(),admin.getRole());
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",ad));
     }
 
 
+    //VIEW ALL ADMINS
+    public ResponseEntity<AResponse> getAllAdmins() {
+        List<Admin> admins = adminRepo.findAll();
+        if(admins.isEmpty()){
+            throw new ResourceNotFoundException("Admins");
+        }
+        List<UserDetailsDTO> adminList = admins.stream()
+                .map(admin->new UserDetailsDTO(admin.getAdminId(),admin.getUsername(),admin.getEmail(),admin.getContact(),admin.getRole())).toList();
 
-    // CUSTOMERS
-    public List<BookedUserDTO> getAllRegUsers() {
-        return customerRegisterRepo.findAll().stream()
-                //Integer userId, String userName, String email, String phone, Double price, String packageName, String tourName,
-                //                         String tdate, String bdate, String noOfSeats, String noOfAdults, String noOfChildren, String city,
-                //                         String state, String country, String status
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",adminList));
+    }
+
+
+    // view all booked users
+    public ResponseEntity<AResponse> getAllRegUsers() {
+        List<BookingRegistry> customerRegistryList = customerRegisterRepo.findAll();
+        if(customerRegistryList.isEmpty()){
+            throw new ResourceNotFoundException("Users");
+        }
+        List<BookedUserDTO> bookedUserDTOList = customerRegistryList.stream()
                 .map(user->new BookedUserDTO(user.getUser().getId(),user.getName(),user.getEmail(),user.getPhone(),user.getPrice(),user.getPackageName(),user.getTour().getTourName(),
-                        user.getTdate(),user.getBdate(),user.getNoOfSeats(),user.getNoOfAdults(),user.getNoOfChildren(),user.getCity(),user.getState(),user.getCountry(),user.getStatus())).toList();
+                user.getTdate(),user.getBdate(),user.getNoOfSeats(),user.getNoOfAdults(),user.getNoOfChildren(),user.getCity(),user.getState(),user.getCountry(),user.getStatus())).toList();
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",bookedUserDTOList));
 
     }
 
-    public List<Customer> getAllCustomers() {
-        return userRepo.findAll();
+    // get all users list
+    public ResponseEntity<AResponse> getAllCustomers() {
+        List<Customer> customers = userRepo.findAll();
+        if(customers.isEmpty()){
+            throw new ResourceNotFoundException("Customers");
+        }
+        List<UserDetailsDTO> userList = customers.stream().map(user-> new UserDetailsDTO(user.getId(),user.getUsername(),user.getEmail(),user.getContact(),user.getRole()))
+                .toList();
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",userList));
     }
 
 
-    public ResponseEntity<?> adminData(String email) {
-        Admin admin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
-        AdminDTO dto= new AdminDTO(admin);
-        return ResponseEntity.ok(dto);
-    }
 
+    // ADMIN DASHBOARD
     // admin count
-    public ResponseEntity<AResponse> getAdmins(String username) {
-        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
-
+    public ResponseEntity<AResponse> getAdminsCount() {
         Long adminCount = adminRepo.count();
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",adminCount));
     }
 
     // user count
-    public ResponseEntity<AResponse> getUsers(String username) {
-        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
-
+    public ResponseEntity<AResponse> getUsersCount() {
         Long userCount = userRepo.count();
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",userCount));
     }
 
     // package count
-    public ResponseEntity<AResponse> getPackages(String username) {
-        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
-
+    public ResponseEntity<AResponse> getPackagesCount() {
         Long packageCount = packageRepo.count();
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",packageCount));
     }
 
     // tour count
-    public ResponseEntity<AResponse> getTours(String username) {
-        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
-
+    public ResponseEntity<AResponse> getToursCount() {
         Long tourCount = tourRepo.count();
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",tourCount));
     }
 
     // bookings count
-    public ResponseEntity<AResponse> getBookings(String username) {
-        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
-
+    public ResponseEntity<AResponse> getBookingsCount() {
         Long bookingCount = customerRegisterRepo.count();
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",bookingCount));
     }
 
     // count confirmed customer
-    public ResponseEntity<AResponse> getConfirmed(String username) {
-        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
-
+    public ResponseEntity<AResponse> getConfirmedCount() {
         Long confirmedCount = customerRegisterRepo.countByStatus("CONFIRMED");
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",confirmedCount));
     }
 
     // count cancelled customer
-    public ResponseEntity<AResponse> getCancelled(String username) {
-        Admin admin = adminRepo.findByEmail(username).orElseThrow(()-> new UnAuthorizedException("Admin not found",username));
-
+    public ResponseEntity<AResponse> getCancelledCount() {
         Long cancelledCount = customerRegisterRepo.countByStatus("CANCELLED");
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",cancelledCount));
     }

@@ -132,7 +132,7 @@ const displayCurrentAdmin = async () => {
         const packageNameSelect = document.getElementById("package-select");
         const tourSelect = document.getElementById("tour-select");
 
-        const pkgResponse = await fetch(`${url}/admin/packageNames`, {
+        const pkgResponse = await fetch(`${url}/admin/package-names`, {
             method: "GET",
             credentials: "include",
         });
@@ -143,13 +143,7 @@ const displayCurrentAdmin = async () => {
             return;
         }
 
-        if (packageData.length === 0) {
-            tourContainer.style.display = "none";
-            showSessionMessage("No Packages found", false);
-            return;
-        }
-
-        packageData.forEach((pkg) => {
+        packageData.data.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
             option.innerText = pkg.packageName;
@@ -161,7 +155,7 @@ const displayCurrentAdmin = async () => {
 
             try {
                 const tourResponse = await fetch(
-                    `${url}/admin/tourNames/${packageId}`,
+                    `${url}/admin/packages/${packageId}/tours`,
                     { method: "GET", credentials: "include" },
                 );
 
@@ -177,7 +171,7 @@ const displayCurrentAdmin = async () => {
                     return;
                 }
 
-                tourResponseData.forEach((tour) => {
+                tourResponseData.data.forEach((tour) => {
                     const option = document.createElement("option");
                     option.textContent = tour.tourName;
                     option.value = tour.tourId;
@@ -195,7 +189,7 @@ const displayCurrentAdmin = async () => {
             const tourId = tourSelect.value;
             try {
                 const tourDetailsResponse = await fetch(
-                    `${url}/admin/getTour/${packageId}/${tourId}`,
+                    `${url}/admin/packages/${packageId}/tours/${tourId}`,
                     { method: "GET", credentials: "include" },
                 );
                 const tourDetailsResponseData =
@@ -210,19 +204,14 @@ const displayCurrentAdmin = async () => {
                     showFormMessage("No tour details", false);
                     return;
                 }
-
-                document.getElementById("tourName").value =
-                    tourDetailsResponseData.tourName;
-                document.getElementById("tourSlogan").value =
-                    tourDetailsResponseData.tourSlogan;
-                document.getElementById("places").value =
-                    tourDetailsResponseData.places;
-                document.getElementById("days").value =
-                    tourDetailsResponseData.day;
-                document.getElementById("nights").value =
-                    tourDetailsResponseData.night;
-                document.getElementById("price").value =
-                    tourDetailsResponseData.price;
+                const { tourName, tourSlogan, places, days, nights, price } =
+                    tourDetailsResponseData.data;
+                document.getElementById("tourName").value = tourName;
+                document.getElementById("tourSlogan").value = tourSlogan;
+                document.getElementById("places").value = places;
+                document.getElementById("days").value = days;
+                document.getElementById("nights").value = nights;
+                document.getElementById("price").value = price;
             } catch (err) {
                 console.error(err);
                 showFormMessage("Failed to load details!", false);
@@ -239,6 +228,8 @@ const displayCurrentAdmin = async () => {
 
 const handleUpdate = async (event) => {
     event.preventDefault();
+    const packageId = document.getElementById("package-select").value.trim();
+    const tourId = document.getElementById("tour-select").value.trim();
 
     const updatePackageForm = document.getElementById("updatecategoryform");
     const form_error = document.getElementById("form-error");
@@ -252,8 +243,6 @@ const handleUpdate = async (event) => {
     const imageFile = document.getElementById("imageFile");
 
     const data = new FormData();
-    data.append("packageId", packageId);
-    data.append("tourId", parseInt(tourIdVal));
     if (tourName) data.append("tourName", tourName);
     if (tourSlogan) data.append("tourSlogan", tourSlogan);
     if (places) data.append("places", places);
@@ -264,11 +253,14 @@ const handleUpdate = async (event) => {
         data.append("imageFile", imageFile.files[0]);
 
     try {
-        const response = await fetch(`${url}/admin/updateTour`, {
-            method: "PUT",
-            body: data,
-            credentials: "include",
-        });
+        const response = await fetch(
+            `${url}/admin/packages/${packageId}/tours/${tourId}`,
+            {
+                method: "PUT",
+                body: data,
+                credentials: "include",
+            },
+        );
 
         const responseData = await response.json();
         if (!response.ok) {

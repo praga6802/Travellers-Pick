@@ -2,16 +2,12 @@ package com.example.travellers_choice.service;
 
 
 import com.example.travellers_choice.dto.*;
-import com.example.travellers_choice.exception.IDNotFoundException;
-import com.example.travellers_choice.exception.UnAuthorizedException;
-import com.example.travellers_choice.model.Admin;
+import com.example.travellers_choice.exception.*;
 import com.example.travellers_choice.model.Packages;
-import com.example.travellers_choice.model.Tour;
 import com.example.travellers_choice.repository.AdminRepo;
 import com.example.travellers_choice.repository.PackageRepo;
 import jakarta.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,49 +26,30 @@ public class PackageService {
     @Autowired
     PackageRepo packageRepo;
 
-    @Autowired
-    AdminRepo adminRepo;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private ServletContext servletContext;
-
 
     //add package
-    public ResponseEntity<?> addPackage(PackageUploadDTO packageDTO, String email) {
-        Admin exisitingAdmin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email)",email));
-
+    public ResponseEntity<AResponse> addPackage(PackageUploadDTO packageDTO){
         if (packageRepo.existsByPackageName(packageDTO.getPackageName())) {
-            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).
-                    body(new AResponse(LocalDateTime.now(),"Failure","Package Already Added"));
+            throw new AlreadyExistsException(packageDTO.getPackageName(),"Package Already Exists");
         }
+
         MultipartFile image=packageDTO.getImageFile();
 
         String dirPath = "/app/uploads/packages";
         File dir=new File(dirPath);
 
         if (!dir.exists() && !dir.mkdirs()) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new AResponse(
-                            LocalDateTime.now(),
-                            "Failure",
-                            "Failed to create upload directory"
-                    ));
+            throw new BusinessException("Failed to create upload Repository!");
         }
 
         String fileName=image.getOriginalFilename();
-
-
         File destination=new File(dir,fileName);
 
         try{
             image.transferTo(destination);
         }
         catch (Exception e){
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AResponse(LocalDateTime.now(),"Failure","Failed to Upload Package Image!"));
+            throw new BusinessException("Failed to Upload Package Image!");
         }
 
         Packages newPackage = new Packages();
@@ -85,11 +62,9 @@ public class PackageService {
 
 
     //update package
-    public ResponseEntity<?> updatePackage(UpdatePackageDTO updatePackageDTO, String email) {
-        Packages existingPackage=packageRepo.findById(updatePackageDTO.getPackageId()).orElseThrow(()->new IDNotFoundException("Package ID",updatePackageDTO.getPackageId()));
-        Admin exisitingAdmin=adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
+    public ResponseEntity<AResponse> updatePackage(Integer packageId, UpdatePackageDTO updatePackageDTO) {
+        Packages existingPackage=packageRepo.findById(packageId).orElseThrow(()->new IDNotFoundException("Package ID",packageId));
 
-        // update only if new values are provided
         if (updatePackageDTO.getPackageName() != null && !updatePackageDTO.getPackageName().isBlank()) {
             existingPackage.setPackageName(updatePackageDTO.getPackageName());
         }
@@ -114,8 +89,7 @@ public class PackageService {
                 image.transferTo(file);
             }
             catch (IOException e){
-                System.out.println(e);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AResponse(LocalDateTime.now(),"Failure","Failed to Update Package Image!"));
+                throw new BusinessException("Failed to Update Package Image!");
             }
         }
         packageRepo.save(existingPackage);
@@ -123,37 +97,52 @@ public class PackageService {
     }
 
     //delete package
-    public ResponseEntity<?> deletePackage(Integer packageId, String email) {
+    public ResponseEntity<AResponse> deletePackage(Integer packageId) {
         Packages existingPackage= packageRepo.findById(packageId).orElseThrow(()-> new IDNotFoundException("Package ID",packageId));
-        Admin existingAdmin= adminRepo.findByEmail(email).orElseThrow(()-> new UnAuthorizedException("Admin Email",email));
         packageRepo.delete(existingPackage);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Package Deleted Successfully"));
     }
 
+    // get all package list
+    public ResponseEntity<AResponse> getAllPackages(){
 
-    public List<PackageDTO> getAllPackages(){
-        return packageRepo.findAll().stream().map(pkg-> {
+        List<Packages> packages = packageRepo.findAll();
+        if(packages.isEmpty()){
+            throw new ResourceNotFoundException("Packages");
+        }
+        List<PackageDTO> packageDTOS = packages.stream().map(pkg-> {
             String fileName= pkg.getPackageName().split(" ")[1].toLowerCase()+"-package.html";
                 return new PackageDTO(pkg.getPackageId(),pkg.getPackageName(),pkg.getPackageSlogan(),pkg.getImgUrl(),fileName);
         }).toList();
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",packageDTOS));
     }
 
 
     //get Package by Id
-    public ResponseEntity<?> getPackageById(Integer pkgId){
+    public ResponseEntity<AResponse> getPackageById(Integer pkgId){
         Packages pkgid=packageRepo.findById(pkgId).orElseThrow(()-> new IDNotFoundException("Package Id",pkgId));
         Map<String, Object> response= new LinkedHashMap<>();
         response.put("packageId",pkgid.getPackageId());
         response.put("packageName",pkgid.getPackageName());
         response.put("packageSlogan",pkgid.getPackageSlogan());
         response.put("imgFile",pkgid.getImgUrl());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",response));
     }
 
-    public List<PackageInfoDTO> getAllPackageNames() {
-        return packageRepo.findAll().stream()
+
+    //get all package names for selecting
+    public ResponseEntity<AResponse> getAllPackageNames() {
+
+        List<Packages> packages = packageRepo.findAll();
+        if(packages.isEmpty()){
+            throw new ResourceNotFoundException("Packages");
+        }
+
+        List<PackageInfoDTO> packageInfoDTOS = packages.stream()
                 .map(pkg->new PackageInfoDTO(pkg.getPackageId(), pkg.getPackageName()))
                 .toList();
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",packageInfoDTOS));
+
     }
 
 }

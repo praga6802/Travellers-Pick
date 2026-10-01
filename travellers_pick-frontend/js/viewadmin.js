@@ -28,7 +28,7 @@ const displayCurrentAdmin = async () => {
 
 const displayAdmins = async () => {
     try {
-        const response = await fetch(`${url}/admin/alladmins`, {
+        const response = await fetch(`${url}/admin/admins`, {
             method: "GET",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
@@ -42,8 +42,8 @@ const displayAdmins = async () => {
             return;
         }
 
-        if (responseData.length === 0) {
-            showFormMessage("No admins found!", false);
+        if (!responseData || responseData.length == 0) {
+            showSessionMessage(responseData.message, false);
             return;
         }
 
@@ -73,7 +73,7 @@ const displayAdmins = async () => {
 
         const adminBody = document.getElementById("admin-body");
 
-        responseData.forEach((admin) => {
+        responseData.data.forEach((admin) => {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${admin.adminId || admin.id || ""}</td>

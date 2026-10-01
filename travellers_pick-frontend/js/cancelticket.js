@@ -73,7 +73,7 @@ async function handleCancel(event) {
     }
 
     try {
-        const response = await fetch(`${url}/user/cancelTour`, {
+        const response = await fetch(`${url}/user/bookings/cancel`, {
             method: "DELETE",
             credentials: "include",
             body: JSON.stringify({ pnr: PNR_NUMBER }),
@@ -82,23 +82,11 @@ async function handleCancel(event) {
 
         const responseData = await response.json();
 
-        if (response.ok) {
-            showFormMessage(
-                responseData.message || "Booking cancelled successfully.",
-                true,
-            );
+        if (!response.ok) {
+            showFormMessage(responseData.message, true);
             pnrInp.value = "";
-        } else if (response.status === 401) {
-            showSessionMessage("Session Expired. Please login again.", false);
-            setTimeout(() => {
-                window.location.href = "../html/user-login.html";
-            }, 2000);
-        } else {
-            showFormMessage(
-                responseData.message || "Failed to cancel booking.",
-                false,
-            );
         }
+        showFormMessage(responseData.message, true);
 
         setTimeout(() => {
             form_error.classList.add("hide");

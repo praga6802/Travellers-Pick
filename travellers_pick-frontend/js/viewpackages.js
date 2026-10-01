@@ -28,7 +28,7 @@ const displayCurrentAdmin = async () => {
 
 const displayPackages = async () => {
     try {
-        const response = await fetch(`${url}/admin/allPackages`, {
+        const response = await fetch(`${url}/admin/packages`, {
             method: "GET",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
@@ -42,8 +42,8 @@ const displayPackages = async () => {
             return;
         }
 
-        if (responseData.length === 0) {
-            showSessionMessage("No packages found!", false);
+        if (!responseData || responseData.length == 0) {
+            showSessionMessage(responseData.message, false);
             return;
         }
 
@@ -69,7 +69,7 @@ const displayPackages = async () => {
         `;
 
         const packageBody = document.getElementById("package-body");
-        responseData.forEach((pkg) => {
+        responseData.data.forEach((pkg) => {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${pkg.packageId || pkg.id || ""}</td>

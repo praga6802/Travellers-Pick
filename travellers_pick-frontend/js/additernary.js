@@ -99,7 +99,7 @@ const displayItineraryForm = async () => {
 
         if (!packageNameSelect) return;
 
-        const packageResponse = await fetch(`${url}/admin/packageNames`, {
+        const packageResponse = await fetch(`${url}/admin/package-names`, {
             method: "GET",
             credentials: "include",
         });
@@ -112,18 +112,10 @@ const displayItineraryForm = async () => {
             return;
         }
 
-        if (packageResponseData.length === 0) {
-            itineraryContainer.style.display = "none";
-            showSessionMessage("No packages available", false);
-            return;
-        }
-
-        packageResponseData.forEach((pkg) => {
+        packageResponseData.data.forEach((pkg) => {
             const option = document.createElement("option");
-
             option.value = pkg.packageId;
             option.textContent = pkg.packageName;
-
             packageNameSelect.appendChild(option);
         });
 
@@ -140,7 +132,7 @@ const displayItineraryForm = async () => {
             `;
 
             const tourResponse = await fetch(
-                `${url}/admin/tourNames/${packageId}`,
+                `${url}/admin/packages/${packageId}/tours`,
                 {
                     method: "GET",
                     credentials: "include",
@@ -154,17 +146,10 @@ const displayItineraryForm = async () => {
                 return;
             }
 
-            if (tourResponseData.length === 0) {
-                showSessionMessage("No tours available!", false);
-                return;
-            }
-
-            tourResponseData.forEach((tour) => {
+            tourResponseData.data.forEach((tour) => {
                 const option = document.createElement("option");
-
                 option.value = tour.tourId;
                 option.textContent = tour.tourName;
-
                 tourSelect.appendChild(option);
             });
         });
@@ -183,17 +168,10 @@ const addItinerary = async (e) => {
     const formError = document.getElementById("form-error");
     const addItineraryForm = e.target;
 
-    const packageId = parseInt(
-        document.getElementById("package-select").value,
-        10,
-    );
-
+    const packageId = parseInt(document.getElementById("package-select").value, 10);
     const tourId = parseInt(document.getElementById("tour-select").value, 10);
-
     const day = parseInt(document.getElementById("day").value.trim(), 10);
-
     const destination = document.getElementById("destination").value.trim();
-
     const description = document.getElementById("description").value.trim();
 
     if (
@@ -217,7 +195,7 @@ const addItinerary = async (e) => {
     };
 
     try {
-        const addItineraryResponse = await fetch(`${url}/admin/addItinerary`, {
+        const addItineraryResponse = await fetch(`${url}/admin/packages/${packageId}/tours/${tourId}/itineraries`, {
             method: "POST",
             credentials: "include",
             headers: {

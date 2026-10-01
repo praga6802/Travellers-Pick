@@ -55,7 +55,7 @@ const initDeleteTourForm = async () => {
         const packageNameSelect = document.getElementById("package-select");
         const tourSelect = document.getElementById("tour-select");
 
-        const pkgResponse = await fetch(`${url}/admin/packageNames`, {
+        const pkgResponse = await fetch(`${url}/admin/package-names`, {
             method: "GET",
             credentials: "include",
         });
@@ -66,13 +66,8 @@ const initDeleteTourForm = async () => {
             return;
         }
 
-        if (packageData.length === 0) {
-            container.style.display = "none";
-            showSessionMessage("No Packages found", false);
-            return;
-        }
 
-        packageData.forEach((pkg) => {
+        packageData.data.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
             option.innerText = pkg.packageName;
@@ -88,7 +83,7 @@ const initDeleteTourForm = async () => {
 
             try {
                 const tourResponse = await fetch(
-                    `${url}/admin/tourNames/${packageId}`,
+                    `${url}/admin/packages/${packageId}/tours`,
                     { method: "GET", credentials: "include" },
                 );
 
@@ -99,16 +94,10 @@ const initDeleteTourForm = async () => {
                     return;
                 }
 
-                if (!tourResponseData || tourResponseData.length === 0) {
-                    showFormMessage("No tours found!");
-                    return;
-                }
-
                 tourResponseData.forEach((tour) => {
                     const option = document.createElement("option");
                     option.textContent = tour.tourName;
                     option.value = tour.tourId;
-
                     tourSelect.appendChild(option);
                 });
             } catch (err) {
@@ -128,8 +117,8 @@ const deleteTour = async (e) => {
     const deletePackageForm = document.getElementById("deletecategoryform");
     const form_error = document.getElementById("form-error");
 
-    const tourId = document.getElementById("tourId").value;
-    const packageId = document.getElementById("packageId").value;
+    const tourId = document.getElementById("tour-select").value;
+    const packageId = document.getElementById("package-select").value;
 
     if (!packageId || !tourId) {
         showFormMessage("Please select both Package Name and Tour Name", false);
@@ -137,7 +126,7 @@ const deleteTour = async (e) => {
     }
 
     try {
-        const response = await fetch(`${url}/admin/deleteTour`, {
+        const response = await fetch(`${url}/admin/packages/${packageId}/tours/${tourId}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -151,7 +140,6 @@ const deleteTour = async (e) => {
             return;
         }
 
-        //resetting the tour from packages
         const tourSelect = document.getElementById("tour-select");
         const selectedOption = tourSelect.querySelector(
             `option[value="${tourId}"]`,

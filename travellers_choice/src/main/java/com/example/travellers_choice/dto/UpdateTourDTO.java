@@ -7,10 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
-public class UploadCategoryDTO {
-
-    private Integer packageId;
-    private Integer tourId;
+public class UpdateTourDTO {
     private String tourName;
     private String tourSlogan;
     private String places;
@@ -19,15 +16,13 @@ public class UploadCategoryDTO {
     private Double price;
     private MultipartFile imageFile;
 
-    public UploadCategoryDTO(Integer packageId,Integer tourId,String tourName, String tourSlogan, String places, Integer days, Integer nights, Double price, MultipartFile imageFile) {
-        this.tourName = tourName;
+    public UpdateTourDTO(String tourName, String tourSlogan, String places, Integer days, Integer nights, Double price, MultipartFile imageFile) {
         this.imageFile=imageFile;
+        this.tourName = tourName;
         this.tourSlogan = tourSlogan;
         this.places = places;
         this.days = days;
         this.nights = nights;
         this.price = price;
-        this.packageId=packageId;
-        this.tourId=tourId;
     }
 }

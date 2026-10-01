@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class CustomerRegistry {
+public class BookingRegistry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -22,7 +22,7 @@ async function handleViewBooking() {
             return;
         }
 
-        const response = await fetch(`${url}/user/bookedTours`, {
+        const response = await fetch(`${url}/user/bookings`, {
             method: "GET",
             credentials: "include",
         });
@@ -38,6 +38,11 @@ async function handleViewBooking() {
             return;
         }
 
+        if (!responseData || responseData.length == 0) {
+            showSessionMessage(responseData.message, false);
+            return;
+        }
+
         bookingListContainer.innerHTML = `
             <h1 class="h1">VIEW BOOKINGS</h1>
             <div class="container">
@@ -48,7 +53,7 @@ async function handleViewBooking() {
 
         const bookingRow = document.getElementById("booking-row");
 
-        responseData.forEach((booking) => {
+        responseData.data.forEach((booking) => {
             let statusClass = "";
             const statusUpper = (booking.status || "").toUpperCase();
 

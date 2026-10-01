@@ -1,22 +1,18 @@
 package com.example.travellers_choice.controller;
 
 import com.example.travellers_choice.dto.*;
-import com.example.travellers_choice.model.*;
 import com.example.travellers_choice.service.AdminService;
 import com.example.travellers_choice.service.IternaryService;
 import com.example.travellers_choice.service.PackageService;
 import com.example.travellers_choice.service.TourService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -38,244 +34,225 @@ public class AdminController {
 
     //sign up admin
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody UserRegisterDTO admin){
+    public ResponseEntity<AResponse> signUp(@RequestBody UserRegisterDTO admin){
         return adminService.signUp(admin);
     }
 
     //login admin
     @PostMapping("/login")
-    public ResponseEntity<?> adminLogin(@RequestBody LoginDTO loginData, HttpSession session) {
+    public ResponseEntity<AResponse> adminLogin(@RequestBody LoginDTO loginData, HttpSession session) {
         return adminService.adminLogin(loginData.getEmail(),loginData.getPassword(),session);
     }
 
     //get the current admin
     @GetMapping("/current-admin")
-    public ResponseEntity<?> getCurrentAdmin(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<AResponse> getCurrentAdmin(@AuthenticationPrincipal UserDetails userDetails) {
         return adminService.getCurrentAdmin(userDetails);
     }
 
     //logout admin
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@AuthenticationPrincipal UserDetails userDetails, HttpSession session){
-       return adminService.logout(userDetails,session);
+    public ResponseEntity<AResponse> logout(HttpSession session){
+       return adminService.logout(session);
     }
 
 
     // UPDATE ADMIN
-    @PutMapping("/updateAdmin")
-    public ResponseEntity<?> updateAdmin(@RequestBody AdminDTO admin, @AuthenticationPrincipal UserDetails user){
-        String email=user.getUsername();
-        System.out.println("EMAIL:"+email+" with data"+"DATA"+admin);
-        return adminService.updateAdmin(admin,email);
+    @PatchMapping("/update")
+    public ResponseEntity<AResponse> updateAdmin(@RequestBody AdminDTO admin, @AuthenticationPrincipal UserDetails userDetails){
+        return adminService.updateAdmin(admin,userDetails.getUsername());
     }
 
 
     //DELETE ADMIN
-    @DeleteMapping("/deleteAdmin")
-    public ResponseEntity<?> deleteAdmin(@RequestBody DeleteAdminDTO deleteAdminDTO){
-        return adminService.deleteAdmin(deleteAdminDTO.getAdminId(), deleteAdminDTO.getPassword());
+    @DeleteMapping("/delete")
+    public ResponseEntity<AResponse> deleteAdmin(@RequestBody DeleteAdminDTO deleteAdminDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return adminService.deleteAdmin(deleteAdminDTO.getAdminId(), deleteAdminDTO.getPassword(), userDetails.getUsername());
     }
-
-
-    //VIEW ADMIN
-    @GetMapping("/alladmins")
-    public ResponseEntity<List<Admin>> getAllAdmins(){
-        List<Admin> allAdmins= adminService.getAllAdmins();
-        return ResponseEntity.ok(allAdmins);
-    }
-
 
     //GET ADMIN BY ID
-    @GetMapping("/getadmin/{adminId}")
-    public ResponseEntity<?> getAdmin(@PathVariable("adminId") Integer adminid){
-        return adminService.getAdmin(adminid);
+    @GetMapping("/admins/{adminId}")
+    public ResponseEntity<AResponse> getAdmin(@PathVariable("adminId") Integer adminId){
+        return adminService.getAdmin(adminId);
     }
 
-    @GetMapping("/adminData")
-    public ResponseEntity<?> adminData(@AuthenticationPrincipal UserDetails userDetails){
-        if(userDetails==null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
-                    body(new AResponse(LocalDateTime.now(),"Failure","Network Error or Session Expired! Please try again"));
-        }
-        return adminService.adminData(userDetails.getUsername());
+    //get all admins
+    @GetMapping("/admins")
+    public ResponseEntity<AResponse> getAllAdmins(){
+        return adminService.getAllAdmins();
     }
 
-
-                                                    // --- CUSTOMERS --
-    // get all tour register customers
-    @GetMapping("/allregusers")
-    public ResponseEntity<List<BookedUserDTO>> getAllUsers(){
-        List<BookedUserDTO> allUsers= adminService.getAllRegUsers();
-        return ResponseEntity.ok(allUsers);
+    // get all booked users
+    @GetMapping("/bookings/users")
+    public ResponseEntity<AResponse> getAllUsers(){
+        return adminService.getAllRegUsers();
     }
 
-
-    //get all signup users
-    @GetMapping("/allusers")
-    public ResponseEntity<List<Customer>> getAllCustomers(){
-        List<Customer> allCustomers= adminService.getAllCustomers();
-        return ResponseEntity.ok(allCustomers);
+    //get all users
+    @GetMapping("/users")
+    public ResponseEntity<AResponse> getAllCustomers(){
+        return adminService.getAllCustomers();
     }
-
 
 
                                                     // --- PACKAGE ---
-    //ADD PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
-    @PostMapping(value = "/addPackage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> addPackage(@ModelAttribute PackageUploadDTO dto, @AuthenticationPrincipal UserDetails user){
-      return packageService.addPackage(dto, user.getUsername());
+    //ADD PACKAGE
+    @PostMapping(value = "/packages", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<AResponse> addPackage(@ModelAttribute PackageUploadDTO dto){
+      return packageService.addPackage(dto);
     }
 
 
-    //UPDATE PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
-    @PutMapping(value = "/updatePackage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updatePackage(@ModelAttribute UpdatePackageDTO updatePackageDTO, @AuthenticationPrincipal UserDetails user) {
-        return packageService.updatePackage(updatePackageDTO, user.getUsername());
+    //UPDATE PACKAGE
+    @PutMapping(value = "/packages/{packageId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<AResponse> updatePackage(@PathVariable Integer packageId, @ModelAttribute UpdatePackageDTO updatePackageDTO) {
+        return packageService.updatePackage(packageId,updatePackageDTO);
     }
 
-    //DELETE PACKAGE BY PACKAGE AND ADMIN CREDENTIALS
-    @DeleteMapping("/deletePackage")
-    public ResponseEntity<?> deletePackage(@RequestBody DeletePackageDTO deletePackageDTO, @AuthenticationPrincipal UserDetails user){
-         return packageService.deletePackage(deletePackageDTO.getPackageId(),user.getUsername());
+    //DELETE PACKAGE
+    @DeleteMapping("/packages/{packageId}")
+    public ResponseEntity<AResponse> deletePackage(@PathVariable Integer packageId){
+         return packageService.deletePackage(packageId);
     }
 
     //GET ALL PACKAGES
-    @GetMapping("/allPackages")
-    public ResponseEntity<?> getAllPackages(){
-        List<PackageDTO> listPackages=packageService.getAllPackages();
-        return ResponseEntity.ok(listPackages);
+    @GetMapping("/packages")
+    public ResponseEntity<AResponse> getAllPackages() {
+        return packageService.getAllPackages();
     }
 
-
-    @GetMapping("/packageNames")
-    public ResponseEntity<?> getAllPackageNames(){
-        List<PackageInfoDTO> packageNames=packageService.getAllPackageNames();
-        return ResponseEntity.ok(packageNames);
+    // get all package names
+    @GetMapping("/package-names")
+    public ResponseEntity<AResponse> getAllPackageNames(){
+        return packageService.getAllPackageNames();
     }
-
-    @GetMapping("/tourNames/{packageId}")
-    public ResponseEntity<?> getTourInfo(@PathVariable Integer packageId){
-        List<TourInfoDTO> tours = tourService.getTourInfo(packageId);
-        return ResponseEntity.ok(tours);
-    }
-
 
     //GET PACKAGE Details BY ID
-    @GetMapping("/getPackage/{package_id}")
-    public ResponseEntity<?> getPackageById(@PathVariable Integer package_id){
+    @GetMapping("/packages/{package_id}")
+    public ResponseEntity<AResponse> getPackageById(@PathVariable Integer package_id){
         return packageService.getPackageById(package_id);
     }
 
 
-                                                        //  --- TOUR ---
-    //ADD TOUR
-    @PostMapping(value = "/addTour",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> addTour(@ModelAttribute UploadCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
-        return tourService.addTour(categoryDTO,userDetails.getUsername());
+
+                                                    //  --- Tour Service ---
+
+    //add tour
+    @PostMapping(value = "/packages/{packageId}/tours",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<AResponse> addTour(@PathVariable Integer packageId, @ModelAttribute UpdateTourDTO categoryDTO){
+        return tourService.addTour(packageId,categoryDTO);
     }
 
-    // UPDATE TOUR
-    @PutMapping(value = "/updateTour", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updateTour(@ModelAttribute UploadCategoryDTO categoryDTO, @AuthenticationPrincipal UserDetails userDetails){
-        return tourService.updateTour(categoryDTO,userDetails.getUsername());
+    // update tour
+    @PutMapping(value = "/packages/{packageId}/tours/{tourId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<AResponse> updateTour(@PathVariable Integer packageId, @PathVariable Integer tourId, @ModelAttribute UpdateTourDTO categoryDTO){
+        return tourService.updateTour(packageId,tourId,categoryDTO);
     }
 
-    // DELETE TOUR
-    @DeleteMapping("/deleteTour")
-    public ResponseEntity<?> deleteTour(@RequestBody DeleteTourDTO dto, @AuthenticationPrincipal UserDetails userDetails){
-        return tourService.deleteTour(dto, userDetails.getUsername());
+    // delete tour
+    @DeleteMapping("/packages/{packageId}/tours/{tourId}")
+    public ResponseEntity<AResponse> deleteTour(@PathVariable Integer packageId, @PathVariable Integer tourId){
+        return tourService.deleteTour(packageId,tourId);
     }
 
-    //GET ALL TOURS
-    @GetMapping("/allTours")
-    public ResponseEntity<List<UpdateCategoryDTO>> getAllTours(){
-        List<UpdateCategoryDTO> allTours=tourService.getAllTours();
-        return ResponseEntity.ok(allTours);
+    //get tours list
+    @GetMapping("/tours")
+    public ResponseEntity<AResponse> getAllTours(){
+        return tourService.getAllTours();
+    }
+
+    // get tour list by packageId - tour names
+    @GetMapping("/packages/{packageId}/tours")
+    public ResponseEntity<AResponse> getToursByPackageId(@PathVariable Integer packageId){
+        return tourService.getToursByPackageId(packageId);
+    }
+
+    // get tour by packageid, tourid
+    @GetMapping("/packages/{packageId}/tours/{tourId}")
+    public ResponseEntity<AResponse> getTourById(@PathVariable Integer packageId,@PathVariable Integer tourId){
+        return tourService.getTourByID(packageId,tourId);
     }
 
 
-    // GET TOUR BY ID
-    @GetMapping("/getTour/{packageID}/{tourID}")
-    public ResponseEntity<?> getTourById(@PathVariable Integer packageID,@PathVariable Integer tourID){
-        return tourService.getTourByID(packageID,tourID);
-    }
+                                                    // Itinerary Service //
 
-
-    // ----- ITINERARY service -----
     //add itinerary
-    @PostMapping("/addItinerary")
-    public ResponseEntity<?> addItinerary(@RequestBody AddItineraryDTO addItineraryDTO){
-        return iternaryService.addItinerary(addItineraryDTO);
+    @PostMapping("/packages/{packageId}/tours/{tourId}/itineraries")
+    public ResponseEntity<AResponse> addItinerary(@PathVariable Integer packageId, @PathVariable Integer tourId, @RequestBody ItineraryDTO addItineraryDTO){
+        return iternaryService.addItinerary(packageId,tourId,addItineraryDTO);
     }
 
-    @PatchMapping("/updateItinerary")
-    public ResponseEntity<?> updateItinerary(@RequestBody UpdateItineraryDTO updateItineraryDTO){
-        return iternaryService.updateItinerary(updateItineraryDTO);
+    // update Itinerary
+    @PatchMapping("/packages/{packageId}/tours/{tourId}/itineraries/{itineraryId}")
+    public ResponseEntity<AResponse> updateItinerary(@PathVariable Integer packageId,@PathVariable Integer tourId, @PathVariable Integer itineraryId,
+                                                     @RequestBody ItineraryDTO updateItineraryDTO){
+        return iternaryService.updateItinerary(packageId,tourId,itineraryId, updateItineraryDTO);
     }
 
-    @DeleteMapping("/deleteItinerary")
-    public ResponseEntity<?> deleteItinerary(@RequestBody DeleteItineraryDTO deleteItineraryDTO){
+    @DeleteMapping("/packages/{packageId}/tours/{tourId}/itineraries/{itineraryId}")
+    public ResponseEntity<AResponse> deleteItinerary(@RequestBody DeleteItineraryDTO deleteItineraryDTO){
         return iternaryService.deleteItinerary(deleteItineraryDTO);
     }
 
-    @GetMapping("/allItineraries")
-    public ResponseEntity<?> getAllItineraries(){
-        return iternaryService.getAllItineraries();
+    @GetMapping("/itineraries")
+    public ResponseEntity<AResponse> getItineraries(){
+        return iternaryService.getItineraries();
     }
 
-    @GetMapping("/getDay/{packageId}/{tourId}")
-    public ResponseEntity<?> getDayInformation(@PathVariable Integer packageId, @PathVariable Integer tourId){
-        return iternaryService.getDayInformation(packageId,tourId);
+    @GetMapping("/packages/{packageId}/tours/{tourId}/days")
+    public ResponseEntity<AResponse> getDay(@PathVariable Integer packageId, @PathVariable Integer tourId){
+        return iternaryService.getDay(packageId,tourId);
     }
 
-    @GetMapping("/getItinerary/{packageId}/{tourId}/{day}")
-    public ResponseEntity<?> getItinerary(@PathVariable Integer packageId, @PathVariable Integer tourId, @PathVariable Integer day){
+    // fetch the details with packageid, tourid, and day -> description and destination
+    @GetMapping("/packages/{packageId}/tours/{tourId}/itineraries/{day}")
+    public ResponseEntity<AResponse> getItinerary(@PathVariable Integer packageId, @PathVariable Integer tourId, @PathVariable Integer day){
         return iternaryService.getItinerary(packageId,tourId,day);
     }
 
 
 
-    // -------- ADMIN DASHBOARD -------
+                                                    // Admin Dashboard //
 
     // Get the total number of cancelled admins
-    @GetMapping("/getAdmins")
-    public ResponseEntity<AResponse> getAdmins(@AuthenticationPrincipal UserDetails userDetails){
-        return adminService.getAdmins(userDetails.getUsername());
+    @GetMapping("/admins/count")
+    public ResponseEntity<AResponse> getAdminsCount(){
+        return adminService.getAdminsCount();
     }
 
     // Get the total number of cancelled users
-    @GetMapping("/getUsers")
-    public ResponseEntity<AResponse> getUsers(@AuthenticationPrincipal UserDetails userDetails){
-        return adminService.getUsers(userDetails.getUsername());
+    @GetMapping("/users/count")
+    public ResponseEntity<AResponse> getUsersCount(){
+        return adminService.getUsersCount();
     }
 
     // Get the total number of packages
-    @GetMapping("/getPackages")
-    public ResponseEntity<AResponse> getPackages(@AuthenticationPrincipal UserDetails userDetails){
-        return adminService.getPackages(userDetails.getUsername());
+    @GetMapping("/packages/count")
+    public ResponseEntity<AResponse> getPackagesCount(){
+        return adminService.getPackagesCount();
     }
 
     // Get the total number of tours
-    @GetMapping("/getTours")
-    public ResponseEntity<AResponse> getTours(@AuthenticationPrincipal UserDetails userDetails){
-        return adminService.getTours(userDetails.getUsername());
+    @GetMapping("/tours/count")
+    public ResponseEntity<AResponse> getToursCount(){
+        return adminService.getToursCount();
     }
 
     // Get the total number of bookings
-    @GetMapping("/getBookings")
-    public ResponseEntity<AResponse> getBookings(@AuthenticationPrincipal UserDetails userDetails){
-        return adminService.getBookings(userDetails.getUsername());
+    @GetMapping("/bookings/count")
+    public ResponseEntity<AResponse> getBookingsCount(){
+        return adminService.getBookingsCount();
     }
 
     // Get the total number of confirmed bookings
-    @GetMapping("/getConfirmed")
-    public ResponseEntity<AResponse> getConfirmed(@AuthenticationPrincipal UserDetails userDetails){
-        return adminService.getConfirmed(userDetails.getUsername());
+    @GetMapping("/bookings/confirmed/count")
+    public ResponseEntity<AResponse> getConfirmedCount(){
+        return adminService.getConfirmedCount();
     }
 
     // Get the total number of cancelled bookings
-    @GetMapping("/getCancelled")
-    public ResponseEntity<AResponse> getCancelled(@AuthenticationPrincipal UserDetails userDetails){
-        return adminService.getCancelled(userDetails.getUsername());
+    @GetMapping("/bookings/cancelled/count")
+    public ResponseEntity<AResponse> getCancelledCount(){
+        return adminService.getCancelledCount();
     }
 }

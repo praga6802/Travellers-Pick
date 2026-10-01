@@ -48,7 +48,7 @@ const displayUpdatePackageForm = async () => {
         `;
 
         const packageSelect = document.getElementById("packageId");
-        const response = await fetch(`${url}/admin/packageNames`, {
+        const response = await fetch(`${url}/admin/package-names`, {
             method: "GET",
             credentials: "include",
         });
@@ -60,13 +60,7 @@ const displayUpdatePackageForm = async () => {
             return;
         }
 
-        if (!responseData || responseData.length == 0) {
-            packageContainer.style.display = "none";
-            showSessionMessage("No packages found!", false);
-            return;
-        }
-
-        responseData.forEach((pkg) => {
+        responseData.data.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
             option.innerText = pkg.packageName;
@@ -95,7 +89,7 @@ const deletePackage = async (e) => {
     }
 
     try {
-        const response = await fetch(`${url}/admin/deletePackage`, {
+        const response = await fetch(`${url}/admin/deletePackage/${packageId}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             credentials: "include",

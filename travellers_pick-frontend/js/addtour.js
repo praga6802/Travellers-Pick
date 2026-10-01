@@ -95,7 +95,7 @@ const displayAddTourForm = async () => {
         const packageNameSelect = document.getElementById("packageName");
         if (!packageNameSelect) return;
 
-        const response = await fetch(`${url}/admin/packageNames`, {
+        const response = await fetch(`${url}/admin/package-names`, {
             method: "GET",
             credentials: "include",
         });
@@ -108,14 +108,8 @@ const displayAddTourForm = async () => {
             return;
         }
 
-        if (responseData.length === 0) {
-            tourContainer.style.display = "none";
-            showSessionMessage("No packages available", false);
-            return;
-        }
-
         packageNameSelect.innerHTML = `<option value="" hidden selected disabled>Select Package</option>`;
-        responseData.forEach((pkg) => {
+        responseData.data.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
             option.textContent = pkg.packageName;
@@ -177,7 +171,7 @@ async function handleAddCategory(event) {
     data.append("imageFile", imageFileInput.files[0]);
 
     try {
-        const response = await fetch(`${url}/admin/addTour`, {
+        const response = await fetch(`${url}/admin/packages/${packageId}/tours`, {
             method: "POST",
             credentials: "include",
             body: data,

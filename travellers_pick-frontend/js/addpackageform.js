@@ -33,12 +33,12 @@ const displayForm = async () => {
 						</div>
 						<div class="input-box">
 							<label for="slogan">Package Slogan</label><br>
-							<input type="text" name="packageSlogan" id="packageSlogan" maxlength="50"
+							<input type="text" name="packageSlogan" id="packageSlogan" required maxlength="50"
 								placeholder="Package Slogan" /><br><br>
 						</div>
 						<div class="input-box">
 							<label for="imageFile">Package Image</label><br>
-							<input type="file" name="imageFile" id="imageFile" accept="image/*"><br><br>
+							<input type="file" name="imageFile" id="imageFile" required accept="image/*"><br><br>
 						</div>
 						<div class="button-group">
 							<input type="submit" value="ADD" class="button" />
@@ -69,27 +69,13 @@ const handlePackage = async (e) => {
     const packageSlogan = document.getElementById("packageSlogan").value.trim();
     const imageFile = document.getElementById("imageFile");
 
-    if (!packageName) {
-        showFormMessage("Package name is required!", false);
-        return;
-    }
-    if (!packageSlogan) {
-        showFormMessage("Package Slogan is required!", false);
-        return;
-    }
-
-    if (!imageFile.files || imageFile.files.length === 0) {
-        showFormMessage("Image is required!", false);
-        return;
-    }
-
     const formData = new FormData();
     formData.append("packageName", packageName);
     formData.append("packageSlogan", packageSlogan);
     formData.append("imageFile", imageFile.files[0]);
 
     try {
-        const response = await fetch(`${url}/admin/addPackage`, {
+        const response = await fetch(`${url}/admin/packages`, {
             method: "POST",
             body: formData,
             credentials: "include",

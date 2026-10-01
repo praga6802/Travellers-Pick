@@ -12,7 +12,7 @@ public class TourDetailDTO {
     private String tourName;
     private String tourSlogan;
     private String places;
-    private Integer day;
-    private Integer night;
+    private Integer days;
+    private Integer nights;
     private Double price;
 }

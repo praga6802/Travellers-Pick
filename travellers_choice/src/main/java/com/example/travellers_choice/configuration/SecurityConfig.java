@@ -1,6 +1,7 @@
 package com.example.travellers_choice.configuration;
 
 import com.example.travellers_choice.service.MyUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -38,16 +39,23 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                        .requestMatchers("/",
-                                "/admin/login", "/admin/signup", "/admin/logout","/admin/allPackages","/admin/allTours","/admin/allIternaries","/admin/current-admin",
-                                "/user/signup", "/user/login", "/user/logout","/user/allIternaries","/user/current-user", "/user/userData",
-                                "/admin/getDay", "/user/itineraries/{tourId}").permitAll()
-
+                        .requestMatchers(
+                                "/admin/login", "/admin/signup",
+                                "/user/signup", "/user/login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH,"/user/updateUser").hasRole("USER")
                         .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
+                .exceptionHandling(exception->exception.authenticationEntryPoint(((request, response, authException) -> {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.setContentType("application/json");
+                    response.getWriter().write("""
+                            {
+                                "status":"failure",
+                                "message":"Session Expired! Please login again!"
+                            }
+                            """);
+                })))
                 .authenticationProvider(authenticationProvider())
                 .formLogin(form -> form.disable())
                 .httpBasic(basic->basic.disable())

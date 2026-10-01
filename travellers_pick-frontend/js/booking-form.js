@@ -45,11 +45,6 @@ const displayBookingForm = async () => {
             return;
         }
 
-        if (iternaryResponseData.length === 0) {
-            showSessionMessage("No Itineraries found for this tour!", false);
-            return;
-        }
-
         iternaryContainer.innerHTML = `
             <h1 class="h1">ITINERARY</h1>
             <table class='table'>
@@ -66,7 +61,7 @@ const displayBookingForm = async () => {
         `;
 
         const tableRows = document.getElementById("table-row");
-        iternaryResponseData.forEach((it) => {
+        iternaryResponseData.data.forEach((it) => {
             tableRows.innerHTML += `
             <tr class='tbody'>
                 <td class='data'>${it.day || ""}</td>
@@ -238,7 +233,7 @@ async function submitForm(event) {
     };
 
     try {
-        const response = await fetch(`${url}/user/bookTour`, {
+        const response = await fetch(`${url}/user/book`, {
             method: "POST",
             body: JSON.stringify(data),
             credentials: "include",

@@ -21,7 +21,7 @@ const displayTour = async () => {
             return;
         }
 
-        const tourResponse = await fetch(`${url}/admin/allTours`, {
+        const tourResponse = await fetch(`${url}/admin/tours`, {
             method: "GET",
             credentials: "include",
         });
@@ -47,7 +47,7 @@ const displayTour = async () => {
             return;
         }
 
-        packageTours.forEach((tour) => {
+        packageTours.data.forEach((tour) => {
             const tourCard = document.createElement("div");
 
             tourCard.className = "col-12 col-md-4";

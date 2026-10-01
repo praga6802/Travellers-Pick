@@ -28,7 +28,7 @@ const displayCurrentAdmin = async () => {
 
 const displayUsers = async () => {
     try {
-        const response = await fetch(`${url}/admin/allusers`, {
+        const response = await fetch(`${url}/admin/users`, {
             method: "GET",
             credentials: "include",
         });
@@ -41,8 +41,8 @@ const displayUsers = async () => {
             return;
         }
 
-        if (responseData.length === 0) {
-            showSessionMessage("No users found.", false);
+        if (!responseData || responseData.length == 0) {
+            showSessionMessage(responseData.message, false);
             return;
         }
 
@@ -70,7 +70,7 @@ const displayUsers = async () => {
 
         const userBody = document.getElementById("user-body");
 
-        responseData.forEach((user) => {
+        responseData.data.forEach((user) => {
             const userRow = document.createElement("tr");
             userRow.innerHTML = `
                 <td>${user.id}</td>

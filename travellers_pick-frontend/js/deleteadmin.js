@@ -61,14 +61,9 @@ const handleDelete = async (e) => {
     const form = e.target;
     const adminId = document.getElementById("adminId").value.trim();
     const password = document.getElementById("password").value.trim();
-
-    if (!adminId || !password) {
-        showFormMessage("Admin ID and Password are required!", false);
-        return;
-    }
-
+    
     try {
-        const response = await fetch(`${url}/admin/deleteAdmin`, {
+        const response = await fetch(`${url}/admin/delete`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -80,17 +75,11 @@ const handleDelete = async (e) => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            showFormMessage(
-                responseData.message || "Unable to delete admin",
-                false,
-            );
+            showFormMessage(responseData.message || "Unable to delete admin",false);
             return;
         }
 
-        showFormMessage(
-            responseData.message || "Admin deleted successfully!",
-            true,
-        );
+        showFormMessage(responseData.message,true);
 
         setTimeout(() => {
             form.reset();
