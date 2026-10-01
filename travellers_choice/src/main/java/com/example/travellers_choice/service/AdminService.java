@@ -86,12 +86,8 @@ public class AdminService {
         String email=userDetails.getUsername();
         Admin admin=adminRepo.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("Email ID"+" "+email));
 
-        Map<String,Object> response=new HashMap<>();
-        response.put("adminId",admin.getAdminId());
-        response.put("username",admin.getUsername());
-        response.put("email",admin.getEmail());
-        response.put("contact",admin.getContact());
-        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",response));
+        UserDetailsDTO currentAdmin = new UserDetailsDTO(admin.getAdminId(),admin.getUsername(),admin.getEmail(),admin.getContact(),admin.getRole());
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",currentAdmin));
     }
 
     //logout admin

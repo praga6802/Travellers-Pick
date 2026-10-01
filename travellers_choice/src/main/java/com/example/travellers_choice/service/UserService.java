@@ -104,16 +104,11 @@ public class UserService {
         if (userDetails == null){
             throw new UnAuthorizedException("Session Expired! Please try again!");
         }
-
         String email=userDetails.getUsername();
 
         Customer user=userRepo.findUserByEmail(email).orElseThrow(()-> new UnAuthorizedException("Email "+email+" not found"));
-        Map<String,Object> response= new HashMap<>();
-        response.put("userId",user.getId());
-        response.put("name",user.getUsername());
-        response.put("email",user.getEmail());
-        response.put("contact",user.getContact());
-        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",response));
+        UserDetailsDTO currentUser =  new UserDetailsDTO(user.getId(),user.getUsername(),user.getEmail(),user.getContact(),user.getRole());
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",currentUser));
     }
 
     //logout user
