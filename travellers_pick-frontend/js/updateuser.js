@@ -62,25 +62,7 @@ const displayUpdateForm = async () => {
                 </div>
             </div>
         `;
-
-        const userResponse = await fetch(`${url}/user/userData`, {
-            method: "GET",
-            credentials: "include",
-        });
-
-        const userResponseData = await userResponse.json();
-
-        if (!userResponse.ok) {
-            showFormMessage("Unable to fetch user data", false);
-            return;
-        }
-
-        if (!userResponseData || userResponseData.length == 0) {
-            showSessionMessage(userResponseData.message, false);
-            return;
-        }
-
-        const { username, email, contact } = userResponseData;
+        const {userId, username, email,contact,role}=responseData.data;
 
         oldUsername = username;
         oldEmail = email;

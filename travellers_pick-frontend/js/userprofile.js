@@ -40,7 +40,7 @@ async function displayUserName() {
 
         // Greeting
         const greetingOption = document.createElement("option");
-        greetingOption.textContent = `Hello ${authData.data.userName}!`;
+        greetingOption.textContent = `Hello ${authData.data.username}!`;
         greetingOption.disabled = true;
         greetingOption.selected = true;
 
