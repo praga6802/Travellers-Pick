@@ -73,7 +73,7 @@ const displayTours = async () => {
 
         const itineraryBody = document.getElementById("itinerary-body");
 
-        responseData.forEach((itinerary) => {
+        responseData.data.forEach((itinerary) => {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td class='itinerary'>${itinerary.packages.packageId}</td>

@@ -73,7 +73,7 @@ const displayUsers = async () => {
         responseData.data.forEach((user) => {
             const userRow = document.createElement("tr");
             userRow.innerHTML = `
-                <td>${user.id}</td>
+                <td>${user.userId}</td>
                 <td>${user.username}</td>
                 <td>${user.email}</td>
                 <td>${user.contact}</td>

@@ -50,10 +50,10 @@ const displayCurrentAdmin = async () => {
 		</div>
         `;
 
-        document.getElementById("adminId").value = authData.adminId || "";
-        document.getElementById("username").value = authData.username || "";
-        document.getElementById("email").value = authData.email || "";
-        document.getElementById("contact").value = authData.contact || "";
+        document.getElementById("adminId").value = authData.data.adminId || "";
+        document.getElementById("username").value = authData.data.username || "";
+        document.getElementById("email").value = authData.data.email || "";
+        document.getElementById("contact").value = authData.data.contact || "";
 
         const updateform = document.getElementById("updateAdmin");
         updateform.addEventListener("submit", handleUpdate);

@@ -57,7 +57,7 @@ const displayAdmins = async () => {
 					<table id="admintable">
 						<thead>
 							<tr>
-								<th id="pkgid">ID</th>
+								<th id="adminId">ID</th>
 								<th>Name</th>
 								<th>Email</th>
 								<th>Mobile Number</th>
@@ -76,7 +76,7 @@ const displayAdmins = async () => {
         responseData.data.forEach((admin) => {
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td>${admin.adminId || admin.id || ""}</td>
+                <td>${admin.userId || admin.adminId || ""}</td>
                 <td>${admin.username || admin.userName || ""}</td>
                 <td>${admin.email || admin.userEmail || ""}</td>
                 <td>${admin.contact || admin.userContact || ""}</td>

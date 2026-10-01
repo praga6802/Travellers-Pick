@@ -41,7 +41,7 @@ async function displayUserName() {
         adminSelect.id = "adminSelect";
 
         const greetingOption = document.createElement("option");
-        greetingOption.textContent = responseData.username;
+        greetingOption.textContent = responseData.data.username;
         greetingOption.disabled = true;
         greetingOption.selected = true;
 
@@ -104,7 +104,7 @@ async function handleLogout(e) {
 // admin analytics
 const getAdmins = async () => {
     try {
-        const response = await fetch(`${url}/admin/getAdmins`, {
+        const response = await fetch(`${url}/admin/admins/count`, {
             method: "GET",
             credentials: "include",
         });
@@ -124,7 +124,7 @@ const getAdmins = async () => {
 
 const getUsers = async () => {
     try {
-        const response = await fetch(`${url}/admin/getUsers`, {
+        const response = await fetch(`${url}/admin/users/count`, {
             method: "GET",
             credentials: "include",
         });
@@ -144,7 +144,7 @@ const getUsers = async () => {
 
 const getPackages = async () => {
     try {
-        const response = await fetch(`${url}/admin/getPackages`, {
+        const response = await fetch(`${url}/admin/packages/count`, {
             method: "GET",
             credentials: "include",
         });
@@ -164,7 +164,7 @@ const getPackages = async () => {
 
 const getTours = async () => {
     try {
-        const response = await fetch(`${url}/admin/getTours`, {
+        const response = await fetch(`${url}/admin/tours/count`, {
             method: "GET",
             credentials: "include",
         });
@@ -184,7 +184,7 @@ const getTours = async () => {
 
 const getBookings = async () => {
     try {
-        const response = await fetch(`${url}/admin/getBookings`, {
+        const response = await fetch(`${url}/admin/bookings/count`, {
             method: "GET",
             credentials: "include",
         });
@@ -204,7 +204,7 @@ const getBookings = async () => {
 
 const getConfirmedCount = async () => {
     try {
-        const response = await fetch(`${url}/admin/getConfirmed`, {
+        const response = await fetch(`${url}/admin/confirmed/count`, {
             method: "GET",
             credentials: "include",
         });
@@ -224,7 +224,7 @@ const getConfirmedCount = async () => {
 
 const getCancelledCount = async () => {
     try {
-        const response = await fetch(`${url}/admin/getCancelled`, {
+        const response = await fetch(`${url}/admin/cancelled/count`, {
             method: "GET",
             credentials: "include",
         });
