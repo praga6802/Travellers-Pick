@@ -224,7 +224,7 @@ const displayItineraryForm = async () => {
                     showFormMessage("Failed to load itinerary!", false);
                     return;
                 }
-                itineraryId = itineraryResponseData.itineraryId;
+                itineraryId = itineraryResponseData.data.itineraryId;
             } catch (err) {
                 console.error(err);
                 showFormMessage("Network error..Please try again!", false);
