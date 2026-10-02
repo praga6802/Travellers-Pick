@@ -37,12 +37,14 @@ const displayAdmins = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
+            adminContainer.style.display = "none";
             showFormMessage("Failed to fetch admins", false);
             console.error(response);
             return;
         }
 
         if (responseData.length == 0 || !responseData) {
+            adminContainer.style.display = "none";
             showSessionMessage("No admins found");
             return;
         }

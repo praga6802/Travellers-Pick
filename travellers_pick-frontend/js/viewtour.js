@@ -36,11 +36,13 @@ const displayTours = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
+            tourContainer.style.display = "none";
             showSessionMessage("Failed to fetch tours", false);
             console.error(response);
             return;
         }
         if (responseData.length == 0 || !responseData) {
+            tourContainer.style.display = "none";
             showSessionMessage("No tours found");
             return;
         }

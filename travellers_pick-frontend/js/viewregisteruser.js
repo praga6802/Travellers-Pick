@@ -37,12 +37,14 @@ const displayBookedUsers = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
+            userContainer.style.display = "none";
             showSessionMessage("Failed to fetch booked users.", false);
             console.error(response);
             return;
         }
 
         if (responseData.length == 0 || !responseData) {
+            userContainer.style.display = "none";
             showSessionMessage("No Booked users found");
             return;
         }

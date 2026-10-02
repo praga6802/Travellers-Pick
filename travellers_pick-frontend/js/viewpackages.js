@@ -37,12 +37,14 @@ const displayPackages = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
+            packageContainer.style.display = "none";
             showSessionMessage("Failed to fetch packages", false);
             console.error(response);
             return;
         }
 
         if (responseData.length == 0 || !responseData) {
+            packageContainer.style.display = "none";
             showSessionMessage("No packages found");
             return;
         }
