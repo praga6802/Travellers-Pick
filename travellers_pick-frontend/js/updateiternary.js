@@ -220,7 +220,10 @@ const displayItineraryForm = async () => {
                     return;
                 }
 
-                if (itineraryResponseData.length == 0 || !itineraryResponseData) {
+                if (
+                    itineraryResponseData.length == 0 ||
+                    !itineraryResponseData
+                ) {
                     showSessionMessage("No days found");
                     return;
                 }
@@ -237,6 +240,7 @@ const displayItineraryForm = async () => {
             }
         });
 
+        // fetching the itinerary information based on packageid, tourid and day
         daySelect.addEventListener("change", async () => {
             const packageId = packageNameSelect.value;
             const tourId = tourSelect.value;
@@ -257,7 +261,7 @@ const displayItineraryForm = async () => {
                     return;
                 }
 
-                const { itineraryId, day, destination, description } =
+                const { itineraryId, destination, description } =
                     itineraryResponseData.data;
 
                 document.getElementById("itineraryId").value = itineraryId;
