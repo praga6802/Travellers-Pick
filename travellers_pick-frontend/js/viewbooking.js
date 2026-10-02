@@ -38,7 +38,7 @@ async function handleViewBooking() {
             return;
         }
 
-        if (responseData.length == 0 || !responseData) {
+        if (responseData.data.length == 0 || !responseData.data) {
             bookingListContainer.style.display = "none";
             showSessionMessage("No Bookings found");
             return;

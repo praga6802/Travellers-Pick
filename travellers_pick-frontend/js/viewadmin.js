@@ -43,7 +43,7 @@ const displayAdmins = async () => {
             return;
         }
 
-        if (responseData.length == 0 || !responseData) {
+        if (responseData.data.length == 0 || !responseData.data) {
             adminContainer.style.display = "none";
             showSessionMessage("No admins found");
             return;

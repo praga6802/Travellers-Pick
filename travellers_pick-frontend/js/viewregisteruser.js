@@ -43,7 +43,7 @@ const displayBookedUsers = async () => {
             return;
         }
 
-        if (responseData.length == 0 || !responseData) {
+        if (responseData.data.length == 0 || !responseData.data) {
             userContainer.style.display = "none";
             showSessionMessage("No Booked users found");
             return;

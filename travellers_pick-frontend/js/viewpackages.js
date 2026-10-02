@@ -43,7 +43,7 @@ const displayPackages = async () => {
             return;
         }
 
-        if (responseData.length == 0 || !responseData) {
+        if (responseData.data.length == 0 || !responseData.data) {
             packageContainer.style.display = "none";
             showSessionMessage("No packages found");
             return;

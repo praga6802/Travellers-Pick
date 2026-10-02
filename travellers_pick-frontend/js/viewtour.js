@@ -41,7 +41,7 @@ const displayTours = async () => {
             console.error(response);
             return;
         }
-        if (responseData.length == 0 || !responseData) {
+        if (responseData.data.length == 0 || !responseData.data) {
             tourContainer.style.display = "none";
             showSessionMessage("No tours found");
             return;
