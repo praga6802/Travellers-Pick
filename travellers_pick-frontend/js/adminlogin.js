@@ -5,7 +5,7 @@ form.addEventListener("submit", handleLogin);
 
 async function handleLogin(event) {
     event.preventDefault();
-    const email = document.getElementById("email").value.trim();
+    const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
 
     const data = { email, password };

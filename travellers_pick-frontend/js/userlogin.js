@@ -5,7 +5,7 @@ form.addEventListener("submit", handleLogin);
 
 async function handleLogin(event) {
     event.preventDefault();
-    const email = document.getElementById("email").value.trim();
+    const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
 
     const data = { email, password };
@@ -18,15 +18,14 @@ async function handleLogin(event) {
             credentials: "include",
         });
         const responseData = await response.json();
-        if(!response.ok){
-            showFormMessage(responseData.message,false);
+        if (!response.ok) {
+            showFormMessage(responseData.message, false);
             return;
         }
         showFormMessage(responseData.message, true);
         document.getElementById("email").value = "";
         document.getElementById("password").value = "";
         setTimeout(() => (window.location.href = `../index.html`), 2000);
-        
     } catch (err) {
         showFormMessage("Network error..Please try again!", false);
         console.error(err);
