@@ -101,7 +101,7 @@ const initDeleteTourForm = async () => {
                     return;
                 }
 
-                tourResponseData.forEach((tour) => {
+                tourResponseData.data.forEach((tour) => {
                     const option = document.createElement("option");
                     option.textContent = tour.tourName;
                     option.value = tour.tourId;
