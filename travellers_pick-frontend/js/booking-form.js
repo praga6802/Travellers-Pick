@@ -31,7 +31,7 @@ const displayBookingForm = async () => {
 
         // get itineraries for with packageId and tourId
         const iternaryResponse = await fetch(
-            `${url}/user/packages/${packageId}/tours/${tourId}/itineraries`,
+            `${url}/admin/packages/${packageId}/tours/${tourId}/itineraries`,
             {
                 method: "GET",
                 credentials: "include",
