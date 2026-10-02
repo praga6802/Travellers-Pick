@@ -33,7 +33,7 @@ const displayItineraryForm = async () => {
                             <div class="input">
                                 <label for="package-select">Package Name</label>
                                 <select name="package-name" id="package-select">
-                                    <option selected disabled hidden value="">
+                                    <option selected hidden value="">
                                         Select Package
                                     </option>
                                 </select>
@@ -42,7 +42,7 @@ const displayItineraryForm = async () => {
                             <div class="input">
                                 <label for="tour-select">Tour Name</label>
                                 <select name="tour-name" id="tour-select">
-                                    <option selected disabled hidden value="">
+                                    <option selected hidden value="">
                                         Select Tour
                                     </option>
                                 </select>
