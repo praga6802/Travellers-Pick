@@ -41,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers(
                                 "/admin/login", "/admin/signup","/admin/packages","/admin/tours","/admin/packages/{packageId}/tours/{tourId}/itineraries",
+                                "/admin/packages/{packageId}/tours/{tourId}",
                                 "/user/signup", "/user/login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasRole("USER")

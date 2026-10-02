@@ -80,7 +80,7 @@ const displayBookingForm = async () => {
         });
 
         const tourResponse = await fetch(
-            `${url}/user/packages/${packageId}/tours/${tourId}`,
+            `${url}/admin/packages/${packageId}/tours/${tourId}`,
             {
                 method: "GET",
                 credentials: "include",
