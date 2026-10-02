@@ -79,6 +79,28 @@ const displayBookingForm = async () => {
             </tr>`;
         });
 
+        // fetch package details by package id
+        const packageResponse = await fetch(
+            `${url}/admin/packages/${packageId}`,
+            {
+                method: "GET",
+                credentials: "include",
+            },
+        );
+
+        const packageResponseData = await tourResponse.json();
+
+        if (!packageResponse.ok) {
+            console.error("Failed to fetch package details", false);
+            return;
+        }
+
+        if (!packageResponseData) {
+            console.error("No Packages found", false);
+            return;
+        }
+
+        // fetch tour details by tour id
         const tourResponse = await fetch(
             `${url}/admin/packages/${packageId}/tours/${tourId}`,
             {
@@ -87,15 +109,15 @@ const displayBookingForm = async () => {
             },
         );
 
-        const selectedTour = await tourResponse.json();
+        const tourResponseData = await tourResponse.json();
 
         if (!tourResponse.ok) {
-            showSessionMessage("Failed to fetch tour details", false);
+            console.error("Failed to fetch tour details", false);
             return;
         }
 
-        if (!selectedTour) {
-            showSessionMessage("Failed to fetch tour details", false);
+        if (!tourResponseData) {
+            console.error("No Tour found", false);
             return;
         }
 
@@ -132,11 +154,11 @@ const displayBookingForm = async () => {
                 </div>
 
                 <div class="input-field">
-                <input type="hidden" id="packageName" name="packageName" value="${selectedTour.packageName}">
+                <input type="hidden" id="packageName" name="packageName" value="${packageResponseData.data.packageName}">
                 </div>
 
                 <div class="input-field">
-                <input type="hidden" id="region" name="region" value="${selectedTour.tourName}">
+                <input type="hidden" id="region" name="region" value="${tourResponseData.data.tourName}">
                 </div>
 
                 <div class="input-field">
