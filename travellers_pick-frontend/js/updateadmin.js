@@ -86,7 +86,7 @@ const handleUpdate = async (e) => {
 
     try {
         const response = await fetch(`${url}/admin/update`, {
-            method: "PUT",
+            method: "PATCH",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             body: JSON.stringify(data),
