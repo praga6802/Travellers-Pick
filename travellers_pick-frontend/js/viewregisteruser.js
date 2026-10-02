@@ -83,7 +83,7 @@ const displayBookedUsers = async () => {
 		</div>
         `;
         const userBody = document.getElementById("booked-users-body");
-        responseData.forEach((user) => {
+        responseData.data.forEach((user) => {
             const row = document.createElement("tr");
 
             const formattedBdate =

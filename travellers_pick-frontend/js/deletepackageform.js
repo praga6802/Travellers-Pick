@@ -95,7 +95,7 @@ const deletePackage = async (e) => {
 
     try {
         const response = await fetch(
-            `${url}/admin/deletePackage/${packageId}`,
+            `${url}/admin/packages/${packageId}`,
             {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },

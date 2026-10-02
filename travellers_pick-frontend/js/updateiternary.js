@@ -129,7 +129,7 @@ const displayItineraryForm = async () => {
             return;
         }
 
-        if (responseData.length == 0 || !responseData) {
+        if (packageResponseData.length == 0 || !packageResponseData) {
             showSessionMessage("No packages found");
             return;
         }
@@ -174,7 +174,7 @@ const displayItineraryForm = async () => {
                     return;
                 }
 
-                if (responseData.length == 0 || !responseData) {
+                if (tourResponseData.length == 0 || !tourResponseData) {
                     showSessionMessage("No tours found");
                     return;
                 }
@@ -220,7 +220,7 @@ const displayItineraryForm = async () => {
                     return;
                 }
 
-                if (responseData.length == 0 || !responseData) {
+                if (itineraryResponseData.length == 0 || !itineraryResponseData) {
                     showSessionMessage("No days found");
                     return;
                 }

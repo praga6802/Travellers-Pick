@@ -60,17 +60,17 @@ const initDeleteTourForm = async () => {
             credentials: "include",
         });
 
-        const packageData = await pkgResponse.json();
+        const packageResponseData = await pkgResponse.json();
         if (!pkgResponse.ok) {
             showSessionMessage("Unable to load package names", false);
             return;
         }
 
-        if (tourResponseData.length == 0 || !tourResponseData) {
+        if (packageResponseData.length == 0 || !packageResponseData) {
             showSessionMessage("No packages found");
             return;
         }
-        packageData.data.forEach((pkg) => {
+        packageResponseData.data.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
             option.innerText = pkg.packageName;
@@ -112,6 +112,9 @@ const initDeleteTourForm = async () => {
                 showFormMessage("Failed to load tours!", false);
             }
         });
+
+        const deleteTourForm = document.getElementById("deletecategoryform");
+        deleteTourForm.addEventListener("submit",deleteTour);
     } catch (err) {
         showSessionMessage("Network error.. Please try again!", false);
         console.error(err);
