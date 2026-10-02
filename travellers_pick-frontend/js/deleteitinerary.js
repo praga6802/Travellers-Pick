@@ -244,10 +244,11 @@ const deleteItinerary = async (e) => {
 
     const packageId = document.getElementById("package-select").value.trim();
     const tourId = document.getElementById("tour-select").value.trim();
-    const itineraryId = document.getElementById("itineraryId").value.trim();
 
     const formError = document.getElementById("form-error");
     const deleteItineraryForm = e.target;
+
+    console.log(`Delete itineraryId: ${itineraryId}`);
 
     try {
         const deleteItineraryResponse = await fetch(
