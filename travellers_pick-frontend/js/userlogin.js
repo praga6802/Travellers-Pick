@@ -1,4 +1,4 @@
-import { showFormMessage, showSessionMessage } from "./error.js";
+import { showFormMessage } from "./error.js";
 import { url } from "./config.js";
 const form = document.getElementById("login-form");
 form.addEventListener("submit", handleLogin);
@@ -18,16 +18,15 @@ async function handleLogin(event) {
             credentials: "include",
         });
         const responseData = await response.json();
-        console.log(responseData);
-        if (response.ok) {
-            showFormMessage(responseData.message, true);
-            document.getElementById("email").value = "";
-            document.getElementById("password").value = "";
-            setTimeout(() => (window.location.href = `../index.html`), 2000);
-        } else {
-            showFormMessage(responseData.message, false);
-            console.log("Back end error:", responseData);
+        if(!response.ok){
+            showFormMessage(responseData.message,false);
+            return;
         }
+        showFormMessage(responseData.message, true);
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
+        setTimeout(() => (window.location.href = `../index.html`), 2000);
+        
     } catch (err) {
         showFormMessage("Network error..Please try again!", false);
         console.error(err);
