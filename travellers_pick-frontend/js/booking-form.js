@@ -88,6 +88,16 @@ const displayBookingForm = async () => {
             },
         );
 
+        // fetch tour details by tour id
+        const tourResponse = await fetch(
+            `${url}/admin/packages/${packageId}/tours/${tourId}`,
+            {
+                method: "GET",
+                credentials: "include",
+            },
+        );
+
+        const tourResponseData = await tourResponse.json();
         const packageResponseData = await tourResponse.json();
 
         if (!packageResponse.ok) {
@@ -99,17 +109,6 @@ const displayBookingForm = async () => {
             console.error("No Packages found", false);
             return;
         }
-
-        // fetch tour details by tour id
-        const tourResponse = await fetch(
-            `${url}/admin/packages/${packageId}/tours/${tourId}`,
-            {
-                method: "GET",
-                credentials: "include",
-            },
-        );
-
-        const tourResponseData = await tourResponse.json();
 
         if (!tourResponse.ok) {
             console.error("Failed to fetch tour details", false);
