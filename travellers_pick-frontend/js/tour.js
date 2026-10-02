@@ -34,7 +34,7 @@ const displayTour = async () => {
             return;
         }
 
-        if (responseData.length == 0 || !responseData) {
+        if (tourData.length == 0 || !tourData) {
             showSessionMessage("No tours found");
             return;
         }
