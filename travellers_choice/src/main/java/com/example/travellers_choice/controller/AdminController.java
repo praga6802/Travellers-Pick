@@ -2,7 +2,7 @@ package com.example.travellers_choice.controller;
 
 import com.example.travellers_choice.dto.*;
 import com.example.travellers_choice.service.AdminService;
-import com.example.travellers_choice.service.IternaryService;
+import com.example.travellers_choice.service.ItineraryService;
 import com.example.travellers_choice.service.PackageService;
 import com.example.travellers_choice.service.TourService;
 import jakarta.servlet.http.HttpSession;
@@ -29,7 +29,7 @@ public class AdminController {
     TourService tourService;
 
     @Autowired
-    IternaryService iternaryService;
+    ItineraryService itineraryService;
 
 
     //sign up admin
@@ -179,35 +179,43 @@ public class AdminController {
     //add itinerary
     @PostMapping("/packages/{packageId}/tours/{tourId}/itineraries")
     public ResponseEntity<AResponse> addItinerary(@PathVariable Integer packageId, @PathVariable Integer tourId, @RequestBody ItineraryDTO addItineraryDTO){
-        return iternaryService.addItinerary(packageId,tourId,addItineraryDTO);
+        return itineraryService.addItinerary(packageId,tourId,addItineraryDTO);
     }
 
     // update Itinerary
     @PatchMapping("/packages/{packageId}/tours/{tourId}/itineraries/{itineraryId}")
     public ResponseEntity<AResponse> updateItinerary(@PathVariable Integer packageId,@PathVariable Integer tourId, @PathVariable Integer itineraryId,
                                                      @RequestBody ItineraryDTO updateItineraryDTO){
-        return iternaryService.updateItinerary(packageId,tourId,itineraryId, updateItineraryDTO);
+        return itineraryService.updateItinerary(packageId,tourId,itineraryId, updateItineraryDTO);
     }
 
     @DeleteMapping("/packages/{packageId}/tours/{tourId}/itineraries/{itineraryId}")
     public ResponseEntity<AResponse> deleteItinerary(@RequestBody DeleteItineraryDTO deleteItineraryDTO){
-        return iternaryService.deleteItinerary(deleteItineraryDTO);
+        return itineraryService.deleteItinerary(deleteItineraryDTO);
     }
 
+    // fetch all itineraries
     @GetMapping("/itineraries")
     public ResponseEntity<AResponse> getItineraries(){
-        return iternaryService.getItineraries();
+        return itineraryService.getItineraries();
     }
 
-    @GetMapping("/packages/{packageId}/tours/{tourId}/days")
-    public ResponseEntity<AResponse> getDay(@PathVariable Integer packageId, @PathVariable Integer tourId){
-        return iternaryService.getDay(packageId,tourId);
+    // fetch itinerary details for specific tour
+    @GetMapping("/packages/{packageId}/tours/{tourId}/itineraries")
+    public ResponseEntity<AResponse> getItinerary(@PathVariable Integer packageId, @PathVariable Integer tourId){
+        return itineraryService.getItinerary(packageId,tourId);
     }
 
-    // fetch the details with packageid, tourid, and day -> description and destination
+    // fetch itinerary details for specific day
     @GetMapping("/packages/{packageId}/tours/{tourId}/itineraries/{day}")
-    public ResponseEntity<AResponse> getItinerary(@PathVariable Integer packageId, @PathVariable Integer tourId, @PathVariable Integer day){
-        return iternaryService.getItinerary(packageId,tourId,day);
+    public ResponseEntity<AResponse> getItineraryByDay(@PathVariable Integer packageId, @PathVariable Integer tourId, @PathVariable Integer day){
+        return itineraryService.getItineraryByDay(packageId,tourId,day);
+    }
+
+    // fetch the days from specific tour itinerary
+    @GetMapping("/packages/{packageId}/tours/{tourId}/days")
+    public ResponseEntity<AResponse> getDays(@PathVariable Integer packageId, @PathVariable Integer tourId){
+        return itineraryService.getDays(packageId,tourId);
     }
 
 

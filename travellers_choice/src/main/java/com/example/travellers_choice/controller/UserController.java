@@ -1,7 +1,7 @@
 package com.example.travellers_choice.controller;
 
 import com.example.travellers_choice.dto.*;
-import com.example.travellers_choice.service.IternaryService;
+import com.example.travellers_choice.service.ItineraryService;
 import com.example.travellers_choice.service.PackageService;
 import com.example.travellers_choice.service.TourService;
 import com.example.travellers_choice.service.UserService;
@@ -30,7 +30,7 @@ public class UserController {
     TourService tourService;
 
     @Autowired
-    IternaryService iternaryService;
+    ItineraryService iternaryService;
 
 
     //user signup

@@ -1,7 +1,6 @@
 package com.example.travellers_choice.service;
 
 import com.example.travellers_choice.dto.*;
-import com.example.travellers_choice.exception.BusinessException;
 import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.ResourceNotFoundException;
 import com.example.travellers_choice.model.Itinerary;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class IternaryService {
+public class ItineraryService {
 
     @Autowired
     PackageRepo packagesRepo;
@@ -37,7 +36,7 @@ public class IternaryService {
 
         Packages pkg = packagesRepo.findById(packageId).orElseThrow(() -> new RuntimeException("Package not found"));
 
-        Tour tour = tourRepo.findById(packageId).orElseThrow(() -> new RuntimeException("Tour not found"));
+        Tour tour = tourRepo.findById(tourId).orElseThrow(() -> new RuntimeException("Tour not found"));
 
         Itinerary itinerary = new Itinerary();
         itinerary.setDay(addItineraryDTO.getDay());
@@ -84,7 +83,7 @@ public class IternaryService {
 
 
     // get days by package id and tour id
-    public ResponseEntity<AResponse> getDay(Integer packageId, Integer tourId) {
+    public ResponseEntity<AResponse> getDays(Integer packageId, Integer tourId) {
         Packages packages = packagesRepo.findById(packageId).orElseThrow(() -> new RuntimeException("Package not found"));
 
         Tour tour = tourRepo.findById(tourId) .orElseThrow(() -> new RuntimeException("Tour not found"));
@@ -98,13 +97,12 @@ public class IternaryService {
         List<Itinerary> itineraries = itineraryRepository.findByTour_TourIdAndPackages_PackageId(tour.getTourId(),packages.getPackageId());
         List<DayDTO> days = itineraries.stream().map(it-> new DayDTO(it.getDay())).toList();
 
-
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",days));
 
     }
 
     //get itinerary by package,tour and day
-    public ResponseEntity<AResponse> getItinerary(Integer packageId, Integer tourId, Integer day) {
+    public ResponseEntity<AResponse> getItineraryByDay(Integer packageId, Integer tourId, Integer day) {
 
         Itinerary itinerary = itineraryRepository
                 .findByPackages_PackageIdAndTour_TourIdAndDay(packageId, tourId, day)
@@ -126,5 +124,23 @@ public class IternaryService {
         List<ItineraryDTO> itineraryList = itineraries.stream()
                 .map(itinerary -> new ItineraryDTO(itinerary.getId(),itinerary.getDay(),itinerary.getDestination(),itinerary.getDescription())).toList();
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",itineraryList));
+    }
+
+    public ResponseEntity<AResponse> getItinerary(Integer packageId, Integer tourId) {
+
+        Packages packages = packagesRepo.findById(packageId).orElseThrow(() -> new RuntimeException("Package not found"));
+        Tour tour = tourRepo.findById(tourId) .orElseThrow(() -> new RuntimeException("Tour not found"));
+
+        if (tour.getPackages() == null || !Objects.equals(tour.getPackages().getPackageId(), packages.getPackageId())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new AResponse(
+                            LocalDateTime.now(),"Failed", "Tour does not belong to the selected package"));
+        }
+        List<Itinerary> itineraries = itineraryRepository.findByTour_TourIdAndPackages_PackageId(tour.getTourId(),packages.getPackageId());
+
+        List<ItineraryDTO> itineraryList = itineraries.stream().map(itinerary -> new ItineraryDTO(itinerary.getId(),itinerary.getDay(),itinerary.getDestination(),itinerary.getDescription())).toList();
+
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",itineraryList));
+
     }
 }

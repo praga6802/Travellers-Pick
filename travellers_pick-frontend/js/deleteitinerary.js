@@ -168,7 +168,7 @@ const displayItineraryForm = async () => {
             `;
 
             try {
-                const itineraryResponse = await fetch(
+                const dayResponse = await fetch(
                     `${url}/admin/packages/${packageId}/tours/${tourId}/days`,
                     {
                         method: "GET",
@@ -176,25 +176,22 @@ const displayItineraryForm = async () => {
                     },
                 );
 
-                const itineraryResponseData = await itineraryResponse.json();
+                const dayResponseData = await dayResponse.json();
 
-                console.log(itineraryResponse);
-                console.log(itineraryResponseData);
+                console.log(dayResponse);
+                console.log(dayResponseData);
 
-                if (!itineraryResponse.ok) {
+                if (!dayResponse.ok) {
                     showFormMessage("Failed to load days!", false);
                     return;
                 }
 
-                if (
-                    !itineraryResponseData ||
-                    itineraryResponseData.length === 0
-                ) {
+                if (!dayResponseData || dayResponseData.length === 0) {
                     showFormMessage("No Days found!", false);
                     return;
                 }
 
-                itineraryResponseData.data.forEach((itinerary) => {
+                dayResponseData.data.forEach((itinerary) => {
                     const option = document.createElement("option");
                     option.value = itinerary.day;
                     option.textContent = `Day ${itinerary.day}`;
@@ -206,6 +203,7 @@ const displayItineraryForm = async () => {
             }
         });
 
+        // fetching the data from day,tourid and packageid
         daySelect.addEventListener("change", async () => {
             const packageId = packageNameSelect.value;
             const tourId = tourSelect.value;
