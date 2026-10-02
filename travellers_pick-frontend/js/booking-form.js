@@ -26,12 +26,12 @@ const displayBookingForm = async () => {
         }
 
         const urlParams = new URLSearchParams(window.location.search);
+        const packageId = parseInt(urlParams.get("packageId"), 10);
         const tourId = parseInt(urlParams.get("tourId"), 10);
-        console.log(tourId);
 
-        // get itineraries by tourID
+        // get itineraries for with packageId and tourId
         const iternaryResponse = await fetch(
-            `${url}/user/itineraries/${tourId}`,
+            `${url}/user/packages/${packageId}/tours/${tourId}/itineraries`,
             {
                 method: "GET",
                 credentials: "include",
@@ -41,7 +41,16 @@ const displayBookingForm = async () => {
         const iternaryResponseData = await iternaryResponse.json();
 
         if (!iternaryResponse.ok) {
+            iternaryContainer.style.display = "none";
+            formContainer.style.display = "none";
             showSessionMessage("Failed to fetch itineraries", false);
+            return;
+        }
+
+        if (!iternaryResponseData || iternaryResponseData.length === 0) {
+            iternaryContainer.style.display = "none";
+            formContainer.style.display = "none";
+            showSessionMessage("No Itineraries found!", false);
             return;
         }
 
@@ -70,10 +79,13 @@ const displayBookingForm = async () => {
             </tr>`;
         });
 
-        const tourResponse = await fetch(`${url}/user/tour/${tourId}`, {
-            method: "GET",
-            credentials: "include",
-        });
+        const tourResponse = await fetch(
+            `${url}/user/packages/${packageId}/tours/${tourId}`,
+            {
+                method: "GET",
+                credentials: "include",
+            },
+        );
 
         const selectedTour = await tourResponse.json();
 
@@ -248,6 +260,11 @@ async function submitForm(event) {
         }
         console.log(responseData.message);
         showFormMessage(responseData.message, true);
+
+        setTimeout(() => {
+            tourform.reset();
+            form_error.classList.add("hide");
+        }, 2000);
     } catch (err) {
         console.error(err);
         showSessionMessage("Network error..Please try again", false);

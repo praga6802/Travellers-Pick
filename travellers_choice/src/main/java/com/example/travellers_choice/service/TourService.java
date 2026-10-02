@@ -131,7 +131,7 @@ public class TourService {
     public ResponseEntity<AResponse> getAllTours(){
         List<Tour> tours = tourRepo.findAll();
         List<UpdateCategoryDTO> dtoList = tours.stream().map(tour->{
-            String fileName="booking-form.html?tourId="+tour.getTourId();
+            String fileName="booking-form.html?packageId="+tour.getPackages().getPackageId() + "&tourId=" +tour.getTourId();
             return new UpdateCategoryDTO(
                     tour.getPackages().getPackageId(),
                     tour.getTourId(),
