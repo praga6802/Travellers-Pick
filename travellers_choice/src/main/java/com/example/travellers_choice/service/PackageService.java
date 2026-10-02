@@ -107,9 +107,6 @@ public class PackageService {
     public ResponseEntity<AResponse> getAllPackages(){
 
         List<Packages> packages = packageRepo.findAll();
-        if(packages.isEmpty()){
-            throw new ResourceNotFoundException("Packages");
-        }
         List<PackageDTO> packageDTOS = packages.stream().map(pkg-> {
             String fileName= pkg.getPackageName().split(" ")[1].toLowerCase()+"-package.html";
                 return new PackageDTO(pkg.getPackageId(),pkg.getPackageName(),pkg.getPackageSlogan(),pkg.getImgUrl(),fileName);
@@ -134,9 +131,6 @@ public class PackageService {
     public ResponseEntity<AResponse> getAllPackageNames() {
 
         List<Packages> packages = packageRepo.findAll();
-        if(packages.isEmpty()){
-            throw new ResourceNotFoundException("Packages");
-        }
 
         List<PackageInfoDTO> packageInfoDTOS = packages.stream()
                 .map(pkg->new PackageInfoDTO(pkg.getPackageId(), pkg.getPackageName()))

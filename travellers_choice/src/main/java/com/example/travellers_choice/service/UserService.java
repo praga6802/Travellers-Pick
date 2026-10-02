@@ -33,7 +33,7 @@ public class UserService {
     private UserRepo userRepo;
 
     @Autowired
-    private CustomerRegister registerRepo;
+    private BookingRegistryRepository registerRepo;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -291,10 +291,6 @@ public class UserService {
         Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("User Email "+ email+" not found"));
 
         List<BookingRegistry> userBookings=registerRepo.findByUser_Id(user.getId());
-        if(userBookings.isEmpty()){
-            throw new ResourceNotFoundException("Bookings");
-        }
-
         List<TourDetailsDTO> bookingList=userBookings.stream()
                 .map(t->new TourDetailsDTO(t.getBookingId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
                         t.getNoOfAdults(),t.getNoOfChildren(),t.getBdate(),t.getTdate(),t.getStatus(),t.getPrice())).toList();

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CustomerRegister extends JpaRepository<BookingRegistry, Integer> {
+public interface BookingRegistryRepository extends JpaRepository<BookingRegistry, Integer> {
 
     Optional<BookingRegistry> findByPNR(String pnr);
 

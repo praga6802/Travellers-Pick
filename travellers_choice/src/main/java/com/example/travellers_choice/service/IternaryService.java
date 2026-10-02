@@ -1,6 +1,7 @@
 package com.example.travellers_choice.service;
 
 import com.example.travellers_choice.dto.*;
+import com.example.travellers_choice.exception.BusinessException;
 import com.example.travellers_choice.exception.IDNotFoundException;
 import com.example.travellers_choice.exception.ResourceNotFoundException;
 import com.example.travellers_choice.model.Itinerary;
@@ -78,10 +79,6 @@ public class IternaryService {
     //get all Itineraries
     public ResponseEntity<AResponse> getItineraries() {
         List<Itinerary> itineraries= itineraryRepository.findAll();
-
-        if(itineraries.isEmpty()){
-            throw new ResourceNotFoundException("Itineraries");
-        }
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",itineraries));
     }
 
@@ -99,16 +96,8 @@ public class IternaryService {
         }
 
         List<Itinerary> itineraries = itineraryRepository.findByTour_TourIdAndPackages_PackageId(tour.getTourId(),packages.getPackageId());
-
-        if(itineraries.isEmpty()){
-            throw new ResourceNotFoundException("Itineraries");
-        }
-
         List<DayDTO> days = itineraries.stream().map(it-> new DayDTO(it.getDay())).toList();
 
-        if(days.isEmpty()){
-            throw new ResourceNotFoundException("Days");
-        }
 
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",days));
 
@@ -134,18 +123,8 @@ public class IternaryService {
 
         tourRepo.findById(tourId).orElseThrow(()-> new IDNotFoundException("Tour ID",tourId));
         List<Itinerary> itineraries = itineraryRepository.findByTour_TourId(tourId);
-
-        if(itineraries.isEmpty()){
-            throw new ResourceNotFoundException("Itineraries");
-        }
-
         List<ItineraryDTO> itineraryList = itineraries.stream()
                 .map(itinerary -> new ItineraryDTO(itinerary.getId(),itinerary.getDay(),itinerary.getDestination(),itinerary.getDescription())).toList();
-
-        if(itineraryList.isEmpty()){
-           throw  new ResourceNotFoundException("For this tour, Itineraries");
-        }
-
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",itineraryList));
     }
 }

@@ -56,7 +56,12 @@ const displayUpdatePackageForm = async () => {
         const responseData = await response.json();
         if (!response.ok) {
             packageContainer.style.display = "none";
-            showSessionMessage(responseData.message, false);
+            showSessionMessage("Unable to load packages", false);
+            return;
+        }
+
+        if (responseData.length == 0 || !responseData) {
+            showSessionMessage("No packages found");
             return;
         }
 
@@ -76,9 +81,9 @@ const displayUpdatePackageForm = async () => {
 };
 
 const deletePackage = async (e) => {
-    const deletepackageform = document.getElementById("deletepackageform");
-    const formMessage = document.getElementById("form-error");
     e.preventDefault();
+    const deletepackageform = e.target;
+    const formMessage = document.getElementById("form-error");
 
     const packageSelect = document.getElementById("packageId");
     const packageId = packageSelect ? packageSelect.value : "";
@@ -89,12 +94,15 @@ const deletePackage = async (e) => {
     }
 
     try {
-        const response = await fetch(`${url}/admin/deletePackage/${packageId}`, {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({ packageId }),
-        });
+        const response = await fetch(
+            `${url}/admin/deletePackage/${packageId}`,
+            {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ packageId }),
+            },
+        );
 
         const responseData = await response.json();
         if (!response.ok) {

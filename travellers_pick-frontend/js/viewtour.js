@@ -40,8 +40,8 @@ const displayTours = async () => {
             console.error(response);
             return;
         }
-        if (!responseData || responseData.length == 0) {
-            showSessionMessage(responseData.message, false);
+        if (responseData.length == 0 || !responseData) {
+            showSessionMessage("No tours found");
             return;
         }
 

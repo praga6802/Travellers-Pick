@@ -82,7 +82,7 @@ public class AdminController {
         return adminService.getAllAdmins();
     }
 
-    // get all booked users
+    // get all booked users 
     @GetMapping("/bookings/users")
     public ResponseEntity<AResponse> getAllUsers(){
         return adminService.getAllRegUsers();

@@ -19,17 +19,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
 public class AdminService {
 
     @Autowired
-    CustomerRegister customerRegisterRepo;
+    BookingRegistryRepository bookingRegistryRepository;
 
     @Autowired
     UserRepo userRepo;
@@ -164,9 +161,7 @@ public class AdminService {
     //VIEW ALL ADMINS
     public ResponseEntity<AResponse> getAllAdmins() {
         List<Admin> admins = adminRepo.findAll();
-        if(admins.isEmpty()){
-            throw new ResourceNotFoundException("Admins");
-        }
+
         List<UserDetailsDTO> adminList = admins.stream()
                 .map(admin->new UserDetailsDTO(admin.getAdminId(),admin.getUsername(),admin.getEmail(),admin.getContact(),admin.getRole())).toList();
 
@@ -176,23 +171,21 @@ public class AdminService {
 
     // view all booked users
     public ResponseEntity<AResponse> getAllRegUsers() {
-        List<BookingRegistry> customerRegistryList = customerRegisterRepo.findAll();
-        if(customerRegistryList.isEmpty()){
-            throw new ResourceNotFoundException("Users");
-        }
-        List<BookedUserDTO> bookedUserDTOList = customerRegistryList.stream()
+        List<BookingRegistry> bookingRegistryList = bookingRegistryRepository.findAll();
+
+        List<BookedUserDTO> bookingUserList = bookingRegistryList.stream()
+
                 .map(user->new BookedUserDTO(user.getUser().getId(),user.getName(),user.getEmail(),user.getPhone(),user.getPrice(),user.getPackageName(),user.getTour().getTourName(),
                 user.getTdate(),user.getBdate(),user.getNoOfSeats(),user.getNoOfAdults(),user.getNoOfChildren(),user.getCity(),user.getState(),user.getCountry(),user.getStatus())).toList();
-        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",bookedUserDTOList));
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",bookingUserList));
 
     }
 
     // get all users list
     public ResponseEntity<AResponse> getAllCustomers() {
         List<Customer> customers = userRepo.findAll();
-        if(customers.isEmpty()){
-            throw new ResourceNotFoundException("Customers");
-        }
+
+
         List<UserDetailsDTO> userList = customers.stream().map(user-> new UserDetailsDTO(user.getId(),user.getUsername(),user.getEmail(),user.getContact(),user.getRole()))
                 .toList();
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",userList));
@@ -227,19 +220,19 @@ public class AdminService {
 
     // bookings count
     public ResponseEntity<AResponse> getBookingsCount() {
-        Long bookingCount = customerRegisterRepo.count();
+        Long bookingCount = bookingRegistryRepository.count();
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",bookingCount));
     }
 
     // count confirmed customer
     public ResponseEntity<AResponse> getConfirmedCount() {
-        Long confirmedCount = customerRegisterRepo.countByStatus("CONFIRMED");
+        Long confirmedCount = bookingRegistryRepository.countByStatus("CONFIRMED");
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",confirmedCount));
     }
 
     // count cancelled customer
     public ResponseEntity<AResponse> getCancelledCount() {
-        Long cancelledCount = customerRegisterRepo.countByStatus("CANCELLED");
+        Long cancelledCount = bookingRegistryRepository.countByStatus("CANCELLED");
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",cancelledCount));
     }
 }

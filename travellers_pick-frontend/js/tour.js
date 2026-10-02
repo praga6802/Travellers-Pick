@@ -34,6 +34,11 @@ const displayTour = async () => {
             return;
         }
 
+        if (responseData.length == 0 || !responseData) {
+            showSessionMessage("No tours found");
+            return;
+        }
+
         const params = new URLSearchParams(window.location.search);
         const packageId = parseInt(params.get("packageId"));
 

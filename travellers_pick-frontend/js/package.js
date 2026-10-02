@@ -31,6 +31,11 @@ const displayPackage = async () => {
             return;
         }
 
+        if (responseData.length == 0 || !responseData) {
+            showSessionMessage("No packages found");
+            return;
+        }
+
         packageContainer.innerHTML = `
         	<h1 class="heading">POPULAR PACKAGES</h1>
         `;

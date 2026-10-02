@@ -98,7 +98,7 @@ const displayCurrentAdmin = async () => {
 
                 if (!packageDetailResponse.ok) {
                     packageContainer.style.display = "none";
-                    showSessionMessage("No Details Found!", false);
+                    showSessionMessage("No Package Details Found!", false);
                     return;
                 }
 

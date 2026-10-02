@@ -38,8 +38,8 @@ async function handleViewBooking() {
             return;
         }
 
-        if (!responseData || responseData.length == 0) {
-            showSessionMessage(responseData.message, false);
+        if (responseData.length == 0 || !responseData) {
+            showSessionMessage("No Bookings found");
             return;
         }
 

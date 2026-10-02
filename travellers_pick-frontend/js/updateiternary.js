@@ -129,6 +129,11 @@ const displayItineraryForm = async () => {
             return;
         }
 
+        if (responseData.length == 0 || !responseData) {
+            showSessionMessage("No packages found");
+            return;
+        }
+
         packageResponseData.data.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
@@ -166,6 +171,11 @@ const displayItineraryForm = async () => {
 
                 if (!tourResponse.ok) {
                     showSessionMessage("Failed to load tours!", false);
+                    return;
+                }
+
+                if (responseData.length == 0 || !responseData) {
+                    showSessionMessage("No tours found");
                     return;
                 }
 
@@ -210,6 +220,11 @@ const displayItineraryForm = async () => {
                     return;
                 }
 
+                if (responseData.length == 0 || !responseData) {
+                    showSessionMessage("No days found");
+                    return;
+                }
+
                 itineraryResponseData.data.forEach((itinerary) => {
                     const option = document.createElement("option");
                     option.value = itinerary.day;
@@ -242,7 +257,8 @@ const displayItineraryForm = async () => {
                     return;
                 }
 
-                const { itineraryId, day, destination, description } = itineraryResponseData.data;
+                const { itineraryId, day, destination, description } =
+                    itineraryResponseData.data;
 
                 document.getElementById("itineraryId").value = itineraryId;
                 document.getElementById("destination").value = destination;
@@ -267,10 +283,16 @@ const updateItinerary = async (e) => {
     const formError = document.getElementById("form-error");
     const updateItineraryForm = e.target;
 
-    const packageId = parseInt(document.getElementById("package-select").value,10);
+    const packageId = parseInt(
+        document.getElementById("package-select").value,
+        10,
+    );
     const tourId = parseInt(document.getElementById("tour-select").value, 10);
     const itineraryId = document.getElementById("itineraryId").value.trim();
-    const day = parseInt(document.getElementById("day-select").value.trim(),10);
+    const day = parseInt(
+        document.getElementById("day-select").value.trim(),
+        10,
+    );
 
     const destination = document.getElementById("destination").value.trim();
 

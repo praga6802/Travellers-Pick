@@ -130,11 +130,6 @@ public class TourService {
     //get tour list
     public ResponseEntity<AResponse> getAllTours(){
         List<Tour> tours = tourRepo.findAll();
-
-        if(tours.isEmpty()){
-            throw new ResourceNotFoundException("Tours");
-        }
-
         List<UpdateCategoryDTO> dtoList = tours.stream().map(tour->{
             String fileName="booking-form.html?tourId="+tour.getTourId();
             return new UpdateCategoryDTO(
@@ -178,9 +173,6 @@ public class TourService {
     // get tours list by package ID
     public ResponseEntity<AResponse> getToursByPackageId(Integer packageId) {
             List<Tour> tours = tourRepo.findByPackages_PackageId(packageId);
-            if(tours.isEmpty()){
-                throw new ResourceNotFoundException("Tours");
-            }
             List<TourInfoDTO> tourInfoDTOS = tours.stream().map(tour -> new TourInfoDTO(tour.getTourId(), tour.getTourName())).toList();
             return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",tourInfoDTOS));
     }

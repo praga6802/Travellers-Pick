@@ -41,8 +41,8 @@ const displayUsers = async () => {
             return;
         }
 
-        if (!responseData || responseData.length == 0) {
-            showSessionMessage(responseData.message, false);
+        if (responseData.length == 0 || !responseData) {
+            showSessionMessage("No users found");
             return;
         }
 

@@ -112,6 +112,11 @@ const displayItineraryForm = async () => {
             return;
         }
 
+        if (packageResponseData.length == 0 || !packageResponseData) {
+            showSessionMessage("No packages found");
+            return;
+        }
+
         packageResponseData.data.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
@@ -168,7 +173,10 @@ const addItinerary = async (e) => {
     const formError = document.getElementById("form-error");
     const addItineraryForm = e.target;
 
-    const packageId = parseInt(document.getElementById("package-select").value, 10);
+    const packageId = parseInt(
+        document.getElementById("package-select").value,
+        10,
+    );
     const tourId = parseInt(document.getElementById("tour-select").value, 10);
     const day = parseInt(document.getElementById("day").value.trim(), 10);
     const destination = document.getElementById("destination").value.trim();
@@ -195,14 +203,17 @@ const addItinerary = async (e) => {
     };
 
     try {
-        const addItineraryResponse = await fetch(`${url}/admin/packages/${packageId}/tours/${tourId}/itineraries`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
+        const addItineraryResponse = await fetch(
+            `${url}/admin/packages/${packageId}/tours/${tourId}/itineraries`,
+            {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
             },
-            body: JSON.stringify(data),
-        });
+        );
 
         const addItineraryResponseData = await addItineraryResponse.json();
 

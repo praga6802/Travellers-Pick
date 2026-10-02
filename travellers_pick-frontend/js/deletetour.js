@@ -62,11 +62,14 @@ const initDeleteTourForm = async () => {
 
         const packageData = await pkgResponse.json();
         if (!pkgResponse.ok) {
-            showSessionMessage(packageData.message, false);
+            showSessionMessage("Unable to load package names", false);
             return;
         }
 
-
+        if (tourResponseData.length == 0 || !tourResponseData) {
+            showSessionMessage("No packages found");
+            return;
+        }
         packageData.data.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
@@ -91,6 +94,10 @@ const initDeleteTourForm = async () => {
 
                 if (!tourResponse.ok) {
                     showFormMessage("Fetch to load tours!", false);
+                    return;
+                }
+                if (tourResponseData.length == 0 || !tourResponseData) {
+                    showSessionMessage("No tours found");
                     return;
                 }
 
@@ -126,12 +133,15 @@ const deleteTour = async (e) => {
     }
 
     try {
-        const response = await fetch(`${url}/admin/packages/${packageId}/tours/${tourId}`, {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({ packageId, tourId }),
-        });
+        const response = await fetch(
+            `${url}/admin/packages/${packageId}/tours/${tourId}`,
+            {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ packageId, tourId }),
+            },
+        );
 
         const data = await response.json();
 
