@@ -82,7 +82,6 @@ const handleDelete = async (e) => {
         setTimeout(() => {
             form.reset();
             formMessage.classList.add("hide");
-            window.location.href = "../html/admin-login.html";
         }, 2000);
     } catch (err) {
         showSessionMessage("Network error..Please try again..", false);
