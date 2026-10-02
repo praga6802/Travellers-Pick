@@ -106,12 +106,11 @@ const displayCurrentAdmin = async () => {
 
                 if (!packageDetailsData) {
                     packageContainer.style.display = "none";
-                    showSessionMessage("No Details Found!", false);
+                    showSessionMessage("No Package Details found!", false);
                     return;
                 }
 
-                const { packageName, packageSlogan, imgFile } =
-                    packageDetailsData;
+                const { packageName, packageSlogan, imgFile } = packageDetailsData.data;
                 packageContainer.style.display = "block";
 
                 document.getElementById("packageName").value = packageName;
