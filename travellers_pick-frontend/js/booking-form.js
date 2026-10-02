@@ -97,7 +97,7 @@ const displayBookingForm = async () => {
             },
         );
 
-        const packageResponseData = await packageId.json();
+        const packageResponseData = await packageResponse.json();
 
         const tourResponseData = await tourResponse.json();
 
