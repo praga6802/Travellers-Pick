@@ -42,9 +42,8 @@ const displayTour = async () => {
         const params = new URLSearchParams(window.location.search);
         const packageId = parseInt(params.get("packageId"));
 
-        const packageTours = tourData.filter(
-            (tour) => tour.packageId === packageId,
-        );
+        const packageTours = tourData.data.filter((tour) => tour.packageId === packageId);
+
 
         if (packageTours.length === 0) {
             tourContainer.style.display = "none";
@@ -52,7 +51,7 @@ const displayTour = async () => {
             return;
         }
 
-        packageTours.data.forEach((tour) => {
+        packageTours.forEach((tour) => {
             const tourCard = document.createElement("div");
 
             tourCard.className = "col-12 col-md-4";
