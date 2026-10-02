@@ -204,7 +204,7 @@ const getBookings = async () => {
 
 const getConfirmedCount = async () => {
     try {
-        const response = await fetch(`${url}/admin/confirmed/count`, {
+        const response = await fetch(`${url}/admin/bookings/confirmed/count`, {
             method: "GET",
             credentials: "include",
         });
@@ -224,7 +224,7 @@ const getConfirmedCount = async () => {
 
 const getCancelledCount = async () => {
     try {
-        const response = await fetch(`${url}/admin/cancelled/count`, {
+        const response = await fetch(`${url}/admin/bookings/cancelled/count`, {
             method: "GET",
             credentials: "include",
         });

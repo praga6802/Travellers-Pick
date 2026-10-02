@@ -29,7 +29,7 @@ const displayCurrentAdmin = async () => {
 
 const displayBookedUsers = async () => {
     try {
-        const response = await fetch(`${url}/admin/allregusers`, {
+        const response = await fetch(`${url}/admin/bookings/users`, {
             method: "GET",
             credentials: "include",
         });

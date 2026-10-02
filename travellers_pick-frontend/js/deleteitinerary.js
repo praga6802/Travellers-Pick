@@ -81,7 +81,7 @@ const displayItineraryForm = async () => {
         if (!packageNameSelect) return;
 
         //get packages
-        const packageResponse = await fetch(`${url}/admin/packageNames`, {
+        const packageResponse = await fetch(`${url}/admin/package-names`, {
             method: "GET",
             credentials: "include",
         });
@@ -100,7 +100,7 @@ const displayItineraryForm = async () => {
             return;
         }
 
-        packageResponseData.forEach((pkg) => {
+        packageResponseData.data.forEach((pkg) => {
             const option = document.createElement("option");
             option.value = pkg.packageId;
             option.textContent = pkg.packageName;
@@ -124,7 +124,7 @@ const displayItineraryForm = async () => {
 
             try {
                 const tourResponse = await fetch(
-                    `${url}/admin/tourNames/${packageId}`,
+                    `${url}/admin/packages/${packageId}/tours`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -143,7 +143,7 @@ const displayItineraryForm = async () => {
                     return;
                 }
 
-                tourResponseData.forEach((tour) => {
+                tourResponseData.data.forEach((tour) => {
                     const option = document.createElement("option");
 
                     option.value = tour.tourId;
@@ -169,7 +169,7 @@ const displayItineraryForm = async () => {
 
             try {
                 const itineraryResponse = await fetch(
-                    `${url}/admin/getDay/${packageId}/${tourId}`,
+                    `${url}/admin/packages/${packageId}/tours/${tourId}/days`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -182,7 +182,7 @@ const displayItineraryForm = async () => {
                 console.log(itineraryResponseData);
 
                 if (!itineraryResponse.ok) {
-                    showFormMessage("Failed to load itineraries!", false);
+                    showFormMessage("Failed to load days!", false);
                     return;
                 }
 
@@ -213,7 +213,7 @@ const displayItineraryForm = async () => {
 
             try {
                 const itineraryResponse = await fetch(
-                    `${url}/admin/getItinerary/${packageId}/${tourId}/${day}`,
+                    `${url}/admin/packages/${packageId}/tours/${tourId}/itineraries/${day}`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -244,12 +244,16 @@ const displayItineraryForm = async () => {
 const deleteItinerary = async (e) => {
     e.preventDefault();
 
+    const packageId = document.getElementById("package-select").value.trim();
+    const tourId = document.getElementById("tour-select").value.trim();
+    const itineraryId = document.getElementById("itineraryId").value.trim();
+
     const formError = document.getElementById("form-error");
     const deleteItineraryForm = e.target;
 
     try {
         const deleteItineraryResponse = await fetch(
-            `${url}/admin/deleteItinerary`,
+            `${url}/admin/packages/${packageId}/tours/${tourId}/itineraries/${itineraryId}`,
             {
                 method: "DELETE",
                 credentials: "include",
