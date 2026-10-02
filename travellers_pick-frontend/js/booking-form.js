@@ -97,8 +97,9 @@ const displayBookingForm = async () => {
             },
         );
 
+        const packageResponseData = await packageId.json();
+
         const tourResponseData = await tourResponse.json();
-        const packageResponseData = await tourResponse.json();
 
         if (!packageResponse.ok) {
             console.error("Failed to fetch package details", false);
