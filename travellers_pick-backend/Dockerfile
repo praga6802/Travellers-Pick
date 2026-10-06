@@ -1,4 +1,4 @@
-FROM eclipse-temurin:25-jdk
+FROM eclipse-temurin:21-jdk
 WORKDIR /app
 COPY target/travellers-pick.jar travellers-pick.jar
 EXPOSE 8080

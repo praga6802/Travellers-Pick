@@ -10,11 +10,11 @@
 	</parent>
 
 	<groupId>com.example</groupId>
-	<artifactId>travellers_choice</artifactId>
+	<artifactId>travellers_pick-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>travellers_choice</name>
+	<name>travellers_pick-backend</name>
 	<packaging>jar</packaging>
-	<description>Demo project for Spring Boot</description>
+	<description>Tour and Travel management Project</description>
 	<url/>
 	<licenses>
 		<license/>
