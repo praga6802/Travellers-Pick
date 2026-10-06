@@ -1,4 +1,4 @@
 
-export const url = "https://travellers-pick-production.up.railway.app";
+export const url = "https://travellers-pick-backend.onrender.com";
 
-export const uiUrl = "https://travellerspick.up.railway.app";
+export const uiUrl = "https://travellers-pick-frontend.vercel.app";
