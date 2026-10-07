@@ -132,8 +132,6 @@ The Spring Boot backend and MySQL database are deployed using **Railway**.
 
 * Online payment integration
 * Ratings and reviews
-* Improved mobile responsiveness
-* React-based frontend
 
 ## 👨‍💻 Developer
 
