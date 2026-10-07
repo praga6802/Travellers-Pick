@@ -58,10 +58,10 @@ public class UserController {
     }
 
     //update user
-    @PatchMapping("/update")
-    public ResponseEntity<AResponse> updateUser(@RequestBody UserDTO userDTO, @AuthenticationPrincipal UserDetails userDetails){
-        return userService.updateUser(userDTO, userDetails.getUsername());
-    }
+//    @PatchMapping("/update")
+//    public ResponseEntity<AResponse> updateUser(@RequestBody UserDTO userDTO, @AuthenticationPrincipal UserDetails userDetails){
+//        return userService.updateUser(userDTO, userDetails.getUsername());
+//    }
 
     // book tour
     @PostMapping("/book")
@@ -77,10 +77,10 @@ public class UserController {
     }
 
     //cancel tour
-    @DeleteMapping("/bookings/cancel")
-    public ResponseEntity<AResponse> cancelBooking(@RequestBody CancelTourDTO cancelTourDTO, @AuthenticationPrincipal UserDetails userDetails){
-        return userService.cancelBooking(cancelTourDTO.getPnr(),userDetails.getUsername());
-    }
+//    @DeleteMapping("/bookings/cancel")
+//    public ResponseEntity<AResponse> cancelBooking(@RequestBody CancelTourDTO cancelTourDTO, @AuthenticationPrincipal UserDetails userDetails){
+//        return userService.cancelBooking(cancelTourDTO.getPnr(),userDetails.getUsername());
+//    }
 
 
     @PostMapping("/verify-otp")

@@ -43,7 +43,7 @@ public class SecurityConfig {
                                 "/admin/login", "/admin/signup","/admin/packages","/admin/tours",
                                 "/admin/packages/{packageId}", "/admin/packages/{packageId}/tours/{tourId}/itineraries",
                                 "/admin/packages/{packageId}/tours/{tourId}",
-                                "/user/signup", "/user/login", "/actuator/health").permitAll()
+                                "/user/signup", "/user/login", "/actuator/health","/email").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().authenticated()

@@ -17,5 +17,5 @@ public interface BookingRegistryRepository extends JpaRepository<BookingRegistry
 
     boolean existsByUser_Id(Integer id);
 
-    List<BookingRegistry> findByUser_Id(Integer id);
+    Optional<List<BookingRegistry>> findByUser_Id(Integer id);
 }
