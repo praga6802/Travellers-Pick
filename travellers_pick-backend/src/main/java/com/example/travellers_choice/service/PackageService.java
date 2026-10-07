@@ -24,7 +24,10 @@ import java.util.Map;
 public class PackageService {
 
     @Autowired
-    PackageRepo packageRepo;
+    private PackageRepo packageRepo;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
 
     //add package
@@ -34,28 +37,12 @@ public class PackageService {
         }
 
         MultipartFile image=packageDTO.getImageFile();
-
-        String dirPath = "/app/uploads/packages";
-        File dir=new File(dirPath);
-
-        if (!dir.exists() && !dir.mkdirs()) {
-            throw new BusinessException("Failed to create upload Repository!");
-        }
-
-        String fileName=image.getOriginalFilename();
-        File destination=new File(dir,fileName);
-
-        try{
-            image.transferTo(destination);
-        }
-        catch (Exception e){
-            throw new BusinessException("Failed to Upload Package Image!");
-        }
+        String imgUrl = cloudinaryService.uploadImage(image,"packages");
 
         Packages newPackage = new Packages();
         newPackage.setPackageName(packageDTO.getPackageName());
         newPackage.setPackageSlogan(packageDTO.getPackageSlogan());
-        newPackage.setImgUrl("/uploads/packages/"+fileName);
+        newPackage.setImgUrl(imgUrl);
         packageRepo.save(newPackage);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Package Added Successfully"));
     }
@@ -75,23 +62,10 @@ public class PackageService {
 
         if(updatePackageDTO.getImageFile()!=null && !updatePackageDTO.getImageFile().isEmpty()) {
             MultipartFile image = updatePackageDTO.getImageFile();
-            String path = "uploads/packages";
-            File folder = new File(path);
-            if (!folder.exists()) folder.mkdirs();
-
-            String fileName = image.getOriginalFilename();
-            File file = new File(folder, fileName);
-            if (updatePackageDTO.getImageFile() != null && !updatePackageDTO.getImageFile().isEmpty()) {
-                existingPackage.setImgUrl("/uploads/packages/" + fileName);
-            }
-
-            try{
-                image.transferTo(file);
-            }
-            catch (IOException e){
-                throw new BusinessException("Failed to Update Package Image!");
-            }
+            String imgUrl = cloudinaryService.uploadImage(image,"packages");
+            existingPackage.setImgUrl(imgUrl);
         }
+
         packageRepo.save(existingPackage);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Package Updated Successfully"));
     }

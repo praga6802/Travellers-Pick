@@ -156,7 +156,7 @@ const handleUpdate = async (e) => {
 
     try {
         const response = await fetch(`${url}/admin/packages/${packageId}`, {
-            method: "PUT",
+            method: "PATCH",
             body: data,
             credentials: "include",
         });

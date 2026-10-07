@@ -57,7 +57,7 @@ const displayTour = async () => {
             tourCard.innerHTML = `
         
             <div class="card">
-                <img src="${url}${tour.imgUrl}" alt="${tour.tourName}">
+                <img src="${tour.imgUrl}" alt="${tour.tourName}">
 
                 <h4>${tour.tourName}</h4>
                 <h6>${tour.tourSlogan}</h6>

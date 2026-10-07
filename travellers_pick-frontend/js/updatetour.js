@@ -256,7 +256,7 @@ const handleUpdate = async (event) => {
         const response = await fetch(
             `${url}/admin/packages/${packageId}/tours/${tourId}`,
             {
-                method: "PUT",
+                method: "PATCH",
                 body: data,
                 credentials: "include",
             },

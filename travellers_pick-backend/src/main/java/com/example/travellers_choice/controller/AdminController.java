@@ -104,7 +104,7 @@ public class AdminController {
 
 
     //UPDATE PACKAGE
-    @PutMapping(value = "/packages/{packageId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value = "/packages/{packageId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AResponse> updatePackage(@PathVariable Integer packageId, @ModelAttribute UpdatePackageDTO updatePackageDTO) {
         return packageService.updatePackage(packageId,updatePackageDTO);
     }
@@ -144,7 +144,7 @@ public class AdminController {
     }
 
     // update tour
-    @PutMapping(value = "/packages/{packageId}/tours/{tourId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value = "/packages/{packageId}/tours/{tourId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AResponse> updateTour(@PathVariable Integer packageId, @PathVariable Integer tourId, @ModelAttribute UpdateTourDTO categoryDTO){
         return tourService.updateTour(packageId,tourId,categoryDTO);
     }

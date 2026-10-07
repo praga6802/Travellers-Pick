@@ -24,33 +24,24 @@ public class TourService {
 
 
     @Autowired
-    TourRepo tourRepo;
+    private TourRepo tourRepo;
 
     @Autowired
-    PackageRepo packageRepo;
+    private PackageRepo packageRepo;
 
     @Autowired
-    AdminRepo adminRepo;
+    private AdminRepo adminRepo;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
 
-    //add tour by all admin credentials
+    //add tour
     public ResponseEntity<AResponse> addTour(Integer packageId, UpdateTourDTO tourDTO) {
 
         Packages pkg = packageRepo.findById(packageId).orElseThrow(() -> new IDNotFoundException("Package ID",packageId));
         MultipartFile image = tourDTO.getImageFile();
-
-        String dirPath = "/app/uploads/tours";
-        File dir= new File(dirPath);
-        if(!dir.exists())dir.mkdirs();
-
-        String fileName=image.getOriginalFilename();
-        File destination=new File(dir,fileName);
-        try{
-            image.transferTo(destination);
-        }
-        catch (Exception e){
-            throw new BusinessException("Failed to upload image!");
-        }
+        String imgUrl = cloudinaryService.uploadImage(image,"tours");
 
         Tour tour = new Tour();
         tour.setPackages(pkg);
@@ -60,7 +51,7 @@ public class TourService {
         tour.setDays(tourDTO.getDays());
         tour.setNights(tourDTO.getNights());
         tour.setPrice(tourDTO.getPrice());
-        tour.setImgUrl("/uploads/tours/"+fileName);
+        tour.setImgUrl(imgUrl);
         tourRepo.save(tour);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Added Successfully"));
     }
@@ -94,22 +85,8 @@ public class TourService {
 
         if(categoryDTO.getImageFile()!=null && !categoryDTO.getImageFile().isEmpty()){
             MultipartFile image = categoryDTO.getImageFile();
-            String path = "/app/uploads/tours";
-            File folder = new File(path);
-            if (!folder.exists()) folder.mkdirs();
-
-            String fileName = image.getOriginalFilename();
-            File file = new File(folder, fileName);
-            if (categoryDTO.getImageFile() != null && !categoryDTO.getImageFile().isEmpty()) {
-                tour.setImgUrl("/uploads/tours/" + fileName);
-            }
-
-            try{
-                image.transferTo(file);
-            }
-            catch (IOException e){
-                throw new BusinessException("Failed to Upload image!");
-            }
+            String imgUrl = cloudinaryService.uploadImage(image,"tours");
+            tour.setImgUrl(imgUrl);
         }
         tourRepo.save(tour);
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","Tour Updated Successfully"));
