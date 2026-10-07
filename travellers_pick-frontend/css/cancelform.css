@@ -18,7 +18,8 @@ body {
     background-color: aliceblue;
     height: 200px;
     border-radius: 10px;
-    width: 100%;
+    margin-left: 400px;
+    width: max-content;
 }
 
 #cancel-legend {
