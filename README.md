@@ -1,142 +1,106 @@
-# 🌍 Traveller’s Pick – Tour & Travel Management System
+# ✈️ Traveller’s Pick – Tour & Travel Management System
 
-Traveller’s Pick is a full-stack tour and travel management application designed to help users discover, explore, and book tour packages across India. The system also provides an admin dashboard for managing packages, itineraries, users, and bookings.
+**Traveller’s Pick** is a dynamic full-stack tour and travel management web application designed to help users discover, explore, and book tour packages across India smoothly. The system provides an interactive experience for travelers along with a comprehensive Admin Dashboard to manage packages, itineraries, users, image uploads, and bookings efficiently.
+
+---
 
 ## ✨ Features
 
 ### 👤 User Features
 
-* User registration and secure login
-* Browse available tour packages
-* View package details, destinations, images, prices, and itineraries
-* Book tour packages
-* Generate a unique PNR for every booking
-* View booking details
-* Cancel bookings
-* Receive automated email notifications
+* **Authentication & Authorization:** Secure User Registration, Login, and Profile Management (Update Personal Details).
+* **Explore Packages:** Browse dynamic tour packages with real-time details, destinations, cloud-hosted images, pricing, and day-wise itineraries.
+* **Booking System:** Book tours with real-time seat availability and receive a unique **PNR Number** for every booking.
+* **Booking Management:** View booking history, booking status, and cancel bookings anytime.
+* **Automated Email Notifications:** Multi-event transactional emails (Welcome, Booking Confirmation, Updates, and Cancellation).
 
 ### 🛠️ Admin Features
 
-* Secure admin authentication
-* View user and booking information
-* Add, update, and delete tour packages
-* Upload package images
-* Add and manage tour itineraries
-* Manage booking information
+* **Admin Authentication:** Secure role-based access for system administrators.
+* **Package Management:** Add, update, and delete tour packages along with dynamic cloud image uploads.
+* **Itinerary Management:** Create and manage detailed day-by-day itineraries for tour packages.
+* **Booking & User Control:** Monitor and manage user profiles, booking records, and cancellation requests.
+
+---
 
 ## 📧 Email Notification System
 
-Traveller’s Pick uses **Spring Boot `JavaMailSender`** for automated email communication.
+Traveller’s Pick integrates **Brevo (formerly Sendinblue) SMTP** with Spring Boot `JavaMailSender` to send triggered notification emails:
 
-### Signup Email
+* **Welcome Email:** Triggered upon successful registration to confirm account setup.
+* **Booking Confirmation Email:** Contains Package Name, Travel Date, Number of Seats, Total Amount, Contact Info, and PNR Number.
+* **Booking Update Email:** Sent when booking details or schedule undergo modifications.
+* **Cancellation Email:** Confirms booking cancellation along with the PNR number for reference.
 
-Sent after successful registration to confirm account creation and welcome the user.
-
-### Booking Confirmation Email
-
-Sent after a successful booking with:
-
-* Package name
-* Travel date
-* Number of seats
-* Booking amount
-* Contact information
-* PNR number
-
-### Cancellation Email
-
-Sent after a booking is cancelled with:
-
-* Package name
-* PNR number
-* Cancellation confirmation
-
-> *“We look forward to helping you book your next tour with Traveller’s Pick.”*
+---
 
 ## 🔄 Application Flow
 
-```text
-User
- ↓
-Signup / Login
- ↓
-Browse Packages
- ↓
-View Tour & Itinerary
- ↓
-Book Tour
- ↓
-PNR Generated
- ↓
-Booking Confirmation Email
- ↓
-View / Cancel Booking
+```
+[ User ] ──► Signup / Login ──► Browse / Search Packages ──► View Details & Itinerary
+                                                                    │
+   [ Confirmation Email ] ◄── [ PNR Generated ] ◄── Book Tour ◄─────┘
+              │
+              └──► View / Cancel Booking / Update Profile
+
+[ Admin ] ──► Admin Login ──► Manage Packages & Itineraries (Cloudinary Uploads)
+                                       │
+                                       └──► View & Manage User Bookings
+
 ```
 
-```text
-Admin
- ↓
-Admin Login
- ↓
-Manage Packages
- ↓
-Manage Itineraries
- ↓
-View Bookings
- ↓
-Manage Booking Information
-```
+---
 
-## 🛠️ Technology Stack
+## 🛠️ Technology Stack & Infrastructure
 
-| Category        | Technologies          |
-| --------------- | --------------------- |
-| Backend         | Java, Spring Boot     |
-| Security        | Spring Security       |
-| API             | REST APIs             |
-| Database        | MySQL                 |
-| ORM             | JPA / Hibernate       |
-| Email           | JavaMailSender        |
-| Frontend        | HTML, CSS, JavaScript |
-| API Testing     | Postman               |
-| Build Tool      | Maven                 |
-| Version Control | Git, GitHub           |
-| Deployment      | Railway               |
+| Category | Technologies / Cloud Services |
+| --- | --- |
+| **Frontend** | HTML5, CSS3, JavaScript (Deployed on **Vercel**) |
+| **Backend** | Java, Spring Boot, Spring Security, REST APIs (Deployed on **Render**) |
+| **Database** | MySQL Database (Cloud Hosted on **Aiven MySQL**) |
+| **ORM / Persistence** | Spring Data JPA / Hibernate |
+| **Media Storage** | **Cloudinary API** (Dynamic image upload & media management) |
+| **Email Service** | **Brevo SMTP** (`JavaMailSender` Integration) |
+| **API Testing** | Postman |
+| **Build & Versioning** | Maven, Git, GitHub |
 
-## 🔐 Security
+---
 
-* Session-based authentication
-* Protected user and admin endpoints
-* Role-based access control
-* Secure login and logout
-* Authenticated API requests
+## 🔐 Security & Architecture
+
+* **Role-Based Access Control (RBAC):** Distinct authorities for `USER` and `ADMIN` roles.
+* **Session & Endpoint Protection:** Secured API routes preventing unauthorized access.
+* **Decoupled Architecture:** Frontend hosted independently on Vercel communicating via RESTful endpoints to the Render-hosted backend.
+* **Cloud Infrastructure:** Database hosted on cloud-native Aiven MySQL for reliable persistence and continuous connectivity.
+
+---
 
 ## 🧪 API Testing
 
-REST APIs were tested using **Postman**, including:
+All REST endpoints have been thoroughly tested using **Postman**, including:
 
-* User authentication
-* Admin authentication
-* Package management
-* Itinerary management
-* Booking operations
-* Cancellation operations
+* User & Admin Authentication
+* Profile Updates & Management
+* Package CRUD Operations & Cloudinary Image Uploads
+* Itinerary Builder Endpoints
+* Booking Generation & Cancellation Workflows
 
-## 🚀 Deployment
-
-The Spring Boot backend and MySQL database are deployed using **Railway**.
-
-**Backend:** `https://travellers-pick-production.up.railway.app`
+---
 
 ## 🔮 Future Enhancements
 
-* Online payment integration
-* Ratings and reviews
+* [ ] Online Payment Gateway Integration (Razorpay / Stripe)
+* [ ] Interactive Customer Ratings & Reviews System
+* [ ] Search Filters by Price Range, Location, and Duration
+
+---
 
 ## 👨‍💻 Developer
 
 **Pragadeeswaran Sekar**
 
-Java Full Stack Developer | Java | Spring Boot | REST APIs | MySQL
+*Java Full Stack Developer*
 
-**GitHub:** `https://github.com/praga6802/Travellers-Pick`
+* **GitHub:** [@praga6802](https://www.google.com/search?q=https://github.com/praga6802)
+* **Project Repository:** [Travellers-Pick](https://github.com/praga6802/Travellers-Pick)
+* **Live Link:***(https://travellers-pick-frontend.vercel.app)
