@@ -57,11 +57,11 @@ public class UserController {
         return userService.logout(session);
     }
 
-    //update user
-//    @PatchMapping("/update")
-//    public ResponseEntity<AResponse> updateUser(@RequestBody UserDTO userDTO, @AuthenticationPrincipal UserDetails userDetails){
-//        return userService.updateUser(userDTO, userDetails.getUsername());
-//    }
+    // update user
+    @PatchMapping("/update")
+    public ResponseEntity<AResponse> updateUser(@RequestBody UserDTO userDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return userService.updateUser(userDTO, userDetails.getUsername());
+    }
 
     // book tour
     @PostMapping("/book")
@@ -76,11 +76,11 @@ public class UserController {
         return userService.getAllBookings(userDetails.getUsername());
     }
 
-    //cancel tour
-//    @DeleteMapping("/bookings/cancel")
-//    public ResponseEntity<AResponse> cancelBooking(@RequestBody CancelTourDTO cancelTourDTO, @AuthenticationPrincipal UserDetails userDetails){
-//        return userService.cancelBooking(cancelTourDTO.getPnr(),userDetails.getUsername());
-//    }
+    // cancel tour
+    @DeleteMapping("/bookings/cancel")
+    public ResponseEntity<AResponse> cancelBooking(@RequestBody CancelTourDTO cancelTourDTO, @AuthenticationPrincipal UserDetails userDetails){
+        return userService.cancelBooking(cancelTourDTO.getPnr(),userDetails.getUsername());
+    }
 
 
     @PostMapping("/verify-otp")

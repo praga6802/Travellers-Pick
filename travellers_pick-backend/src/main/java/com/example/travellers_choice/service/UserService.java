@@ -161,78 +161,75 @@ public class UserService {
 
 
     //update user profile
-//    public ResponseEntity<AResponse> updateUser(UserDTO userDTO, String email) {
-//        Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Email "+email+" not found"));
-//
-//        boolean isUpdated = false;
-//
-//        // Update username
-//        if (userDTO.getUsername() != null && !userDTO.getUsername().isBlank() && !userDTO.getUsername().equals(user.getUsername())) {
-//            user.setUsername(userDTO.getUsername());
-//            isUpdated = true;
-//        }
-//
-//        // Update contact
-//        if (userDTO.getContact() != null && !userDTO.getContact().isBlank() && !userDTO.getContact().equals(user.getContact())) {
-//            user.setContact(userDTO.getContact());
-//            isUpdated = true;
-//        }
-//
-//        // Update email
-//        if (userDTO.getEmail() != null && !userDTO.getEmail().isBlank() && !userDTO.getEmail().equals(user.getEmail())) {
-//
-//            if (userRepo.existsByEmail(userDTO.getEmail())) {
-//                throw new AlreadyExistsException(userDTO.getEmail(),"Email already taken!");
-//            }
-//            return verificationEmail(userDTO.getEmail(), user);
-//        }
-//
-//        if (!isUpdated) {
-//           throw new BusinessException("No fields were updated!");
-//        }
-//
-//        userRepo.save(user);
-//        return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "User Details Updated Successfully"));
-//    }
+    public ResponseEntity<AResponse> updateUser(UserDTO userDTO, String email) {
+        Customer user = userRepo.findByEmail(email).orElseThrow(() -> new UnAuthorizedException("Email "+email+" not found"));
+
+        boolean isUpdated = false;
+
+        // Update username
+        if (userDTO.getUsername() != null && !userDTO.getUsername().isBlank() && !userDTO.getUsername().equals(user.getUsername())) {
+            user.setUsername(userDTO.getUsername());
+            isUpdated = true;
+        }
+
+        // Update contact
+        if (userDTO.getContact() != null && !userDTO.getContact().isBlank() && !userDTO.getContact().equals(user.getContact())) {
+            user.setContact(userDTO.getContact());
+            isUpdated = true;
+        }
+
+        // Update email
+        if (userDTO.getEmail() != null && !userDTO.getEmail().isBlank()) {
+            String newEmail = userDTO.getEmail().toLowerCase();
+
+            if(newEmail.equals(user.getEmail().toLowerCase())) {
+                throw new BusinessException("New email cannot be same as Existing Email");
+            }
+
+            if (userRepo.existsByEmail(newEmail)) {
+                throw new BusinessException(userDTO.getEmail() + "Email already taken!");
+            }
+            return verificationEmail(userDTO.getEmail(), user);
+        }
+
+
+        if (!isUpdated) {
+           throw new BusinessException("No fields were updated!");
+        }
+
+        userRepo.save(user);
+        return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "User Details Updated Successfully"));
+    }
 
 //    //verification of email
-//    public ResponseEntity<AResponse> verificationEmail(String newEmail, Customer user){
-//        String otp=generateOTP();
-//
-//        otpRepo.deleteAllByUserAndPurpose(user,"EMAIL_UPDATE");
-//
-//        OTPVerification otpTab= new OTPVerification();
-//        otpTab.setOtp(passwordEncoder.encode(otp));
-//        otpTab.setUser(user);
-//        otpTab.setPurpose("EMAIL_UPDATE");
-//        otpTab.setValue(newEmail);
-//        otpTab.setCreatedAt(LocalDateTime.now());
-//        otpTab.setExpiryTime(LocalDateTime.now().plusMinutes(5));
-//        otpRepo.save(otpTab);
-//
-//        String sub="Email Updation, Verify OTP Code";
-////        String message="Hi "+user.getUsername()+","+"\n"+
-////                "We received a request to change the email address associated with your account.\n"+
-////                "To confirm this change, please use the OTP code below:\n"+
-////                "OTP: "+otp+"\n" +
-////                "Do not share this code with anyone.\n\n" +
-////                "If you did not request this change, please ignore this email or contact support immediately.\n" +
-////                "Thanks & Regards,\n" +
-////                "Traveller's Pick Team.\n";
-////
-////         emailService.sendSimpleEMail(newEmail,sub,message); //send email with otp
-//        System.out.println("SEND OTP :"+otp);
-//        return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success","OTP has been sent to the "+newEmail
-//                +". Please enter the OTP to update your email"));
-//    }
+    public ResponseEntity<AResponse> verificationEmail(String newEmail, Customer user) {
+        String otp = generateOTP();
+
+        otpRepo.deleteAllByUserAndPurpose(user, "EMAIL_UPDATE");
+
+        OTPVerification otpTab = new OTPVerification();
+        otpTab.setOtp(passwordEncoder.encode(otp));
+        otpTab.setUser(user);
+        otpTab.setPurpose("EMAIL_UPDATE");
+        otpTab.setValue(newEmail);
+        otpTab.setCreatedAt(LocalDateTime.now());
+        otpTab.setExpiryTime(LocalDateTime.now().plusMinutes(5));
+        otpRepo.save(otpTab);
+
+        try{
+            emailService.sendVerificationEmail(newEmail, user.getUsername(), otp);
+            return ResponseEntity.ok(new AResponse(LocalDateTime.now(), "Success", "OTP has sent to " + newEmail));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw new BusinessException("Unable to send verification email. Please try again later.");
+
+        }
+    }
 
     //verify otp
     public ResponseEntity<AResponse> verifyOTP(String email, String enteredOtp) throws JsonProcessingException {
         Customer user= userRepo.findUserByEmail(email).orElseThrow(()->new UnAuthorizedException("Email"+ email+" not found"));
 
-
-        System.out.println("ENTERED OTP:"+enteredOtp);
-        //check the user purpose for updating: email update
         OTPVerification otp=otpRepo.findByUserAndPurpose(user,"EMAIL_UPDATE").orElseThrow(()->new UnAuthorizedException("Email"+ email+" not found"));
 
         if(otp.getExpiryTime().isBefore(LocalDateTime.now())){
@@ -242,15 +239,16 @@ public class UserService {
         if(!passwordEncoder.matches(enteredOtp,otp.getOtp())){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AResponse(LocalDateTime.now(),"Failure","The entered OTP does not match!"));
         }
-        user.setEmail(otp.getValue());//setting the new email
-        userRepo.save(user); //saving the user in repo
+        user.setEmail(otp.getValue());
+        userRepo.save(user);
+        otpRepo.delete(otp);
 
-        otpRepo.delete(otp);//deleting the otp request
-
-        //after updating email, changing the spring security session
+        // getting old credentials
         Authentication auth=SecurityContextHolder.getContext().getAuthentication();
+
         UserDetails newUserDetails=userDetailsService.loadUserByUsername(user.getEmail());
         Authentication newAuth = new UsernamePasswordAuthenticationToken(newUserDetails,auth.getCredentials(),newUserDetails.getAuthorities());
+
         SecurityContextHolder.getContext().setAuthentication(newAuth);
 
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success", "Email Updated Successfully"));
@@ -262,7 +260,7 @@ public class UserService {
 
         List<BookingRegistry> userBookings=registerRepo.findByUser_Id(user.getId()).orElseThrow(()-> new ResourceNotFoundException("Bookings not found"));
         List<TourDetailsDTO> bookingList=userBookings.stream()
-                .map(t->new TourDetailsDTO(t.getBookingId(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
+                .map(t->new TourDetailsDTO(t.getBookingId(),t.getPNR(),t.getName(),t.getEmail(),t.getPhone(),t.getPackageName(),t.getRegion(),t.getNoOfSeats(),
                         t.getNoOfAdults(),t.getNoOfChildren(),t.getBdate(),t.getTdate(),t.getStatus(),t.getPrice())).toList();
 
         return ResponseEntity.ok(new AResponse(LocalDateTime.now(),"Success",bookingList));
