@@ -103,4 +103,4 @@ All REST endpoints have been thoroughly tested using **Postman**, including:
 
 * **GitHub:** [@praga6802](https://github.com/praga6802)
 * **Project Repository:** [Travellers-Pick](https://github.com/praga6802/Travellers-Pick)
-* **Live Link:** (https://travellers-pick-frontend.vercel.app)
+* **Live Link:** [Traveller's Pick](https://travellers-pick-frontend.vercel.app)
