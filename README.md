@@ -101,6 +101,6 @@ All REST endpoints have been thoroughly tested using **Postman**, including:
 
 *Java Full Stack Developer*
 
-* **GitHub:** [@praga6802](https://www.google.com/search?q=https://github.com/praga6802)
+* **GitHub:** [@praga6802](https://github.com/praga6802)
 * **Project Repository:** [Travellers-Pick](https://github.com/praga6802/Travellers-Pick)
-* **Live Link:***(https://travellers-pick-frontend.vercel.app)
+* **Live Link:** (https://travellers-pick-frontend.vercel.app)
